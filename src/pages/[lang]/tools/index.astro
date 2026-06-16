@@ -1,0 +1,52 @@
+---
+import Breadcrumb from '../../../components/Breadcrumb.astro';
+import ToolCard from '../../../components/ToolCard.astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { SITE, type Locale } from '../../../config/site';
+import { categories } from '../../../data/categories';
+import { getToolsByCategory } from '../../../data/tools';
+import { t } from '../../../i18n/ui';
+import { localePath } from '../../../lib/url';
+
+export function getStaticPaths() {
+  return SITE.locales.map((lang) => ({
+    params: { lang },
+    props: { lang },
+  }));
+}
+
+const { lang } = Astro.props as { lang: Locale };
+const ui = t(lang);
+const title = lang === 'zh' ? '全部免費線上工具' : 'All free online tools';
+const description =
+  lang === 'zh'
+    ? '瀏覽免費工具箱的所有工具，包含已上線工具與即將推出的長期規劃。'
+    : 'Browse every Free Tools Hub tool, including live tools and planned additions.';
+---
+
+<BaseLayout lang={lang} title={title} description={description} alternateSegments={['tools']}>
+  <section class="wrap page-head">
+    <Breadcrumb
+      items={[
+        { label: ui.breadcrumbHome, href: localePath(lang) },
+        { label: ui.allTools },
+      ]}
+    />
+    <h1>{ui.allTools}</h1>
+    <p class="lead">{description}</p>
+  </section>
+
+  <section class="wrap tools-list">
+    {
+      categories.map((category) => (
+        <section class="content-section" id={category.id}>
+          <h2>{category.icon} {category.name[lang]}</h2>
+          <p>{category.description[lang]}</p>
+          <div class="grid">
+            {getToolsByCategory(category.id).map((tool) => <ToolCard lang={lang} tool={tool} />)}
+          </div>
+        </section>
+      ))
+    }
+  </section>
+</BaseLayout>

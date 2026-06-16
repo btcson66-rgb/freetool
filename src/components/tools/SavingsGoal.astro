@@ -1,0 +1,200 @@
+---
+interface Props {
+  labels: Record<string, string>;
+}
+
+const { labels } = Astro.props;
+---
+
+<section class="tool-widget card" data-savings-goal-tool data-labels={JSON.stringify(labels)}>
+  <div class="tab-row" role="tablist">
+    <button class="btn go" type="button" data-mode="time">{labels.modeTime}</button>
+    <button class="btn" type="button" data-mode="monthly">{labels.modeMonthly}</button>
+  </div>
+
+  <div class="form-grid">
+    <label>
+      <span>{labels.target}</span>
+      <input data-target type="number" min="0" step="100" value="100000" />
+    </label>
+    <label>
+      <span>{labels.current}</span>
+      <input data-current type="number" min="0" step="100" value="10000" />
+    </label>
+    <label>
+      <span>{labels.monthlyDeposit}</span>
+      <input data-monthly type="number" min="0" step="100" value="5000" />
+    </label>
+    <label>
+      <span>{labels.targetMonths}</span>
+      <input data-months type="number" min="1" step="1" value="18" hidden />
+    </label>
+    <label>
+      <span>{labels.annualRate}</span>
+      <input data-rate type="number" min="0" step="0.1" value="1.5" />
+    </label>
+  </div>
+
+  <div class="actions">
+    <button class="btn go" type="button" data-calculate>{labels.calculate}</button>
+    <button class="btn ghost" type="button" data-copy>{labels.copy}</button>
+  </div>
+
+  <p class="form-error" data-error role="alert" hidden></p>
+  <div class="bigresult" aria-live="polite">
+    <span class="result-label" data-result-label>{labels.timeResult}</span>
+    <output data-result>-</output>
+  </div>
+  <span class="toast" role="status" aria-live="polite" hidden>{labels.copied}</span>
+</section>
+
+<style>
+  .tab-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .actions {
+    margin: 16px 0;
+  }
+</style>
+
+<script>
+  document.querySelectorAll('[data-savings-goal-tool]').forEach((root) => {
+    const labels = JSON.parse(root.getAttribute('data-labels') || '{}');
+    const inputs = {
+      target: root.querySelector('[data-target]'),
+      current: root.querySelector('[data-current]'),
+      monthly: root.querySelector('[data-monthly]'),
+      months: root.querySelector('[data-months]'),
+      rate: root.querySelector('[data-rate]'),
+    };
+    const resultLabel = root.querySelector('[data-result-label]');
+    const result = root.querySelector('[data-result]');
+    const error = root.querySelector('[data-error]');
+    const toast = root.querySelector('.toast');
+    let mode = 'time';
+    let latestSummary = '';
+
+    function money(value) {
+      return new Intl.NumberFormat(undefined, { maximumFractionDigits: 0 }).format(Math.ceil(value));
+    }
+
+    function setError(message) {
+      error.textContent = message;
+      error.hidden = !message;
+    }
+
+    function readNumber(input) {
+      const value = Number(input.value);
+      return Number.isFinite(value) ? value : NaN;
+    }
+
+    function monthlyRate() {
+      const annual = readNumber(inputs.rate) / 100;
+      return annual === 0 ? 0 : Math.pow(1 + annual, 1 / 12) - 1;
+    }
+
+    function formatMonths(totalMonths) {
+      const years = Math.floor(totalMonths / 12);
+      const months = totalMonths % 12;
+      if (years && months) return `${years} ${labels.years} ${months} ${labels.months}`;
+      if (years) return `${years} ${labels.years}`;
+      return `${months} ${labels.months}`;
+    }
+
+    function setMode(nextMode) {
+      mode = nextMode;
+      root.querySelectorAll('[data-mode]').forEach((button) => {
+        button.classList.toggle('go', button.getAttribute('data-mode') === mode);
+      });
+      inputs.monthly.hidden = mode !== 'time';
+      inputs.monthly.parentElement.hidden = mode !== 'time';
+      inputs.months.hidden = mode !== 'monthly';
+      inputs.months.parentElement.hidden = mode !== 'monthly';
+      calculate();
+    }
+
+    function calculate() {
+      const target = readNumber(inputs.target);
+      const current = readNumber(inputs.current);
+      const rate = monthlyRate();
+      if (!Number.isFinite(target) || !Number.isFinite(current) || target <= 0 || current < 0 || rate < 0) {
+        setError(labels.invalidInput);
+        return;
+      }
+      if (current >= target) {
+        resultLabel.textContent = labels.resultTitle;
+        result.textContent = labels.reached;
+        latestSummary = labels.reached;
+        setError('');
+        return;
+      }
+
+      if (mode === 'time') {
+        const monthly = readNumber(inputs.monthly);
+        if (!Number.isFinite(monthly) || monthly < 0) {
+          setError(labels.invalidInput);
+          return;
+        }
+        let balance = current;
+        let month = 0;
+        while (balance < target && month <= 1200) {
+          balance = balance * (1 + rate) + monthly;
+          month += 1;
+          if (monthly === 0 && rate === 0) break;
+        }
+        resultLabel.textContent = labels.timeResult;
+        if (balance < target) {
+          result.textContent = labels.impossible;
+          latestSummary = labels.impossible;
+        } else {
+          result.textContent = formatMonths(month);
+          latestSummary = `${labels.timeResult}: ${formatMonths(month)}`;
+        }
+      } else {
+        const months = Math.round(readNumber(inputs.months));
+        if (!Number.isFinite(months) || months < 1) {
+          setError(labels.invalidInput);
+          return;
+        }
+        let required;
+        if (rate === 0) {
+          required = (target - current) / months;
+        } else {
+          required = (target - current * Math.pow(1 + rate, months)) * rate / (Math.pow(1 + rate, months) - 1);
+        }
+        required = Math.max(0, required);
+        resultLabel.textContent = labels.monthlyResult;
+        result.textContent = money(required);
+        latestSummary = `${labels.monthlyResult}: ${money(required)}`;
+      }
+      setError('');
+    }
+
+    function showToast() {
+      toast.hidden = false;
+      window.setTimeout(() => {
+        toast.hidden = true;
+      }, 1500);
+    }
+
+    root.querySelectorAll('[data-mode]').forEach((button) => {
+      button.addEventListener('click', () => setMode(button.getAttribute('data-mode')));
+    });
+    root.querySelector('[data-calculate]')?.addEventListener('click', calculate);
+    root.querySelector('[data-copy]')?.addEventListener('click', async () => {
+      if (!latestSummary) calculate();
+      try {
+        await navigator.clipboard.writeText(latestSummary);
+        showToast();
+      } catch {
+        window.prompt(labels.copy, latestSummary);
+      }
+    });
+    Object.values(inputs).forEach((input) => input.addEventListener('input', calculate));
+    setMode('time');
+  });
+</script>

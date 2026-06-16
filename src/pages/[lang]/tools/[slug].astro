@@ -1,0 +1,50 @@
+---
+import ToolLayout from '../../../layouts/ToolLayout.astro';
+import { SITE, type Locale } from '../../../config/site';
+import { getCategoryById } from '../../../data/categories';
+import { liveTools, type ToolMeta } from '../../../data/tools';
+import { t } from '../../../i18n/ui';
+import { breadcrumbJsonLd, webApplicationJsonLd } from '../../../lib/seo';
+import { getToolContent } from '../../../lib/toolContent';
+import { getToolWidget } from '../../../lib/toolWidgets';
+import { categoryUrl, localePath, toolUrl } from '../../../lib/url';
+
+export function getStaticPaths() {
+  return SITE.locales.flatMap((lang) =>
+    liveTools.map((tool) => ({
+      params: { lang, slug: tool.slug },
+      props: { lang, tool },
+    })),
+  );
+}
+
+const { lang, tool } = Astro.props as { lang: Locale; tool: ToolMeta };
+const category = getCategoryById(tool.category);
+if (!category) {
+  throw new Error(`Missing category for tool: ${tool.slug}`);
+}
+
+const content = getToolContent(tool.slug, lang);
+const Widget = getToolWidget(tool.slug);
+if (!content) {
+  throw new Error(`Missing content for tool: ${tool.slug}`);
+}
+if (!Widget) {
+  throw new Error(`Missing widget for tool: ${tool.slug}`);
+}
+const ui = t(lang);
+const breadcrumbItems = [
+  { name: ui.breadcrumbHome, href: localePath(lang) },
+  { name: ui.allTools, href: localePath(lang, 'tools') },
+  { name: category.name[lang], href: categoryUrl(lang, category.id) },
+  { name: content.name, href: toolUrl(lang, tool.slug) },
+];
+const jsonLd = [
+  webApplicationJsonLd(lang, tool, content, category),
+  breadcrumbJsonLd(breadcrumbItems),
+];
+---
+
+<ToolLayout lang={lang} tool={tool} category={category} content={content} jsonLd={jsonLd}>
+  <Widget labels={content.labels} />
+</ToolLayout>

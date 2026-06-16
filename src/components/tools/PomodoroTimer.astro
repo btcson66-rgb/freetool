@@ -1,0 +1,218 @@
+---
+interface Props {
+  labels: Record<string, string>;
+}
+
+const { labels } = Astro.props;
+---
+
+<section class="tool-widget card" data-pomodoro-tool data-labels={JSON.stringify(labels)}>
+  <div class="form-grid">
+    <label>
+      <span>{labels.workMinutes}</span>
+      <input data-work type="number" inputmode="numeric" value="25" min="1" max="180" step="1" />
+    </label>
+    <label>
+      <span>{labels.breakMinutes}</span>
+      <input data-break type="number" inputmode="numeric" value="5" min="1" max="180" step="1" />
+    </label>
+    <label>
+      <span>{labels.longBreakMinutes}</span>
+      <input data-long-break type="number" inputmode="numeric" value="15" min="1" max="180" step="1" />
+    </label>
+  </div>
+  <div class="timer-panel">
+    <p class="phase-label" data-phase>{labels.work}</p>
+    <output class="timer-display" data-display>25:00</output>
+    <p class="session-count"><span data-completed>0</span> {labels.sessions}</p>
+  </div>
+  <div class="actions">
+    <button class="btn go" type="button" data-start>{labels.start}</button>
+    <button class="btn" type="button" data-pause>{labels.pause}</button>
+    <button class="btn ghost" type="button" data-reset>{labels.reset}</button>
+  </div>
+  <p class="form-error" data-error role="alert" hidden></p>
+</section>
+
+<script>
+  document.querySelectorAll('[data-pomodoro-tool]').forEach((root) => {
+    const labels = JSON.parse(root.getAttribute('data-labels') || '{}');
+    const storageKey = 'free-tools-hub-pomodoro-settings';
+    const workInput = root.querySelector('[data-work]');
+    const breakInput = root.querySelector('[data-break]');
+    const longBreakInput = root.querySelector('[data-long-break]');
+    const display = root.querySelector('[data-display]');
+    const phaseLabel = root.querySelector('[data-phase]');
+    const completedOutput = root.querySelector('[data-completed]');
+    const error = root.querySelector('[data-error]');
+    const startButton = root.querySelector('[data-start]');
+    const pauseButton = root.querySelector('[data-pause]');
+    const originalTitle = document.title;
+    let phase = 'work';
+    let completed = 0;
+    let remainingSeconds = 25 * 60;
+    let endAt = 0;
+    let timerId = null;
+    let running = false;
+
+    function validMinutes(value) {
+      const number = Number(value);
+      return Number.isInteger(number) && number >= 1 && number <= 180;
+    }
+
+    function settings() {
+      return {
+        work: Number(workInput.value),
+        break: Number(breakInput.value),
+        longBreak: Number(longBreakInput.value),
+      };
+    }
+
+    function durationFor(currentPhase) {
+      const values = settings();
+      if (currentPhase === 'break') return values.break * 60;
+      if (currentPhase === 'longBreak') return values.longBreak * 60;
+      return values.work * 60;
+    }
+
+    function showError(message) {
+      error.textContent = message;
+      error.hidden = !message;
+    }
+
+    function validateSettings() {
+      const values = settings();
+      const valid = validMinutes(values.work) && validMinutes(values.break) && validMinutes(values.longBreak);
+      showError(valid ? '' : labels.minutesError);
+      return valid;
+    }
+
+    function format(seconds) {
+      const minutes = Math.floor(seconds / 60).toString().padStart(2, '0');
+      const secs = Math.floor(seconds % 60).toString().padStart(2, '0');
+      return `${minutes}:${secs}`;
+    }
+
+    function saveSettings() {
+      if (!validateSettings()) return;
+      localStorage.setItem(storageKey, JSON.stringify(settings()));
+      if (!running) {
+        remainingSeconds = durationFor(phase);
+        render();
+      }
+    }
+
+    function loadSettings() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(storageKey) || '{}');
+        if (validMinutes(saved.work)) workInput.value = String(saved.work);
+        if (validMinutes(saved.break)) breakInput.value = String(saved.break);
+        if (validMinutes(saved.longBreak)) longBreakInput.value = String(saved.longBreak);
+      } catch {
+        localStorage.removeItem(storageKey);
+      }
+      remainingSeconds = durationFor(phase);
+    }
+
+    function render() {
+      display.textContent = format(remainingSeconds);
+      phaseLabel.textContent = labels[phase];
+      completedOutput.textContent = String(completed);
+      startButton.disabled = running;
+      pauseButton.disabled = !running;
+      if (running) {
+        document.title = `${format(remainingSeconds)} · ${labels[phase]}`;
+      }
+    }
+
+    function beep() {
+      try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        const context = new AudioContext();
+        const oscillator = context.createOscillator();
+        const gain = context.createGain();
+        oscillator.type = 'sine';
+        oscillator.frequency.value = 880;
+        gain.gain.setValueAtTime(0.001, context.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.2, context.currentTime + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.001, context.currentTime + 0.22);
+        oscillator.connect(gain);
+        gain.connect(context.destination);
+        oscillator.start();
+        oscillator.stop(context.currentTime + 0.24);
+      } catch {
+        // Audio is optional; timer state should continue even if the browser blocks sound.
+      }
+    }
+
+    function clearTimer() {
+      if (timerId !== null) {
+        window.clearInterval(timerId);
+        timerId = null;
+      }
+    }
+
+    function switchPhase() {
+      beep();
+      if (phase === 'work') {
+        completed += 1;
+        phase = completed % 4 === 0 ? 'longBreak' : 'break';
+      } else {
+        phase = 'work';
+      }
+      remainingSeconds = durationFor(phase);
+      endAt = Date.now() + remainingSeconds * 1000;
+      render();
+    }
+
+    function tick() {
+      remainingSeconds = Math.max(0, Math.ceil((endAt - Date.now()) / 1000));
+      if (remainingSeconds <= 0) {
+        switchPhase();
+      } else {
+        render();
+      }
+    }
+
+    function start() {
+      if (running || !validateSettings()) return;
+      running = true;
+      endAt = Date.now() + remainingSeconds * 1000;
+      clearTimer();
+      timerId = window.setInterval(tick, 250);
+      render();
+    }
+
+    function pause() {
+      if (!running) return;
+      remainingSeconds = Math.max(1, Math.ceil((endAt - Date.now()) / 1000));
+      running = false;
+      clearTimer();
+      document.title = originalTitle;
+      render();
+    }
+
+    function reset() {
+      running = false;
+      clearTimer();
+      phase = 'work';
+      completed = 0;
+      remainingSeconds = durationFor(phase);
+      document.title = originalTitle;
+      render();
+    }
+
+    [workInput, breakInput, longBreakInput].forEach((input) => {
+      input.addEventListener('change', saveSettings);
+      input.addEventListener('input', () => {
+        if (!running) saveSettings();
+      });
+    });
+    startButton.addEventListener('click', start);
+    pauseButton.addEventListener('click', pause);
+    root.querySelector('[data-reset]')?.addEventListener('click', reset);
+
+    loadSettings();
+    render();
+  });
+</script>

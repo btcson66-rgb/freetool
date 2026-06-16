@@ -1,0 +1,94 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ToolCard from '../../components/ToolCard.astro';
+import { SITE, type Locale } from '../../config/site';
+import { categories } from '../../data/categories';
+import { liveTools } from '../../data/tools';
+import { home, homeFaq } from '../../i18n/pages';
+import { t } from '../../i18n/ui';
+import { categoryUrl, localePath } from '../../lib/url';
+import { websiteJsonLd } from '../../lib/seo';
+
+export function getStaticPaths() {
+  return SITE.locales.map((lang) => ({
+    params: { lang },
+    props: { lang },
+  }));
+}
+
+const { lang } = Astro.props as { lang: Locale };
+const copy = home[lang];
+const ui = t(lang);
+const featured = liveTools.filter((tool) => tool.featured);
+const newest = liveTools.filter((tool) => tool.isNew);
+---
+
+<BaseLayout
+  lang={lang}
+  title={copy.seoTitle}
+  description={copy.seoDescription}
+  alternateSegments={[]}
+  jsonLd={websiteJsonLd(lang)}
+>
+  <section class="hero wrap">
+    <p class="eyebrow">{copy.eyebrow}</p>
+    <h1>{copy.title}</h1>
+    <p class="lead">{copy.intro}</p>
+    <div class="hero-actions">
+      <a class="btn go" href={localePath(lang, 'tools')}>{copy.primaryCta}</a>
+      <a class="btn ghost" href="#categories">{copy.secondaryCta}</a>
+    </div>
+  </section>
+
+  <section class="wrap content-section">
+    <h2>{ui.popularTools}</h2>
+    <div class="grid">
+      {featured.map((tool) => <ToolCard lang={lang} tool={tool} />)}
+    </div>
+  </section>
+
+  <section class="wrap content-section">
+    <h2>{ui.newest}</h2>
+    <div class="grid">
+      {newest.map((tool) => <ToolCard lang={lang} tool={tool} />)}
+    </div>
+  </section>
+
+  <section id="categories" class="wrap content-section">
+    <h2>{ui.categories}</h2>
+    <div class="grid">
+      {
+        categories.map((category) => (
+          <a class="tile category-tile" href={categoryUrl(lang, category.id)}>
+            <span class="tile-icon" aria-hidden="true">{category.icon}</span>
+            <span class="tile-body">
+              <strong>{category.name[lang]}</strong>
+              <span>{category.description[lang]}</span>
+            </span>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="wrap content-section why">
+    <h2>{ui.whyUseThisSite}</h2>
+    <ul class="check-list">
+      {ui.homeWhy.map((item) => <li>{item}</li>)}
+    </ul>
+  </section>
+
+  <section class="wrap content-section faq">
+    <h2>{ui.faq}</h2>
+    <dl>
+      {
+        homeFaq[lang].map((item) => (
+          <>
+            <dt>{item.q}</dt>
+            <dd>{item.a}</dd>
+          </>
+        ))
+      }
+    </dl>
+  </section>
+</BaseLayout>

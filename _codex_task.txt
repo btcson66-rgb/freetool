@@ -1,0 +1,16 @@
+You are implementing Phase 1 of a website project. The complete, authoritative specification is in the file BUILD_SPEC.md at your working root. Read it FULLY before writing anything.
+
+STEPS (do all, in order):
+1. Read BUILD_SPEC.md fully.
+2. Implement EVERYTHING the spec describes: create package.json, astro.config.mjs, tsconfig.json, .gitignore, and all files under src/, public/, and .github/workflows/. Scaffold the Astro project by writing files directly. Do NOT run the interactive `npm create astro` wizard.
+3. Run `npm install`.
+4. Run `npm run build`. FIX every build error and TypeScript error and re-run until `npm run build` exits with code 0. Do not stop until the build is clean.
+5. Run the section 10 acceptance checks: grep the built dist/ for `adsbygoogle` (MUST be zero matches), grep dist tool pages for `hreflang` (must be present), and confirm no source file hardcodes the literal `/freetools/` path (all base-aware via BASE_URL/helpers).
+
+CONSTRAINTS:
+- Work ONLY inside this directory (your working root). Do not modify anything outside it.
+- Do not add any tools beyond the THREE marked `status: live` in the spec.
+- Static only: no backend, no databases, no paid APIs, no heavy UI frameworks.
+- AdSense must be present-but-disabled (adsenseEnabled=false): emit NO adsbygoogle script or <ins> tag in built HTML.
+
+When finished, report: (a) the list of files created, (b) the last ~25 lines of `npm run build` output, and (c) the results of the section 10 grep/acceptance checks.

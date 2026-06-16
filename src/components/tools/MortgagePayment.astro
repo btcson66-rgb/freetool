@@ -1,0 +1,114 @@
+---
+interface Props {
+  labels: Record<string, string>;
+}
+
+const { labels } = Astro.props;
+---
+
+<section class="tool-widget card" data-mortgage-payment-tool data-labels={JSON.stringify(labels)}>
+  <div class="form-grid">
+    <label>
+      <span>{labels.loanAmount}</span>
+      <input data-loan type="number" min="1" step="1000" value="3000000" />
+    </label>
+    <label>
+      <span>{labels.annualRate}</span>
+      <input data-rate type="number" min="0" step="0.01" value="2.2" />
+    </label>
+    <label>
+      <span>{labels.termYears}</span>
+      <input data-years type="number" min="1" step="1" value="30" />
+    </label>
+  </div>
+
+  <div class="actions">
+    <button class="btn go" type="button" data-calculate>{labels.calculate}</button>
+    <button class="btn ghost" type="button" data-copy>{labels.copy}</button>
+  </div>
+
+  <p class="form-error" data-error role="alert" hidden></p>
+  <div class="stats-grid mortgage-stats" aria-live="polite">
+    <div><span>{labels.monthlyPayment}</span><strong data-monthly>-</strong></div>
+    <div><span>{labels.totalPayments}</span><strong data-total>-</strong></div>
+    <div><span>{labels.totalInterest}</span><strong data-interest>-</strong></div>
+  </div>
+  <span class="toast" role="status" aria-live="polite" hidden>{labels.copied}</span>
+</section>
+
+<style>
+  .actions {
+    margin: 16px 0;
+  }
+</style>
+
+<script>
+  document.querySelectorAll('[data-mortgage-payment-tool]').forEach((root) => {
+    const labels = JSON.parse(root.getAttribute('data-labels') || '{}');
+    const loanInput = root.querySelector('[data-loan]');
+    const rateInput = root.querySelector('[data-rate]');
+    const yearsInput = root.querySelector('[data-years]');
+    const outputs = {
+      monthly: root.querySelector('[data-monthly]'),
+      total: root.querySelector('[data-total]'),
+      interest: root.querySelector('[data-interest]'),
+    };
+    const error = root.querySelector('[data-error]');
+    const toast = root.querySelector('.toast');
+    let latestSummary = '';
+
+    function money(value) {
+      return new Intl.NumberFormat(undefined, { maximumFractionDigits: 0 }).format(Math.round(value));
+    }
+
+    function setError(message) {
+      error.textContent = message;
+      error.hidden = !message;
+    }
+
+    function calculate() {
+      const loan = Number(loanInput.value);
+      const annualRate = Number(rateInput.value) / 100;
+      const years = Number(yearsInput.value);
+      if (![loan, annualRate, years].every(Number.isFinite) || loan <= 0 || annualRate < 0 || years <= 0) {
+        setError(labels.invalidInput);
+        return;
+      }
+      const months = years * 12;
+      const monthlyRate = annualRate / 12;
+      const monthlyPayment =
+        monthlyRate === 0 ? loan / months : loan * (monthlyRate * Math.pow(1 + monthlyRate, months)) / (Math.pow(1 + monthlyRate, months) - 1);
+      const total = monthlyPayment * months;
+      const interest = total - loan;
+      outputs.monthly.textContent = money(monthlyPayment);
+      outputs.total.textContent = money(total);
+      outputs.interest.textContent = money(interest);
+      latestSummary = [
+        `${labels.monthlyPayment}: ${money(monthlyPayment)}`,
+        `${labels.totalPayments}: ${money(total)}`,
+        `${labels.totalInterest}: ${money(interest)}`,
+      ].join('\n');
+      setError('');
+    }
+
+    function showToast() {
+      toast.hidden = false;
+      window.setTimeout(() => {
+        toast.hidden = true;
+      }, 1500);
+    }
+
+    root.querySelector('[data-calculate]')?.addEventListener('click', calculate);
+    root.querySelector('[data-copy]')?.addEventListener('click', async () => {
+      if (!latestSummary) calculate();
+      try {
+        await navigator.clipboard.writeText(latestSummary);
+        showToast();
+      } catch {
+        window.prompt(labels.copy, latestSummary);
+      }
+    });
+    [loanInput, rateInput, yearsInput].forEach((input) => input.addEventListener('input', calculate));
+    calculate();
+  });
+</script>

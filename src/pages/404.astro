@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { localePath } from '../lib/url';
+
+const lang = 'zh';
+---
+
+<BaseLayout
+  lang={lang}
+  title="找不到頁面 | Page not found"
+  description="找不到你要查看的頁面。This page could not be found."
+  alternateSegments={[]}
+>
+  <section class="wrap page-head">
+    <p class="eyebrow">404</p>
+    <h1>找不到頁面</h1>
+    <p class="lead">你要查看的頁面可能已移動、刪除，或網址輸入有誤。</p>
+    <p class="lead">Page not found. The link may be outdated, moved, or typed incorrectly.</p>
+    <div class="hero-actions">
+      <a class="btn go" href={localePath('zh')}>回到中文首頁</a>
+      <a class="btn" href={localePath('en')}>English home</a>
+      <a class="btn ghost" href={localePath('zh', 'tools')}>查看所有工具</a>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,122 @@
+---
+interface Props {
+  labels: Record<string, string>;
+}
+
+const { labels } = Astro.props;
+---
+
+<section class="tool-widget card" data-this-or-that-tool data-labels={JSON.stringify(labels)}>
+  <div class="form-grid two-options">
+    <label>
+      <span>{labels.optionA}</span>
+      <input data-option-a type="text" value={labels.placeholderA} />
+    </label>
+    <label>
+      <span>{labels.optionB}</span>
+      <input data-option-b type="text" value={labels.placeholderB} />
+    </label>
+  </div>
+
+  <div class="actions">
+    <button class="btn go" type="button" data-decide>{labels.decide}</button>
+    <button class="btn ghost" type="button" data-copy>{labels.copy}</button>
+    <button class="btn" type="button" data-reset>{labels.reset}</button>
+  </div>
+
+  <p class="form-error" data-error role="alert" hidden></p>
+  <div class="bigresult choice-result" aria-live="polite">
+    <span class="result-label">{labels.result}</span>
+    <output data-result>{labels.waiting}</output>
+  </div>
+  <span class="toast" role="status" aria-live="polite" hidden>{labels.copied}</span>
+</section>
+
+<style>
+  .two-options {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-bottom: 16px;
+  }
+
+  .choice-result output {
+    font-size: clamp(2rem, 9vw, 3.4rem);
+  }
+
+  @media (max-width: 760px) {
+    .two-options {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  document.querySelectorAll('[data-this-or-that-tool]').forEach((root) => {
+    const labels = JSON.parse(root.getAttribute('data-labels') || '{}');
+    const optionA = root.querySelector('[data-option-a]');
+    const optionB = root.querySelector('[data-option-b]');
+    const result = root.querySelector('[data-result]');
+    const error = root.querySelector('[data-error]');
+    const toast = root.querySelector('.toast');
+    let latest = '';
+    let timer = null;
+
+    function setError(message) {
+      error.textContent = message;
+      error.hidden = !message;
+    }
+
+    function values() {
+      return [optionA.value.trim(), optionB.value.trim()];
+    }
+
+    function decide() {
+      const [a, b] = values();
+      window.clearInterval(timer);
+      if (!a || !b) {
+        latest = '';
+        result.textContent = labels.waiting;
+        setError(labels.error);
+        return;
+      }
+      setError('');
+      const options = [a, b];
+      let ticks = 0;
+      timer = window.setInterval(() => {
+        result.textContent = options[ticks % 2];
+        ticks += 1;
+        if (ticks >= 12) {
+          window.clearInterval(timer);
+          latest = options[Math.random() < 0.5 ? 0 : 1];
+          result.textContent = latest;
+        }
+      }, 80);
+    }
+
+    function reset() {
+      optionA.value = labels.placeholderA;
+      optionB.value = labels.placeholderB;
+      latest = '';
+      result.textContent = labels.waiting;
+      setError('');
+    }
+
+    function showToast() {
+      toast.hidden = false;
+      window.setTimeout(() => {
+        toast.hidden = true;
+      }, 1500);
+    }
+
+    root.querySelector('[data-decide]')?.addEventListener('click', decide);
+    root.querySelector('[data-reset]')?.addEventListener('click', reset);
+    root.querySelector('[data-copy]')?.addEventListener('click', async () => {
+      if (!latest) return;
+      try {
+        await navigator.clipboard.writeText(latest);
+        showToast();
+      } catch {
+        window.prompt(labels.copy, latest);
+      }
+    });
+  });
+</script>

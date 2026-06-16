@@ -1,0 +1,19 @@
+---
+import { SITE } from '../config/site';
+
+const enabled = SITE.adsenseEnabled || SITE.features.adsense;
+---
+
+{
+  enabled && (
+    <div class="ad-slot" aria-label="Advertisement">
+      <ins
+        class="adsbygoogle"
+        data-ad-client={SITE.adsenseClient}
+        data-ad-slot="0000000000"
+        data-ad-format="auto"
+        data-full-width-responsive="true"
+      />
+    </div>
+  )
+}

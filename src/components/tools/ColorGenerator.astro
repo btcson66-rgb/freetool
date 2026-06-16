@@ -1,0 +1,232 @@
+---
+interface Props {
+  labels: Record<string, string>;
+}
+
+const { labels } = Astro.props;
+---
+
+<section class="tool-widget card" data-color-tool data-labels={JSON.stringify(labels)} tabindex="0">
+  <div class="color-layout">
+    <div class="color-swatch" data-swatch aria-label={labels.currentColor}></div>
+    <div class="color-values" aria-live="polite">
+      <div>
+        <span>{labels.hex}</span>
+        <strong data-hex></strong>
+        <button class="btn ghost" type="button" data-copy-value="hex">{labels.copy}</button>
+      </div>
+      <div>
+        <span>{labels.rgb}</span>
+        <strong data-rgb></strong>
+        <button class="btn ghost" type="button" data-copy-value="rgb">{labels.copy}</button>
+      </div>
+      <div>
+        <span>{labels.hsl}</span>
+        <strong data-hsl></strong>
+        <button class="btn ghost" type="button" data-copy-value="hsl">{labels.copy}</button>
+      </div>
+    </div>
+  </div>
+  <div class="actions">
+    <button class="btn go" type="button" data-generate>{labels.generate}</button>
+    <button class="btn" type="button" data-palette>{labels.palette}</button>
+  </div>
+  <p class="note">{labels.spaceHint}</p>
+  <div class="palette" aria-live="polite">
+    <h3>{labels.paletteTitle}</h3>
+    <div class="palette-grid" data-palette-grid></div>
+  </div>
+  <span class="toast" role="status" aria-live="polite" hidden>{labels.copied}</span>
+</section>
+
+<style>
+  .color-layout {
+    display: grid;
+    grid-template-columns: minmax(180px, 280px) 1fr;
+    gap: 18px;
+    align-items: stretch;
+  }
+
+  .color-swatch {
+    min-height: 220px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.28);
+  }
+
+  .color-values {
+    display: grid;
+    gap: 10px;
+  }
+
+  .color-values div {
+    display: grid;
+    grid-template-columns: 56px minmax(0, 1fr) auto;
+    gap: 10px;
+    align-items: center;
+    padding: 12px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: #fbfcff;
+  }
+
+  .color-values span,
+  .palette h3 {
+    color: var(--muted);
+    font-size: 0.88rem;
+    font-weight: 800;
+  }
+
+  .color-values strong {
+    overflow-wrap: anywhere;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+
+  .palette {
+    margin-top: 16px;
+  }
+
+  .palette h3 {
+    margin: 0 0 10px;
+  }
+
+  .palette-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .palette-chip {
+    min-height: 96px;
+    padding: 10px;
+    border: 1px solid rgba(24, 33, 47, 0.12);
+    border-radius: 8px;
+    color: #fff;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.38);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-weight: 900;
+  }
+
+  @media (max-width: 760px) {
+    .color-layout,
+    .color-values div {
+      grid-template-columns: 1fr;
+    }
+
+    .palette-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+</style>
+
+<script>
+  document.querySelectorAll('[data-color-tool]').forEach((root) => {
+    const labels = JSON.parse(root.getAttribute('data-labels') || '{}');
+    const swatch = root.querySelector('[data-swatch]');
+    const outputs = {
+      hex: root.querySelector('[data-hex]'),
+      rgb: root.querySelector('[data-rgb]'),
+      hsl: root.querySelector('[data-hsl]'),
+    };
+    const paletteGrid = root.querySelector('[data-palette-grid]');
+    const toast = root.querySelector('.toast');
+    let current = { hex: '', rgb: '', hsl: '' };
+
+    function randomChannel() {
+      return Math.floor(Math.random() * 256);
+    }
+
+    function toHex(value) {
+      return value.toString(16).padStart(2, '0').toUpperCase();
+    }
+
+    function rgbToHsl(r, g, b) {
+      const rn = r / 255;
+      const gn = g / 255;
+      const bn = b / 255;
+      const max = Math.max(rn, gn, bn);
+      const min = Math.min(rn, gn, bn);
+      const lightness = (max + min) / 2;
+      let hue = 0;
+      let saturation = 0;
+
+      if (max !== min) {
+        const delta = max - min;
+        saturation = lightness > 0.5 ? delta / (2 - max - min) : delta / (max + min);
+        if (max === rn) hue = (gn - bn) / delta + (gn < bn ? 6 : 0);
+        if (max === gn) hue = (bn - rn) / delta + 2;
+        if (max === bn) hue = (rn - gn) / delta + 4;
+        hue *= 60;
+      }
+
+      return `hsl(${Math.round(hue)}, ${Math.round(saturation * 100)}%, ${Math.round(lightness * 100)}%)`;
+    }
+
+    function makeColor() {
+      const r = randomChannel();
+      const g = randomChannel();
+      const b = randomChannel();
+      return {
+        hex: `#${toHex(r)}${toHex(g)}${toHex(b)}`,
+        rgb: `rgb(${r}, ${g}, ${b})`,
+        hsl: rgbToHsl(r, g, b),
+      };
+    }
+
+    function renderColor(color) {
+      current = color;
+      swatch.style.background = color.hex;
+      outputs.hex.textContent = color.hex;
+      outputs.rgb.textContent = color.rgb;
+      outputs.hsl.textContent = color.hsl;
+    }
+
+    function renderPalette() {
+      paletteGrid.innerHTML = '';
+      Array.from({ length: 5 }, () => makeColor()).forEach((color) => {
+        const chip = document.createElement('button');
+        chip.type = 'button';
+        chip.className = 'palette-chip';
+        chip.style.background = color.hex;
+        chip.textContent = color.hex;
+        chip.addEventListener('click', () => copyText(color.hex));
+        paletteGrid.append(chip);
+      });
+    }
+
+    async function copyText(text) {
+      try {
+        await navigator.clipboard.writeText(text);
+        toast.hidden = false;
+        window.setTimeout(() => {
+          toast.hidden = true;
+        }, 1500);
+      } catch {
+        window.prompt(labels.copy, text);
+      }
+    }
+
+    function generate() {
+      renderColor(makeColor());
+    }
+
+    root.querySelector('[data-generate]')?.addEventListener('click', generate);
+    root.querySelector('[data-palette]')?.addEventListener('click', renderPalette);
+    root.querySelectorAll('[data-copy-value]').forEach((button) => {
+      button.addEventListener('click', () => {
+        const key = button.getAttribute('data-copy-value');
+        copyText(current[key] || '');
+      });
+    });
+    root.addEventListener('keydown', (event) => {
+      if (event.key !== ' ') return;
+      const tag = document.activeElement?.tagName;
+      if (tag === 'BUTTON' || tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+      event.preventDefault();
+      generate();
+    });
+
+    generate();
+    renderPalette();
+  });
+</script>

@@ -1,0 +1,158 @@
+---
+interface Props {
+  labels: Record<string, string>;
+}
+
+const { labels } = Astro.props;
+---
+
+<section class="tool-widget card" data-random-name-tool data-labels={JSON.stringify(labels)}>
+  <label class="textarea-label">
+    <span>{labels.input}</span>
+    <textarea data-names rows="10" placeholder={labels.placeholder}></textarea>
+  </label>
+  <div class="form-grid compact-controls">
+    <label>
+      <span>{labels.countLabel}</span>
+      <input data-count type="number" inputmode="numeric" value="2" min="1" step="1" />
+    </label>
+  </div>
+  <div class="option-row">
+    <label class="check">
+      <input data-remove type="checkbox" checked />
+      <span>{labels.removePicked}</span>
+    </label>
+  </div>
+  <div class="actions">
+    <button class="btn go" type="button" data-pick-one>{labels.pickOne}</button>
+    <button class="btn" type="button" data-pick-many>{labels.pickMany}</button>
+    <button class="btn ghost" type="button" data-reset>{labels.reset}</button>
+    <button class="btn ghost" type="button" data-copy>{labels.copy}</button>
+  </div>
+  <p class="form-error" data-error role="alert" hidden></p>
+  <div class="bigresult random-name-result" aria-live="polite">
+    <span class="result-label">{labels.result}</span>
+    <output data-output>{labels.emptyResult}</output>
+  </div>
+  <span class="toast" role="status" aria-live="polite" hidden>{labels.copied}</span>
+</section>
+
+<style>
+  .compact-controls {
+    grid-template-columns: minmax(160px, 220px);
+  }
+
+  .random-name-result output.spinning {
+    color: var(--brand);
+  }
+</style>
+
+<script>
+  document.querySelectorAll('[data-random-name-tool]').forEach((root) => {
+    const labels = JSON.parse(root.getAttribute('data-labels') || '{}');
+    const textarea = root.querySelector('[data-names]');
+    const countInput = root.querySelector('[data-count]');
+    const removeInput = root.querySelector('[data-remove]');
+    const output = root.querySelector('[data-output]');
+    const error = root.querySelector('[data-error]');
+    const toast = root.querySelector('.toast');
+    let latestResult = '';
+    let spinTimer = null;
+
+    function entries() {
+      return textarea.value
+        .split(/\r\n|\r|\n/)
+        .map((item) => item.trim())
+        .filter(Boolean);
+    }
+
+    function setError(message) {
+      error.textContent = message;
+      error.hidden = !message;
+    }
+
+    function shuffle(items) {
+      const copy = [...items];
+      for (let index = copy.length - 1; index > 0; index -= 1) {
+        const swapIndex = Math.floor(Math.random() * (index + 1));
+        [copy[index], copy[swapIndex]] = [copy[swapIndex], copy[index]];
+      }
+      return copy;
+    }
+
+    function removePicked(allItems, pickedItems) {
+      const remaining = [...allItems];
+      pickedItems.forEach((picked) => {
+        const index = remaining.indexOf(picked);
+        if (index >= 0) remaining.splice(index, 1);
+      });
+      textarea.value = remaining.join('\n');
+    }
+
+    function animateThenShow(pool, picked) {
+      output.classList.add('spinning');
+      output.textContent = labels.spinning;
+      let cycles = 0;
+      window.clearInterval(spinTimer);
+      spinTimer = window.setInterval(() => {
+        cycles += 1;
+        output.textContent = pool[Math.floor(Math.random() * pool.length)] || labels.spinning;
+        if (cycles >= 8) {
+          window.clearInterval(spinTimer);
+          spinTimer = null;
+          output.classList.remove('spinning');
+          latestResult = picked.join('\n');
+          output.textContent = picked.join(', ');
+        }
+      }, 75);
+    }
+
+    function pick(count) {
+      const pool = entries();
+      if (!pool.length) {
+        setError(labels.emptyListError);
+        return;
+      }
+      if (!Number.isInteger(count) || count < 1) {
+        setError(labels.invalidCountError);
+        return;
+      }
+      if (count > pool.length) {
+        setError(labels.tooManyError);
+        return;
+      }
+      setError('');
+      const picked = shuffle(pool).slice(0, count);
+      if (removeInput.checked) {
+        removePicked(pool, picked);
+      }
+      animateThenShow(pool, picked);
+    }
+
+    root.querySelector('[data-pick-one]')?.addEventListener('click', () => pick(1));
+    root.querySelector('[data-pick-many]')?.addEventListener('click', () => pick(Number(countInput.value)));
+    root.querySelector('[data-reset]')?.addEventListener('click', () => {
+      textarea.value = '';
+      countInput.value = '2';
+      removeInput.checked = true;
+      latestResult = '';
+      output.textContent = labels.emptyResult;
+      output.classList.remove('spinning');
+      setError('');
+      textarea.focus();
+    });
+    root.querySelector('[data-copy]')?.addEventListener('click', async () => {
+      if (!latestResult) return;
+      try {
+        await navigator.clipboard.writeText(latestResult);
+        toast.hidden = false;
+        window.setTimeout(() => {
+          toast.hidden = true;
+        }, 1500);
+      } catch {
+        window.prompt(labels.copy, latestResult);
+      }
+    });
+  });
+</script>
+

@@ -1,0 +1,104 @@
+---
+interface Props {
+  labels: Record<string, string>;
+}
+
+const { labels } = Astro.props;
+---
+
+<section class="tool-widget card" data-base64-tool data-labels={JSON.stringify(labels)}>
+  <label class="textarea-label">
+    <span>{labels.input}</span>
+    <textarea data-input rows="8" placeholder={labels.placeholder}></textarea>
+  </label>
+  <div class="actions">
+    <button class="btn go" type="button" data-encode>{labels.encode}</button>
+    <button class="btn" type="button" data-decode>{labels.decode}</button>
+    <button class="btn ghost" type="button" data-copy>{labels.copy}</button>
+    <button class="btn ghost" type="button" data-clear>{labels.clear}</button>
+  </div>
+  <p class="form-error" data-error role="alert" hidden></p>
+  <label class="textarea-label output-label">
+    <span>{labels.output}</span>
+    <textarea data-output rows="8" readonly></textarea>
+  </label>
+  <span class="toast" role="status" aria-live="polite" hidden>{labels.copied}</span>
+</section>
+
+<style>
+  .output-label {
+    margin-top: 16px;
+  }
+
+  .output-label textarea {
+    background: #fbfcff;
+  }
+</style>
+
+<script>
+  document.querySelectorAll('[data-base64-tool]').forEach((root) => {
+    const labels = JSON.parse(root.getAttribute('data-labels') || '{}');
+    const input = root.querySelector('[data-input]');
+    const output = root.querySelector('[data-output]');
+    const error = root.querySelector('[data-error]');
+    const toast = root.querySelector('.toast');
+
+    function setError(message) {
+      error.textContent = message;
+      error.hidden = !message;
+    }
+
+    function bytesToBase64(bytes) {
+      let binary = '';
+      const chunkSize = 0x8000;
+      for (let index = 0; index < bytes.length; index += chunkSize) {
+        const chunk = bytes.slice(index, index + chunkSize);
+        binary += String.fromCharCode(...chunk);
+      }
+      return btoa(binary);
+    }
+
+    function base64ToBytes(base64) {
+      const binary = atob(base64.replace(/\s+/g, ''));
+      return Uint8Array.from(binary, (char) => char.charCodeAt(0));
+    }
+
+    function encode() {
+      const bytes = new TextEncoder().encode(input.value);
+      output.value = bytesToBase64(bytes);
+      setError('');
+    }
+
+    function decode() {
+      try {
+        const bytes = base64ToBytes(input.value);
+        output.value = new TextDecoder('utf-8', { fatal: true }).decode(bytes);
+        setError('');
+      } catch {
+        output.value = '';
+        setError(labels.invalidBase64);
+      }
+    }
+
+    root.querySelector('[data-encode]')?.addEventListener('click', encode);
+    root.querySelector('[data-decode]')?.addEventListener('click', decode);
+    root.querySelector('[data-clear]')?.addEventListener('click', () => {
+      input.value = '';
+      output.value = '';
+      setError('');
+      input.focus();
+    });
+    root.querySelector('[data-copy]')?.addEventListener('click', async () => {
+      if (!output.value) return;
+      try {
+        await navigator.clipboard.writeText(output.value);
+        toast.hidden = false;
+        window.setTimeout(() => {
+          toast.hidden = true;
+        }, 1500);
+      } catch {
+        window.prompt(labels.copy, output.value);
+      }
+    });
+  });
+</script>

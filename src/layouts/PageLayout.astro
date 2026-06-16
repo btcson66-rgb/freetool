@@ -1,0 +1,34 @@
+---
+import Breadcrumb from '../components/Breadcrumb.astro';
+import BaseLayout from './BaseLayout.astro';
+import { type Locale } from '../config/site';
+import { t } from '../i18n/ui';
+import { localePath } from '../lib/url';
+
+interface Props {
+  lang: Locale;
+  title: string;
+  seoTitle: string;
+  description: string;
+  pageKey: string;
+  body: string[];
+}
+
+const { lang, title, seoTitle, description, pageKey, body } = Astro.props;
+const ui = t(lang);
+---
+
+<BaseLayout lang={lang} title={seoTitle} description={description} alternateSegments={[pageKey]}>
+  <section class="wrap page-head">
+    <Breadcrumb
+      items={[
+        { label: ui.breadcrumbHome, href: localePath(lang) },
+        { label: title },
+      ]}
+    />
+    <h1>{title}</h1>
+  </section>
+  <section class="wrap prose-page">
+    {body.map((paragraph) => <p>{paragraph}</p>)}
+  </section>
+</BaseLayout>

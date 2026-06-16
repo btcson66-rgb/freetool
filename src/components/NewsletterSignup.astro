@@ -1,0 +1,51 @@
+---
+import { SITE, type Locale } from '../config/site';
+import { t } from '../i18n/ui';
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const ui = t(lang);
+const enabled = SITE.features.newsletter;
+---
+
+{
+  enabled && (
+    <section class="content-section reserved-block">
+      <h2>{ui.monetization.newsletterHeading}</h2>
+      <p>{ui.monetization.newsletterText}</p>
+      <form class="newsletter-form" aria-disabled="true">
+        <input type="email" placeholder={ui.monetization.emailPlaceholder} disabled />
+        <button class="btn" type="button" disabled>{ui.monetization.subscribe}</button>
+      </form>
+    </section>
+  )
+}
+
+<style>
+  .reserved-block {
+    padding: 18px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: #fff;
+  }
+
+  .reserved-block p {
+    margin: 0 0 14px;
+    color: var(--muted);
+  }
+
+  .newsletter-form {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 10px;
+  }
+
+  @media (max-width: 560px) {
+    .newsletter-form {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

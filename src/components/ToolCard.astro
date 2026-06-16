@@ -1,0 +1,39 @@
+---
+import type { Locale } from '../config/site';
+import type { ToolMeta } from '../data/tools';
+import { t } from '../i18n/ui';
+import { toolUrl } from '../lib/url';
+
+interface Props {
+  lang: Locale;
+  tool: ToolMeta;
+}
+
+const { lang, tool } = Astro.props;
+const ui = t(lang);
+const assetType = tool.assetType ?? 'tool';
+---
+
+{
+  tool.status === 'live' ? (
+    <a class="tile tool-tile" href={toolUrl(lang, tool.slug)}>
+      <span class="tile-icon" aria-hidden="true">{tool.icon}</span>
+      <span class="tile-body">
+        <strong>{tool.name[lang]}</strong>
+        <span>{tool.short[lang]}</span>
+        <span class="asset-type">{ui.assetTypes[assetType]}</span>
+      </span>
+      {tool.isNew && <span class="badge">{ui.newest}</span>}
+    </a>
+  ) : (
+    <article class="tile tool-tile planned" aria-disabled="true">
+      <span class="tile-icon" aria-hidden="true">{tool.icon}</span>
+      <span class="tile-body">
+        <strong>{tool.name[lang]}</strong>
+        <span>{tool.short[lang]}</span>
+        <span class="asset-type">{ui.assetTypes[assetType]}</span>
+      </span>
+      <span class="badge muted">{ui.comingSoon}</span>
+    </article>
+  )
+}

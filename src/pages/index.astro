@@ -1,0 +1,32 @@
+---
+import { SITE } from '../config/site';
+import { absoluteUrl, localePath, pathWithBase } from '../lib/url';
+
+const zhHref = localePath('zh');
+const enHref = localePath('en');
+const canonical = absoluteUrl(pathWithBase());
+---
+
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{SITE.name.zh} / {SITE.name.en}</title>
+    <meta name="description" content={SITE.tagline.zh} />
+    <link rel="canonical" href={canonical} />
+    <script define:vars={{ zhHref, enHref }}>
+      const language = navigator.language || '';
+      window.location.replace(language.toLowerCase().startsWith('zh') ? zhHref : enHref);
+    </script>
+  </head>
+  <body>
+    <main>
+      <h1>{SITE.name.zh} / {SITE.name.en}</h1>
+      <p>{SITE.tagline.zh}</p>
+      <noscript>
+        <p><a href={zhHref}>中文</a> · <a href={enHref}>English</a></p>
+      </noscript>
+    </main>
+  </body>
+</html>

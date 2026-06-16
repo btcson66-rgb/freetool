@@ -1,0 +1,165 @@
+---
+interface Props {
+  labels: Record<string, string>;
+}
+
+const { labels } = Astro.props;
+---
+
+<section class="tool-widget card" data-what-to-eat-tool data-labels={JSON.stringify(labels)}>
+  <div>
+    <p class="picker-label">{labels.categories}</p>
+    <div class="category-grid" data-categories></div>
+  </div>
+
+  <label class="textarea-label">
+    <span>{labels.custom}</span>
+    <textarea data-custom rows="5" placeholder={labels.customPlaceholder}></textarea>
+  </label>
+
+  <div class="actions">
+    <button class="btn go" type="button" data-decide>{labels.decide}</button>
+    <button class="btn ghost" type="button" data-copy>{labels.copy}</button>
+    <button class="btn" type="button" data-reset>{labels.reset}</button>
+  </div>
+
+  <p class="form-error" data-error role="alert" hidden></p>
+  <div class="bigresult" aria-live="polite">
+    <span class="result-label">{labels.result}</span>
+    <output data-result>{labels.waiting}</output>
+  </div>
+  <span class="toast" role="status" aria-live="polite" hidden>{labels.copied}</span>
+</section>
+
+<style>
+  .picker-label {
+    margin: 0 0 8px;
+    color: var(--muted);
+    font-weight: 800;
+  }
+
+  .category-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .category-grid .check {
+    min-height: 48px;
+    padding: 10px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: #fbfcff;
+  }
+
+  @media (max-width: 760px) {
+    .category-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  document.querySelectorAll('[data-what-to-eat-tool]').forEach((root) => {
+    const labels = JSON.parse(root.getAttribute('data-labels') || '{}');
+    const categories = JSON.parse(labels.categoriesJson || '[]');
+    const categoryGrid = root.querySelector('[data-categories]');
+    const customInput = root.querySelector('[data-custom]');
+    const result = root.querySelector('[data-result]');
+    const error = root.querySelector('[data-error]');
+    const toast = root.querySelector('.toast');
+    let latest = '';
+    let shuffleTimer = null;
+
+    function setError(message) {
+      error.textContent = message;
+      error.hidden = !message;
+    }
+
+    function renderCategories() {
+      categoryGrid.innerHTML = '';
+      categories.forEach((category) => {
+        const label = document.createElement('label');
+        label.className = 'check';
+        const input = document.createElement('input');
+        input.type = 'checkbox';
+        input.checked = true;
+        input.dataset.category = category.id;
+        const span = document.createElement('span');
+        span.textContent = category.label;
+        label.append(input, span);
+        categoryGrid.append(label);
+      });
+    }
+
+    function customItems() {
+      return customInput.value
+        .split(/\r?\n/)
+        .map((item) => item.trim())
+        .filter(Boolean);
+    }
+
+    function candidates() {
+      const selected = new Set(
+        Array.from(categoryGrid.querySelectorAll('[data-category]:checked')).map((input) => input.dataset.category),
+      );
+      const builtIns = categories
+        .filter((category) => selected.has(category.id))
+        .flatMap((category) => category.items);
+      return [...builtIns, ...customItems()];
+    }
+
+    function decide() {
+      const items = candidates();
+      window.clearInterval(shuffleTimer);
+      if (!items.length) {
+        latest = '';
+        result.textContent = labels.waiting;
+        setError(labels.emptyError);
+        return;
+      }
+      setError('');
+      let ticks = 0;
+      shuffleTimer = window.setInterval(() => {
+        result.textContent = items[Math.floor(Math.random() * items.length)];
+        ticks += 1;
+        if (ticks >= 12) {
+          window.clearInterval(shuffleTimer);
+          latest = items[Math.floor(Math.random() * items.length)];
+          result.textContent = latest;
+        }
+      }, 70);
+    }
+
+    function reset() {
+      customInput.value = '';
+      categoryGrid.querySelectorAll('[data-category]').forEach((input) => {
+        input.checked = true;
+      });
+      latest = '';
+      result.textContent = labels.waiting;
+      setError('');
+    }
+
+    function showToast() {
+      toast.hidden = false;
+      window.setTimeout(() => {
+        toast.hidden = true;
+      }, 1500);
+    }
+
+    root.querySelector('[data-decide]')?.addEventListener('click', decide);
+    root.querySelector('[data-reset]')?.addEventListener('click', reset);
+    root.querySelector('[data-copy]')?.addEventListener('click', async () => {
+      if (!latest) return;
+      try {
+        await navigator.clipboard.writeText(latest);
+        showToast();
+      } catch {
+        window.prompt(labels.copy, latest);
+      }
+    });
+    renderCategories();
+  });
+</script>

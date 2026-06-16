@@ -1,0 +1,103 @@
+---
+import AdSlot from '../components/AdSlot.astro';
+import AffiliateBlock from '../components/AffiliateBlock.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import EmbedCode from '../components/EmbedCode.astro';
+import Faq from '../components/Faq.astro';
+import NewsletterSignup from '../components/NewsletterSignup.astro';
+import RelatedResources from '../components/RelatedResources.astro';
+import RelatedTools from '../components/RelatedTools.astro';
+import ShareButtons from '../components/ShareButtons.astro';
+import SponsorBlock from '../components/SponsorBlock.astro';
+import BaseLayout from './BaseLayout.astro';
+import type { Locale } from '../config/site';
+import type { Category } from '../data/categories';
+import type { ToolMeta } from '../data/tools';
+import { t } from '../i18n/ui';
+import { absoluteUrl, categoryUrl, localePath, toolUrl } from '../lib/url';
+
+interface ToolContent {
+  name: string;
+  short: string;
+  long: string;
+  seoTitle: string;
+  seoDescription: string;
+  instructions: string[];
+  examples: string[];
+  faq: { q: string; a: string }[];
+  disclaimer?: string;
+  privacyNote?: string;
+}
+
+interface Props {
+  lang: Locale;
+  tool: ToolMeta;
+  category: Category;
+  content: ToolContent;
+  jsonLd: Record<string, unknown>[];
+}
+
+const { lang, tool, category, content, jsonLd } = Astro.props;
+const ui = t(lang);
+const currentUrl = absoluteUrl(toolUrl(lang, tool.slug));
+const breadcrumbItems = [
+  { label: ui.breadcrumbHome, href: localePath(lang) },
+  { label: ui.allTools, href: localePath(lang, 'tools') },
+  { label: category.name[lang], href: categoryUrl(lang, category.id) },
+  { label: content.name },
+];
+---
+
+<BaseLayout
+  lang={lang}
+  title={content.seoTitle}
+  description={content.seoDescription}
+  type="article"
+  alternateSegments={['tools', tool.slug]}
+  jsonLd={jsonLd}
+>
+  <article class="wrap tool-page">
+    <Breadcrumb items={breadcrumbItems} />
+    <header class="tool-header">
+      <p class="eyebrow">{category.icon} {category.name[lang]}</p>
+      <h1><span aria-hidden="true">{tool.icon}</span> {content.name}</h1>
+      <p class="lead">{content.long}</p>
+    </header>
+
+    <slot />
+
+    <AdSlot />
+    <SponsorBlock lang={lang} />
+
+    <section class="content-section">
+      <h2>{ui.sections.howToUse}</h2>
+      <ol class="step-list">
+        {content.instructions.map((item) => <li>{item}</li>)}
+      </ol>
+    </section>
+
+    <section class="content-section">
+      <h2>{ui.sections.useCases}</h2>
+      <ul class="check-list">
+        {content.examples.map((item) => <li>{item}</li>)}
+      </ul>
+    </section>
+
+    <section class="content-section privacy-note">
+      <h2>{ui.privacy.heading}</h2>
+      <p>{content.privacyNote ?? ui.privacy.defaultNote}</p>
+    </section>
+
+    <AffiliateBlock lang={lang} />
+    <Faq lang={lang} items={content.faq} />
+    <ShareButtons lang={lang} url={currentUrl} title={content.name} />
+    {tool.embedPotential !== 'low' && <EmbedCode lang={lang} tool={tool} />}
+    <NewsletterSignup lang={lang} />
+    <RelatedResources lang={lang} />
+    <AdSlot />
+    <RelatedTools lang={lang} current={tool} />
+
+    {tool.updated && <p class="updated">{ui.lastUpdated}: <time datetime={tool.updated}>{tool.updated}</time></p>}
+    {content.disclaimer && <p class="disclaimer">{content.disclaimer}</p>}
+  </article>
+</BaseLayout>

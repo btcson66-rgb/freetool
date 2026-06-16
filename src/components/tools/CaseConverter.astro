@@ -1,0 +1,165 @@
+---
+interface Props {
+  labels: Record<string, string>;
+}
+
+const { labels } = Astro.props;
+---
+
+<section class="tool-widget card" data-case-tool data-labels={JSON.stringify(labels)}>
+  <label class="textarea-label">
+    <span>{labels.input}</span>
+    <textarea data-input rows="9" placeholder={labels.placeholder}></textarea>
+  </label>
+  <div class="conversion-grid">
+    <button class="btn" type="button" data-mode="uppercase">{labels.uppercase}</button>
+    <button class="btn" type="button" data-mode="lowercase">{labels.lowercase}</button>
+    <button class="btn" type="button" data-mode="titleCase">{labels.titleCase}</button>
+    <button class="btn" type="button" data-mode="sentenceCase">{labels.sentenceCase}</button>
+    <button class="btn" type="button" data-mode="camelCase">{labels.camelCase}</button>
+    <button class="btn" type="button" data-mode="snakeCase">{labels.snakeCase}</button>
+    <button class="btn" type="button" data-mode="kebabCase">{labels.kebabCase}</button>
+    <button class="btn" type="button" data-mode="constantCase">{labels.constantCase}</button>
+  </div>
+  <label class="textarea-label output-label">
+    <span>{labels.output}</span>
+    <textarea data-output rows="9" readonly></textarea>
+  </label>
+  <div class="actions">
+    <button class="btn go" type="button" data-copy>{labels.copy}</button>
+    <button class="btn ghost" type="button" data-clear>{labels.clear}</button>
+  </div>
+  <span class="toast" role="status" aria-live="polite" hidden>{labels.copied}</span>
+</section>
+
+<style>
+  .conversion-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+    margin: 12px 0 16px;
+  }
+
+  .conversion-grid .btn {
+    min-height: 42px;
+    padding-inline: 10px;
+  }
+
+  .output-label textarea {
+    background: #fbfcff;
+  }
+
+  @media (max-width: 760px) {
+    .conversion-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 420px) {
+    .conversion-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  document.querySelectorAll('[data-case-tool]').forEach((root) => {
+    const labels = JSON.parse(root.getAttribute('data-labels') || '{}');
+    const input = root.querySelector('[data-input]');
+    const output = root.querySelector('[data-output]');
+    const toast = root.querySelector('.toast');
+
+    function asciiLower(text) {
+      return text.replace(/[A-Z]/g, (char) => String.fromCharCode(char.charCodeAt(0) + 32));
+    }
+
+    function asciiUpper(text) {
+      return text.replace(/[a-z]/g, (char) => String.fromCharCode(char.charCodeAt(0) - 32));
+    }
+
+    function capitalizeAscii(word) {
+      return asciiUpper(word.slice(0, 1)) + asciiLower(word.slice(1));
+    }
+
+    function titleCase(text) {
+      return asciiLower(text).replace(/[A-Za-z]+/g, (word) => capitalizeAscii(word));
+    }
+
+    function sentenceCase(text) {
+      const lowered = asciiLower(text);
+      let shouldCapitalize = true;
+      return lowered.replace(/[A-Za-z]/g, (char, offset) => {
+        if (shouldCapitalize) {
+          shouldCapitalize = false;
+          return asciiUpper(char);
+        }
+        const between = lowered.slice(offset, offset + 2);
+        if (/[.!?]\s*$/.test(between)) shouldCapitalize = true;
+        return char;
+      }).replace(/([.!?]\s+)([a-z])/g, (_match, prefix, char) => prefix + asciiUpper(char));
+    }
+
+    function tokens(text) {
+      return text.match(/[A-Za-z0-9]+|[\u3400-\u9fff\uf900-\ufaff]+/g) || [];
+    }
+
+    function camelCase(text) {
+      const parts = tokens(text);
+      return parts
+        .map((part, index) => {
+          if (/^[\u3400-\u9fff\uf900-\ufaff]+$/.test(part)) return part;
+          const lower = asciiLower(part);
+          return index === 0 ? lower : capitalizeAscii(lower);
+        })
+        .join('');
+    }
+
+    function separatedCase(text, separator, upper) {
+      const parts = tokens(text);
+      return parts
+        .map((part) => {
+          if (/^[\u3400-\u9fff\uf900-\ufaff]+$/.test(part)) return part;
+          return upper ? asciiUpper(part) : asciiLower(part);
+        })
+        .join(separator);
+    }
+
+    const converters = {
+      uppercase: asciiUpper,
+      lowercase: asciiLower,
+      titleCase,
+      sentenceCase,
+      camelCase,
+      snakeCase: (text) => separatedCase(text, '_', false),
+      kebabCase: (text) => separatedCase(text, '-', false),
+      constantCase: (text) => separatedCase(text, '_', true),
+    };
+
+    function convert(mode) {
+      const converter = converters[mode];
+      if (!converter) return;
+      output.value = converter(input.value);
+    }
+
+    root.querySelectorAll('[data-mode]').forEach((button) => {
+      button.addEventListener('click', () => convert(button.getAttribute('data-mode')));
+    });
+    root.querySelector('[data-copy]')?.addEventListener('click', async () => {
+      if (!output.value) return;
+      try {
+        await navigator.clipboard.writeText(output.value);
+        toast.hidden = false;
+        window.setTimeout(() => {
+          toast.hidden = true;
+        }, 1500);
+      } catch {
+        window.prompt(labels.copy, output.value);
+      }
+    });
+    root.querySelector('[data-clear]')?.addEventListener('click', () => {
+      input.value = '';
+      output.value = '';
+      input.focus();
+    });
+  });
+</script>
+

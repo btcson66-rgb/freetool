@@ -1,0 +1,166 @@
+---
+interface Props {
+  labels: Record<string, string>;
+}
+
+const { labels } = Astro.props;
+---
+
+<section class="tool-widget card" data-random-group-tool data-labels={JSON.stringify(labels)}>
+  <label class="textarea-label">
+    <span>{labels.input}</span>
+    <textarea data-names rows="10" placeholder={labels.placeholder}></textarea>
+  </label>
+  <div class="form-grid compact-controls">
+    <label>
+      <span>{labels.groupCount}</span>
+      <input data-group-count type="number" inputmode="numeric" value="2" min="1" step="1" />
+    </label>
+  </div>
+  <div class="actions">
+    <button class="btn go" type="button" data-generate>{labels.generate}</button>
+    <button class="btn" type="button" data-copy>{labels.copyAll}</button>
+    <button class="btn ghost" type="button" data-reset>{labels.reset}</button>
+  </div>
+  <p class="form-error" data-error role="alert" hidden></p>
+  <div class="resultbox groups-output" data-output aria-live="polite">
+    <p class="empty-state">{labels.emptyResult}</p>
+  </div>
+  <span class="toast" role="status" aria-live="polite" hidden>{labels.copied}</span>
+</section>
+
+<style>
+  .compact-controls {
+    grid-template-columns: minmax(160px, 220px);
+    margin-bottom: 16px;
+  }
+
+  .groups-output {
+    display: grid;
+    gap: 12px;
+  }
+
+  .group-card {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: #fff;
+    padding: 14px;
+  }
+
+  .group-card h3 {
+    margin: 0 0 8px;
+    font-size: 1rem;
+  }
+
+  .group-card ul {
+    margin: 0;
+    padding-left: 1.25rem;
+  }
+
+  .empty-state {
+    margin: 0;
+    color: var(--muted);
+    font-weight: 800;
+  }
+</style>
+
+<script>
+  document.querySelectorAll('[data-random-group-tool]').forEach((root) => {
+    const labels = JSON.parse(root.getAttribute('data-labels') || '{}');
+    const textarea = root.querySelector('[data-names]');
+    const groupCountInput = root.querySelector('[data-group-count]');
+    const output = root.querySelector('[data-output]');
+    const error = root.querySelector('[data-error]');
+    const toast = root.querySelector('.toast');
+    let latestText = '';
+
+    function entries() {
+      return textarea.value
+        .split(/\r\n|\r|\n/)
+        .map((item) => item.trim())
+        .filter(Boolean);
+    }
+
+    function setError(message) {
+      error.textContent = message;
+      error.hidden = !message;
+    }
+
+    function shuffle(items) {
+      const copy = [...items];
+      for (let index = copy.length - 1; index > 0; index -= 1) {
+        const swapIndex = Math.floor(Math.random() * (index + 1));
+        [copy[index], copy[swapIndex]] = [copy[swapIndex], copy[index]];
+      }
+      return copy;
+    }
+
+    function groupLabel(index) {
+      return labels.groupLabel.replace('{n}', String(index + 1));
+    }
+
+    function render(groups) {
+      output.innerHTML = '';
+      groups.forEach((group, index) => {
+        const card = document.createElement('section');
+        card.className = 'group-card';
+        const title = document.createElement('h3');
+        title.textContent = groupLabel(index);
+        const list = document.createElement('ul');
+        group.forEach((member) => {
+          const item = document.createElement('li');
+          item.textContent = member;
+          list.appendChild(item);
+        });
+        card.append(title, list);
+        output.appendChild(card);
+      });
+    }
+
+    function generate() {
+      const names = entries();
+      const groupCount = Number(groupCountInput.value);
+      if (names.length < 2) {
+        setError(labels.emptyError);
+        return;
+      }
+      if (!Number.isInteger(groupCount) || groupCount < 1 || groupCount > names.length) {
+        setError(labels.invalidError);
+        return;
+      }
+
+      const groups = Array.from({ length: groupCount }, () => []);
+      shuffle(names).forEach((name, index) => {
+        groups[index % groupCount].push(name);
+      });
+      latestText = groups
+        .map((group, index) => `${groupLabel(index)}\n${group.map((member) => `- ${member}`).join('\n')}`)
+        .join('\n\n');
+      render(groups);
+      setError('');
+    }
+
+    root.querySelector('[data-generate]')?.addEventListener('click', generate);
+    root.querySelector('[data-reset]')?.addEventListener('click', () => {
+      textarea.value = '';
+      groupCountInput.value = '2';
+      latestText = '';
+      output.innerHTML = `<p class="empty-state">${labels.emptyResult}</p>`;
+      setError('');
+      textarea.focus();
+    });
+    root.querySelector('[data-copy]')?.addEventListener('click', async () => {
+      if (!latestText) return;
+      try {
+        await navigator.clipboard.writeText(latestText);
+        toast.hidden = false;
+        window.setTimeout(() => {
+          toast.hidden = true;
+        }, 1500);
+      } catch {
+        window.prompt(labels.copyAll, latestText);
+      }
+    });
+  });
+</script>
+

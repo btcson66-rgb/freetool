@@ -1,0 +1,197 @@
+---
+interface Props {
+  labels: Record<string, string>;
+}
+
+const { labels } = Astro.props;
+---
+
+<section class="tool-widget card" data-student-picker-tool data-labels={JSON.stringify(labels)}>
+  <label class="textarea-label">
+    <span>{labels.input}</span>
+    <textarea data-names rows="10" placeholder={labels.placeholder}></textarea>
+  </label>
+  <div class="form-grid helper-grid">
+    <label>
+      <span>{labels.helperCount}</span>
+      <input data-helper-count type="number" inputmode="numeric" value="30" min="1" max="200" step="1" />
+    </label>
+    <div class="helper-action">
+      <button class="btn" type="button" data-fill>{labels.fillNumbers}</button>
+    </div>
+  </div>
+  <div class="option-row">
+    <label class="check">
+      <input data-no-repeat type="checkbox" checked />
+      <span>{labels.dontRepeat}</span>
+    </label>
+  </div>
+  <div class="actions">
+    <button class="btn go pick-button" type="button" data-pick>{labels.pick}</button>
+    <button class="btn ghost" type="button" data-reset>{labels.reset}</button>
+    <button class="btn ghost" type="button" data-copy>{labels.copy}</button>
+  </div>
+  <p class="form-error" data-error role="alert" hidden></p>
+  <p class="note" data-remaining>{labels.remaining}: 0</p>
+  <div class="bigresult student-result" aria-live="polite">
+    <span class="result-label">{labels.result}</span>
+    <output data-output>{labels.emptyResult}</output>
+  </div>
+  <span class="toast" role="status" aria-live="polite" hidden>{labels.copied}</span>
+</section>
+
+<style>
+  .helper-grid {
+    grid-template-columns: minmax(160px, 220px) auto;
+    align-items: end;
+  }
+
+  .helper-action {
+    padding-bottom: 0;
+  }
+
+  .pick-button {
+    min-width: 160px;
+  }
+
+  .student-result output.spinning {
+    color: var(--brand);
+  }
+
+  @media (max-width: 760px) {
+    .helper-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  document.querySelectorAll('[data-student-picker-tool]').forEach((root) => {
+    const labels = JSON.parse(root.getAttribute('data-labels') || '{}');
+    const textarea = root.querySelector('[data-names]');
+    const helperCount = root.querySelector('[data-helper-count]');
+    const noRepeat = root.querySelector('[data-no-repeat]');
+    const output = root.querySelector('[data-output]');
+    const remainingLabel = root.querySelector('[data-remaining]');
+    const error = root.querySelector('[data-error]');
+    const toast = root.querySelector('.toast');
+    const picked = new Set();
+    let latest = '';
+    let timer = null;
+
+    function entries() {
+      return textarea.value
+        .split(/\r\n|\r|\n/)
+        .map((item) => item.trim())
+        .filter(Boolean);
+    }
+
+    function setError(message) {
+      error.textContent = message;
+      error.hidden = !message;
+    }
+
+    function syncPicked() {
+      const current = new Set(entries());
+      Array.from(picked).forEach((name) => {
+        if (!current.has(name)) picked.delete(name);
+      });
+    }
+
+    function remainingPool() {
+      const names = entries();
+      if (!noRepeat.checked) return names;
+      syncPicked();
+      let remaining = names.filter((name) => !picked.has(name));
+      if (!remaining.length && names.length) {
+        picked.clear();
+        remaining = names;
+      }
+      return remaining;
+    }
+
+    function updateRemaining() {
+      const names = entries();
+      syncPicked();
+      const count = noRepeat.checked ? names.filter((name) => !picked.has(name)).length : names.length;
+      remainingLabel.textContent = `${labels.remaining}: ${count}`;
+    }
+
+    function animate(pool, selected) {
+      output.classList.add('spinning');
+      output.textContent = labels.spinning;
+      let cycles = 0;
+      window.clearInterval(timer);
+      timer = window.setInterval(() => {
+        cycles += 1;
+        output.textContent = pool[Math.floor(Math.random() * pool.length)] || labels.spinning;
+        if (cycles >= 10) {
+          window.clearInterval(timer);
+          timer = null;
+          output.classList.remove('spinning');
+          output.textContent = selected;
+          latest = selected;
+        }
+      }, 60);
+    }
+
+    function pickStudent() {
+      const names = entries();
+      if (!names.length) {
+        setError(labels.emptyListError);
+        return;
+      }
+      const beforeRemaining = noRepeat.checked ? names.filter((name) => !picked.has(name)).length : names.length;
+      const pool = remainingPool();
+      const selected = pool[Math.floor(Math.random() * pool.length)];
+      if (noRepeat.checked) picked.add(selected);
+      if (beforeRemaining === 0 && noRepeat.checked) {
+        setError(labels.exhausted);
+      } else {
+        setError('');
+      }
+      animate(pool, selected);
+      updateRemaining();
+    }
+
+    root.querySelector('[data-fill]')?.addEventListener('click', () => {
+      const count = Number(helperCount.value);
+      if (!Number.isInteger(count) || count < 1 || count > 200) {
+        setError(labels.invalidHelperError);
+        return;
+      }
+      textarea.value = Array.from({ length: count }, (_, index) => String(index + 1)).join('\n');
+      picked.clear();
+      latest = '';
+      output.textContent = labels.emptyResult;
+      setError('');
+      updateRemaining();
+    });
+    root.querySelector('[data-pick]')?.addEventListener('click', pickStudent);
+    root.querySelector('[data-reset]')?.addEventListener('click', () => {
+      picked.clear();
+      latest = '';
+      output.classList.remove('spinning');
+      output.textContent = labels.emptyResult;
+      setError('');
+      updateRemaining();
+      textarea.focus();
+    });
+    root.querySelector('[data-copy]')?.addEventListener('click', async () => {
+      if (!latest) return;
+      try {
+        await navigator.clipboard.writeText(latest);
+        toast.hidden = false;
+        window.setTimeout(() => {
+          toast.hidden = true;
+        }, 1500);
+      } catch {
+        window.prompt(labels.copy, latest);
+      }
+    });
+    textarea.addEventListener('input', updateRemaining);
+    noRepeat.addEventListener('change', updateRemaining);
+
+    updateRemaining();
+  });
+</script>

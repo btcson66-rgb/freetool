@@ -1,0 +1,29 @@
+---
+import LangSwitch from './LangSwitch.astro';
+import { SITE, type Locale } from '../config/site';
+import { t } from '../i18n/ui';
+import { localePath } from '../lib/url';
+
+interface Props {
+  lang: Locale;
+  segments?: string[];
+}
+
+const { lang, segments = [] } = Astro.props;
+const ui = t(lang);
+---
+
+<header class="site-nav">
+  <div class="nav-inner">
+    <a class="brand" href={localePath(lang)} aria-label={SITE.name[lang]}>
+      <span class="brand-mark" aria-hidden="true">⌘</span>
+      <span>{SITE.name[lang]}</span>
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href={localePath(lang)}>{ui.nav.home}</a>
+      <a href={localePath(lang, 'tools')}>{ui.nav.tools}</a>
+      <a href={`${localePath(lang)}#categories`}>{ui.nav.categories}</a>
+    </nav>
+    <LangSwitch lang={lang} segments={segments} />
+  </div>
+</header>

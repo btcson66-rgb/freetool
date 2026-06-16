@@ -1,0 +1,221 @@
+---
+interface Props {
+  labels: Record<string, string>;
+}
+
+const { labels } = Astro.props;
+---
+
+<section class="tool-widget card" data-random-wheel-tool data-labels={JSON.stringify(labels)}>
+  <label class="textarea-label">
+    <span>{labels.input}</span>
+    <textarea data-options rows="7" placeholder={labels.placeholder}>{labels.placeholder}</textarea>
+  </label>
+  <p class="form-error" data-error role="alert" hidden></p>
+
+  <div class="wheel-wrap">
+    <canvas data-canvas width="420" height="420" aria-label={labels.result}></canvas>
+    <div class="wheel-pointer" aria-hidden="true"></div>
+  </div>
+
+  <div class="actions">
+    <button class="btn go" type="button" data-spin>{labels.spin}</button>
+    <button class="btn ghost" type="button" data-copy>{labels.copy}</button>
+    <button class="btn" type="button" data-reset>{labels.clear}</button>
+  </div>
+
+  <div class="bigresult" aria-live="polite">
+    <span class="result-label">{labels.result}</span>
+    <output data-result>{labels.waiting}</output>
+  </div>
+  <span class="toast" role="status" aria-live="polite" hidden>{labels.copied}</span>
+</section>
+
+<style>
+  .wheel-wrap {
+    position: relative;
+    display: grid;
+    width: min(100%, 460px);
+    margin: 18px auto;
+    place-items: center;
+  }
+
+  canvas {
+    width: min(100%, 420px);
+    height: auto;
+    border-radius: 50%;
+  }
+
+  .wheel-pointer {
+    position: absolute;
+    top: 0;
+    width: 0;
+    height: 0;
+    border-right: 14px solid transparent;
+    border-left: 14px solid transparent;
+    border-top: 24px solid var(--accent);
+    filter: drop-shadow(0 2px 3px rgba(24, 33, 47, 0.25));
+  }
+</style>
+
+<script>
+  document.querySelectorAll('[data-random-wheel-tool]').forEach((root) => {
+    const labels = JSON.parse(root.getAttribute('data-labels') || '{}');
+    const text = root.querySelector('[data-options]');
+    const canvas = root.querySelector('[data-canvas]');
+    const result = root.querySelector('[data-result]');
+    const error = root.querySelector('[data-error]');
+    const toast = root.querySelector('.toast');
+    const context = canvas.getContext('2d');
+    const colors = ['#0f8f8c', '#3e63dd', '#f26b4f', '#7c3aed', '#12a150', '#d97706', '#dc2626', '#2563eb'];
+    let rotation = 0;
+    let latest = '';
+    let spinning = false;
+
+    function setError(message) {
+      error.textContent = message;
+      error.hidden = !message;
+    }
+
+    function getOptions() {
+      return text.value
+        .split(/\r?\n/)
+        .map((item) => item.trim())
+        .filter(Boolean);
+    }
+
+    function draw(options, highlightIndex = -1) {
+      const width = canvas.width;
+      const center = width / 2;
+      const radius = center - 12;
+      context.clearRect(0, 0, width, width);
+      context.save();
+      context.translate(center, center);
+      if (!options.length) {
+        context.fillStyle = '#f2fbfa';
+        context.beginPath();
+        context.arc(0, 0, radius, 0, Math.PI * 2);
+        context.fill();
+        context.fillStyle = '#657186';
+        context.font = '700 22px sans-serif';
+        context.textAlign = 'center';
+        context.fillText(labels.waiting, 0, 8);
+        context.restore();
+        return;
+      }
+
+      const segment = (Math.PI * 2) / options.length;
+      const startBase = rotation - Math.PI / 2;
+      options.forEach((option, index) => {
+        const start = startBase + index * segment;
+        const end = start + segment;
+        context.beginPath();
+        context.moveTo(0, 0);
+        context.arc(0, 0, radius, start, end);
+        context.closePath();
+        context.fillStyle = index === highlightIndex ? '#f8b84e' : colors[index % colors.length];
+        context.fill();
+        context.strokeStyle = '#ffffff';
+        context.lineWidth = 3;
+        context.stroke();
+
+        context.save();
+        context.rotate(start + segment / 2);
+        context.textAlign = 'right';
+        context.fillStyle = '#ffffff';
+        context.font = '800 16px sans-serif';
+        context.shadowColor = 'rgba(0,0,0,0.3)';
+        context.shadowBlur = 2;
+        context.fillText(option.slice(0, 18), radius - 18, 5);
+        context.restore();
+      });
+
+      context.beginPath();
+      context.arc(0, 0, 34, 0, Math.PI * 2);
+      context.fillStyle = '#ffffff';
+      context.fill();
+      context.strokeStyle = '#dbe3ee';
+      context.lineWidth = 2;
+      context.stroke();
+      context.restore();
+    }
+
+    function easeOutCubic(value) {
+      return 1 - Math.pow(1 - value, 3);
+    }
+
+    function spin() {
+      if (spinning) return;
+      const options = getOptions();
+      if (!options.length) {
+        setError(labels.emptyError);
+        latest = '';
+        result.textContent = labels.waiting;
+        draw(options);
+        return;
+      }
+      setError('');
+      if (options.length === 1) {
+        latest = options[0];
+        result.textContent = latest;
+        setError(labels.oneOption);
+        draw(options, 0);
+        return;
+      }
+
+      const winnerIndex = Math.floor(Math.random() * options.length);
+      const segment = (Math.PI * 2) / options.length;
+      const desired = -(winnerIndex + 0.5) * segment;
+      const delta = ((desired - rotation) % (Math.PI * 2) + Math.PI * 2) % (Math.PI * 2);
+      const start = rotation;
+      const target = rotation + Math.PI * 2 * 5 + delta;
+      const duration = 3200;
+      const started = performance.now();
+      spinning = true;
+
+      function frame(now) {
+        const progress = Math.min(1, (now - started) / duration);
+        rotation = start + (target - start) * easeOutCubic(progress);
+        draw(options);
+        if (progress < 1) {
+          requestAnimationFrame(frame);
+          return;
+        }
+        rotation %= Math.PI * 2;
+        latest = options[winnerIndex];
+        result.textContent = latest;
+        draw(options, winnerIndex);
+        spinning = false;
+      }
+
+      requestAnimationFrame(frame);
+    }
+
+    function showToast() {
+      toast.hidden = false;
+      window.setTimeout(() => {
+        toast.hidden = true;
+      }, 1500);
+    }
+
+    text.addEventListener('input', () => draw(getOptions()));
+    root.querySelector('[data-spin]')?.addEventListener('click', spin);
+    root.querySelector('[data-reset]')?.addEventListener('click', () => {
+      text.value = labels.placeholder;
+      latest = '';
+      result.textContent = labels.waiting;
+      setError('');
+      draw(getOptions());
+    });
+    root.querySelector('[data-copy]')?.addEventListener('click', async () => {
+      if (!latest) return;
+      try {
+        await navigator.clipboard.writeText(latest);
+        showToast();
+      } catch {
+        window.prompt(labels.copy, latest);
+      }
+    });
+    draw(getOptions());
+  });
+</script>

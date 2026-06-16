@@ -1,0 +1,101 @@
+---
+interface Props {
+  labels: Record<string, string>;
+}
+
+const { labels } = Astro.props;
+---
+
+<section class="tool-widget card" data-json-tool data-labels={JSON.stringify(labels)}>
+  <label class="textarea-label">
+    <span>{labels.input}</span>
+    <textarea data-input rows="10" placeholder={labels.placeholder}></textarea>
+  </label>
+  <div class="actions">
+    <button class="btn go" type="button" data-action="format">{labels.format}</button>
+    <button class="btn" type="button" data-action="minify">{labels.minify}</button>
+    <button class="btn" type="button" data-action="validate">{labels.validate}</button>
+    <button class="btn ghost" type="button" data-copy>{labels.copy}</button>
+    <button class="btn ghost" type="button" data-clear>{labels.clear}</button>
+  </div>
+  <p class="form-error" data-error role="alert" hidden></p>
+  <label class="textarea-label output-label">
+    <span>{labels.output}</span>
+    <textarea data-output rows="10" readonly></textarea>
+  </label>
+  <span class="toast" role="status" aria-live="polite" hidden>{labels.copied}</span>
+</section>
+
+<style>
+  .output-label {
+    margin-top: 16px;
+  }
+
+  .output-label textarea {
+    background: #fbfcff;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.94rem;
+  }
+</style>
+
+<script>
+  document.querySelectorAll('[data-json-tool]').forEach((root) => {
+    const labels = JSON.parse(root.getAttribute('data-labels') || '{}');
+    const input = root.querySelector('[data-input]');
+    const output = root.querySelector('[data-output]');
+    const error = root.querySelector('[data-error]');
+    const toast = root.querySelector('.toast');
+
+    function positionDetails(message) {
+      const match = message.match(/position\s+(\d+)/i);
+      if (!match) return '';
+      const position = Number(match[1]);
+      const before = input.value.slice(0, position);
+      const line = before.split(/\r\n|\r|\n/).length;
+      const lastBreak = Math.max(before.lastIndexOf('\n'), before.lastIndexOf('\r'));
+      const column = position - lastBreak;
+      return ` (line ${line}, column ${column})`;
+    }
+
+    function setError(message) {
+      error.textContent = message;
+      error.hidden = !message;
+    }
+
+    function run(mode) {
+      try {
+        const parsed = JSON.parse(input.value);
+        if (mode === 'format') output.value = JSON.stringify(parsed, null, 2);
+        if (mode === 'minify') output.value = JSON.stringify(parsed);
+        if (mode === 'validate') output.value = labels.valid;
+        setError('');
+      } catch (caught) {
+        const message = caught instanceof Error ? caught.message : String(caught);
+        output.value = `${labels.invalidPrefix}: ${message}${positionDetails(message)}`;
+        setError(output.value);
+      }
+    }
+
+    root.querySelectorAll('[data-action]').forEach((button) => {
+      button.addEventListener('click', () => run(button.getAttribute('data-action')));
+    });
+    root.querySelector('[data-clear]')?.addEventListener('click', () => {
+      input.value = '';
+      output.value = '';
+      setError('');
+      input.focus();
+    });
+    root.querySelector('[data-copy]')?.addEventListener('click', async () => {
+      if (!output.value) return;
+      try {
+        await navigator.clipboard.writeText(output.value);
+        toast.hidden = false;
+        window.setTimeout(() => {
+          toast.hidden = true;
+        }, 1500);
+      } catch {
+        window.prompt(labels.copy, output.value);
+      }
+    });
+  });
+</script>

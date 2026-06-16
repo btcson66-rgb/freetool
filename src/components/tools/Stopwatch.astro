@@ -1,0 +1,180 @@
+---
+interface Props {
+  labels: Record<string, string>;
+}
+
+const { labels } = Astro.props;
+---
+
+<section class="tool-widget card" data-stopwatch-tool data-labels={JSON.stringify(labels)}>
+  <div class="timer-panel stopwatch-panel">
+    <output class="timer-display" data-display>00:00:00.00</output>
+  </div>
+  <div class="actions">
+    <button class="btn go" type="button" data-toggle>{labels.start}</button>
+    <button class="btn" type="button" data-lap disabled>{labels.lap}</button>
+    <button class="btn ghost" type="button" data-reset>{labels.reset}</button>
+    <button class="btn ghost" type="button" data-copy>{labels.copyLaps}</button>
+  </div>
+  <section class="lap-box" aria-live="polite">
+    <h3>{labels.laps}</h3>
+    <ol data-laps>
+      <li class="muted-lap">{labels.noLaps}</li>
+    </ol>
+  </section>
+  <span class="toast" role="status" aria-live="polite" hidden>{labels.copied}</span>
+</section>
+
+<style>
+  .stopwatch-panel .timer-display {
+    font-size: clamp(2.6rem, 12vw, 5rem);
+  }
+
+  .lap-box {
+    margin-top: 18px;
+  }
+
+  .lap-box h3 {
+    margin: 0 0 10px;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+
+  .lap-box ol {
+    display: grid;
+    gap: 8px;
+    margin: 0;
+    padding-left: 1.4rem;
+  }
+
+  .lap-box li {
+    padding: 10px 12px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: #fbfcff;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .muted-lap {
+    color: var(--muted);
+  }
+</style>
+
+<script>
+  document.querySelectorAll('[data-stopwatch-tool]').forEach((root) => {
+    const labels = JSON.parse(root.getAttribute('data-labels') || '{}');
+    const display = root.querySelector('[data-display]');
+    const toggleButton = root.querySelector('[data-toggle]');
+    const lapButton = root.querySelector('[data-lap]');
+    const lapsList = root.querySelector('[data-laps]');
+    const toast = root.querySelector('.toast');
+    let running = false;
+    let startAt = 0;
+    let elapsedBefore = 0;
+    let animation = null;
+    let lastLapElapsed = 0;
+    const laps = [];
+
+    function elapsed() {
+      return running ? elapsedBefore + performance.now() - startAt : elapsedBefore;
+    }
+
+    function format(milliseconds) {
+      const centiseconds = Math.floor(milliseconds / 10) % 100;
+      const totalSeconds = Math.floor(milliseconds / 1000);
+      const seconds = totalSeconds % 60;
+      const minutes = Math.floor(totalSeconds / 60) % 60;
+      const hours = Math.floor(totalSeconds / 3600);
+      return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}.${String(centiseconds).padStart(2, '0')}`;
+    }
+
+    function renderDisplay() {
+      display.textContent = format(elapsed());
+      if (running) {
+        animation = window.requestAnimationFrame(renderDisplay);
+      }
+    }
+
+    function renderLaps() {
+      lapsList.innerHTML = '';
+      if (!laps.length) {
+        const empty = document.createElement('li');
+        empty.className = 'muted-lap';
+        empty.textContent = labels.noLaps;
+        lapsList.append(empty);
+        return;
+      }
+      laps.forEach((lap, index) => {
+        const item = document.createElement('li');
+        item.textContent = `${labels.lapNumber} ${index + 1}: ${labels.split} ${format(lap.split)} / ${labels.total} ${format(lap.total)}`;
+        lapsList.prepend(item);
+      });
+    }
+
+    function start() {
+      if (running) return;
+      running = true;
+      startAt = performance.now();
+      toggleButton.textContent = labels.stop;
+      toggleButton.classList.add('go');
+      lapButton.disabled = false;
+      renderDisplay();
+    }
+
+    function stop() {
+      if (!running) return;
+      elapsedBefore = elapsed();
+      running = false;
+      window.cancelAnimationFrame(animation);
+      animation = null;
+      toggleButton.textContent = labels.start;
+      renderDisplay();
+    }
+
+    function reset() {
+      running = false;
+      window.cancelAnimationFrame(animation);
+      animation = null;
+      startAt = 0;
+      elapsedBefore = 0;
+      lastLapElapsed = 0;
+      laps.length = 0;
+      toggleButton.textContent = labels.start;
+      lapButton.disabled = true;
+      renderDisplay();
+      renderLaps();
+    }
+
+    function lap() {
+      const total = elapsed();
+      laps.push({ split: total - lastLapElapsed, total });
+      lastLapElapsed = total;
+      renderLaps();
+    }
+
+    toggleButton.addEventListener('click', () => {
+      if (running) stop();
+      else start();
+    });
+    lapButton.addEventListener('click', lap);
+    root.querySelector('[data-reset]')?.addEventListener('click', reset);
+    root.querySelector('[data-copy]')?.addEventListener('click', async () => {
+      if (!laps.length) return;
+      const text = laps
+        .map((lap, index) => `${labels.lapNumber} ${index + 1}: ${labels.split} ${format(lap.split)} / ${labels.total} ${format(lap.total)}`)
+        .join('\n');
+      try {
+        await navigator.clipboard.writeText(text);
+        toast.hidden = false;
+        window.setTimeout(() => {
+          toast.hidden = true;
+        }, 1500);
+      } catch {
+        window.prompt(labels.copyLaps, text);
+      }
+    });
+
+    renderDisplay();
+    renderLaps();
+  });
+</script>

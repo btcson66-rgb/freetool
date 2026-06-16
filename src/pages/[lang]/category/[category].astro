@@ -1,0 +1,49 @@
+---
+import Breadcrumb from '../../../components/Breadcrumb.astro';
+import ToolCard from '../../../components/ToolCard.astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { SITE, type Locale } from '../../../config/site';
+import { categories, type Category } from '../../../data/categories';
+import { getToolsByCategory } from '../../../data/tools';
+import { t } from '../../../i18n/ui';
+import { categoryUrl, localePath } from '../../../lib/url';
+
+export function getStaticPaths() {
+  return SITE.locales.flatMap((lang) =>
+    categories.map((categoryData) => ({
+      params: { lang, category: categoryData.id },
+      props: { lang, categoryData },
+    })),
+  );
+}
+
+const { lang, categoryData } = Astro.props as { lang: Locale; categoryData: Category };
+const ui = t(lang);
+const categoryTools = getToolsByCategory(categoryData.id);
+const title = `${categoryData.icon} ${categoryData.name[lang]}`;
+---
+
+<BaseLayout
+  lang={lang}
+  title={`${categoryData.name[lang]} | ${ui.categories}`}
+  description={categoryData.description[lang]}
+  alternateSegments={['category', categoryData.id]}
+>
+  <section class="wrap page-head">
+    <Breadcrumb
+      items={[
+        { label: ui.breadcrumbHome, href: localePath(lang) },
+        { label: ui.allTools, href: localePath(lang, 'tools') },
+        { label: categoryData.name[lang], href: categoryUrl(lang, categoryData.id) },
+      ]}
+    />
+    <h1>{title}</h1>
+    <p class="lead">{categoryData.description[lang]}</p>
+  </section>
+
+  <section class="wrap content-section">
+    <div class="grid">
+      {categoryTools.map((tool) => <ToolCard lang={lang} tool={tool} />)}
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,175 @@
+---
+interface Props {
+  labels: Record<string, string>;
+}
+
+const { labels } = Astro.props;
+---
+
+<section class="tool-widget card" data-qr-tool data-labels={JSON.stringify(labels)}>
+  <label class="textarea-label">
+    <span>{labels.inputLabel}</span>
+    <textarea data-text rows="4" placeholder={labels.placeholder}>https://example.com</textarea>
+  </label>
+  <div class="form-grid qr-options">
+    <label>
+      <span>{labels.correction}</span>
+      <select data-correction>
+        <option value="L">L</option>
+        <option value="M" selected>M</option>
+        <option value="Q">Q</option>
+        <option value="H">H</option>
+      </select>
+    </label>
+    <label>
+      <span>{labels.size}</span>
+      <select data-size>
+        <option value="128">128px</option>
+        <option value="256" selected>256px</option>
+        <option value="512">512px</option>
+      </select>
+    </label>
+  </div>
+  <p class="form-error" data-error role="alert" hidden></p>
+  <div class="qr-preview" aria-live="polite">
+    <canvas data-canvas width="256" height="256"></canvas>
+  </div>
+  <div class="actions">
+    <button class="btn go" type="button" data-download>{labels.download}</button>
+    <button class="btn ghost" type="button" data-copy>{labels.copyImage}</button>
+  </div>
+  <span class="toast" role="status" aria-live="polite" hidden></span>
+</section>
+
+<style>
+  select {
+    width: 100%;
+    min-height: 48px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: #fff;
+    color: var(--ink);
+    padding: 10px 12px;
+    font: inherit;
+  }
+
+  .qr-options {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-bottom: 16px;
+  }
+
+  .qr-preview {
+    display: grid;
+    place-items: center;
+    margin: 18px 0;
+    padding: 18px;
+    border: 1px solid #cfe6e3;
+    border-radius: 8px;
+    background: #f2fbfa;
+  }
+
+  .qr-preview canvas {
+    width: min(100%, 256px);
+    height: auto;
+    border-radius: 8px;
+    background: #fff;
+  }
+
+  @media (max-width: 760px) {
+    .qr-options {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  document.querySelectorAll('[data-qr-tool]').forEach((root) => {
+    const labels = JSON.parse(root.getAttribute('data-labels') || '{}');
+    const textInput = root.querySelector('[data-text]');
+    const correctionInput = root.querySelector('[data-correction]');
+    const sizeInput = root.querySelector('[data-size]');
+    const canvas = root.querySelector('[data-canvas]');
+    const error = root.querySelector('[data-error]');
+    const toast = root.querySelector('.toast');
+    let renderTimer = null;
+
+    function setError(message) {
+      error.textContent = message;
+      error.hidden = !message;
+    }
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.hidden = false;
+      window.setTimeout(() => {
+        toast.hidden = true;
+      }, 1800);
+    }
+
+    async function renderQr() {
+      const value = textInput.value.trim();
+      if (!value) {
+        const context = canvas.getContext('2d');
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        setError(labels.emptyError);
+        return;
+      }
+
+      try {
+        const module = await import('qrcode');
+        const QRCode = module.default || module;
+        const width = Number(sizeInput.value);
+        canvas.width = width;
+        canvas.height = width;
+        await QRCode.toCanvas(canvas, value, {
+          errorCorrectionLevel: correctionInput.value,
+          margin: 2,
+          width,
+        });
+        canvas.style.width = `${Math.min(width, 512)}px`;
+        setError('');
+      } catch {
+        setError(labels.renderError);
+      }
+    }
+
+    function scheduleRender() {
+      window.clearTimeout(renderTimer);
+      renderTimer = window.setTimeout(renderQr, 300);
+    }
+
+    function download() {
+      const anchor = document.createElement('a');
+      anchor.href = canvas.toDataURL('image/png');
+      anchor.download = 'qr-code.png';
+      anchor.click();
+    }
+
+    async function copyImage() {
+      if (!navigator.clipboard || typeof ClipboardItem === 'undefined') {
+        showToast(labels.copyUnsupported);
+        return;
+      }
+      canvas.toBlob(async (blob) => {
+        if (!blob) {
+          showToast(labels.copyUnsupported);
+          return;
+        }
+        try {
+          await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+          showToast(labels.copied);
+        } catch {
+          showToast(labels.copyUnsupported);
+        }
+      }, 'image/png');
+    }
+
+    textInput.addEventListener('input', scheduleRender);
+    correctionInput.addEventListener('change', scheduleRender);
+    sizeInput.addEventListener('change', scheduleRender);
+    root.querySelector('[data-download]')?.addEventListener('click', download);
+    root.querySelector('[data-copy]')?.addEventListener('click', copyImage);
+    renderQr();
+  });
+</script>
+

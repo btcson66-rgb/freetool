@@ -1,0 +1,116 @@
+---
+interface Props {
+  labels: Record<string, string>;
+}
+
+const { labels } = Astro.props;
+---
+
+<section class="tool-widget card" data-word-counter-tool data-labels={JSON.stringify(labels)}>
+  <label class="textarea-label">
+    <span>{labels.input}</span>
+    <textarea data-text rows="10" placeholder={labels.placeholder}></textarea>
+  </label>
+  <div class="stats-grid" aria-live="polite">
+    <div><span>{labels.characters}</span><strong data-characters>0</strong></div>
+    <div><span>{labels.charactersNoSpaces}</span><strong data-characters-no-spaces>0</strong></div>
+    <div><span>{labels.words}</span><strong data-words>0</strong></div>
+    <div><span>{labels.lines}</span><strong data-lines>0</strong></div>
+    <div><span>{labels.paragraphs}</span><strong data-paragraphs>0</strong></div>
+    <div><span>{labels.sentences}</span><strong data-sentences>0</strong></div>
+    <div><span>{labels.readingTime}</span><strong><span data-reading>0</span> {labels.minutes}</strong></div>
+  </div>
+  <p class="note">{labels.note}</p>
+  <div class="actions">
+    <button class="btn go" type="button" data-copy>{labels.copyStats}</button>
+    <button class="btn ghost" type="button" data-clear>{labels.clear}</button>
+  </div>
+  <span class="toast" role="status" aria-live="polite" hidden>{labels.copied}</span>
+</section>
+
+<script>
+  document.querySelectorAll('[data-word-counter-tool]').forEach((root) => {
+    const labels = JSON.parse(root.getAttribute('data-labels') || '{}');
+    const text = root.querySelector('[data-text]');
+    const toast = root.querySelector('.toast');
+    const outputs = {
+      characters: root.querySelector('[data-characters]'),
+      charactersNoSpaces: root.querySelector('[data-characters-no-spaces]'),
+      words: root.querySelector('[data-words]'),
+      lines: root.querySelector('[data-lines]'),
+      paragraphs: root.querySelector('[data-paragraphs]'),
+      sentences: root.querySelector('[data-sentences]'),
+      reading: root.querySelector('[data-reading]'),
+    };
+    let currentStats = {
+      characters: 0,
+      charactersNoSpaces: 0,
+      words: 0,
+      lines: 0,
+      paragraphs: 0,
+      sentences: 0,
+      reading: 0,
+    };
+
+    function countStats(value) {
+      const trimmed = value.trim();
+      const cjkMatches = value.match(/[\u3400-\u9fff\uf900-\ufaff]/g) || [];
+      const latinMatches = value.match(/[A-Za-z0-9]+(?:['-][A-Za-z0-9]+)*/g) || [];
+      const paragraphs = trimmed ? trimmed.split(/\n\s*\n/).filter((part) => part.trim()).length : 0;
+      const sentenceMatches = trimmed.match(/[^.!?。！？]+[.!?。！？]?/g) || [];
+      const latinMinutes = latinMatches.length / 200;
+      const cjkMinutes = cjkMatches.length / 300;
+      const reading = trimmed ? Math.max(1, Math.ceil(latinMinutes + cjkMinutes)) : 0;
+
+      return {
+        characters: value.length,
+        charactersNoSpaces: value.replace(/\s/g, '').length,
+        words: cjkMatches.length + latinMatches.length,
+        lines: value.length ? value.split(/\r\n|\r|\n/).length : 0,
+        paragraphs,
+        sentences: trimmed ? sentenceMatches.filter((part) => part.trim()).length : 0,
+        reading,
+      };
+    }
+
+    function render() {
+      Object.entries(outputs).forEach(([key, output]) => {
+        output.textContent = String(currentStats[key]);
+      });
+    }
+
+    function update() {
+      currentStats = countStats(text.value);
+      render();
+    }
+
+    text.addEventListener('input', update);
+    root.querySelector('[data-clear]')?.addEventListener('click', () => {
+      text.value = '';
+      update();
+      text.focus();
+    });
+    root.querySelector('[data-copy]')?.addEventListener('click', async () => {
+      const summary = [
+        `${labels.characters}: ${currentStats.characters}`,
+        `${labels.charactersNoSpaces}: ${currentStats.charactersNoSpaces}`,
+        `${labels.words}: ${currentStats.words}`,
+        `${labels.lines}: ${currentStats.lines}`,
+        `${labels.paragraphs}: ${currentStats.paragraphs}`,
+        `${labels.sentences}: ${currentStats.sentences}`,
+        `${labels.readingTime}: ${currentStats.reading} ${labels.minutes}`,
+      ].join('\n');
+      try {
+        await navigator.clipboard.writeText(summary);
+        toast.hidden = false;
+        window.setTimeout(() => {
+          toast.hidden = true;
+        }, 1500);
+      } catch {
+        window.prompt(labels.copyStats, summary);
+      }
+    });
+
+    render();
+  });
+</script>
