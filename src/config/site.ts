@@ -20,7 +20,7 @@ export const SITE = {
     relatedResources: false,
     newsletter: false,
   },
-  email: 'btcson66@gmail.com',
+  email: 'funnytools.win@gmail.com',
   htmlLang: { zh: 'zh-Hant', en: 'en' } as Record<Locale, string>,
   hreflang: { zh: 'zh-TW', en: 'en' } as Record<Locale, string>,
 };
