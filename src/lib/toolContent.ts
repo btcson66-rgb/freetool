@@ -9,16 +9,20 @@ import colorGeneratorContent from '../i18n/tools/color-generator';
 import compoundInterestContent from '../i18n/tools/compound-interest';
 import countdownTimerContent from '../i18n/tools/countdown-timer';
 import dateDifferenceContent from '../i18n/tools/date-difference';
+import deletePdfPagesContent from '../i18n/tools/delete-pdf-pages';
 import diceRollerContent from '../i18n/tools/dice-roller';
+import extractPdfPagesContent from '../i18n/tools/extract-pdf-pages';
 import groupGeneratorContent from '../i18n/tools/group-generator';
 import gpaCalculatorContent from '../i18n/tools/gpa-calculator';
 import gradeAverageContent from '../i18n/tools/grade-average';
 import imageCompressorContent from '../i18n/tools/image-compressor';
 import imageResizerContent from '../i18n/tools/image-resizer';
+import imagesToPdfContent from '../i18n/tools/images-to-pdf';
 import inflationContent from '../i18n/tools/inflation';
 import jpgToPngContent from '../i18n/tools/jpg-to-png';
 import jsonFormatterContent from '../i18n/tools/json-formatter';
 import loveTypeContent from '../i18n/tools/love-type-test';
+import mergePdfContent from '../i18n/tools/merge-pdf';
 import mbtiContent from '../i18n/tools/mbti-test';
 import mortgagePaymentContent from '../i18n/tools/mortgage-payment';
 import netSalaryContent from '../i18n/tools/net-salary';
@@ -34,9 +38,11 @@ import randomStudentContent from '../i18n/tools/random-student-picker';
 import randomWheelContent from '../i18n/tools/random-wheel';
 import removeDuplicateLinesContent from '../i18n/tools/remove-duplicate-lines';
 import removeEmptyLinesContent from '../i18n/tools/remove-empty-lines';
+import rotatePdfContent from '../i18n/tools/rotate-pdf';
 import savingsGoalContent from '../i18n/tools/savings-goal';
 import seatingChartContent from '../i18n/tools/seating-chart';
 import sortLinesContent from '../i18n/tools/sort-lines';
+import splitPdfContent from '../i18n/tools/split-pdf';
 import stopwatchContent from '../i18n/tools/stopwatch';
 import stressLevelContent from '../i18n/tools/stress-level-test';
 import thisOrThatContent from '../i18n/tools/this-or-that';
@@ -89,6 +95,12 @@ export const contentBySlug = {
   'image-resizer': imageResizerContent,
   'png-to-jpg': pngToJpgContent,
   'jpg-to-png': jpgToPngContent,
+  'merge-pdf': mergePdfContent,
+  'split-pdf': splitPdfContent,
+  'images-to-pdf': imagesToPdfContent,
+  'rotate-pdf': rotatePdfContent,
+  'delete-pdf-pages': deletePdfPagesContent,
+  'extract-pdf-pages': extractPdfPagesContent,
   'seating-chart': seatingChartContent,
   'group-generator': groupGeneratorContent,
 } as const;

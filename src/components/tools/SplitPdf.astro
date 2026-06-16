@@ -1,0 +1,316 @@
+---
+interface Props {
+  labels: Record<string, string>;
+}
+
+const { labels } = Astro.props;
+---
+
+<section class="tool-widget card pdf-tool" data-split-pdf-tool data-labels={JSON.stringify(labels)}>
+  <p class="note">{labels.localNote}</p>
+  <label>
+    <span>{labels.upload}</span>
+    <input data-file type="file" accept="application/pdf" />
+  </label>
+
+  <fieldset class="pdf-fieldset">
+    <legend>{labels.modeLabel}</legend>
+    <label class="check">
+      <input type="radio" name="split-mode" value="every" checked data-mode />
+      <span>{labels.modeEvery}</span>
+    </label>
+    <label class="check">
+      <input type="radio" name="split-mode" value="ranges" data-mode />
+      <span>{labels.modeRanges}</span>
+    </label>
+  </fieldset>
+
+  <label>
+    <span>{labels.rangesLabel}</span>
+    <input data-ranges type="text" placeholder={labels.rangesPlaceholder} />
+  </label>
+
+  <p class="form-error" data-error role="alert" hidden></p>
+  <p class="toast" data-status role="status" aria-live="polite" hidden></p>
+
+  <div class="actions">
+    <button class="btn" type="button" data-analyze>{labels.analyze}</button>
+    <button class="btn go" type="button" data-split>{labels.split}</button>
+    <button class="btn ghost" type="button" data-reset>{labels.reset}</button>
+  </div>
+
+  <div class="pdf-list-block">
+    <h2>{labels.outputTitle}</h2>
+    <div class="download-list" data-output aria-live="polite">
+      <p class="note">{labels.noOutput}</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .pdf-tool {
+    display: grid;
+    gap: 16px;
+  }
+
+  .pdf-fieldset {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 0;
+    padding: 14px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+  }
+
+  .pdf-fieldset legend,
+  .pdf-list-block h2 {
+    color: var(--ink);
+    font-size: 1rem;
+    font-weight: 900;
+  }
+
+  .pdf-list-block h2 {
+    margin-bottom: 10px;
+  }
+
+  .download-list {
+    display: grid;
+    gap: 10px;
+  }
+
+  .download-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: #fbfcff;
+  }
+
+  .download-row span {
+    min-width: 0;
+    color: var(--ink);
+    font-weight: 900;
+    overflow-wrap: anywhere;
+  }
+</style>
+
+<script>
+  document.querySelectorAll('[data-split-pdf-tool]').forEach((root) => {
+    const labels = JSON.parse(root.getAttribute('data-labels') || '{}');
+    const fileInput = root.querySelector('[data-file]');
+    const rangesInput = root.querySelector('[data-ranges]');
+    const error = root.querySelector('[data-error]');
+    const status = root.querySelector('[data-status]');
+    const output = root.querySelector('[data-output]');
+    const actionButtons = root.querySelectorAll('button');
+    let pdfLibPromise = null;
+    let file = null;
+    let sourceDoc = null;
+    let pageCount = 0;
+    let outputUrls = [];
+
+    function setError(message) {
+      error.textContent = message;
+      error.hidden = !message;
+    }
+
+    function setStatus(message) {
+      status.textContent = message;
+      status.hidden = !message;
+    }
+
+    function setBusy(isBusy) {
+      actionButtons.forEach((button) => {
+        if (button.matches('[data-reset]')) return;
+        button.disabled = isBusy;
+      });
+      if (isBusy) setStatus(labels.processing);
+    }
+
+    function isPdf(nextFile) {
+      return nextFile.type === 'application/pdf' || /\.pdf$/i.test(nextFile.name);
+    }
+
+    function safeBaseName(name) {
+      return name.replace(/\.[^.]+$/, '').replace(/[^\w-]+/g, '-').replace(/^-|-$/g, '') || 'split';
+    }
+
+    function revokeOutputs() {
+      outputUrls.forEach((url) => URL.revokeObjectURL(url));
+      outputUrls = [];
+    }
+
+    function renderOutputs(files) {
+      output.innerHTML = '';
+      if (!files.length) {
+        const empty = document.createElement('p');
+        empty.className = 'note';
+        empty.textContent = labels.noOutput;
+        output.append(empty);
+        return;
+      }
+
+      files.forEach((item) => {
+        const row = document.createElement('div');
+        row.className = 'download-row';
+        const name = document.createElement('span');
+        name.textContent = item.filename;
+        const link = document.createElement('a');
+        link.className = 'btn';
+        link.href = item.url;
+        link.download = item.filename;
+        link.textContent = labels.download;
+        row.append(name, link);
+        output.append(row);
+      });
+    }
+
+    async function loadPdfLib() {
+      if (!pdfLibPromise) {
+        pdfLibPromise = (async () => {
+          const mod = await import('pdf-lib');
+          const { PDFDocument, degrees } = mod;
+          return { PDFDocument, degrees };
+        })();
+      }
+      return pdfLibPromise;
+    }
+
+    async function loadDocument() {
+      if (!file) throw new Error('missing-file');
+      if (sourceDoc) return sourceDoc;
+      const { PDFDocument } = await loadPdfLib();
+      const bytes = await file.arrayBuffer();
+      sourceDoc = await PDFDocument.load(bytes);
+      pageCount = sourceDoc.getPageCount();
+      return sourceDoc;
+    }
+
+    function selectedMode() {
+      return root.querySelector('[data-mode]:checked')?.value || 'every';
+    }
+
+    function clamp(value, min, max) {
+      return Math.min(Math.max(value, min), max);
+    }
+
+    function parseRangeGroups(input, total) {
+      const text = input.trim();
+      if (!text) throw new Error(labels.emptyRange);
+      const tokens = text.split(',');
+      const groups = [];
+      for (const token of tokens) {
+        const part = token.trim();
+        const match = part.match(/^(\d+)(?:\s*-\s*(\d+))?$/);
+        if (!match) throw new Error(labels.invalidRange);
+        const rawStart = Number(match[1]);
+        const rawEnd = match[2] ? Number(match[2]) : rawStart;
+        if (rawStart < 1 || rawEnd < 1 || rawStart > rawEnd) throw new Error(labels.invalidRange);
+        const start = clamp(rawStart, 1, total);
+        const end = clamp(rawEnd, 1, total);
+        const group = [];
+        for (let page = start; page <= end; page += 1) {
+          group.push(page - 1);
+        }
+        if (!group.length) throw new Error(labels.invalidRange);
+        groups.push({ label: `${start}-${end}`, indices: group });
+      }
+      if (!groups.length) throw new Error(labels.emptyRange);
+      return groups;
+    }
+
+    async function analyze() {
+      if (!file) {
+        setError(labels.noFile);
+        return false;
+      }
+      try {
+        setBusy(true);
+        setError('');
+        await loadDocument();
+        setStatus(labels.pageCount.replace('{count}', String(pageCount)));
+        return true;
+      } catch {
+        setError(labels.loadError);
+        return false;
+      } finally {
+        setBusy(false);
+      }
+    }
+
+    function reset() {
+      revokeOutputs();
+      file = null;
+      sourceDoc = null;
+      pageCount = 0;
+      fileInput.value = '';
+      rangesInput.value = '';
+      setError('');
+      setStatus('');
+      renderOutputs([]);
+    }
+
+    async function splitPdf() {
+      if (!file) {
+        setError(labels.noFile);
+        return;
+      }
+      try {
+        setBusy(true);
+        setError('');
+        revokeOutputs();
+        renderOutputs([]);
+        const { PDFDocument } = await loadPdfLib();
+        const doc = await loadDocument();
+        const groups = selectedMode() === 'every'
+          ? Array.from({ length: pageCount }, (_, index) => ({ label: String(index + 1), indices: [index] }))
+          : parseRangeGroups(rangesInput.value, pageCount);
+        const baseName = safeBaseName(file.name);
+        const outputs = [];
+        for (const group of groups) {
+          const nextDoc = await PDFDocument.create();
+          const copied = await nextDoc.copyPages(doc, group.indices);
+          copied.forEach((page) => nextDoc.addPage(page));
+          const bytes = await nextDoc.save();
+          const blob = new Blob([bytes], { type: 'application/pdf' });
+          const url = URL.createObjectURL(blob);
+          outputUrls.push(url);
+          outputs.push({ url, filename: `${baseName}-pages-${group.label}.pdf` });
+        }
+        renderOutputs(outputs);
+        setStatus(labels.pageCount.replace('{count}', String(pageCount)));
+      } catch (err) {
+        const rangeMessage = err instanceof Error && (err.message === labels.emptyRange || err.message === labels.invalidRange);
+        setError(rangeMessage ? err.message : labels.splitError);
+      } finally {
+        setBusy(false);
+      }
+    }
+
+    fileInput.addEventListener('change', () => {
+      revokeOutputs();
+      renderOutputs([]);
+      setError('');
+      setStatus('');
+      sourceDoc = null;
+      pageCount = 0;
+      file = fileInput.files?.[0] || null;
+      if (file && !isPdf(file)) {
+        file = null;
+        fileInput.value = '';
+        setError(labels.pdfOnly);
+      }
+    });
+
+    root.querySelector('[data-analyze]')?.addEventListener('click', analyze);
+    root.querySelector('[data-split]')?.addEventListener('click', splitPdf);
+    root.querySelector('[data-reset]')?.addEventListener('click', reset);
+    window.addEventListener('beforeunload', revokeOutputs);
+    renderOutputs([]);
+  });
+</script>

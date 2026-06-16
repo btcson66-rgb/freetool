@@ -1,0 +1,201 @@
+---
+interface Props {
+  labels: Record<string, string>;
+}
+
+const { labels } = Astro.props;
+---
+
+<section class="tool-widget card pdf-tool" data-extract-pdf-pages-tool data-labels={JSON.stringify(labels)}>
+  <p class="note">{labels.localNote}</p>
+  <label>
+    <span>{labels.upload}</span>
+    <input data-file type="file" accept="application/pdf" />
+  </label>
+
+  <label>
+    <span>{labels.pagesLabel}</span>
+    <input data-ranges type="text" placeholder={labels.rangesPlaceholder} />
+  </label>
+
+  <p class="form-error" data-error role="alert" hidden></p>
+  <p class="toast" data-status role="status" aria-live="polite" hidden></p>
+
+  <div class="actions">
+    <button class="btn" type="button" data-analyze>{labels.analyze}</button>
+    <button class="btn go" type="button" data-extract>{labels.extract}</button>
+    <button class="btn ghost" type="button" data-reset>{labels.reset}</button>
+  </div>
+</section>
+
+<style>
+  .pdf-tool {
+    display: grid;
+    gap: 16px;
+  }
+</style>
+
+<script>
+  document.querySelectorAll('[data-extract-pdf-pages-tool]').forEach((root) => {
+    const labels = JSON.parse(root.getAttribute('data-labels') || '{}');
+    const fileInput = root.querySelector('[data-file]');
+    const rangesInput = root.querySelector('[data-ranges]');
+    const error = root.querySelector('[data-error]');
+    const status = root.querySelector('[data-status]');
+    const actionButtons = root.querySelectorAll('button');
+    let pdfLibPromise = null;
+    let file = null;
+    let pageCount = 0;
+
+    function setError(message) {
+      error.textContent = message;
+      error.hidden = !message;
+    }
+
+    function setStatus(message) {
+      status.textContent = message;
+      status.hidden = !message;
+    }
+
+    function setBusy(isBusy) {
+      actionButtons.forEach((button) => {
+        if (button.matches('[data-reset]')) return;
+        button.disabled = isBusy;
+      });
+      if (isBusy) setStatus(labels.processing);
+    }
+
+    function isPdf(nextFile) {
+      return nextFile.type === 'application/pdf' || /\.pdf$/i.test(nextFile.name);
+    }
+
+    function safeBaseName(name) {
+      return name.replace(/\.[^.]+$/, '').replace(/[^\w-]+/g, '-').replace(/^-|-$/g, '') || 'extracted';
+    }
+
+    async function loadPdfLib() {
+      if (!pdfLibPromise) {
+        pdfLibPromise = (async () => {
+          const mod = await import('pdf-lib');
+          const { PDFDocument, degrees } = mod;
+          return { PDFDocument, degrees };
+        })();
+      }
+      return pdfLibPromise;
+    }
+
+    async function loadDocument() {
+      if (!file) throw new Error('missing-file');
+      const { PDFDocument } = await loadPdfLib();
+      const bytes = await file.arrayBuffer();
+      const doc = await PDFDocument.load(bytes);
+      pageCount = doc.getPageCount();
+      return doc;
+    }
+
+    function clamp(value, min, max) {
+      return Math.min(Math.max(value, min), max);
+    }
+
+    function parseOrderedPages(input, total) {
+      const text = input.trim();
+      if (!text) throw new Error(labels.emptyRange);
+      const tokens = text.split(',');
+      const pages = [];
+      for (const token of tokens) {
+        const part = token.trim();
+        const match = part.match(/^(\d+)(?:\s*-\s*(\d+))?$/);
+        if (!match) throw new Error(labels.invalidRange);
+        const rawStart = Number(match[1]);
+        const rawEnd = match[2] ? Number(match[2]) : rawStart;
+        if (rawStart < 1 || rawEnd < 1 || rawStart > rawEnd) throw new Error(labels.invalidRange);
+        const start = clamp(rawStart, 1, total);
+        const end = clamp(rawEnd, 1, total);
+        for (let page = start; page <= end; page += 1) {
+          pages.push(page - 1);
+        }
+      }
+      if (!pages.length) throw new Error(labels.emptyRange);
+      return pages;
+    }
+
+    async function analyze() {
+      if (!file) {
+        setError(labels.noFile);
+        return false;
+      }
+      try {
+        setBusy(true);
+        setError('');
+        await loadDocument();
+        setStatus(labels.pageCount.replace('{count}', String(pageCount)));
+        return true;
+      } catch {
+        setError(labels.loadError);
+        return false;
+      } finally {
+        setBusy(false);
+      }
+    }
+
+    function downloadPdf(bytes, filename) {
+      const blob = new Blob([bytes], { type: 'application/pdf' });
+      const url = URL.createObjectURL(blob);
+      const anchor = document.createElement('a');
+      anchor.href = url;
+      anchor.download = filename;
+      anchor.click();
+      window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+    }
+
+    async function extractPages() {
+      if (!file) {
+        setError(labels.noFile);
+        return;
+      }
+      try {
+        setBusy(true);
+        setError('');
+        const { PDFDocument } = await loadPdfLib();
+        const source = await loadDocument();
+        const keepIndices = parseOrderedPages(rangesInput.value, pageCount);
+        const outputDoc = await PDFDocument.create();
+        const copied = await outputDoc.copyPages(source, keepIndices);
+        copied.forEach((page) => outputDoc.addPage(page));
+        const bytes = await outputDoc.save();
+        downloadPdf(bytes, `${safeBaseName(file.name)}-extracted.pdf`);
+        setStatus(labels.downloaded);
+      } catch (err) {
+        const rangeMessage = err instanceof Error && (err.message === labels.emptyRange || err.message === labels.invalidRange);
+        setError(rangeMessage ? err.message : labels.extractError);
+      } finally {
+        setBusy(false);
+      }
+    }
+
+    function reset() {
+      file = null;
+      pageCount = 0;
+      fileInput.value = '';
+      rangesInput.value = '';
+      setError('');
+      setStatus('');
+    }
+
+    fileInput.addEventListener('change', () => {
+      setError('');
+      setStatus('');
+      pageCount = 0;
+      file = fileInput.files?.[0] || null;
+      if (file && !isPdf(file)) {
+        file = null;
+        fileInput.value = '';
+        setError(labels.pdfOnly);
+      }
+    });
+
+    root.querySelector('[data-analyze]')?.addEventListener('click', analyze);
+    root.querySelector('[data-extract]')?.addEventListener('click', extractPages);
+    root.querySelector('[data-reset]')?.addEventListener('click', reset);
+  });
+</script>

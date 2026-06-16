@@ -9,15 +9,19 @@ import ColorGenerator from '../components/tools/ColorGenerator.astro';
 import CompoundInterest from '../components/tools/CompoundInterest.astro';
 import CountdownTimer from '../components/tools/CountdownTimer.astro';
 import DateDifference from '../components/tools/DateDifference.astro';
+import DeletePdfPages from '../components/tools/DeletePdfPages.astro';
 import DiceRoller from '../components/tools/DiceRoller.astro';
+import ExtractPdfPages from '../components/tools/ExtractPdfPages.astro';
 import GpaCalculator from '../components/tools/GpaCalculator.astro';
 import GradeAverage from '../components/tools/GradeAverage.astro';
 import ImageCompressor from '../components/tools/ImageCompressor.astro';
 import ImageResizer from '../components/tools/ImageResizer.astro';
+import ImagesToPdf from '../components/tools/ImagesToPdf.astro';
 import InflationCalculator from '../components/tools/InflationCalculator.astro';
 import JpgToPng from '../components/tools/JpgToPng.astro';
 import JsonFormatter from '../components/tools/JsonFormatter.astro';
 import LoveTypeTest from '../components/tools/LoveTypeTest.astro';
+import MergePdf from '../components/tools/MergePdf.astro';
 import MbtiTest from '../components/tools/MbtiTest.astro';
 import MortgagePayment from '../components/tools/MortgagePayment.astro';
 import NetSalary from '../components/tools/NetSalary.astro';
@@ -33,9 +37,11 @@ import RandomStudentPicker from '../components/tools/RandomStudentPicker.astro';
 import RandomWheel from '../components/tools/RandomWheel.astro';
 import RemoveDuplicateLines from '../components/tools/RemoveDuplicateLines.astro';
 import RemoveEmptyLines from '../components/tools/RemoveEmptyLines.astro';
+import RotatePdf from '../components/tools/RotatePdf.astro';
 import SavingsGoal from '../components/tools/SavingsGoal.astro';
 import SeatingChart from '../components/tools/SeatingChart.astro';
 import SortLines from '../components/tools/SortLines.astro';
+import SplitPdf from '../components/tools/SplitPdf.astro';
 import Stopwatch from '../components/tools/Stopwatch.astro';
 import StressLevelTest from '../components/tools/StressLevelTest.astro';
 import ThisOrThat from '../components/tools/ThisOrThat.astro';
@@ -88,6 +94,12 @@ export const widgetBySlug = {
   'image-resizer': ImageResizer,
   'png-to-jpg': PngToJpg,
   'jpg-to-png': JpgToPng,
+  'merge-pdf': MergePdf,
+  'split-pdf': SplitPdf,
+  'images-to-pdf': ImagesToPdf,
+  'rotate-pdf': RotatePdf,
+  'delete-pdf-pages': DeletePdfPages,
+  'extract-pdf-pages': ExtractPdfPages,
   'seating-chart': SeatingChart,
   'group-generator': ClassGroupGenerator,
 } as const;

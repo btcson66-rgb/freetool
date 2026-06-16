@@ -1,0 +1,293 @@
+---
+interface Props {
+  labels: Record<string, string>;
+}
+
+const { labels } = Astro.props;
+---
+
+<section class="tool-widget card pdf-tool" data-merge-pdf-tool data-labels={JSON.stringify(labels)}>
+  <p class="note">{labels.localNote}</p>
+  <label>
+    <span>{labels.upload}</span>
+    <input data-file type="file" accept="application/pdf" multiple />
+  </label>
+
+  <div class="pdf-list-block">
+    <h2>{labels.selectedFiles}</h2>
+    <div class="pdf-list" data-list aria-live="polite">
+      <p class="note">{labels.noFiles}</p>
+    </div>
+  </div>
+
+  <p class="form-error" data-error role="alert" hidden></p>
+  <p class="toast" data-status role="status" aria-live="polite" hidden></p>
+
+  <div class="actions">
+    <button class="btn" type="button" data-analyze>{labels.analyze}</button>
+    <button class="btn go" type="button" data-merge>{labels.merge}</button>
+    <button class="btn ghost" type="button" data-reset>{labels.reset}</button>
+  </div>
+</section>
+
+<style>
+  .pdf-tool {
+    display: grid;
+    gap: 16px;
+  }
+
+  .pdf-list-block h2 {
+    margin-bottom: 10px;
+    font-size: 1rem;
+  }
+
+  .pdf-list {
+    display: grid;
+    gap: 10px;
+  }
+
+  .pdf-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 10px;
+    align-items: center;
+    padding: 12px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: #fbfcff;
+  }
+
+  .pdf-name {
+    min-width: 0;
+    color: var(--ink);
+    font-weight: 900;
+    overflow-wrap: anywhere;
+  }
+
+  .pdf-meta {
+    color: var(--muted);
+    font-size: 0.9rem;
+    font-weight: 800;
+  }
+
+  .row-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: flex-end;
+  }
+
+  .row-actions .btn {
+    min-height: 36px;
+    padding: 7px 10px;
+    border-radius: 10px;
+    font-size: 0.88rem;
+  }
+
+  @media (max-width: 760px) {
+    .pdf-row {
+      grid-template-columns: 1fr;
+    }
+
+    .row-actions {
+      justify-content: flex-start;
+    }
+  }
+</style>
+
+<script>
+  document.querySelectorAll('[data-merge-pdf-tool]').forEach((root) => {
+    const labels = JSON.parse(root.getAttribute('data-labels') || '{}');
+    const fileInput = root.querySelector('[data-file]');
+    const list = root.querySelector('[data-list]');
+    const error = root.querySelector('[data-error]');
+    const status = root.querySelector('[data-status]');
+    const actionButtons = root.querySelectorAll('button');
+    let items = [];
+    let pdfLibPromise = null;
+
+    function setError(message) {
+      error.textContent = message;
+      error.hidden = !message;
+    }
+
+    function setStatus(message) {
+      status.textContent = message;
+      status.hidden = !message;
+    }
+
+    function setBusy(isBusy) {
+      actionButtons.forEach((button) => {
+        if (button.matches('[data-reset]')) return;
+        button.disabled = isBusy;
+      });
+      if (isBusy) setStatus(labels.processing);
+    }
+
+    function isPdf(file) {
+      return file.type === 'application/pdf' || /\.pdf$/i.test(file.name);
+    }
+
+    function safeBaseName(name) {
+      return name.replace(/\.[^.]+$/, '').replace(/[^\w-]+/g, '-').replace(/^-|-$/g, '') || 'merged';
+    }
+
+    async function loadPdfLib() {
+      if (!pdfLibPromise) {
+        pdfLibPromise = (async () => {
+          const mod = await import('pdf-lib');
+          const { PDFDocument, degrees } = mod;
+          return { PDFDocument, degrees };
+        })();
+      }
+      return pdfLibPromise;
+    }
+
+    function renderList() {
+      list.innerHTML = '';
+      if (!items.length) {
+        const empty = document.createElement('p');
+        empty.className = 'note';
+        empty.textContent = labels.noFiles;
+        list.append(empty);
+        return;
+      }
+
+      items.forEach((item, index) => {
+        const row = document.createElement('div');
+        row.className = 'pdf-row';
+
+        const body = document.createElement('div');
+        const name = document.createElement('div');
+        name.className = 'pdf-name';
+        name.textContent = item.file.name;
+        const meta = document.createElement('div');
+        meta.className = 'pdf-meta';
+        meta.textContent = item.pages ? `${item.pages} ${labels.pages}` : labels.loadingPages;
+        body.append(name, meta);
+
+        const controls = document.createElement('div');
+        controls.className = 'row-actions';
+        const up = document.createElement('button');
+        up.className = 'btn ghost';
+        up.type = 'button';
+        up.textContent = labels.moveUp;
+        up.disabled = index === 0;
+        up.addEventListener('click', () => moveItem(index, -1));
+        const down = document.createElement('button');
+        down.className = 'btn ghost';
+        down.type = 'button';
+        down.textContent = labels.moveDown;
+        down.disabled = index === items.length - 1;
+        down.addEventListener('click', () => moveItem(index, 1));
+        controls.append(up, down);
+
+        row.append(body, controls);
+        list.append(row);
+      });
+    }
+
+    function moveItem(index, direction) {
+      const nextIndex = index + direction;
+      if (nextIndex < 0 || nextIndex >= items.length) return;
+      const [item] = items.splice(index, 1);
+      items.splice(nextIndex, 0, item);
+      renderList();
+    }
+
+    function reset() {
+      items = [];
+      fileInput.value = '';
+      setError('');
+      setStatus('');
+      renderList();
+    }
+
+    async function ensureDocuments() {
+      const { PDFDocument } = await loadPdfLib();
+      for (const item of items) {
+        if (item.doc) continue;
+        const bytes = await item.file.arrayBuffer();
+        const doc = await PDFDocument.load(bytes);
+        item.doc = doc;
+        item.pages = doc.getPageCount();
+      }
+      renderList();
+    }
+
+    async function analyze() {
+      if (items.length < 2) {
+        setError(labels.noFile);
+        return false;
+      }
+      try {
+        setBusy(true);
+        setError('');
+        await ensureDocuments();
+        setStatus(labels.ready.replace('{count}', String(items.length)));
+        return true;
+      } catch {
+        setError(labels.loadError);
+        return false;
+      } finally {
+        setBusy(false);
+      }
+    }
+
+    function downloadPdf(bytes, filename) {
+      const blob = new Blob([bytes], { type: 'application/pdf' });
+      const url = URL.createObjectURL(blob);
+      const anchor = document.createElement('a');
+      anchor.href = url;
+      anchor.download = filename;
+      anchor.click();
+      window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+    }
+
+    async function merge() {
+      if (items.length < 2) {
+        setError(labels.noFile);
+        return;
+      }
+      try {
+        setBusy(true);
+        setError('');
+        const { PDFDocument } = await loadPdfLib();
+        await ensureDocuments();
+        const merged = await PDFDocument.create();
+        for (const item of items) {
+          const indices = Array.from({ length: item.doc.getPageCount() }, (_, index) => index);
+          const copied = await merged.copyPages(item.doc, indices);
+          copied.forEach((page) => merged.addPage(page));
+        }
+        const bytes = await merged.save();
+        const baseName = safeBaseName(items[0].file.name);
+        downloadPdf(bytes, `${baseName}-merged.pdf`);
+        setStatus(labels.downloaded);
+      } catch {
+        setError(labels.mergeError);
+      } finally {
+        setBusy(false);
+      }
+    }
+
+    fileInput.addEventListener('change', () => {
+      const files = Array.from(fileInput.files || []);
+      setError('');
+      setStatus('');
+      if (files.some((file) => !isPdf(file))) {
+        items = [];
+        renderList();
+        setError(labels.pdfOnly);
+        return;
+      }
+      items = files.map((file, index) => ({ file, id: `${Date.now()}-${index}`, pages: 0, doc: null }));
+      renderList();
+    });
+
+    root.querySelector('[data-analyze]')?.addEventListener('click', analyze);
+    root.querySelector('[data-merge]')?.addEventListener('click', merge);
+    root.querySelector('[data-reset]')?.addEventListener('click', reset);
+    renderList();
+  });
+</script>

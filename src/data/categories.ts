@@ -54,6 +54,15 @@ export const categories: Category[] = [
     },
   },
   {
+    id: 'pdf',
+    icon: '📄',
+    name: { zh: 'PDF 工具', en: 'PDF Tools' },
+    description: {
+      zh: '在瀏覽器本機合併、拆分、旋轉與整理 PDF 檔案，不會上傳到伺服器。',
+      en: 'Merge, split, rotate, and organize PDF files locally in your browser — nothing is uploaded.',
+    },
+  },
+  {
     id: 'fun',
     icon: '🎭',
     name: { zh: '趣味測驗', en: 'Personality & Fun' },
