@@ -1,9 +1,9 @@
 export type Locale = 'zh' | 'en';
 
 export const SITE = {
-  url: 'https://btcson66-rgb.github.io',
+  url: 'https://funnytools.win',
   // base path WITHOUT trailing slash; keep in sync with astro.config base
-  basePath: '/freetools',
+  basePath: '',
   locales: ['zh', 'en'] as Locale[],
   defaultLocale: 'zh' as Locale,
   name: { zh: '免費工具箱', en: 'Free Tools Hub' },

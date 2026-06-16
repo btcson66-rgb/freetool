@@ -1,8 +1,8 @@
 import { defineConfig } from 'astro/config';
 
 export default defineConfig({
-  site: 'https://btcson66-rgb.github.io',
-  base: '/freetool',
+  site: 'https://funnytools.win',
+  base: '/',
   output: 'static',
   trailingSlash: 'always',
   build: {

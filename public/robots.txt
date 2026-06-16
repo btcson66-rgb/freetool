@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://btcson66-rgb.github.io/freetools/sitemap.xml
+Sitemap: https://funnytools.win/sitemap.xml
