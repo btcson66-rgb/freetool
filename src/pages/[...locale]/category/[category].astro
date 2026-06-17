@@ -11,7 +11,7 @@ import { categoryUrl, localePath } from '../../../lib/url';
 export function getStaticPaths() {
   return SITE.locales.flatMap((lang) =>
     categories.map((categoryData) => ({
-      params: { lang, category: categoryData.id },
+      params: { locale: lang === SITE.defaultLocale ? undefined : lang, category: categoryData.id },
       props: { lang, categoryData },
     })),
   );

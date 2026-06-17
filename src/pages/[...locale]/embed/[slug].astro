@@ -9,7 +9,7 @@ import { absoluteUrl, toolUrl } from '../../../lib/url';
 export function getStaticPaths() {
   return SITE.locales.flatMap((lang) =>
     getEmbeddableTools().map((tool) => ({
-      params: { lang, slug: tool.slug },
+      params: { locale: lang === SITE.defaultLocale ? undefined : lang, slug: tool.slug },
       props: { lang, tool },
     })),
   );

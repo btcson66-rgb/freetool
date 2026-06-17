@@ -20,6 +20,9 @@ export function assetPath(...segments: string[]): string {
 }
 
 export function localePath(lang: Locale, ...segments: string[]): string {
+  if (lang === SITE.defaultLocale) {
+    return pathWithBase(...segments);
+  }
   return pathWithBase(lang, ...segments);
 }
 

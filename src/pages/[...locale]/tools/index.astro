@@ -10,7 +10,7 @@ import { localePath } from '../../../lib/url';
 
 export function getStaticPaths() {
   return SITE.locales.map((lang) => ({
-    params: { lang },
+    params: { locale: lang === SITE.defaultLocale ? undefined : lang },
     props: { lang },
   }));
 }

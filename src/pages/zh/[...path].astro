@@ -1,0 +1,34 @@
+---
+import { SITE } from '../../config/site';
+import { liveTools, getEmbeddableTools } from '../../data/tools';
+import { categories } from '../../data/categories';
+
+export function getStaticPaths() {
+  const legalPages = ['about', 'contact', 'privacy', 'terms', 'disclaimer'];
+  return [
+    { params: { path: undefined } },
+    { params: { path: 'tools' } },
+    ...liveTools.map((tool) => ({ params: { path: `tools/${tool.slug}` } })),
+    ...categories.map((c) => ({ params: { path: `category/${c.id}` } })),
+    ...getEmbeddableTools().map((tool) => ({ params: { path: `embed/${tool.slug}` } })),
+    ...legalPages.map((p) => ({ params: { path: p } })),
+  ];
+}
+
+const { path } = Astro.params;
+const newPath = path ? `/${path}/` : '/';
+const fullUrl = `${SITE.url}${newPath}`;
+---
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <link rel="canonical" href={fullUrl} />
+  <meta http-equiv="refresh" content={`0; url=${newPath}`} />
+  <meta name="robots" content="noindex, follow" />
+  <title>Redirecting…</title>
+</head>
+<body>
+  <p>Redirecting to <a href={newPath}>{fullUrl}</a>…</p>
+</body>
+</html>

@@ -4,7 +4,10 @@ import { SITE, type Locale } from '../../config/site';
 import { pages } from '../../i18n/pages';
 
 export function getStaticPaths() {
-  return SITE.locales.map((lang) => ({ params: { lang }, props: { lang } }));
+  return SITE.locales.map((lang) => ({
+    params: { locale: lang === SITE.defaultLocale ? undefined : lang },
+    props: { lang },
+  }));
 }
 
 const { lang } = Astro.props as { lang: Locale };
