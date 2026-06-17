@@ -12,11 +12,24 @@ interface Props {
 
 const { lang, current } = Astro.props;
 const ui = t(lang);
-const sameCategory = liveTools.filter((tool) => tool.slug !== current.slug && tool.category === current.category);
-const fallback = liveTools.filter(
-  (tool) => tool.slug !== current.slug && !sameCategory.some((item) => item.slug === tool.slug),
+
+const manual = (current.relatedTools ?? [])
+  .map((slug) => liveTools.find((t) => t.slug === slug))
+  .filter((t): t is ToolMeta => t != null && t.slug !== current.slug);
+
+const sameCategory = liveTools.filter(
+  (tool) => tool.slug !== current.slug
+    && tool.category === current.category
+    && !manual.some((m) => m.slug === tool.slug),
 );
-const related = [...sameCategory, ...fallback].slice(0, 3);
+
+const fallback = liveTools.filter(
+  (tool) => tool.slug !== current.slug
+    && !manual.some((m) => m.slug === tool.slug)
+    && !sameCategory.some((s) => s.slug === tool.slug),
+);
+
+const related = [...manual, ...sameCategory, ...fallback].slice(0, 3);
 ---
 
 {

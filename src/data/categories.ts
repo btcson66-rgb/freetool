@@ -80,6 +80,24 @@ export const categories: Category[] = [
       en: 'Classroom helpers for picking students, grouping, seating, and grade calculations.',
     },
   },
+  {
+    id: 'personality',
+    icon: '🧠',
+    name: { zh: '趣味測驗', en: 'Personality Quizzes' },
+    description: {
+      zh: '輕鬆有趣的心理小測驗，適合打發時間或和朋友一起玩。',
+      en: 'Fun personality quizzes to pass the time or share with friends.',
+    },
+  },
+  {
+    id: 'statistics',
+    icon: '📊',
+    name: { zh: '教育與統計', en: 'Education & Statistics' },
+    description: {
+      zh: '統計分析與教育相關的計算工具，幫助研究與學習。',
+      en: 'Statistical analysis and educational tools for research and learning.',
+    },
+  },
 ];
 
 export function getCategoryById(id: string): Category | undefined {
