@@ -4,9 +4,10 @@ import ToolCard from '../../../components/ToolCard.astro';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import { SITE, type Locale } from '../../../config/site';
 import { categories } from '../../../data/categories';
-import { getToolsByCategory } from '../../../data/tools';
+import { getFeaturedTools, getToolsByCategory } from '../../../data/tools';
 import { t } from '../../../i18n/ui';
-import { localePath } from '../../../lib/url';
+import { categoryUrl, localePath, absoluteUrl } from '../../../lib/url';
+import { breadcrumbJsonLd } from '../../../lib/seo';
 
 export function getStaticPaths() {
   return SITE.locales.map((lang) => ({
@@ -19,6 +20,16 @@ const { lang } = Astro.props as { lang: Locale };
 const ui = t(lang);
 const title = ui.toolsPageTitle;
 const description = ui.toolsPageDescription;
+
+const featured = getFeaturedTools().slice(0, 6);
+
+const categorySummaries = categories
+  .map((category) => ({
+    category,
+    count: getToolsByCategory(category.id).filter((t) => t.status === 'live').length,
+  }))
+  .filter(({ count }) => count > 0);
+
 const groupedCategories = categories
   .map((category) => ({
     category,
@@ -30,18 +41,53 @@ const groupedCategories = categories
       })),
   }))
   .filter(({ tools }) => tools.length > 0);
+
+const faqItems = ui.toolsFaq;
+
+const collectionJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: title,
+  description: description,
+  url: absoluteUrl(localePath(lang, 'tools')),
+  inLanguage: SITE.hreflang[lang],
+};
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: { '@type': 'Answer', text: item.a },
+  })),
+};
+
+const breadcrumbLd = breadcrumbJsonLd([
+  { name: ui.breadcrumbHome, href: localePath(lang) },
+  { name: ui.toolsPageH1, href: localePath(lang, 'tools') },
+]);
 ---
 
-<BaseLayout lang={lang} title={title} description={description} alternateSegments={['tools']}>
+<BaseLayout
+  lang={lang}
+  title={title}
+  description={description}
+  alternateSegments={['tools']}
+  jsonLd={[collectionJsonLd, faqJsonLd, breadcrumbLd]}
+>
+  <!-- Breadcrumb -->
   <section class="wrap page-head">
     <Breadcrumb
       items={[
         { label: ui.breadcrumbHome, href: localePath(lang) },
-        { label: ui.allTools },
+        { label: ui.toolsPageH1 },
       ]}
     />
-    <h1>{ui.allTools}</h1>
-    <p class="lead">{description}</p>
+    <h1>{ui.toolsPageH1}</h1>
+    <p class="lead">{ui.toolsPageIntro}</p>
+
+    <!-- Search bar -->
     <label class="tools-search">
       <span>{ui.toolsSearch.label}</span>
       <input
@@ -54,6 +100,36 @@ const groupedCategories = categories
     </label>
   </section>
 
+  <!-- Popular tools -->
+  {featured.length > 0 && (
+    <section class="wrap content-section">
+      <h2>{ui.popularTools}</h2>
+      <div class="grid">
+        {featured.map((tool) => <ToolCard lang={lang} tool={tool} />)}
+      </div>
+    </section>
+  )}
+
+  <!-- Category index -->
+  <section id="categories" class="wrap content-section">
+    <h2>{ui.categories}</h2>
+    <div class="grid">
+      {
+        categorySummaries.map(({ category, count }) => (
+          <a class="tile category-tile" href={categoryUrl(lang, category.id)}>
+            <span class="tile-icon" aria-hidden="true">{category.icon}</span>
+            <span class="tile-body">
+              <strong>{category.name[lang]}</strong>
+              <span>{category.description[lang]}</span>
+              <span class="category-count">{count}{ui.toolsCountSuffix}</span>
+            </span>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- All tools by category (with search filtering) -->
   <section class="wrap tools-list">
     {
       groupedCategories.map(({ category, tools }) => (
@@ -75,6 +151,48 @@ const groupedCategories = categories
     <p class="empty-state" data-tools-empty aria-live="polite" hidden>{ui.toolsSearch.empty}</p>
   </section>
 
+  <!-- How to use -->
+  <section class="wrap content-section">
+    <h2>{ui.toolsHowToUse.heading}</h2>
+    <ol class="check-list">
+      {ui.toolsHowToUse.steps.map((step) => <li>{step}</li>)}
+    </ol>
+  </section>
+
+  <!-- Privacy & local processing -->
+  <section class="wrap content-section">
+    <h2>{ui.toolsPrivacy.heading}</h2>
+    <p>{ui.toolsPrivacy.text}</p>
+  </section>
+
+  <!-- FAQ -->
+  <section class="wrap content-section faq">
+    <h2>{ui.faq}</h2>
+    <dl>
+      {
+        faqItems.map((item) => (
+          <>
+            <dt>{item.q}</dt>
+            <dd>{item.a}</dd>
+          </>
+        ))
+      }
+    </dl>
+  </section>
+
+  <!-- Footer links -->
+  <section class="wrap content-section">
+    <h2>{ui.toolsFooterLinks}</h2>
+    <nav>
+      <ul>
+        <li><a href={localePath(lang, 'about')}>{ui.footer.about}</a></li>
+        <li><a href={localePath(lang, 'privacy')}>{ui.footer.privacy}</a></li>
+        <li><a href={localePath(lang, 'contact')}>{ui.footer.contact}</a></li>
+      </ul>
+    </nav>
+  </section>
+
+  <!-- Search script (unchanged) -->
   <script>
     const searchInput = document.querySelector('[data-tools-search]');
     const emptyState = document.querySelector('[data-tools-empty]');
