@@ -37,6 +37,19 @@ export function websiteJsonLd(lang: Locale) {
   };
 }
 
+export function organizationJsonLd(lang: Locale) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: SITE.name[lang],
+    alternateName: SITE.name[lang === 'zh' ? 'en' : 'zh'],
+    url: absoluteUrl(localePath(lang)),
+    logo: absoluteUrl(assetPath('favicon.svg')),
+    image: defaultOgImage(),
+    email: SITE.email,
+  };
+}
+
 export function breadcrumbJsonLd(items: { name: string; href: string }[]) {
   return {
     '@context': 'https://schema.org',
@@ -47,6 +60,28 @@ export function breadcrumbJsonLd(items: { name: string; href: string }[]) {
       name: item.name,
       item: absoluteUrl(item.href),
     })),
+  };
+}
+
+export function webPageJsonLd(lang: Locale, name: string, description: string, path: string) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name,
+    url: absoluteUrl(path),
+    description,
+    inLanguage: SITE.hreflang[lang],
+  };
+}
+
+export function collectionPageJsonLd(lang: Locale, name: string, description: string, path: string) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name,
+    url: absoluteUrl(path),
+    description,
+    inLanguage: SITE.hreflang[lang],
   };
 }
 

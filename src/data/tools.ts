@@ -32,7 +32,7 @@ export const tools: ToolMeta[] = [
     icon: '🔢',
     status: 'live',
     privacyLevel: 'local-only',
-    relatedTools: ['dice-roller', 'random-wheel', 'random-name-picker'],
+    relatedTools: ['dice-roller', 'random-wheel', 'random-name-picker', 'random-student-picker', 'random-group-generator', 'this-or-that'],
     assetType: 'tool',
     searchIntent: 'high',
     shareIntent: 'medium',
@@ -41,7 +41,7 @@ export const tools: ToolMeta[] = [
     monetizationTags: ['adsense'],
     featured: true,
     isNew: true,
-    updated: '2026-06-16',
+    updated: '2026-06-17',
     name: { zh: '隨機數字產生器', en: 'Random Number Picker' },
     short: {
       zh: '設定範圍與數量，立即抽出一組隨機整數。',
@@ -54,7 +54,7 @@ export const tools: ToolMeta[] = [
     icon: '🍅',
     status: 'live',
     privacyLevel: 'local-only',
-    relatedTools: ['countdown-timer', 'break-reminder', 'stopwatch'],
+    relatedTools: ['countdown-timer', 'break-reminder', 'stopwatch', 'date-difference', 'business-days'],
     assetType: 'tool',
     searchIntent: 'medium',
     shareIntent: 'medium',
@@ -63,7 +63,7 @@ export const tools: ToolMeta[] = [
     monetizationTags: ['adsense', 'sponsor'],
     featured: true,
     isNew: true,
-    updated: '2026-06-16',
+    updated: '2026-06-17',
     name: { zh: '番茄鐘計時器', en: 'Pomodoro Timer' },
     short: {
       zh: '用工作、短休息與長休息循環，維持專注節奏。',
@@ -76,7 +76,7 @@ export const tools: ToolMeta[] = [
     icon: '📝',
     status: 'live',
     privacyLevel: 'local-only',
-    relatedTools: ['character-counter', 'remove-empty-lines', 'sort-lines'],
+    relatedTools: ['character-counter', 'remove-empty-lines', 'remove-duplicate-lines', 'sort-lines', 'case-converter', 'json-formatter'],
     assetType: 'tool',
     searchIntent: 'high',
     shareIntent: 'medium',
@@ -85,7 +85,7 @@ export const tools: ToolMeta[] = [
     monetizationTags: ['adsense'],
     featured: true,
     isNew: true,
-    updated: '2026-06-16',
+    updated: '2026-06-17',
     name: { zh: '字數統計工具', en: 'Word Counter' },
     short: {
       zh: '即時計算字元、字數、行數、段落與閱讀時間。',
@@ -975,6 +975,56 @@ export const tools: ToolMeta[] = [
     updated: '2026-06-16',
     name: { zh: 'GPA 計算器', en: 'GPA Calculator' },
     short: { zh: '依學分與字母成績用 4.3 制估算 GPA。', en: 'Estimate GPA from credits and letter grades on a 4.3 scale.' },
+  },
+  {
+    slug: 'timestamp-converter', category: 'time', icon: '⏱️', status: 'live', privacyLevel: 'local-only',
+    relatedTools: ['date-difference', 'stopwatch', 'business-days'], assetType: 'tool', searchIntent: 'high', shareIntent: 'low', embedPotential: 'high', maintenanceRisk: 'low', monetizationTags: ['adsense'], isNew: true, updated: '2026-06-18',
+    name: { zh: '時間戳記轉換器', en: 'Timestamp Converter' }, short: { zh: '轉換 Unix、UTC、ISO 與本機日期時間。', en: 'Convert Unix, UTC, ISO, and local date formats.' },
+  },
+  {
+    slug: 'uuid-generator', category: 'random', icon: '🆔', status: 'live', privacyLevel: 'local-only',
+    relatedTools: ['password-generator', 'random-number-picker', 'json-formatter'], assetType: 'generator', searchIntent: 'high', shareIntent: 'low', embedPotential: 'high', maintenanceRisk: 'low', monetizationTags: ['adsense'], isNew: true, updated: '2026-06-18',
+    name: { zh: 'UUID 產生器', en: 'UUID Generator' }, short: { zh: '批次產生安全的 UUID v4。', en: 'Generate secure UUID v4 values in batches.' },
+  },
+  {
+    slug: 'csv-to-json', category: 'text', icon: '↔️', status: 'live', privacyLevel: 'local-only',
+    relatedTools: ['json-to-csv', 'json-formatter', 'sort-lines'], assetType: 'tool', searchIntent: 'high', shareIntent: 'low', embedPotential: 'low', maintenanceRisk: 'low', monetizationTags: ['adsense'], isNew: true, updated: '2026-06-18',
+    name: { zh: 'CSV 轉 JSON', en: 'CSV to JSON Converter' }, short: { zh: '正確解析 CSV 並轉為格式化 JSON。', en: 'Parse CSV and convert it into formatted JSON.' },
+  },
+  {
+    slug: 'json-to-csv', category: 'text', icon: '↔️', status: 'live', privacyLevel: 'local-only',
+    relatedTools: ['csv-to-json', 'json-formatter', 'sort-lines'], assetType: 'tool', searchIntent: 'high', shareIntent: 'low', embedPotential: 'low', maintenanceRisk: 'low', monetizationTags: ['adsense'], isNew: true, updated: '2026-06-18',
+    name: { zh: 'JSON 轉 CSV', en: 'JSON to CSV Converter' }, short: { zh: '將 JSON 物件陣列轉成標準 CSV。', en: 'Convert arrays of JSON objects into standard CSV.' },
+  },
+  {
+    slug: 'markdown-previewer', category: 'text', icon: 'MD', status: 'live', privacyLevel: 'local-only',
+    relatedTools: ['word-counter', 'character-counter', 'json-formatter'], assetType: 'tool', searchIntent: 'high', shareIntent: 'low', embedPotential: 'medium', maintenanceRisk: 'low', monetizationTags: ['adsense'], isNew: true, updated: '2026-06-18',
+    name: { zh: 'Markdown 預覽器', en: 'Markdown Previewer' }, short: { zh: '即時安全預覽 Markdown。', en: 'Preview sanitized Markdown as you type.' },
+  },
+  {
+    slug: 'jpg-to-webp', category: 'image', icon: 'WebP', status: 'live', privacyLevel: 'local-only',
+    relatedTools: ['webp-to-jpg', 'image-compressor', 'jpg-to-png'], assetType: 'tool', searchIntent: 'high', shareIntent: 'low', embedPotential: 'medium', maintenanceRisk: 'low', monetizationTags: ['adsense', 'affiliate'], isNew: true, updated: '2026-06-18',
+    name: { zh: 'JPG 轉 WebP', en: 'JPG to WebP Converter' }, short: { zh: '調整品質並將 JPG 轉成 WebP。', en: 'Convert JPG images to WebP with quality control.' },
+  },
+  {
+    slug: 'webp-to-jpg', category: 'image', icon: 'JPG', status: 'live', privacyLevel: 'local-only',
+    relatedTools: ['jpg-to-webp', 'png-to-jpg', 'image-compressor'], assetType: 'tool', searchIntent: 'high', shareIntent: 'low', embedPotential: 'medium', maintenanceRisk: 'low', monetizationTags: ['adsense', 'affiliate'], isNew: true, updated: '2026-06-18',
+    name: { zh: 'WebP 轉 JPG', en: 'WebP to JPG Converter' }, short: { zh: '將 WebP 轉成 JPG 並設定透明背景色。', en: 'Convert WebP to JPG with a chosen background.' },
+  },
+  {
+    slug: 'pdf-page-reorder', category: 'pdf', icon: '↕️', status: 'live', privacyLevel: 'local-only',
+    relatedTools: ['merge-pdf', 'delete-pdf-pages', 'rotate-pdf'], assetType: 'tool', searchIntent: 'high', shareIntent: 'low', embedPotential: 'low', maintenanceRisk: 'low', monetizationTags: ['adsense', 'affiliate'], isNew: true, updated: '2026-06-18',
+    name: { zh: 'PDF 頁面重新排序', en: 'PDF Page Reorder' }, short: { zh: '在瀏覽器內重新排列 PDF 頁面。', en: 'Rearrange PDF pages locally in your browser.' },
+  },
+  {
+    slug: 'pdf-to-image', category: 'pdf', icon: '🖼️', status: 'live', privacyLevel: 'local-only',
+    relatedTools: ['extract-pdf-pages', 'images-to-pdf', 'pdf-page-reorder'], assetType: 'tool', searchIntent: 'high', shareIntent: 'low', embedPotential: 'low', maintenanceRisk: 'medium', monetizationTags: ['adsense', 'affiliate'], isNew: true, updated: '2026-06-18',
+    name: { zh: 'PDF 轉圖片', en: 'PDF to Image Converter' }, short: { zh: '將 PDF 頁面轉成 PNG 或 JPG。', en: 'Convert PDF pages into PNG or JPG images.' },
+  },
+  {
+    slug: 'pdf-compressor', category: 'pdf', icon: '🗜️', status: 'live', privacyLevel: 'local-only',
+    relatedTools: ['merge-pdf', 'pdf-page-reorder', 'split-pdf'], assetType: 'tool', searchIntent: 'high', shareIntent: 'low', embedPotential: 'low', maintenanceRisk: 'medium', monetizationTags: ['adsense', 'affiliate'], isNew: true, updated: '2026-06-18',
+    name: { zh: 'PDF 壓縮工具', en: 'PDF Compressor' }, short: { zh: '重新整理 PDF 結構並嘗試縮小檔案。', en: 'Rewrite PDF structure and attempt to reduce file size.' },
   },
 ];
 

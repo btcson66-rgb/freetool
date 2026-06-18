@@ -7,6 +7,7 @@ import { categories, type Category } from '../../../data/categories';
 import { getToolsByCategory } from '../../../data/tools';
 import { t } from '../../../i18n/ui';
 import { categoryUrl, localePath } from '../../../lib/url';
+import { breadcrumbJsonLd, collectionPageJsonLd } from '../../../lib/seo';
 
 export function getStaticPaths() {
   return SITE.locales.flatMap((lang) =>
@@ -21,6 +22,15 @@ const { lang, categoryData } = Astro.props as { lang: Locale; categoryData: Cate
 const ui = t(lang);
 const categoryTools = getToolsByCategory(categoryData.id);
 const title = `${categoryData.icon} ${categoryData.name[lang]}`;
+const breadcrumbItems = [
+  { name: ui.breadcrumbHome, href: localePath(lang) },
+  { name: ui.allTools, href: localePath(lang, 'tools') },
+  { name: categoryData.name[lang], href: categoryUrl(lang, categoryData.id) },
+];
+const jsonLd = [
+  collectionPageJsonLd(lang, categoryData.name[lang], categoryData.description[lang], categoryUrl(lang, categoryData.id)),
+  breadcrumbJsonLd(breadcrumbItems),
+];
 ---
 
 <BaseLayout
@@ -28,6 +38,7 @@ const title = `${categoryData.icon} ${categoryData.name[lang]}`;
   title={`${categoryData.name[lang]} | ${ui.categories}`}
   description={categoryData.description[lang]}
   alternateSegments={['category', categoryData.id]}
+  jsonLd={jsonLd}
 >
   <section class="wrap page-head">
     <Breadcrumb

@@ -1,4 +1,5 @@
 import type { Locale } from '../config/site';
+import type { LocalizedToolContent, ToolContent } from '../i18n/tools/_types';
 import ageCalculatorContent from '../i18n/tools/age-calculator';
 import base64Content from '../i18n/tools/base64';
 import breakReminderContent from '../i18n/tools/break-reminder';
@@ -49,6 +50,11 @@ import thisOrThatContent from '../i18n/tools/this-or-that';
 import urlEncoderContent from '../i18n/tools/url-encoder';
 import whatToEatContent from '../i18n/tools/what-to-eat';
 import wordCounterContent from '../i18n/tools/word-counter';
+import {
+  csvToJsonContent, jpgToWebpContent, jsonToCsvContent, markdownPreviewerContent,
+  pdfCompressorContent, pdfPageReorderContent, pdfToImageContent, timestampConverterContent,
+  uuidGeneratorContent, webpToJpgContent,
+} from '../i18n/tools/new-utility-tools';
 
 export const contentBySlug = {
   'random-number-picker': randomNumberContent,
@@ -101,10 +107,19 @@ export const contentBySlug = {
   flowchart: flowchartContent,
   'seating-chart': seatingChartContent,
   'group-generator': groupGeneratorContent,
-} as const;
+  'timestamp-converter': timestampConverterContent,
+  'uuid-generator': uuidGeneratorContent,
+  'csv-to-json': csvToJsonContent,
+  'json-to-csv': jsonToCsvContent,
+  'markdown-previewer': markdownPreviewerContent,
+  'jpg-to-webp': jpgToWebpContent,
+  'webp-to-jpg': webpToJpgContent,
+  'pdf-page-reorder': pdfPageReorderContent,
+  'pdf-to-image': pdfToImageContent,
+  'pdf-compressor': pdfCompressorContent,
+} satisfies Record<string, LocalizedToolContent>;
 
 export type ToolContentSlug = keyof typeof contentBySlug;
-export type ToolContent = (typeof contentBySlug)[ToolContentSlug][Locale];
 
 export function getToolContent(slug: string, lang: Locale): ToolContent | undefined {
   return contentBySlug[slug as ToolContentSlug]?.[lang];

@@ -1,54 +1,61 @@
-interface ToolContent {
-  name: string;
-  short: string;
-  long: string;
-  seoTitle: string;
-  seoDescription: string;
-  keywords: string[];
-  instructions: string[];
-  examples: string[];
-  faq: { q: string; a: string }[];
-  labels: Record<string, string>;
-  disclaimer?: string;
-  privacyNote?: string;
-}
+import type { LocalizedToolContent } from './_types';
 
 export default {
   zh: {
     name: '字數統計工具',
-    short: '即時計算字元、字數、行數、段落與閱讀時間。',
-    long: '字數統計工具會在你輸入文字時即時計算字元、去空白字元、字數、行數、段落、句子與預估閱讀時間。它同時考量中文、日文、韓文與英文單字，適合雙語內容與社群貼文檢查。',
-    seoTitle: '字數統計工具｜免費線上 Word Counter',
-    seoDescription: '免費線上字數統計工具，即時計算字元、字數、行數、段落、句子與閱讀時間，支援 CJK 與英文混合文字。',
-    keywords: ['字數統計', 'word counter', '字元計算', '閱讀時間'],
+    short: '貼上文字後，即時計算字數、字元、行數、段落、句數與閱讀時間。',
+    long: '這個字數統計工具會在你輸入或貼上文字時即時更新統計結果，包含含空白字元、不含空白字元、字數、行數、段落數、句數與預估閱讀時間。它特別考量中英文混合內容：中文、日文、韓文等 CJK 字元會逐字計算，英文與數字則以詞彙 token 計算，適合社群貼文、文章草稿、作業、申請文件、腳本與雙語內容檢查。',
+    seoTitle: '字數統計工具｜免費線上字元、段落與閱讀時間計算',
+    seoDescription: '免費線上字數統計工具，即時計算字數、字元、行數、段落、句數與閱讀時間，支援中英文與 CJK 混合內容。',
+    keywords: ['字數統計', '字元計算', '字數計算器', '閱讀時間計算', 'word counter'],
     instructions: [
-      '將文章、貼文、作業或任何文字貼到輸入框。',
-      '統計結果會即時更新，不需要按送出。',
-      '使用「複製統計」可把目前摘要複製到剪貼簿。',
-      '需要重新開始時按清除，文字框與統計會一起歸零。',
+      '把文章、貼文、作業、履歷或腳本貼到輸入框。',
+      '查看即時更新的字數、字元、行數、段落、句數與閱讀時間。',
+      '需要回報統計資訊時，按下複製統計即可取得整理好的摘要。',
+      '要重新檢查另一段文字時，按下清除即可重設所有數值。',
+      '若內容包含中英文混合文字，可同時參考字數與字元數，避免只看單一指標。',
     ],
     examples: [
-      '檢查社群平台貼文是否接近字數限制。',
-      '估算部落格文章、講稿或電子報的閱讀時間。',
-      '確認作業、履歷或申請文件的字數與段落數。',
-      '處理中英文混合內容時快速掌握文字長度。',
+      '檢查社群貼文、廣告文案或簡訊是否接近平台限制。',
+      '估算文章、講稿、電子報或影片腳本的閱讀時間。',
+      '確認作業、申請文件、履歷摘要或投稿內容是否符合字數要求。',
+      '整理中英文混合內容時，同時查看 CJK 字元與英文單字的統計。',
+      '編輯文章時快速掌握段落數與句數，判斷結構是否過長。',
+    ],
+    caseStudies: [
+      {
+        title: '社群文案檢查',
+        description: '行銷人員貼上貼文草稿，確認字元數沒有超過平台限制，再複製統計結果交給同事審稿。',
+      },
+      {
+        title: '文章閱讀時間',
+        description: '部落格作者在發布前估算閱讀時間，決定是否拆成小標題或分成兩篇文章。',
+      },
+      {
+        title: '作業與申請文件',
+        description: '學生或求職者確認自傳、讀書計畫與短答題的字數，避免低於或超過規定範圍。',
+      },
     ],
     faq: [
       {
-        q: '中文字數怎麼計算？',
-        a: '工具會把 CJK 表意文字逐字計算，並另外計算英文與數字單字，最後加總成一個字數。',
+        q: '中文、日文或韓文字會怎麼計算？',
+        a: 'CJK 表意文字會逐字計算，英文單字與數字會以 token 計算，最後合併顯示為字數。',
       },
       {
-        q: '閱讀時間如何估算？',
-        a: '英文以每分鐘約 200 個單字、CJK 文字以每分鐘約 300 個字估算，並向上取整為分鐘。',
+        q: '閱讀時間是怎麼估算的？',
+        a: '工具以英文約每分鐘 200 字、CJK 文字約每分鐘 300 字作為估算基準，並向上取整到完整分鐘。',
       },
       {
-        q: '文字會被上傳嗎？',
-        a: '不會。統計在你的瀏覽器中即時完成，本站不會接收或儲存輸入文字。',
+        q: '我的文字會被上傳嗎？',
+        a: '不會。所有統計都在你的瀏覽器本機完成，本站不會接收或保存你貼上的內容。',
       },
       {
-        q: '段落和行數有什麼不同？',
-        a: '行數依換行符號計算；段落則以非空文字區塊計算，連續空白行會被視為段落分隔。',
+        q: '行數和段落數有什麼差別？',
+        a: '行數依換行符號計算；段落數則是以空白行分隔的非空文字區塊。',
+      },
+      {
+        q: '字元數含空白和不含空白要看哪一個？',
+        a: '這取決於平台或作業規則。有些限制會計入空格，有些只看可見文字；若規則不清楚，建議同時保留兩個數字。',
       },
     ],
     labels: {
@@ -59,33 +66,51 @@ export default {
       words: '字數',
       lines: '行數',
       paragraphs: '段落',
-      sentences: '句子',
+      sentences: '句數',
       readingTime: '預估閱讀時間',
       minutes: '分鐘',
       copyStats: '複製統計',
       clear: '清除',
       copied: '已複製！',
-      note: '計算規則：CJK 表意文字逐字計算，英文與數字依單字計算；閱讀時間以英文約 200 wpm、CJK 約 300 cpm 估算。',
+      note: '計算規則：CJK 字元逐字計算，英文與數字以詞彙 token 計算。閱讀時間以約 200 English wpm 與 300 CJK cpm 估算。',
     },
+    privacyNote: '此工具完全在瀏覽器本機分析文字。你貼上的文章、作業、文案或腳本不會傳送到 Free Tools Hub 伺服器，也不會被儲存。',
+    disclaimer: '統計結果會因平台、學校、出版社或投稿系統的計算規則而不同。若有正式字數規範，請以該平台或單位的規則為準。',
   },
   en: {
     name: 'Word Counter',
-    short: 'Count words, characters, lines, paragraphs, and reading time live.',
-    long: 'This word counter updates as you type and reports characters, characters without spaces, combined word count, lines, paragraphs, sentences, and estimated reading time. It is designed for mixed English and CJK text, so bilingual drafts are easier to check.',
+    short: 'Paste text and instantly count words, characters, lines, paragraphs, sentences, and reading time.',
+    long: 'This word counter updates as you type and reports characters with spaces, characters without spaces, combined word count, lines, paragraphs, sentences, and estimated reading time. It is designed for mixed English and CJK text: Chinese, Japanese, and Korean ideographs are counted character by character, while English words and numbers are counted as word tokens. Use it for social posts, drafts, assignments, applications, scripts, newsletters, and bilingual content checks.',
     seoTitle: 'Word Counter | Free online character and reading time tool',
-    seoDescription: 'Count words, characters, lines, paragraphs, sentences, and estimated reading time online with CJK-aware counting.',
-    keywords: ['word counter', 'character counter', 'reading time calculator', 'CJK word count'],
+    seoDescription: 'Count words, characters, lines, paragraphs, sentences, and estimated reading time online with CJK-aware counting for English and multilingual text.',
+    keywords: ['word counter', 'character counter', 'reading time calculator', 'CJK word count', 'online word count'],
     instructions: [
-      'Paste or type your article, post, assignment, or note into the textarea.',
-      'Review the live stats. No submit button is required.',
+      'Paste or type your article, post, assignment, resume, or script into the textarea.',
+      'Review the live stats for words, characters, lines, paragraphs, sentences, and reading time.',
       'Use Copy stats to place a formatted summary on your clipboard.',
       'Use Clear when you want to remove the text and reset every metric.',
+      'For mixed English and CJK content, compare both word count and character count instead of relying on one metric.',
     ],
     examples: [
-      'Check whether a social post is close to a platform limit.',
-      'Estimate reading time for blog posts, scripts, or newsletters.',
-      'Review word count and paragraph count for assignments or applications.',
+      'Check whether a social post, ad, or SMS draft is close to a platform limit.',
+      'Estimate reading time for blog posts, speeches, newsletters, or video scripts.',
+      'Review word count for assignments, applications, resume summaries, or submissions.',
       'Measure mixed English and Chinese content without switching tools.',
+      'Scan paragraph and sentence counts while editing long drafts for readability.',
+    ],
+    caseStudies: [
+      {
+        title: 'Social copy review',
+        description: 'A marketer pastes a post draft, checks the character count against platform limits, then copies the stats for review.',
+      },
+      {
+        title: 'Article reading time',
+        description: 'A blogger estimates reading time before publishing and decides whether the draft should be split into sections or separate posts.',
+      },
+      {
+        title: 'Application writing',
+        description: 'A student or job seeker checks essays, personal statements, and short answers before submitting them to a form with limits.',
+      },
     ],
     faq: [
       {
@@ -104,6 +129,10 @@ export default {
         q: 'What is the difference between lines and paragraphs?',
         a: 'Lines follow newline characters. Paragraphs are non-empty text blocks separated by blank lines.',
       },
+      {
+        q: 'Should I use characters with spaces or without spaces?',
+        a: 'It depends on the platform or assignment rule. Some limits include spaces and others count only visible text, so keeping both numbers is safest.',
+      },
     ],
     labels: {
       input: 'Input text',
@@ -121,5 +150,7 @@ export default {
       copied: 'Copied!',
       note: 'Counting rule: CJK ideographs count one by one, Latin text and numbers count as word tokens. Reading time uses about 200 English wpm and 300 CJK cpm.',
     },
+    privacyNote: 'This tool analyzes text entirely in your browser. Your articles, assignments, copy, or scripts are not sent to Free Tools Hub servers and are not stored.',
+    disclaimer: 'Counts can differ from the rules used by platforms, schools, publishers, or submission systems. For official limits, follow the rule shown by that platform or organization.',
   },
-} satisfies Record<'zh' | 'en', ToolContent>;
+} satisfies LocalizedToolContent;

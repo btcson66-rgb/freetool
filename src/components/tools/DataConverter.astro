@@ -1,0 +1,18 @@
+---
+interface Props { labels: Record<string, string>; }
+const { labels } = Astro.props;
+---
+<section class="tool-widget card" data-data-converter data-labels={JSON.stringify(labels)}>
+  <label class="textarea-label"><span>{labels.input}</span><textarea data-input rows="11" placeholder={labels.placeholder}></textarea></label>
+  <div class="actions"><button class="btn go" type="button" data-convert>{labels.convert}</button><button class="btn ghost" type="button" data-copy>{labels.copy}</button><button class="btn ghost" type="button" data-download>{labels.download}</button><button class="btn ghost" type="button" data-clear>{labels.clear}</button></div>
+  <p class="form-error" data-error role="alert" hidden></p><label class="textarea-label"><span>{labels.output}</span><textarea data-output rows="11" readonly></textarea></label>
+</section>
+<script>
+  // @ts-nocheck -- DOM nodes are guaranteed by this component template.
+  document.querySelectorAll('[data-data-converter]').forEach((root) => {
+    const labels = JSON.parse(root.getAttribute('data-labels') || '{}'); const input=root.querySelector('[data-input]'); const output=root.querySelector('[data-output]'); const error=root.querySelector('[data-error]');
+    async function convert() { try { const Papa=(await import('papaparse')).default; if (labels.mode === 'csv-to-json') { const result=Papa.parse(input.value,{header:true,skipEmptyLines:true,dynamicTyping:true}); if(result.errors.length) throw new Error(result.errors[0].message); output.value=JSON.stringify(result.data,null,2); } else { const parsed=JSON.parse(input.value); if(!Array.isArray(parsed)) throw new Error(labels.arrayRequired); output.value=Papa.unparse(parsed); } error.hidden=true; } catch(caught) { error.textContent=caught instanceof Error?caught.message:String(caught); error.hidden=false; output.value=''; } }
+    root.querySelector('[data-convert]')?.addEventListener('click', convert); root.querySelector('[data-copy]')?.addEventListener('click',()=>output.value&&navigator.clipboard.writeText(output.value));
+    root.querySelector('[data-clear]')?.addEventListener('click',()=>{input.value='';output.value='';error.hidden=true;}); root.querySelector('[data-download]')?.addEventListener('click',()=>{if(!output.value)return;const ext=labels.mode==='csv-to-json'?'json':'csv';const url=URL.createObjectURL(new Blob([output.value],{type:ext==='json'?'application/json':'text/csv;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download=`converted.${ext}`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);});
+  });
+</script>

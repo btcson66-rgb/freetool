@@ -22,6 +22,14 @@ import ImagesToPdf from '../components/tools/ImagesToPdf.astro';
 import InflationCalculator from '../components/tools/InflationCalculator.astro';
 import JpgToPng from '../components/tools/JpgToPng.astro';
 import JsonFormatter from '../components/tools/JsonFormatter.astro';
+import DataConverter from '../components/tools/DataConverter.astro';
+import ImageFormatConverter from '../components/tools/ImageFormatConverter.astro';
+import MarkdownPreviewer from '../components/tools/MarkdownPreviewer.astro';
+import PdfCompressor from '../components/tools/PdfCompressor.astro';
+import PdfPageReorder from '../components/tools/PdfPageReorder.astro';
+import PdfToImage from '../components/tools/PdfToImage.astro';
+import TimestampConverter from '../components/tools/TimestampConverter.astro';
+import UuidGenerator from '../components/tools/UuidGenerator.astro';
 import MergePdf from '../components/tools/MergePdf.astro';
 import MortgagePayment from '../components/tools/MortgagePayment.astro';
 import NetSalary from '../components/tools/NetSalary.astro';
@@ -100,6 +108,16 @@ export const widgetBySlug = {
   flowchart: FlowchartMaker,
   'seating-chart': SeatingChart,
   'group-generator': ClassGroupGenerator,
+  'timestamp-converter': TimestampConverter,
+  'uuid-generator': UuidGenerator,
+  'csv-to-json': DataConverter,
+  'json-to-csv': DataConverter,
+  'markdown-previewer': MarkdownPreviewer,
+  'jpg-to-webp': ImageFormatConverter,
+  'webp-to-jpg': ImageFormatConverter,
+  'pdf-page-reorder': PdfPageReorder,
+  'pdf-to-image': PdfToImage,
+  'pdf-compressor': PdfCompressor,
 } as const;
 
 export type ToolWidgetSlug = keyof typeof widgetBySlug;
