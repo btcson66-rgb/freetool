@@ -1,56 +1,77 @@
-interface ToolContent {
-  name: string;
-  short: string;
-  long: string;
-  seoTitle: string;
-  seoDescription: string;
-  keywords: string[];
-  instructions: string[];
-  examples: string[];
-  faq: { q: string; a: string }[];
-  labels: Record<string, string>;
-  disclaimer?: string;
-  privacyNote?: string;
-}
+import type { ToolContent } from './_types';
 
 export default {
   zh: {
-    name: '加班費計算',
-    short: '依時薪與倍率估算加班費。',
-    long: '加班費計算器用可編輯時薪、加班時數與倍率估算加班收入。公式：各類加班費 = 時薪 × 該類時數 × 該類倍率，總加班費為各類加總。',
-    seoTitle: '加班費計算器｜可編輯倍率的加班收入估算',
-    seoDescription: '輸入時薪、不同加班時數與自訂倍率，快速估算平日、延長、休息日或假日加班費。',
-    keywords: ['加班費計算', 'overtime pay calculator', '加班倍率', '薪資試算'],
+    name: '加班費試算器',
+    short: '用時薪、加班時數與倍率估算不同類型的加班費。',
+    long: '加班費試算器提供可編輯倍率，讓你用基本時薪、平日加班、延長工時、休息日與假日工時估算加班收入。工具會依照「時薪乘以時數乘以倍率」計算各類別金額與總額，適合做薪資核對前的草稿，但不代表官方法規或公司薪資系統結果。',
+    seoTitle: '加班費試算器 | 可編輯倍率 Overtime Pay Calculator',
+    seoDescription: '輸入時薪、加班時數與可編輯倍率，估算平日、延長工時、休息日與假日加班費。',
+    keywords: ['加班費試算器', 'overtime pay calculator', '加班倍率', '時薪計算'],
     instructions: [
-      '輸入你的基本時薪。',
-      '依情境填入不同類別的加班時數。',
-      '把倍率調整為你所在地或公司規則適用的數值。',
-      '查看各類加班費與總額。',
+      '輸入基本時薪，作為所有加班類別的計算基礎。',
+      '在需要估算的類別填入加班時數，不使用的類別可留 0。',
+      '依照所在地法規、契約或公司規則調整每個倍率。',
+      '查看各類別加班費與總額，必要時複製摘要給自己留存。',
     ],
     examples: [
-      '估算本月平日加班與休息日加班合計。',
-      '比較不同倍率規則下的加班收入差異。',
-      '用公司公告倍率建立可複製的加班費摘要。',
+      '月底前先估算本月平日加班與休息日加班合計金額。',
+      '把公司公告的倍率輸入工具，檢查薪資單上的加班項目。',
+      '比較不同班表安排下，加班時數與總加班費的差異。',
+      '在與人資或主管溝通前，整理一份可讀的估算摘要。',
+    ],
+    audience: [
+      '按時薪或固定薪資換算時薪後，想先核對加班收入的員工。',
+      '需要用不同倍率比較班表安排的排班者或小型團隊管理者。',
+      '整理薪資單、工時紀錄或個人財務紀錄的使用者。',
+      '想用簡化模型向同事說明加班費計算方式的人。',
+    ],
+    caseStudies: [
+      {
+        title: '薪資單初步核對',
+        description: '員工把時薪、加班時數與公司公告倍率輸入工具，先找出需要向人資確認的差異項目。',
+      },
+      {
+        title: '班表方案比較',
+        description: '排班者用不同加班類別試算，了解平日延長與假日安排對預估成本的影響。',
+      },
+      {
+        title: '工時紀錄整理',
+        description: '使用者每週複製一次估算摘要到筆記，月底對照薪資單時更容易追蹤來源。',
+      },
+    ],
+    notes: [
+      '預設倍率只是範例，請依照最新法規、勞動契約、公司制度或薪資單規則調整。',
+      '實際加班費可能還涉及工時區間、補休、休息日定義、國定假日、上限與稅務扣除。',
+      '此工具只做算術估算，不提供法律、勞務或薪資申報建議。',
     ],
     faq: [
       {
         q: '預設倍率是官方規定嗎？',
-        a: '不是。預設倍率只是示範假設，請依最新法規、契約或公司薪資規則自行修改。',
+        a: '不是。預設值只是方便示範的起點，請依照你所在地的現行規定、契約或公司薪資規則修改。',
       },
       {
-        q: '可以處理所有勞動法細節嗎？',
-        a: '不可以。各地規則可能包含時段、休息日、例假、補休與上限，本工具只做簡化估算。',
+        q: '可以只計算一種加班嗎？',
+        a: '可以。只在需要的類別輸入時數，其他欄位保留 0 即可。',
       },
       {
-        q: '我可以只填一種類別嗎？',
-        a: '可以。未使用的類別保持 0 小時即可。',
+        q: '固定月薪的人可以使用嗎？',
+        a: '可以先依公司或法規認定方式換算時薪，再把時薪輸入工具；正式金額仍應以薪資規則為準。',
+      },
+      {
+        q: '這會處理所有勞動法細節嗎？',
+        a: '不會。不同地區可能有分段倍率、補休、假日定義與工時上限，工具只提供簡化估算。',
+      },
+      {
+        q: '為什麼要保留假設說明？',
+        a: '因為加班費高度依賴規則與倍率，複製摘要時保留假設，之後核對或詢問會比較清楚。',
       },
     ],
     labels: {
       hourlyRate: '基本時薪',
       weekdayHours: '平日加班時數',
       weekdayMultiplier: '平日倍率',
-      extendedHours: '延長時段時數',
+      extendedHours: '延長工時',
       extendedMultiplier: '延長倍率',
       restHours: '休息日時數',
       restMultiplier: '休息日倍率',
@@ -60,35 +81,61 @@ export default {
       copy: '複製結果',
       reset: '重設',
       weekdayPay: '平日加班費',
-      extendedPay: '延長時段',
+      extendedPay: '延長工時',
       restPay: '休息日',
       holidayPay: '假日',
-      totalPay: '加班費合計',
-      assumptionNote: '費率為可編輯假設，請依最新法規自行確認。',
-      formula: '公式：加班費 = 時薪 × 時數 × 倍率',
-      invalidInput: '請輸入有效且不小於 0 的數字。',
+      totalPay: '加班費總額',
+      assumptionNote: '倍率為可編輯假設，請依最新法規、契約或公司薪資規則確認。',
+      formula: '公式：加班費 = 時薪 x 時數 x 倍率',
+      invalidInput: '請輸入有效且不為負的數字。',
       copied: '已複製',
     },
-    disclaimer: '此工具只提供依使用者輸入倍率產生的估算，不代表官方或法律計算。加班費規則會因地區、契約與工時類型而變動，請以最新法規、公司制度或專業意見為準。',
-    privacyNote: '時薪與時數只在你的瀏覽器中計算，不會上傳。',
+    disclaimer: '此工具只依使用者輸入的倍率做估算，不是官方、法律或薪資申報結果。加班規則會因地區、契約、職務與公司制度不同而改變，請自行確認最新規定。',
+    privacyNote: '時薪與工時資料只會在你的瀏覽器中計算，不會上傳到伺服器。',
   },
   en: {
-    name: 'Overtime Pay',
-    short: 'Calculate overtime pay from hours and rate multipliers.',
-    long: 'Overtime Pay estimates extra pay from an editable hourly rate, overtime hours, and multipliers. Formula: pay for each category = hourly rate × hours × multiplier, and total overtime pay is the sum of all categories.',
-    seoTitle: 'Overtime Pay Calculator | Editable multiplier estimate',
+    name: 'Overtime Pay Calculator',
+    short: 'Estimate overtime pay from hours, hourly rate, and editable multipliers.',
+    long: 'Overtime Pay Calculator lets you estimate extra pay with editable assumptions. Enter a base hourly rate, overtime hours, and multipliers for weekday, extended, rest-day, or holiday work. The tool calculates each category as hourly rate times hours times multiplier, then sums the total overtime pay. Use it as a payroll-check draft, not as an official labor-law or company payroll result.',
+    seoTitle: 'Overtime Pay Calculator | Editable Multiplier Estimate',
     seoDescription: 'Enter hourly wage, overtime hours, and editable multipliers to estimate weekday, extended, rest-day, or holiday overtime pay.',
     keywords: ['overtime pay calculator', 'overtime multiplier', 'hourly pay calculator', 'payroll estimate'],
     instructions: [
       'Enter your base hourly rate.',
-      'Fill the overtime hours for the categories you want to estimate.',
-      'Edit the multipliers to match your location, contract, or payroll rule.',
-      'Review category totals and total overtime pay.',
+      'Fill in overtime hours for the categories you want to estimate and leave unused categories at 0.',
+      'Edit each multiplier to match your location, contract, or company payroll rule.',
+      'Review category totals and total overtime pay, then copy the summary if needed.',
     ],
     examples: [
-      'Estimate this month’s weekday and rest-day overtime together.',
-      'Compare overtime income under different multiplier assumptions.',
-      'Create a copyable summary using multipliers provided by payroll.',
+      'Estimate this month\'s weekday and rest-day overtime before payroll closes.',
+      'Check a payslip by entering the multipliers announced by your company.',
+      'Compare how different shift plans change estimated overtime cost.',
+      'Prepare a readable calculation summary before asking payroll or a manager.',
+    ],
+    audience: [
+      'Hourly workers, or salaried workers who have a defined hourly-rate conversion.',
+      'Schedulers and small-team managers comparing overtime assumptions.',
+      'People organizing payslips, timesheets, personal finance records, or reimbursement notes.',
+      'Anyone explaining a simplified overtime calculation to coworkers or family.',
+    ],
+    caseStudies: [
+      {
+        title: 'Payslip review draft',
+        description: 'An employee enters recorded hours and company multipliers to spot items that may need a payroll clarification.',
+      },
+      {
+        title: 'Shift plan comparison',
+        description: 'A scheduler compares weekday extension and holiday work to understand how different schedules change estimated labor cost.',
+      },
+      {
+        title: 'Timesheet note trail',
+        description: 'A worker copies a weekly estimate into notes so the final month-end payslip is easier to review.',
+      },
+    ],
+    notes: [
+      'Default multipliers are examples only; replace them with current regulations, contract terms, company policy, or payslip rules.',
+      'Real overtime pay can depend on time bands, compensatory leave, rest-day definitions, holiday rules, caps, taxes, and deductions.',
+      'This tool is arithmetic support only and does not provide legal, labor, payroll, or tax advice.',
     ],
     faq: [
       {
@@ -96,12 +143,20 @@ export default {
         a: 'No. Defaults are sample assumptions only. Edit them to match current regulations, contracts, or company payroll rules.',
       },
       {
+        q: 'Can I use only one category?',
+        a: 'Yes. Enter hours only for the category you need and leave all other hour fields at 0.',
+      },
+      {
+        q: 'Can salaried employees use it?',
+        a: 'Yes, if you first convert salary to the hourly rate required by your policy or local rules. Formal payroll should still follow official rules.',
+      },
+      {
         q: 'Does this cover every labor-law detail?',
         a: 'No. Local rules may include time bands, rest days, holidays, compensatory leave, and caps. This tool is a simplified estimate.',
       },
       {
-        q: 'Can I use only one category?',
-        a: 'Yes. Leave unused categories at 0 hours.',
+        q: 'Why copy the assumption note?',
+        a: 'Overtime depends heavily on rules and multipliers, so keeping the assumptions with the result makes later review clearer.',
       },
     ],
     labels: {
@@ -122,13 +177,12 @@ export default {
       restPay: 'Rest day',
       holidayPay: 'Holiday',
       totalPay: 'Total overtime pay',
-      assumptionNote: 'Rates are editable assumptions - verify against current regulations.',
-      formula: 'Formula: overtime pay = hourly rate × hours × multiplier',
+      assumptionNote: 'Rates are editable assumptions. Verify against current regulations, contracts, or payroll rules.',
+      formula: 'Formula: overtime pay = hourly rate x hours x multiplier',
       invalidInput: 'Enter valid non-negative numbers.',
       copied: 'Copied',
     },
-    disclaimer: 'This tool only estimates from user-entered multipliers and is not an official or legal calculation. Overtime rules vary by location, contract, and work type; verify against current regulations, company policy, or a qualified professional.',
+    disclaimer: 'This tool only estimates from user-entered multipliers and is not an official, legal, or payroll filing calculation. Overtime rules vary by location, contract, job type, and company policy; verify current rules yourself.',
     privacyNote: 'Hourly rate and hour inputs are calculated locally in your browser and are not uploaded.',
   },
 } satisfies Record<'zh' | 'en', ToolContent>;
-

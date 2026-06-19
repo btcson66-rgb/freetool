@@ -1,49 +1,75 @@
-interface ToolContent {
-  name: string;
-  short: string;
-  long: string;
-  seoTitle: string;
-  seoDescription: string;
-  keywords: string[];
-  instructions: string[];
-  examples: string[];
-  faq: { q: string; a: string }[];
-  labels: Record<string, string>;
-  disclaimer?: string;
-  privacyNote?: string;
-}
+import type { ToolContent } from './_types';
 
 export default {
   zh: {
-    name: '工作日計算',
-    short: '估算兩日期間的工作天數。',
-    long: '工作日計算器用起訖日期、週末設定與自訂假日清單估算可工作的天數。邏輯是：工作日 = 日期範圍天數 - 週末天數 - 落在範圍內的自訂假日。',
-    seoTitle: '工作日計算器｜免費工作天與假日扣除工具',
-    seoDescription: '輸入起訖日期，選擇是否排除週末，貼上自訂假日清單，即時計算工作日、週末與假日扣除天數。',
-    keywords: ['工作日計算', 'business days', '工作天', '日期計算'],
+    name: '工作日計算器',
+    short: '計算兩個日期之間的工作日，並可排除週末與自訂假日。',
+    long: '工作日計算器適合估算交件期限、合約審核、請假安排或服務時效。選擇開始日與結束日後，你可以決定是否包含結束日、是否排除週末，並貼上自訂假日清單。工具會列出日曆天數、週末天數、假日扣除與工作日總數，方便把結果複製到排程或筆記中。',
+    seoTitle: '工作日計算器 | 免費 Business Days Calculator',
+    seoDescription: '計算兩個日期之間的工作日，可排除週末並扣除自訂假日。適合專案期限、請假、合約與服務時效估算。',
+    keywords: ['工作日計算器', 'business days calculator', 'workdays between dates', '日期計算'],
     instructions: [
-      '選擇開始日期與結束日期，必要時勾選是否包含結束日。',
-      '決定是否排除星期六、星期日。',
-      '可貼上 YYYY-MM-DD 格式的假日，每行一個日期。',
-      '查看工作日、週末天數、假日扣除與可複製摘要。',
+      '選擇開始日期與結束日期，必要時切換是否包含結束日。',
+      '一般週休二日情境可保留排除週末；特殊班表可取消勾選。',
+      '如需扣除公司或地區假日，請以 YYYY-MM-DD 格式一行貼上一個日期。',
+      '查看工作日、日曆天數、週末與假日扣除，並複製摘要到排程或文件。',
     ],
     examples: [
-      '估算專案從今天到交付日之間還有多少工作天。',
-      '排除公司假日，計算合約或審核流程的實際工作日。',
-      '規劃請假、排班、課程週次或作業期限。',
+      '估算專案從今天到交件日還剩多少個工作日。',
+      '在合約審核期限中扣除週末與公司假日。',
+      '安排請假、課程、活動準備或客服時效時先抓可用天數。',
+      '把不同假日清單貼入工具，比較跨地區團隊的工作日差異。',
+    ],
+    audience: [
+      '需要把專案期限轉換成實際可工作天數的專案管理者。',
+      '安排請假、排班、課程、活動或服務時效的行政與營運人員。',
+      '正在估算合約審核、付款等待期或交付窗口的自由工作者。',
+      '想把假日與週末從個人行程計畫中分開計算的人。',
+    ],
+    caseStudies: [
+      {
+        title: '交付期限確認',
+        description: '專案負責人輸入今天與交件日，扣除週末與公司假日後，確認真正可用的工作天數。',
+      },
+      {
+        title: '合約審核窗口',
+        description: '自由工作者把客戶所在地假日貼入清單，估算合約回覆可能需要等待的工作日。',
+      },
+      {
+        title: '請假與課程安排',
+        description: '使用者用不同日期範圍試算，確認請假期間或課程週期內實際會影響的工作日。',
+      },
+    ],
+    notes: [
+      '自訂假日必須使用 YYYY-MM-DD 格式；不符合格式的行會被忽略。',
+      '可用「快速載入假日」一鍵帶入台灣 2026 國定假日（不含週末，含逢週末的補假日），帶入後仍可自行增刪；其他年份或地區請手動輸入。',
+      '若已排除週末，落在週末的假日不會重複扣除，避免同一天被算兩次。',
+      '工具不是官方勞動、金融或法院日曆；正式期限仍應依組織或主管機關規則確認。',
     ],
     faq: [
       {
-        q: '自訂假日格式怎麼填？',
-        a: '每行輸入一個 YYYY-MM-DD 日期。工具只會扣除落在起訖範圍內的日期。',
+        q: '自訂假日要怎麼輸入？',
+        a: '請每行輸入一個 YYYY-MM-DD 日期。只有落在選取範圍內且格式正確的日期會被計入。你也可以用「快速載入假日」一鍵帶入台灣 2026 國定假日後再調整。',
       },
       {
-        q: '週末假日會重複扣除嗎？',
-        a: '不會。若已排除週末，自訂假日剛好在週末時不會再重複扣一次。',
+        q: '台灣國定假日的資料準確嗎？',
+        a: '2026 年（民國115年）資料依行政院人事行政總處核定之辦公日曆表整理，採只補假不補班制，因此沒有補班日；其他年份或各地行事曆仍以官方公告為準。',
       },
       {
-        q: '計算結果是官方工時判定嗎？',
-        a: '不是。這是依你輸入規則做的本機日期估算，實際工作日仍應依公司、學校或所在地規定確認。',
+        q: '週末假日會被扣兩次嗎？',
+        a: '不會。如果你勾選排除週末，落在週末的自訂假日不會再額外扣除。',
+      },
+      {
+        q: '可以反向選日期嗎？',
+        a: '可以。若開始日比結束日晚，工具會自動交換順序後計算同一段日期範圍。',
+      },
+      {
+        q: '這是官方工作日或法定期限嗎？',
+        a: '不是。它是依照你輸入的週末與假日設定做本機估算，正式期限請向組織或主管機關確認。',
+      },
+      {
+        q: '為什麼要選是否包含結束日？',
+        a: '不同情境對截止日的算法不同，例如含交件當天或只算到前一天，切換後可符合你的排程規則。',
       },
     ],
     labels: {
@@ -52,51 +78,94 @@ export default {
       includeEndDate: '包含結束日',
       skipWeekends: '排除週末',
       holidays: '自訂假日',
+      holidayPreset: '快速載入假日',
+      presetNone: '請選擇…',
+      presetTw2026: '台灣 2026 國定假日（不含週末）',
       holidayPlaceholder: '2026-01-01\n2026-02-16',
       calculate: '計算',
       copyResult: '複製結果',
       reset: '重設',
-      totalCalendarDays: '日期範圍',
+      totalCalendarDays: '日曆天數',
       weekendDays: '週末天數',
       holidayDays: '假日扣除',
       businessDays: '工作日',
-      countedRange: '計算區間',
+      countedRange: '計算範圍',
       invalidDate: '請輸入有效的開始與結束日期。',
       days: '天',
       copied: '已複製',
     },
-    privacyNote: '日期與假日清單只在你的瀏覽器中計算，不會上傳。',
+    disclaimer: '此工具只依照你輸入的日期、週末設定與自訂假日做估算，不是官方勞動、金融、法院或合約期限判定。',
+    privacyNote: '日期與假日清單只會在你的瀏覽器中計算，不會上傳到伺服器。',
   },
   en: {
-    name: 'Business Days',
-    short: 'Estimate workdays between two dates.',
-    long: 'Business Days estimates workable days from a start date, end date, weekend setting, and custom holiday list. Logic: business days = date range days - weekend days - custom holidays inside the range.',
-    seoTitle: 'Business Days Calculator | Free workday counter',
+    name: 'Business Days Calculator',
+    short: 'Count workdays between two dates with optional weekends and custom holidays.',
+    long: 'Business Days Calculator helps estimate delivery windows, review periods, leave plans, and service timelines. Choose a start date and end date, decide whether to include the end date, exclude weekends if needed, and paste custom holidays in YYYY-MM-DD format. The tool reports calendar days, weekend days, holiday deductions, and total business days, then lets you copy a clean summary into schedules, contracts, or notes.',
+    seoTitle: 'Business Days Calculator | Free Workday Counter',
     seoDescription: 'Calculate business days between two dates, optionally exclude weekends, and subtract custom holidays from a pasted date list.',
     keywords: ['business days calculator', 'workdays between dates', 'date calculator', 'holiday counter'],
     instructions: [
       'Choose the start date and end date, then decide whether to include the end date.',
       'Keep weekends excluded for a standard workweek, or include them for custom schedules.',
       'Paste optional holidays in YYYY-MM-DD format, one date per line.',
-      'Review business days, weekend days, holiday deductions, and copy the summary.',
+      'Review business days, calendar days, weekend days, holiday deductions, and copy the summary.',
     ],
     examples: [
       'Estimate how many workdays remain before a project delivery date.',
       'Subtract company holidays from a contract review or approval window.',
-      'Plan leave, class schedules, assignments, and service-level timelines.',
+      'Plan leave, class schedules, event preparation, or service-level timelines.',
+      'Compare workday counts for teams in regions with different holiday calendars.',
+    ],
+    audience: [
+      'Project managers turning calendar deadlines into realistic available workdays.',
+      'Operations, admin, and scheduling staff planning leave, shifts, classes, or events.',
+      'Freelancers estimating contract reviews, payment windows, or delivery timelines.',
+      'Individuals separating weekends and holidays from personal planning ranges.',
+    ],
+    caseStudies: [
+      {
+        title: 'Delivery deadline check',
+        description: 'A project owner enters today and the delivery date, subtracts weekends and company holidays, and sees the real number of available workdays.',
+      },
+      {
+        title: 'Contract review window',
+        description: 'A freelancer pastes the client region\'s holidays to estimate how long a review period may take in business days.',
+      },
+      {
+        title: 'Leave and class planning',
+        description: 'A user tests several date ranges to see how many actual workdays or class days are affected.',
+      },
+    ],
+    notes: [
+      'Custom holidays must use YYYY-MM-DD format; lines that do not match the format are ignored.',
+      'Use Quick-load holidays to insert Taiwan 2026 public holidays (weekdays, including make-up days for weekend holidays); you can still edit the list, and other years or regions must be entered manually.',
+      'If weekends are excluded, a holiday that falls on a weekend is not deducted twice.',
+      'This is not an official labor, banking, court, or contract calendar; confirm formal deadlines with the relevant organization.',
     ],
     faq: [
       {
         q: 'How should I enter custom holidays?',
-        a: 'Use one YYYY-MM-DD date per line. Only holidays that fall inside the selected range are counted.',
+        a: 'Use one YYYY-MM-DD date per line. Only correctly formatted holidays inside the selected range are counted. You can also use Quick-load holidays to insert Taiwan 2026 dates and adjust from there.',
+      },
+      {
+        q: 'Is the Taiwan holiday data accurate?',
+        a: 'The 2026 list follows the official government office calendar from the DGPA. Make-up workdays were abolished, so there are none; for other years or regions, defer to official announcements.',
       },
       {
         q: 'Can a weekend holiday be deducted twice?',
         a: 'No. If weekends are excluded, a holiday that falls on a weekend is not deducted again.',
       },
       {
+        q: 'Can I enter the dates in reverse order?',
+        a: 'Yes. If the start date is after the end date, the tool swaps them and calculates the same date range.',
+      },
+      {
         q: 'Is this an official labor or payroll calendar?',
         a: 'No. It is a local estimate based on your inputs. Confirm official workday rules with your organization or local authority.',
+      },
+      {
+        q: 'Why choose whether to include the end date?',
+        a: 'Some timelines count the deadline day and others stop the day before. The toggle lets the result match your scheduling rule.',
       },
     ],
     labels: {
@@ -105,6 +174,9 @@ export default {
       includeEndDate: 'Include end date',
       skipWeekends: 'Exclude weekends',
       holidays: 'Custom holidays',
+      holidayPreset: 'Quick-load holidays',
+      presetNone: 'Choose…',
+      presetTw2026: 'Taiwan 2026 public holidays (weekdays)',
       holidayPlaceholder: '2026-01-01\n2026-12-25',
       calculate: 'Calculate',
       copyResult: 'Copy result',
@@ -118,7 +190,7 @@ export default {
       days: 'days',
       copied: 'Copied',
     },
+    disclaimer: 'This tool estimates from the dates, weekend setting, and custom holidays you enter. It is not an official labor, banking, court, or contract deadline determination.',
     privacyNote: 'Dates and holiday lists are calculated locally in your browser and are not uploaded.',
   },
 } satisfies Record<'zh' | 'en', ToolContent>;
-

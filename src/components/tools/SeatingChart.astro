@@ -35,6 +35,7 @@ const { labels } = Astro.props;
   <div class="actions">
     <button class="btn go" type="button" data-generate>{labels.generate}</button>
     <button class="btn" type="button" data-copy>{labels.copy}</button>
+    <button class="btn" type="button" data-export>{labels.exportCsv}</button>
     <button class="btn" type="button" data-print>{labels.print}</button>
     <button class="btn ghost" type="button" data-reset>{labels.reset}</button>
   </div>
@@ -127,6 +128,23 @@ const { labels } = Astro.props;
     const error = root.querySelector('[data-error]');
     const toast = root.querySelector('.toast');
     let latestText = '';
+    let latestGrid = null;
+
+    function csvCell(value) {
+      const text = String(value ?? '');
+      return /[",\r\n]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
+    }
+
+    function downloadCsv(filename, rows) {
+      const csv = rows.map((row) => row.map(csvCell).join(',')).join('\r\n');
+      const blob = new Blob([String.fromCharCode(0xfeff) + csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const anchor = document.createElement('a');
+      anchor.href = url;
+      anchor.download = filename;
+      anchor.click();
+      URL.revokeObjectURL(url);
+    }
 
     function names() {
       return namesInput.value
@@ -201,6 +219,7 @@ const { labels } = Astro.props;
       }
       const arranged = shuffleInput.checked ? shuffle(list) : list;
       const seats = Array.from({ length: grid.rows * grid.columns }, (_, index) => arranged[index] || '');
+      latestGrid = { seats, rows: grid.rows, columns: grid.columns };
       latestText = Array.from({ length: grid.rows }, (_, row) =>
         Array.from({ length: grid.columns }, (_, column) => seats[seatIndex(row, column, grid.rows, grid.columns)] || labels.emptySeat).join('\t'),
       ).join('\n');
@@ -215,6 +234,7 @@ const { labels } = Astro.props;
       fillModeInput.value = 'row';
       shuffleInput.checked = true;
       latestText = '';
+      latestGrid = null;
       output.innerHTML = `<p class="empty-state">${labels.emptyResult}</p>`;
       setError('');
       namesInput.focus();
@@ -232,6 +252,20 @@ const { labels } = Astro.props;
     root.querySelector('[data-print]')?.addEventListener('click', () => {
       if (!latestText) generate();
       window.print();
+    });
+    root.querySelector('[data-export]')?.addEventListener('click', () => {
+      if (!latestGrid) generate();
+      if (!latestGrid) return;
+      const { seats, rows, columns } = latestGrid;
+      const csvRows = [[labels.csvRow, labels.csvColumn, labels.seatLabel, labels.csvName]];
+      for (let row = 0; row < rows; row += 1) {
+        for (let column = 0; column < columns; column += 1) {
+          const seatNumber = row * columns + column + 1;
+          const name = seats[seatIndex(row, column, rows, columns)] || '';
+          csvRows.push([row + 1, column + 1, seatNumber, name]);
+        }
+      }
+      downloadCsv('seating-chart.csv', csvRows);
     });
     root.querySelector('[data-copy]')?.addEventListener('click', async () => {
       if (!latestText) generate();

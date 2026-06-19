@@ -7,6 +7,9 @@ interface ToolContent {
   keywords: string[];
   instructions: string[];
   examples: string[];
+  audience?: string[];
+  caseStudies?: { title: string; description: string }[];
+  notes?: string[];
   faq: { q: string; a: string }[];
   labels: Record<string, string>;
   disclaimer?: string;
@@ -17,7 +20,7 @@ export default {
   zh: {
     name: 'PDF 拆分',
     short: '將 PDF 每頁分開，或依自訂頁碼範圍輸出多份 PDF。',
-    long: 'PDF 拆分工具可在瀏覽器本機讀取一份 PDF，依每頁拆分，或依 1-3, 5, 8-10 這類頁碼範圍輸出多個 PDF 檔案。檔案處理不需要上傳。',
+    long: 'PDF 拆分工具適合從報告、合約、教材或掃描檔中取出需要的頁面。你可以把每一頁輸出成獨立 PDF，也能輸入 1-3, 5, 8-10 這類範圍建立分段檔案；處理過程在瀏覽器本機完成，不會把原始 PDF 上傳到本站或第三方伺服器。',
     seoTitle: 'PDF 拆分 | 免費線上 PDF 分割工具',
     seoDescription: '免費 PDF 拆分工具，可將 PDF 每頁分開，或依自訂頁碼範圍輸出 PDF。所有處理都在瀏覽器本機完成。',
     keywords: ['PDF 拆分', 'PDF 分割', '拆頁 PDF', 'split PDF', 'PDF page range'],
@@ -32,6 +35,31 @@ export default {
       '只輸出合約中的第 1-3 頁和簽名頁。',
       '將教材依章節拆成多份檔案給不同學生。',
       '在不外傳原始文件的情況下擷取需要分享的頁面。',
+    ],
+    audience: [
+      '只需要分享報告、合約或申請資料中特定頁面的辦公室使用者。',
+      '要把掃描成一份的大檔案拆成章節、收據或個別附件的行政人員。',
+      '需要按課程單元輸出講義、作業或閱讀資料的老師與助教。',
+      '想在本機擷取 PDF 頁面，避免把完整文件上傳到外部服務的人。',
+    ],
+    caseStudies: [
+      {
+        title: '合約頁面擷取',
+        description: '法務或業務同仁只需要寄出合約中的條款頁與簽名頁時，可輸入指定頁碼範圍產生一份較小 PDF，降低分享不必要頁面的風險。',
+      },
+      {
+        title: '掃描收據拆檔',
+        description: '行政人員將一次掃描成大檔的收據依月份或案件拆成多份 PDF，方便命名、歸檔與提供給會計審核。',
+      },
+      {
+        title: '教材分章下載',
+        description: '老師把整本講義依單元拆成多個 PDF，學生可以只下載當週需要的章節，手機閱讀時也比較不會載入過慢。',
+      },
+    ],
+    notes: [
+      '頁碼從 1 開始，範圍可用逗號分隔；輸入前建議先確認工具讀到的總頁數。',
+      '受密碼保護、限制修改或損壞的 PDF 可能無法拆分。',
+      '若 PDF 很大或頁數很多，拆成多個範圍比一次輸出每一頁更容易維持瀏覽器穩定。',
     ],
     faq: [
       {
@@ -49,6 +77,10 @@ export default {
       {
         q: '可以處理加密 PDF 嗎？',
         a: '瀏覽器端工具通常無法處理需要密碼或限制複製的 PDF，請先使用未加密檔案。',
+      },
+      {
+        q: '拆分後會影響原始 PDF 嗎？',
+        a: '不會。工具會依你選擇的頁面建立新的 PDF 下載檔，原始 PDF 仍保留在你的裝置上，不會被覆寫或修改。',
       },
     ],
     labels: {
@@ -79,7 +111,7 @@ export default {
   en: {
     name: 'Split PDF',
     short: 'Split one PDF into single pages or custom page-range files.',
-    long: 'Split PDF reads one PDF locally and creates downloads for every page or for custom ranges such as 1-3, 5, 8-10. The file is processed in your browser with pdf-lib and is never uploaded.',
+    long: 'Split PDF helps you extract only the pages you need from reports, contracts, class material, scanned files, and application packets. Create one PDF per page or enter custom ranges such as 1-3, 5, 8-10 to build separate downloads. Processing runs locally in your browser with pdf-lib, so the original PDF is not uploaded to Free Tools Hub or a third-party server.',
     seoTitle: 'Split PDF | Free online PDF splitter',
     seoDescription: 'Split a PDF into single pages or custom page ranges locally in your browser. Files are never uploaded.',
     keywords: ['split PDF', 'PDF splitter', 'extract PDF ranges', 'PDF page splitter', 'local PDF tool'],
@@ -94,6 +126,31 @@ export default {
       'Export only pages 1-3 and the signature page from a contract.',
       'Divide class material into chapter files for students.',
       'Extract pages without sending the original document to a service.',
+    ],
+    audience: [
+      'Office users who only need to share selected pages from a report, contract, or application file.',
+      'Admins separating a large scanned PDF into chapters, receipts, proof documents, or case attachments.',
+      'Teachers and assistants who want to export handouts, readings, or worksheets by lesson unit.',
+      'Anyone who wants local PDF page extraction without uploading the full document to an external service.',
+    ],
+    caseStudies: [
+      {
+        title: 'Contract page extraction',
+        description: 'A coordinator exports only the clause pages and signature page needed for a review, creating a smaller PDF and reducing the chance of sharing unrelated contract pages.',
+      },
+      {
+        title: 'Receipt scan cleanup',
+        description: 'An admin splits one large scanned receipt file into monthly or case-based PDFs, making each file easier to name, archive, and send to accounting.',
+      },
+      {
+        title: 'Lesson chapter downloads',
+        description: 'A teacher divides a full workbook into chapter PDFs so students can download only the current unit and open the file more easily on phones.',
+      },
+    ],
+    notes: [
+      'Page numbers start at 1, and ranges can be comma-separated; check the loaded page count before entering ranges.',
+      'Password-protected, edit-restricted, or damaged PDFs may not split correctly.',
+      'For very large PDFs, creating a few custom ranges is usually more stable than exporting every page at once.',
     ],
     faq: [
       {
@@ -111,6 +168,10 @@ export default {
       {
         q: 'Can this split encrypted PDFs?',
         a: 'Browser-only tools usually cannot process password-protected or restricted PDFs. Use an unlocked PDF.',
+      },
+      {
+        q: 'Does splitting change the original PDF?',
+        a: 'No. The tool creates new downloadable PDFs from the pages you choose. The original file remains on your device and is not overwritten or modified.',
       },
     ],
     labels: {

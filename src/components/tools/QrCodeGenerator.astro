@@ -30,6 +30,14 @@ const { labels } = Astro.props;
       </select>
     </label>
   </div>
+  <div class="logo-field">
+    <label>
+      <span>{labels.logo}</span>
+      <input data-logo type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml" />
+    </label>
+    <button class="btn ghost" type="button" data-remove-logo hidden>{labels.removeLogo}</button>
+    <p class="logo-hint">{labels.logoHint}</p>
+  </div>
   <p class="form-error" data-error role="alert" hidden></p>
   <div class="qr-preview" aria-live="polite">
     <canvas data-canvas width="256" height="256" role="img" aria-label={labels.canvasAlt}></canvas>
@@ -56,6 +64,26 @@ const { labels } = Astro.props;
   .qr-options {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     margin-bottom: 16px;
+  }
+
+  .logo-field {
+    margin-bottom: 8px;
+  }
+
+  .logo-field input[type='file'] {
+    width: 100%;
+    margin-top: 6px;
+    font: inherit;
+  }
+
+  .logo-field .btn {
+    margin-top: 8px;
+  }
+
+  .logo-hint {
+    margin: 8px 0 0;
+    color: var(--muted);
+    font-size: 0.85rem;
   }
 
   .qr-preview {
@@ -89,9 +117,24 @@ const { labels } = Astro.props;
     const correctionInput = root.querySelector('[data-correction]');
     const sizeInput = root.querySelector('[data-size]');
     const canvas = root.querySelector('[data-canvas]');
+    const logoInput = root.querySelector('[data-logo]');
+    const removeLogoButton = root.querySelector('[data-remove-logo]');
     const error = root.querySelector('[data-error]');
     const toast = root.querySelector('.toast');
     let renderTimer = null;
+    let logoImage = null;
+
+    function drawLogo() {
+      if (!logoImage) return;
+      const context = canvas.getContext('2d');
+      const size = Math.round(canvas.width * 0.22);
+      const x = Math.round((canvas.width - size) / 2);
+      const y = Math.round((canvas.height - size) / 2);
+      const pad = Math.round(size * 0.12);
+      context.fillStyle = '#ffffff';
+      context.fillRect(x - pad, y - pad, size + pad * 2, size + pad * 2);
+      context.drawImage(logoImage, x, y, size, size);
+    }
 
     function setError(message) {
       error.textContent = message;
@@ -126,6 +169,7 @@ const { labels } = Astro.props;
           margin: 2,
           width,
         });
+        drawLogo();
         canvas.style.width = `${Math.min(width, 512)}px`;
         setError('');
       } catch {
@@ -164,9 +208,33 @@ const { labels } = Astro.props;
       }, 'image/png');
     }
 
+    function loadLogo(file) {
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        const image = new Image();
+        image.onload = () => {
+          logoImage = image;
+          removeLogoButton.hidden = false;
+          renderQr();
+        };
+        image.onerror = () => setError(labels.logoError);
+        image.src = reader.result;
+      };
+      reader.onerror = () => setError(labels.logoError);
+      reader.readAsDataURL(file);
+    }
+
     textInput.addEventListener('input', scheduleRender);
     correctionInput.addEventListener('change', scheduleRender);
     sizeInput.addEventListener('change', scheduleRender);
+    logoInput?.addEventListener('change', () => loadLogo(logoInput.files && logoInput.files[0]));
+    removeLogoButton?.addEventListener('click', () => {
+      logoImage = null;
+      if (logoInput) logoInput.value = '';
+      removeLogoButton.hidden = true;
+      renderQr();
+    });
     root.querySelector('[data-download]')?.addEventListener('click', download);
     root.querySelector('[data-copy]')?.addEventListener('click', copyImage);
     renderQr();

@@ -4,6 +4,9 @@ type Pair = { zh: string; en: string };
 type Config = {
   name: Pair; short: Pair; long: Pair; keywords: Pair[]; instructions: Pair[];
   examples: Pair[]; faq: { q: Pair; a: Pair }[]; labels: Record<string, Pair | string>;
+  audience?: Pair[];
+  caseStudies?: { title: Pair; description: Pair }[];
+  notes?: Pair[];
   disclaimer?: Pair; privacy?: Pair;
 };
 
@@ -14,6 +17,9 @@ function localize(config: Config, lang: 'zh' | 'en'): ToolContent {
     seoTitle: `${config.name[lang]} | ${lang === 'en' ? 'Free browser tool' : '免費線上工具'}`,
     seoDescription: config.long[lang], keywords: config.keywords.map((item) => item[lang]),
     instructions: config.instructions.map((item) => item[lang]), examples: config.examples.map((item) => item[lang]),
+    audience: config.audience?.map((item) => item[lang]),
+    caseStudies: config.caseStudies?.map((item) => ({ title: item.title[lang], description: item.description[lang] })),
+    notes: config.notes?.map((item) => item[lang]),
     faq: config.faq.map((item) => ({ q: item.q[lang], a: item.a[lang] })), labels: Object.fromEntries(labelEntries),
     disclaimer: config.disclaimer?.[lang], privacyNote: config.privacy?.[lang],
   };

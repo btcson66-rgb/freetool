@@ -77,6 +77,17 @@ const breadcrumbItems = [
     </section>
 
     {
+      content.audience && content.audience.length > 0 && (
+        <section class="content-section">
+          <h2>{ui.sections.audience}</h2>
+          <ul class="check-list">
+            {content.audience.map((item) => <li>{item}</li>)}
+          </ul>
+        </section>
+      )
+    }
+
+    {
       content.caseStudies && content.caseStudies.length > 0 && (
         <section class="content-section">
           <h2>{ui.sections.realExamples}</h2>
@@ -88,6 +99,17 @@ const breadcrumbItems = [
               </article>
             ))}
           </div>
+        </section>
+      )
+    }
+
+    {
+      content.notes && content.notes.length > 0 && (
+        <section class="content-section">
+          <h2>{ui.sections.notes}</h2>
+          <ul class="note-list">
+            {content.notes.map((item) => <li>{item}</li>)}
+          </ul>
         </section>
       )
     }

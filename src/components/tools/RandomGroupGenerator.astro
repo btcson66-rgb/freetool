@@ -20,6 +20,7 @@ const { labels } = Astro.props;
   <div class="actions">
     <button class="btn go" type="button" data-generate>{labels.generate}</button>
     <button class="btn" type="button" data-copy>{labels.copyAll}</button>
+    <button class="btn" type="button" data-export>{labels.exportCsv}</button>
     <button class="btn ghost" type="button" data-reset>{labels.reset}</button>
   </div>
   <p class="form-error" data-error role="alert" hidden></p>
@@ -73,6 +74,23 @@ const { labels } = Astro.props;
     const error = root.querySelector('[data-error]');
     const toast = root.querySelector('.toast');
     let latestText = '';
+    let latestGroups = [];
+
+    function csvCell(value) {
+      const text = String(value ?? '');
+      return /[",\r\n]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
+    }
+
+    function downloadCsv(filename, rows) {
+      const csv = rows.map((row) => row.map(csvCell).join(',')).join('\r\n');
+      const blob = new Blob([String.fromCharCode(0xfeff) + csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const anchor = document.createElement('a');
+      anchor.href = url;
+      anchor.download = filename;
+      anchor.click();
+      URL.revokeObjectURL(url);
+    }
 
     function entries() {
       return textarea.value
@@ -133,6 +151,7 @@ const { labels } = Astro.props;
       shuffle(names).forEach((name, index) => {
         groups[index % groupCount].push(name);
       });
+      latestGroups = groups;
       latestText = groups
         .map((group, index) => `${groupLabel(index)}\n${group.map((member) => `- ${member}`).join('\n')}`)
         .join('\n\n');
@@ -145,9 +164,21 @@ const { labels } = Astro.props;
       textarea.value = '';
       groupCountInput.value = '2';
       latestText = '';
+      latestGroups = [];
       output.innerHTML = `<p class="empty-state">${labels.emptyResult}</p>`;
       setError('');
       textarea.focus();
+    });
+    root.querySelector('[data-export]')?.addEventListener('click', () => {
+      if (!latestGroups.length) {
+        setError(labels.emptyError);
+        return;
+      }
+      const rows = [[labels.csvGroup, labels.csvMember]];
+      latestGroups.forEach((group, index) => {
+        group.forEach((member) => rows.push([groupLabel(index), member]));
+      });
+      downloadCsv('groups.csv', rows);
     });
     root.querySelector('[data-copy]')?.addEventListener('click', async () => {
       if (!latestText) return;

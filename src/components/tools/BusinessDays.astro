@@ -27,6 +27,15 @@ const { labels } = Astro.props;
       <span>{labels.skipWeekends}</span>
     </label>
   </div>
+  <div class="form-grid preset-row">
+    <label>
+      <span>{labels.holidayPreset}</span>
+      <select data-holiday-preset>
+        <option value="">{labels.presetNone}</option>
+        <option value="tw2026">{labels.presetTw2026}</option>
+      </select>
+    </label>
+  </div>
   <label class="textarea-label compact-textarea">
     <span>{labels.holidays}</span>
     <textarea data-holidays rows="4" placeholder={labels.holidayPlaceholder}></textarea>
@@ -51,6 +60,11 @@ const { labels } = Astro.props;
   .inline-toggle {
     align-self: end;
     min-height: 48px;
+  }
+
+  .preset-row {
+    grid-template-columns: minmax(220px, 320px);
+    margin-bottom: 12px;
   }
 
   .compact-textarea textarea {
@@ -84,7 +98,27 @@ const { labels } = Astro.props;
     const includeEndInput = root.querySelector('[data-include-end]');
     const skipWeekendsInput = root.querySelector('[data-skip-weekends]');
     const holidaysInput = root.querySelector('[data-holidays]');
+    const presetInput = root.querySelector('[data-holiday-preset]');
     const error = root.querySelector('[data-error]');
+
+    // 台灣 2026（民國115年）國定假日與補假之平日（不含一般週末）。
+    // 來源：行政院人事行政總處核定之 115 年政府行政機關辦公日曆表。
+    const holidayPresets = {
+      tw2026: [
+        '2026-01-01', // 元旦
+        '2026-02-16', '2026-02-17', '2026-02-18', '2026-02-19', '2026-02-20', // 農曆春節
+        '2026-02-27', // 和平紀念日（2/28 週六）補假
+        '2026-04-03', // 兒童節（4/4 週六）補假
+        '2026-04-06', // 清明節（4/5 週日）補假
+        '2026-05-01', // 勞動節
+        '2026-06-19', // 端午節
+        '2026-09-25', // 中秋節
+        '2026-09-28', // 教師節
+        '2026-10-09', // 國慶日（10/10 週六）補假
+        '2026-10-26', // 臺灣光復節（10/25 週日）補假
+        '2026-12-25', // 行憲紀念日
+      ],
+    };
     const toast = root.querySelector('.toast');
     const outputs = {
       business: root.querySelector('[data-business]'),
@@ -200,6 +234,18 @@ const { labels } = Astro.props;
     });
     [startInput, endInput, includeEndInput, skipWeekendsInput, holidaysInput].forEach((input) => input.addEventListener('input', calculate));
     [includeEndInput, skipWeekendsInput].forEach((input) => input.addEventListener('change', calculate));
+    presetInput?.addEventListener('change', () => {
+      const preset = holidayPresets[presetInput.value];
+      if (!preset) return;
+      const existing = holidaysInput.value
+        .split(/\r\n|\r|\n/)
+        .map((line) => line.trim())
+        .filter((line) => /^\d{4}-\d{2}-\d{2}$/.test(line));
+      const merged = Array.from(new Set([...existing, ...preset])).sort();
+      holidaysInput.value = merged.join('\n');
+      presetInput.value = '';
+      calculate();
+    });
 
     reset();
   });

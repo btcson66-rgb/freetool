@@ -14,7 +14,9 @@ export interface ToolContent {
   keywords: string[];
   instructions: string[];
   examples: string[];
+  audience?: string[];
   caseStudies?: ToolPageCase[];
+  notes?: string[];
   faq: { q: string; a: string }[];
   labels: Record<string, string>;
   disclaimer?: string;
