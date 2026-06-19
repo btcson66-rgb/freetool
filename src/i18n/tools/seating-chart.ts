@@ -1,23 +1,10 @@
-interface ToolContent {
-  name: string;
-  short: string;
-  long: string;
-  seoTitle: string;
-  seoDescription: string;
-  keywords: string[];
-  instructions: string[];
-  examples: string[];
-  faq: { q: string; a: string }[];
-  labels: Record<string, string>;
-  disclaimer?: string;
-  privacyNote?: string;
-}
+import type { ToolContent } from './_types';
 
 export default {
   zh: {
     name: '座位表產生器',
     short: '依名單規劃教室座位配置。',
-    long: '座位表產生器會把貼上的學生名單放入指定列數與欄數的座位格。可選擇隨機洗牌，並支援依列或依欄填入，方便快速複製或列印。',
+    long: '座位表產生器可把學生名單放入指定列數與欄數的座位格，適合新學期排座位、考試座位、活動桌次與臨時分區。你可以選擇是否隨機洗牌，並依列或依欄填入。結果可複製成文字，也可使用瀏覽器列印或另存 PDF，方便課前快速確認空位。',
     seoTitle: '座位表產生器｜免費教室座位安排工具',
     seoDescription: '貼上學生名單，設定列數與欄數，隨機或依序產生座位表，可複製與列印。',
     keywords: ['座位表', 'seating chart', '教室座位', '學生座位安排'],
@@ -31,6 +18,32 @@ export default {
       '為新學期快速建立教室座位表。',
       '考試前隨機安排座位，減少固定鄰座。',
       '把活動或工作坊參與者安排到桌次。',
+      '依列或依欄建立可貼到文件中的座位文字表。',
+    ],
+    audience: [
+      '需要快速安排班級座位、考試座位或臨時座位的老師。',
+      '想把座位表複製到公告、文件或班級群組的導師與行政人員。',
+      '正在規劃工作坊、營隊、講座桌次或分區座位的活動工作者。',
+      '需要列印座位表或透過瀏覽器另存 PDF 的教學現場使用者。',
+    ],
+    caseStudies: [
+      {
+        title: '新學期教室座位安排',
+        description: '導師貼上全班名單，設定 5 列 6 欄並產生初版座位表，再依視力、互動狀況或特殊需求做人工調整。',
+      },
+      {
+        title: '考試座位重新洗牌',
+        description: '老師在考前開啟隨機洗牌產生座位表，列印後貼在教室門口，讓學生進教室前就能找到座位。',
+      },
+      {
+        title: '活動桌次分配',
+        description: '工作坊工作人員用列與欄模擬桌次配置，複製文字版給現場同仁核對，再用列印版放在報到桌。',
+      },
+    ],
+    notes: [
+      '座位表是安排輔助工具，仍建議依學生視力、行動需求、互動狀況或考試規範進行人工調整。',
+      '工具可複製文字結果、匯出 CSV（含列、欄、座號與姓名），也可透過瀏覽器列印或另存 PDF；目前沒有 Excel 或圖片檔案匯出。',
+      '列數與欄數上限是 20；若學生人數超過座位數，需要先增加座位格再產生。',
     ],
     faq: [
       {
@@ -43,7 +56,15 @@ export default {
       },
       {
         q: '可以儲存座位表嗎？',
-        a: '工具本身不儲存。你可以複製文字版或使用瀏覽器列印功能保存。',
+        a: '工具本身不儲存。你可以複製文字版、匯出 CSV，或使用瀏覽器列印功能保存，也可在列印視窗另存 PDF。',
+      },
+      {
+        q: '依列填入和依欄填入有什麼差別？',
+        a: '依列填入會從第一列由左到右排列，再換下一列；依欄填入會先填滿第一欄，再往下一欄移動。',
+      },
+      {
+        q: '座位安排會上傳到伺服器嗎？',
+        a: '不會。名單與座位表都在你的瀏覽器中處理，本站不會接收或儲存內容。',
       },
     ],
     labels: {
@@ -57,9 +78,13 @@ export default {
       columnMode: '依欄填入',
       generate: '產生座位表',
       copy: '複製',
+      exportCsv: '匯出 CSV',
       print: '列印',
       reset: '重設',
       seatLabel: '座位',
+      csvRow: '列',
+      csvColumn: '欄',
+      csvName: '姓名',
       emptySeat: '空位',
       emptyResult: '座位表會顯示在這裡',
       emptyListError: '請至少輸入一位學生。',
@@ -72,7 +97,7 @@ export default {
   en: {
     name: 'Seating Chart',
     short: 'Arrange classroom seating from a student list.',
-    long: 'Seating Chart places a pasted student list into a row-by-column seat grid. You can shuffle the list and fill seats by row or by column, then copy or print the chart.',
+    long: 'Seating Chart places a student list into a row-and-column grid for new terms, exam seating, activity tables, and temporary room layouts. Choose whether to shuffle, then fill seats by row or by column. Copy the plain-text chart, print it from the browser, or save it as a PDF from the print dialog.',
     seoTitle: 'Seating Chart Generator | Free classroom seating tool',
     seoDescription: 'Paste a student list, choose rows and columns, shuffle or keep order, and generate a copyable printable seating chart.',
     keywords: ['seating chart', 'classroom seating chart', 'student seating', 'seat planner'],
@@ -86,6 +111,32 @@ export default {
       'Create a new classroom seating chart for the start of term.',
       'Randomize exam seating to avoid fixed neighbors.',
       'Arrange workshop or activity participants by table positions.',
+      'Build a text-based seating layout that can be pasted into notes or documents.',
+    ],
+    audience: [
+      'Teachers arranging regular classroom seating, exam seating, or temporary room layouts.',
+      'Homeroom teachers and administrators copying seating charts into announcements or documents.',
+      'Event staff planning workshop tables, camp groups, lecture sections, or activity zones.',
+      'Classroom users who need a printable chart or a PDF saved from the browser print dialog.',
+    ],
+    caseStudies: [
+      {
+        title: 'New term classroom layout',
+        description: 'A homeroom teacher pastes the class list, creates a 5 by 6 chart, then manually adjusts the result for eyesight, interaction patterns, or support needs.',
+      },
+      {
+        title: 'Exam seating shuffle',
+        description: 'A teacher generates a shuffled seating chart before an exam, prints it, and posts it at the classroom entrance so students can find seats quickly.',
+      },
+      {
+        title: 'Workshop table planning',
+        description: 'An event team models tables with rows and columns, copies the text chart for staff review, and keeps a printed version at check-in.',
+      },
+    ],
+    notes: [
+      'Seating charts are planning aids; adjust results for eyesight, accessibility, behavior needs, and exam rules.',
+      'The tool copies plain text, exports a CSV (row, column, seat number, name), and can print through the browser, including saving as PDF from the print dialog; it does not export Excel or image files.',
+      'Rows and columns are limited to 20 each; increase the grid before generating when the list is larger than the number of seats.',
     ],
     faq: [
       {
@@ -98,7 +149,15 @@ export default {
       },
       {
         q: 'Can the chart be saved?',
-        a: 'The tool does not store charts. Copy the text version or use your browser print dialog to save it.',
+        a: 'The tool does not store charts. Copy the text version, export a CSV, print it, or save it as a PDF from your browser print dialog.',
+      },
+      {
+        q: 'What is the difference between row and column fill?',
+        a: 'Row fill moves left to right across a row before moving down. Column fill fills one column before moving to the next.',
+      },
+      {
+        q: 'Are seating charts uploaded?',
+        a: 'No. Names and charts are generated locally in your browser and are not received or stored by this site.',
       },
     ],
     labels: {
@@ -112,9 +171,13 @@ export default {
       columnMode: 'By column',
       generate: 'Generate chart',
       copy: 'Copy',
+      exportCsv: 'Export CSV',
       print: 'Print',
       reset: 'Reset',
       seatLabel: 'Seat',
+      csvRow: 'Row',
+      csvColumn: 'Column',
+      csvName: 'Name',
       emptySeat: 'Empty',
       emptyResult: 'Seating chart appears here',
       emptyListError: 'Enter at least one student.',
@@ -125,4 +188,3 @@ export default {
     privacyNote: 'Names and seating charts are generated locally in your browser and are not uploaded.',
   },
 } satisfies Record<'zh' | 'en', ToolContent>;
-

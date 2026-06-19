@@ -491,12 +491,14 @@ a.tile:hover {
 }
 
 .check-list,
+.note-list,
 .step-list {
   margin: 0;
   padding-left: 1.25rem;
 }
 
 .check-list li,
+.note-list li,
 .step-list li {
   margin: 8px 0;
 }

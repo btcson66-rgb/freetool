@@ -140,8 +140,10 @@ const ui = {
     sections: {
       howToUse: '如何使用',
       useCases: '適合用途',
+      audience: '適合誰使用',
       toolArea: '工具互動區',
       realExamples: '實際案例',
+      notes: '注意事項',
       disclaimer: '免責聲明',
     },
     homeWhy: [
@@ -291,8 +293,10 @@ const ui = {
     sections: {
       howToUse: 'How to use',
       useCases: 'Use cases',
+      audience: 'Who is it for',
       toolArea: 'Tool area',
       realExamples: 'Real examples',
+      notes: 'Good to know',
       disclaimer: 'Disclaimer',
     },
     homeWhy: [
