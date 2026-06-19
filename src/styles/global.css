@@ -1085,6 +1085,7 @@ textarea {
   .grid.compact,
   .case-grid,
   .use-case-grid,
+  .tool-blurb-grid,
   .form-grid,
   .stats-grid {
     grid-template-columns: 1fr;
@@ -1111,5 +1112,122 @@ textarea {
 
   .timer-panel {
     padding: 20px 12px;
+  }
+}
+
+/* Category page enhancements */
+.category-count-line {
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.category-intro p {
+  margin: 0 0 12px;
+  max-width: 760px;
+  color: var(--ink);
+  line-height: 1.75;
+}
+
+.category-intro p:last-child {
+  margin-bottom: 0;
+}
+
+.disclaimer-callout {
+  display: grid;
+  gap: 6px;
+  padding: 16px 18px;
+  border: 1px solid #f0d8a8;
+  border-left: 4px solid #d99a2b;
+  border-radius: 10px;
+  background: #fff8ec;
+}
+
+.disclaimer-callout strong {
+  color: #92600c;
+}
+
+.disclaimer-callout p {
+  margin: 0;
+  color: #5f4a23;
+  line-height: 1.7;
+}
+
+.tool-blurb-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.tool-blurb-card {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--card);
+  box-shadow: var(--shadow-soft);
+}
+
+.tool-blurb-card h3 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  font-size: 1.06rem;
+  line-height: 1.3;
+}
+
+.tool-blurb-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.tool-blurb-cta {
+  justify-self: start;
+  margin-top: 2px;
+}
+
+.how-to-choose {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding-left: 1.2em;
+}
+
+.how-to-choose li {
+  line-height: 1.7;
+}
+
+.how-to-choose a {
+  color: var(--brand-2);
+  font-weight: 700;
+}
+
+@media (max-width: 760px) {
+  .tool-blurb-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Chart maker rows are created dynamically in JS, so their grid layout
+   lives here (unscoped) to ensure it applies to runtime-generated rows. */
+.chart-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+}
+
+.chart-row .btn {
+  min-height: 44px;
+}
+
+@media (max-width: 760px) {
+  .chart-row {
+    grid-template-columns: 1fr 1fr auto;
   }
 }

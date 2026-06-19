@@ -1,0 +1,281 @@
+---
+interface Props {
+  labels: Record<string, string>;
+}
+
+const { labels } = Astro.props;
+---
+
+<section class="tool-widget card image-tool" data-image-crop-tool data-labels={JSON.stringify(labels)}>
+  <p class="note">{labels.localNote}</p>
+  <label>
+    <span>{labels.upload}</span>
+    <input data-file type="file" accept="image/*" />
+  </label>
+
+  <p class="crop-hint" data-hint hidden>{labels.hint}</p>
+  <p class="form-error" data-error role="alert" hidden></p>
+
+  <div class="crop-canvas-wrap" data-canvas-wrap hidden>
+    <canvas data-canvas aria-label={labels.canvasLabel}></canvas>
+  </div>
+
+  <div class="stats-grid image-stats" aria-live="polite">
+    <div><span>{labels.originalSize}</span><strong data-original-size>-</strong></div>
+    <div><span>{labels.dimensions}</span><strong data-dimensions>-</strong></div>
+    <div><span>{labels.selection}</span><strong data-selection>-</strong></div>
+  </div>
+
+  <div class="actions">
+    <button class="btn go" type="button" data-crop disabled>{labels.cropDownload}</button>
+    <button class="btn ghost" type="button" data-clear>{labels.reset}</button>
+  </div>
+</section>
+
+<style>
+  .crop-hint {
+    margin: 14px 0 0;
+    color: var(--muted);
+    font-weight: 800;
+  }
+
+  .crop-canvas-wrap {
+    margin: 14px 0;
+    padding: 10px;
+    border: 1px solid #cfe6e3;
+    border-radius: 8px;
+    background: #f2fbfa;
+    overflow: auto;
+  }
+
+  .crop-canvas-wrap canvas {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+    border-radius: 6px;
+    background: #fff;
+    touch-action: none;
+    cursor: crosshair;
+  }
+
+  .image-stats {
+    margin-bottom: 16px;
+  }
+</style>
+
+<script>
+  document.querySelectorAll('[data-image-crop-tool]').forEach((root) => {
+    const labels = JSON.parse(root.getAttribute('data-labels') || '{}');
+    const fileInput = root.querySelector('[data-file]');
+    const wrap = root.querySelector('[data-canvas-wrap]');
+    const canvas = root.querySelector('[data-canvas]');
+    const hint = root.querySelector('[data-hint]');
+    const error = root.querySelector('[data-error]');
+    const cropButton = root.querySelector('[data-crop]');
+    const out = {
+      original: root.querySelector('[data-original-size]'),
+      dimensions: root.querySelector('[data-dimensions]'),
+      selection: root.querySelector('[data-selection]'),
+    };
+    if (!(canvas instanceof HTMLCanvasElement)) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const maxBytes = 20 * 1024 * 1024;
+    const maxPixels = 40_000_000;
+    const maxDisplay = 760;
+    let state = null; // { file, image, scale, baseName }
+    let selection = null; // display coords {x,y,w,h}
+    let dragging = false;
+    let dragStart = null;
+
+    function setError(message) {
+      error.textContent = message;
+      error.hidden = !message;
+    }
+
+    function formatSize(bytes) {
+      if (!bytes) return '-';
+      return bytes >= 1024 * 1024 ? `${(bytes / 1024 / 1024).toFixed(2)} MB` : `${(bytes / 1024).toFixed(1)} KB`;
+    }
+
+    function fileBaseName(name) {
+      return name.replace(/\.[^.]+$/, '').replace(/[^\w-]+/g, '-').replace(/^-|-$/g, '') || 'image';
+    }
+
+    function outputType() {
+      return ['image/jpeg', 'image/png', 'image/webp'].includes(state.file.type) ? state.file.type : 'image/png';
+    }
+
+    function extensionFor(type) {
+      if (type === 'image/jpeg') return 'jpg';
+      if (type === 'image/webp') return 'webp';
+      return 'png';
+    }
+
+    function normalizedSelection() {
+      if (!selection) return null;
+      const x = Math.min(selection.x, selection.x + selection.w);
+      const y = Math.min(selection.y, selection.y + selection.h);
+      const w = Math.abs(selection.w);
+      const h = Math.abs(selection.h);
+      return { x, y, w, h };
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(state.image, 0, 0, canvas.width, canvas.height);
+      const sel = normalizedSelection();
+      if (sel && sel.w > 1 && sel.h > 1) {
+        ctx.save();
+        ctx.fillStyle = 'rgba(15, 23, 42, 0.5)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(
+          state.image,
+          sel.x * state.scale, sel.y * state.scale, sel.w * state.scale, sel.h * state.scale,
+          sel.x, sel.y, sel.w, sel.h,
+        );
+        ctx.strokeStyle = '#3e63dd';
+        ctx.lineWidth = 2;
+        ctx.setLineDash([6, 4]);
+        ctx.strokeRect(sel.x, sel.y, sel.w, sel.h);
+        ctx.restore();
+        const cropW = Math.round(sel.w * state.scale);
+        const cropH = Math.round(sel.h * state.scale);
+        out.selection.textContent = `${cropW} x ${cropH}`;
+        cropButton.disabled = cropW < 1 || cropH < 1;
+      } else {
+        out.selection.textContent = '-';
+        cropButton.disabled = true;
+      }
+    }
+
+    function pointFromEvent(event) {
+      const rect = canvas.getBoundingClientRect();
+      return {
+        x: Math.max(0, Math.min(canvas.width, ((event.clientX - rect.left) * canvas.width) / rect.width)),
+        y: Math.max(0, Math.min(canvas.height, ((event.clientY - rect.top) * canvas.height) / rect.height)),
+      };
+    }
+
+    function clearAll() {
+      state = null;
+      selection = null;
+      dragging = false;
+      fileInput.value = '';
+      wrap.hidden = true;
+      hint.hidden = true;
+      out.original.textContent = '-';
+      out.dimensions.textContent = '-';
+      out.selection.textContent = '-';
+      cropButton.disabled = true;
+      setError('');
+    }
+
+    function readImage(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onerror = reject;
+        reader.onload = () => {
+          const image = new Image();
+          image.onload = () => resolve(image);
+          image.onerror = reject;
+          image.src = String(reader.result || '');
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    async function handleFile() {
+      const file = fileInput.files?.[0];
+      clearAll();
+      if (!file) return;
+      if (!file.type.startsWith('image/')) { setError(labels.invalidType); return; }
+      if (file.size > maxBytes) { setError(labels.tooLarge); return; }
+      try {
+        const image = await readImage(file);
+        const w = image.naturalWidth;
+        const h = image.naturalHeight;
+        if (w * h > maxPixels) { setError(labels.tooLarge); return; }
+        const scale = Math.max(1, Math.max(w, h) / maxDisplay);
+        canvas.width = Math.round(w / scale);
+        canvas.height = Math.round(h / scale);
+        state = { file, image, scale, baseName: fileBaseName(file.name) };
+        // default centered selection (60%)
+        selection = {
+          x: canvas.width * 0.2,
+          y: canvas.height * 0.2,
+          w: canvas.width * 0.6,
+          h: canvas.height * 0.6,
+        };
+        wrap.hidden = false;
+        hint.hidden = false;
+        out.original.textContent = formatSize(file.size);
+        out.dimensions.textContent = `${w} x ${h}`;
+        draw();
+      } catch {
+        setError(labels.processError);
+      }
+    }
+
+    function onDown(event) {
+      if (!state) return;
+      event.preventDefault();
+      dragging = true;
+      dragStart = pointFromEvent(event);
+      selection = { x: dragStart.x, y: dragStart.y, w: 0, h: 0 };
+      canvas.setPointerCapture(event.pointerId);
+      draw();
+    }
+
+    function onMove(event) {
+      if (!dragging || !state) return;
+      event.preventDefault();
+      const p = pointFromEvent(event);
+      selection.w = p.x - dragStart.x;
+      selection.h = p.y - dragStart.y;
+      draw();
+    }
+
+    function onUp(event) {
+      if (!dragging) return;
+      dragging = false;
+      try { canvas.releasePointerCapture(event.pointerId); } catch {}
+      draw();
+    }
+
+    async function cropDownload() {
+      if (!state) return;
+      const sel = normalizedSelection();
+      if (!sel || sel.w < 1 || sel.h < 1) { setError(labels.noSelection); return; }
+      const sx = Math.round(sel.x * state.scale);
+      const sy = Math.round(sel.y * state.scale);
+      const sw = Math.round(sel.w * state.scale);
+      const sh = Math.round(sel.h * state.scale);
+      const outCanvas = document.createElement('canvas');
+      outCanvas.width = sw;
+      outCanvas.height = sh;
+      const outCtx = outCanvas.getContext('2d');
+      outCtx.drawImage(state.image, sx, sy, sw, sh, 0, 0, sw, sh);
+      const type = outputType();
+      const blob = await new Promise((resolve) => outCanvas.toBlob(resolve, type, 0.92));
+      if (!blob) { setError(labels.processError); return; }
+      const url = URL.createObjectURL(blob);
+      const anchor = document.createElement('a');
+      anchor.href = url;
+      anchor.download = `${state.baseName}-${sw}x${sh}.${extensionFor(type)}`;
+      anchor.click();
+      URL.revokeObjectURL(url);
+      setError('');
+    }
+
+    fileInput.addEventListener('change', handleFile);
+    canvas.addEventListener('pointerdown', onDown);
+    canvas.addEventListener('pointermove', onMove);
+    canvas.addEventListener('pointerup', onUp);
+    canvas.addEventListener('pointercancel', onUp);
+    cropButton.addEventListener('click', cropDownload);
+    root.querySelector('[data-clear]')?.addEventListener('click', clearAll);
+  });
+</script>

@@ -187,8 +187,8 @@ export const categories: Category[] = [
     icon: '📊',
     name: { zh: '教育與統計工具', en: 'Education & Statistics Tools' },
     description: {
-      zh: '提供分數轉換、加權平均、測驗分析與基礎統計工具，協助老師、學生與研究者進行初步計算。結果應配合研究設計及專業方法再次檢查。',
-      en: 'Score conversion, assessment analysis, and introductory statistics tools for educators, students, and researchers.',
+      zh: '提供分數轉換、加權平均、標準差、百分比與基礎統計工具，協助老師、學生與研究者進行計算與資料分析。結果應配合研究設計及專業方法再次檢查。',
+      en: 'Score conversion, weighted averages, standard deviation, percentages, and introductory statistics tools for educators, students, and researchers.',
     },
     relatedCategories: ['study', 'money', 'text'],
   },
