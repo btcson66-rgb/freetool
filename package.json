@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "audit:adsense": "node scripts/adsense-preflight.mjs",
+    "preflight": "npm run build && npm run audit:adsense"
   },
   "dependencies": {
     "astro": "^6.4.7",
