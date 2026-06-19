@@ -27,26 +27,37 @@ function alternateLinks(segments: string[]): string {
   return `${localeLinks}<xhtml:link rel="alternate" hreflang="x-default" href="${escapeXml(xDefault)}" />`;
 }
 
-function urlEntry(lang: Locale, segments: string[]): string {
+function urlEntry(lang: Locale, segments: string[], lastmod?: string): string {
   const loc = absoluteUrl(localePath(lang, ...segments));
+  const lastmodTag = lastmod ? `<lastmod>${escapeXml(lastmod)}</lastmod>` : '';
 
-  return `<url><loc>${escapeXml(loc)}</loc>${alternateLinks(segments)}</url>`;
+  return `<url><loc>${escapeXml(loc)}</loc>${lastmodTag}${alternateLinks(segments)}</url>`;
+}
+
+function latestDate(dates: (string | undefined)[]): string | undefined {
+  return dates.filter((date): date is string => Boolean(date)).sort().pop();
 }
 
 export const GET: APIRoute = () => {
   const liveCategories = categories.filter((category) =>
     getToolsByCategory(category.id).some((tool) => tool.status === 'live'),
   );
-  const segmentSets = [
-    [] as string[],
-    ['tools'],
-    ...liveCategories.map((category) => ['category', category.id]),
-    ...liveTools.map((tool) => ['tools', tool.slug]),
-    ...legalPages.map((page) => [page]),
+  const siteLatest = latestDate(liveTools.map((tool) => tool.updated));
+
+  // Each entry carries its own lastmod so search engines can prioritise recrawls.
+  const segmentSets: { segments: string[]; lastmod?: string }[] = [
+    { segments: [], lastmod: siteLatest },
+    { segments: ['tools'], lastmod: siteLatest },
+    ...liveCategories.map((category) => ({
+      segments: ['category', category.id],
+      lastmod: latestDate(getToolsByCategory(category.id).map((tool) => tool.updated)),
+    })),
+    ...liveTools.map((tool) => ({ segments: ['tools', tool.slug], lastmod: tool.updated })),
+    ...legalPages.map((page) => ({ segments: [page] })),
   ];
 
   const entries = SITE.locales
-    .flatMap((lang) => segmentSets.map((segments) => urlEntry(lang, segments)))
+    .flatMap((lang) => segmentSets.map(({ segments, lastmod }) => urlEntry(lang, segments, lastmod)))
     .join('');
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">${entries}</urlset>`;

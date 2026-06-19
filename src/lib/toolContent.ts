@@ -5,6 +5,8 @@ import base64Content from '../i18n/tools/base64';
 import breakReminderContent from '../i18n/tools/break-reminder';
 import businessDaysContent from '../i18n/tools/business-days';
 import cad2dContent from '../i18n/tools/cad-2d';
+import barChartMakerContent from '../i18n/tools/bar-chart-maker';
+import pieChartMakerContent from '../i18n/tools/pie-chart-maker';
 import caseConverterContent from '../i18n/tools/case-converter';
 import characterCounterContent from '../i18n/tools/character-counter';
 import colorGeneratorContent from '../i18n/tools/color-generator';
@@ -19,6 +21,9 @@ import groupGeneratorContent from '../i18n/tools/group-generator';
 import gpaCalculatorContent from '../i18n/tools/gpa-calculator';
 import gradeAverageContent from '../i18n/tools/grade-average';
 import imageCompressorContent from '../i18n/tools/image-compressor';
+import imageCropContent from '../i18n/tools/image-crop';
+import imageRotateFlipContent from '../i18n/tools/image-rotate-flip';
+import imageToBase64Content from '../i18n/tools/image-to-base64';
 import imageResizerContent from '../i18n/tools/image-resizer';
 import imagesToPdfContent from '../i18n/tools/images-to-pdf';
 import inflationContent from '../i18n/tools/inflation';
@@ -45,6 +50,8 @@ import seatingChartContent from '../i18n/tools/seating-chart';
 import sketchpadContent from '../i18n/tools/sketchpad';
 import sortLinesContent from '../i18n/tools/sort-lines';
 import splitPdfContent from '../i18n/tools/split-pdf';
+import standardDeviationContent from '../i18n/tools/standard-deviation';
+import percentageCalculatorContent from '../i18n/tools/percentage-calculator';
 import stopwatchContent from '../i18n/tools/stopwatch';
 import thisOrThatContent from '../i18n/tools/this-or-that';
 import urlEncoderContent from '../i18n/tools/url-encoder';
@@ -117,6 +124,13 @@ export const contentBySlug = {
   'pdf-page-reorder': pdfPageReorderContent,
   'pdf-to-image': pdfToImageContent,
   'pdf-compressor': pdfCompressorContent,
+  'standard-deviation': standardDeviationContent,
+  'percentage-calculator': percentageCalculatorContent,
+  'bar-chart-maker': barChartMakerContent,
+  'pie-chart-maker': pieChartMakerContent,
+  'image-crop': imageCropContent,
+  'image-rotate-flip': imageRotateFlipContent,
+  'image-to-base64': imageToBase64Content,
 } satisfies Record<string, LocalizedToolContent>;
 
 export type ToolContentSlug = keyof typeof contentBySlug;

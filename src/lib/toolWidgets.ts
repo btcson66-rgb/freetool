@@ -3,6 +3,7 @@ import Base64Tool from '../components/tools/Base64Tool.astro';
 import BreakReminder from '../components/tools/BreakReminder.astro';
 import BusinessDays from '../components/tools/BusinessDays.astro';
 import Cad2dBoard from '../components/tools/Cad2dBoard.astro';
+import ChartMaker from '../components/tools/ChartMaker.astro';
 import CaseConverter from '../components/tools/CaseConverter.astro';
 import CharacterCounter from '../components/tools/CharacterCounter.astro';
 import ClassGroupGenerator from '../components/tools/ClassGroupGenerator.astro';
@@ -17,6 +18,9 @@ import FlowchartMaker from '../components/tools/FlowchartMaker.astro';
 import GpaCalculator from '../components/tools/GpaCalculator.astro';
 import GradeAverage from '../components/tools/GradeAverage.astro';
 import ImageCompressor from '../components/tools/ImageCompressor.astro';
+import ImageCrop from '../components/tools/ImageCrop.astro';
+import ImageRotateFlip from '../components/tools/ImageRotateFlip.astro';
+import ImageToBase64 from '../components/tools/ImageToBase64.astro';
 import ImageResizer from '../components/tools/ImageResizer.astro';
 import ImagesToPdf from '../components/tools/ImagesToPdf.astro';
 import InflationCalculator from '../components/tools/InflationCalculator.astro';
@@ -51,6 +55,8 @@ import SeatingChart from '../components/tools/SeatingChart.astro';
 import Sketchpad from '../components/tools/Sketchpad.astro';
 import SortLines from '../components/tools/SortLines.astro';
 import SplitPdf from '../components/tools/SplitPdf.astro';
+import StandardDeviation from '../components/tools/StandardDeviation.astro';
+import PercentageCalculator from '../components/tools/PercentageCalculator.astro';
 import Stopwatch from '../components/tools/Stopwatch.astro';
 import ThisOrThat from '../components/tools/ThisOrThat.astro';
 import UrlEncoder from '../components/tools/UrlEncoder.astro';
@@ -118,6 +124,13 @@ export const widgetBySlug = {
   'pdf-page-reorder': PdfPageReorder,
   'pdf-to-image': PdfToImage,
   'pdf-compressor': PdfCompressor,
+  'standard-deviation': StandardDeviation,
+  'percentage-calculator': PercentageCalculator,
+  'bar-chart-maker': ChartMaker,
+  'pie-chart-maker': ChartMaker,
+  'image-crop': ImageCrop,
+  'image-rotate-flip': ImageRotateFlip,
+  'image-to-base64': ImageToBase64,
 } as const;
 
 export type ToolWidgetSlug = keyof typeof widgetBySlug;

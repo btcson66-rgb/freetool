@@ -1026,6 +1026,48 @@ export const tools: ToolMeta[] = [
     relatedTools: ['merge-pdf', 'pdf-page-reorder', 'split-pdf'], assetType: 'tool', searchIntent: 'high', shareIntent: 'low', embedPotential: 'low', maintenanceRisk: 'medium', monetizationTags: ['adsense', 'affiliate'], isNew: true, updated: '2026-06-18',
     name: { zh: 'PDF 壓縮工具', en: 'PDF Compressor' }, short: { zh: '重新整理 PDF 結構並嘗試縮小檔案。', en: 'Rewrite PDF structure and attempt to reduce file size.' },
   },
+  {
+    slug: 'standard-deviation', category: 'statistics', icon: 'σ', status: 'live', privacyLevel: 'local-only',
+    relatedTools: ['percentage-calculator', 'grade-average', 'gpa-calculator'], assetType: 'calculator', searchIntent: 'high', shareIntent: 'low', embedPotential: 'medium', maintenanceRisk: 'low', monetizationTags: ['adsense'], featured: true, isNew: true, updated: '2026-06-19',
+    name: { zh: '標準差計算器', en: 'Standard Deviation Calculator' },
+    short: { zh: '輸入一組數字，計算平均、中位數、變異數與標準差。', en: 'Compute mean, median, variance, and standard deviation from a set of numbers.' },
+  },
+  {
+    slug: 'percentage-calculator', category: 'statistics', icon: '％', status: 'live', privacyLevel: 'local-only',
+    relatedTools: ['standard-deviation', 'compound-interest', 'grade-average'], assetType: 'calculator', searchIntent: 'high', shareIntent: 'low', embedPotential: 'medium', maintenanceRisk: 'low', monetizationTags: ['adsense'], featured: true, isNew: true, updated: '2026-06-19',
+    name: { zh: '百分比計算器', en: 'Percentage Calculator' },
+    short: { zh: '計算某數的百分比、占比與百分比增減變化。', en: 'Find a percentage of a number, ratios, and percentage change.' },
+  },
+  {
+    slug: 'image-crop', category: 'image', icon: '✂️', status: 'live', privacyLevel: 'local-only',
+    relatedTools: ['image-resizer', 'image-rotate-flip', 'image-compressor'], assetType: 'tool', searchIntent: 'high', shareIntent: 'low', embedPotential: 'medium', maintenanceRisk: 'low', monetizationTags: ['adsense', 'affiliate'], featured: true, isNew: true, updated: '2026-06-19',
+    name: { zh: '圖片裁切工具', en: 'Image Cropper' },
+    short: { zh: '上傳圖片，拖曳選取範圍即可裁切並下載。', en: 'Upload an image, drag to select an area, and crop to download.' },
+  },
+  {
+    slug: 'image-rotate-flip', category: 'image', icon: '🔄', status: 'live', privacyLevel: 'local-only',
+    relatedTools: ['image-crop', 'image-resizer', 'image-compressor'], assetType: 'tool', searchIntent: 'high', shareIntent: 'low', embedPotential: 'medium', maintenanceRisk: 'low', monetizationTags: ['adsense', 'affiliate'], featured: true, isNew: true, updated: '2026-06-19',
+    name: { zh: '圖片旋轉翻轉工具', en: 'Image Rotate & Flip' },
+    short: { zh: '將圖片旋轉 90 度或水平、垂直翻轉後下載。', en: 'Rotate an image by 90 degrees or flip it, then download.' },
+  },
+  {
+    slug: 'image-to-base64', category: 'image', icon: '🔣', status: 'live', privacyLevel: 'local-only',
+    relatedTools: ['qr-code-generator', 'base64', 'image-compressor'], assetType: 'tool', searchIntent: 'high', shareIntent: 'low', embedPotential: 'low', maintenanceRisk: 'low', monetizationTags: ['adsense'], featured: true, isNew: true, updated: '2026-06-19',
+    name: { zh: '圖片轉 Base64', en: 'Image to Base64' },
+    short: { zh: '把圖片轉成 Base64 資料 URI，方便內嵌到 HTML 或 CSS。', en: 'Convert an image to a Base64 data URI for HTML or CSS.' },
+  },
+  {
+    slug: 'bar-chart-maker', category: 'draw', icon: '📊', status: 'live', privacyLevel: 'local-only',
+    relatedTools: ['pie-chart-maker', 'flowchart', 'standard-deviation'], assetType: 'tool', searchIntent: 'medium', shareIntent: 'medium', embedPotential: 'medium', maintenanceRisk: 'low', monetizationTags: ['adsense'], featured: true, isNew: true, updated: '2026-06-19',
+    name: { zh: '長條圖製作工具', en: 'Bar Chart Maker' },
+    short: { zh: '輸入標籤與數值，即時產生長條圖並匯出 PNG。', en: 'Enter labels and values to build a bar chart and export PNG.' },
+  },
+  {
+    slug: 'pie-chart-maker', category: 'draw', icon: '🥧', status: 'live', privacyLevel: 'local-only',
+    relatedTools: ['bar-chart-maker', 'flowchart', 'color-generator'], assetType: 'tool', searchIntent: 'medium', shareIntent: 'medium', embedPotential: 'medium', maintenanceRisk: 'low', monetizationTags: ['adsense'], featured: true, isNew: true, updated: '2026-06-19',
+    name: { zh: '圓餅圖製作工具', en: 'Pie Chart Maker' },
+    short: { zh: '輸入標籤與數值，即時產生圓餅圖並匯出 PNG。', en: 'Enter labels and values to build a pie chart and export PNG.' },
+  },
 ];
 
 export const liveTools = tools.filter((tool) => tool.status === 'live');

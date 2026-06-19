@@ -1,0 +1,296 @@
+---
+interface Props {
+  labels: Record<string, string>;
+}
+
+const { labels } = Astro.props;
+---
+
+<section class="tool-widget card chart-maker" data-chart-tool data-labels={JSON.stringify(labels)}>
+  <label class="chart-title-field">
+    <span>{labels.titleLabel}</span>
+    <input data-title type="text" value="" placeholder={labels.titlePlaceholder} maxlength="60" />
+  </label>
+
+  <div class="chart-rows-head" aria-hidden="true">
+    <span>{labels.labelHeader}</span>
+    <span>{labels.valueHeader}</span>
+    <span></span>
+  </div>
+  <div class="chart-rows" data-rows></div>
+
+  <div class="actions">
+    <button class="btn" type="button" data-add>{labels.addRow}</button>
+    <button class="btn go" type="button" data-download>{labels.exportPng}</button>
+  </div>
+
+  <div class="chart-canvas-wrap">
+    <canvas data-canvas width="900" height="560" aria-label={labels.canvasLabel}></canvas>
+  </div>
+  <p class="note" data-note></p>
+</section>
+
+<style>
+  .chart-title-field {
+    display: grid;
+    gap: 4px;
+    margin-bottom: 14px;
+  }
+
+  .chart-rows-head,
+  .chart-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) auto;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .chart-rows-head {
+    margin-bottom: 6px;
+    color: var(--muted);
+    font-size: 0.85rem;
+    font-weight: 800;
+  }
+
+  .chart-rows {
+    display: grid;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .chart-row .btn {
+    min-height: 44px;
+  }
+
+  .chart-canvas-wrap {
+    margin-top: 16px;
+    padding: 10px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: #fbfdff;
+  }
+
+  canvas {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 6px;
+    background: #fff;
+  }
+
+  @media (max-width: 760px) {
+    .chart-rows-head {
+      display: none;
+    }
+
+    .chart-row {
+      grid-template-columns: 1fr 1fr auto;
+    }
+  }
+</style>
+
+<script>
+  document.querySelectorAll('[data-chart-tool]').forEach((root) => {
+    const labels = JSON.parse(root.getAttribute('data-labels') || '{}');
+    const chartType = labels.chartType === 'pie' ? 'pie' : 'bar';
+    const canvas = root.querySelector('[data-canvas]');
+    if (!(canvas instanceof HTMLCanvasElement)) return;
+    const context = canvas.getContext('2d');
+    if (!context) return;
+
+    const rowsWrap = root.querySelector('[data-rows]');
+    const titleInput = root.querySelector('[data-title]');
+    const note = root.querySelector('[data-note]');
+    const palette = ['#3e63dd', '#0f8f8c', '#f2994a', '#eb5757', '#9b51e0', '#2d9cdb', '#27ae60', '#f2c94c'];
+
+    function createRow(label = '', value = '') {
+      const row = document.createElement('div');
+      row.className = 'chart-row';
+      const labelInput = document.createElement('input');
+      labelInput.type = 'text';
+      labelInput.setAttribute('data-label', '');
+      labelInput.placeholder = labels.labelHeader;
+      labelInput.value = label;
+      const valueInput = document.createElement('input');
+      valueInput.type = 'number';
+      valueInput.setAttribute('data-value', '');
+      valueInput.setAttribute('inputmode', 'decimal');
+      valueInput.step = 'any';
+      valueInput.min = '0';
+      valueInput.placeholder = labels.valueHeader;
+      valueInput.value = value;
+      const removeBtn = document.createElement('button');
+      removeBtn.className = 'btn ghost';
+      removeBtn.type = 'button';
+      removeBtn.textContent = labels.remove;
+      removeBtn.addEventListener('click', () => {
+        row.remove();
+        if (!rowsWrap.children.length) createRow();
+        render();
+      });
+      labelInput.addEventListener('input', render);
+      valueInput.addEventListener('input', render);
+      row.append(labelInput, valueInput, removeBtn);
+      rowsWrap.append(row);
+    }
+
+    function readData() {
+      return Array.from(rowsWrap.querySelectorAll('.chart-row')).map((row) => {
+        const label = row.querySelector('[data-label]').value.trim();
+        const raw = row.querySelector('[data-value]').value.trim();
+        const value = raw === '' ? NaN : Number(raw);
+        return { label, value };
+      }).filter((item) => item.label !== '' && Number.isFinite(item.value) && item.value >= 0);
+    }
+
+    function fmt(n) {
+      return Number(n.toFixed(2)).toLocaleString();
+    }
+
+    function drawTitle() {
+      const title = (titleInput.value || '').trim();
+      if (!title) return 0;
+      context.fillStyle = '#18212f';
+      context.font = '800 26px sans-serif';
+      context.textAlign = 'center';
+      context.textBaseline = 'top';
+      context.fillText(title, canvas.width / 2, 18);
+      return 44;
+    }
+
+    function renderBar(data, topOffset) {
+      const left = 70;
+      const right = 40;
+      const bottom = 70;
+      const top = topOffset + 30;
+      const plotW = canvas.width - left - right;
+      const plotH = canvas.height - top - bottom;
+      const maxValue = Math.max(...data.map((d) => d.value), 1);
+      const baselineY = top + plotH;
+
+      context.strokeStyle = '#d6deea';
+      context.lineWidth = 1;
+      context.beginPath();
+      context.moveTo(left, top);
+      context.lineTo(left, baselineY);
+      context.lineTo(left + plotW, baselineY);
+      context.stroke();
+
+      const step = 4;
+      context.fillStyle = '#657186';
+      context.font = '600 13px sans-serif';
+      context.textAlign = 'right';
+      context.textBaseline = 'middle';
+      for (let i = 0; i <= step; i += 1) {
+        const v = (maxValue / step) * i;
+        const y = baselineY - (plotH / step) * i;
+        context.fillText(fmt(v), left - 8, y);
+        if (i > 0) {
+          context.strokeStyle = '#eef2f7';
+          context.beginPath();
+          context.moveTo(left, y);
+          context.lineTo(left + plotW, y);
+          context.stroke();
+        }
+      }
+
+      const slot = plotW / data.length;
+      const barW = Math.min(slot * 0.6, 90);
+      data.forEach((d, i) => {
+        const x = left + slot * i + (slot - barW) / 2;
+        const h = (d.value / maxValue) * plotH;
+        const y = baselineY - h;
+        context.fillStyle = palette[i % palette.length];
+        context.fillRect(x, y, barW, h);
+        context.fillStyle = '#18212f';
+        context.font = '700 13px sans-serif';
+        context.textAlign = 'center';
+        context.textBaseline = 'bottom';
+        context.fillText(fmt(d.value), x + barW / 2, y - 4);
+        context.fillStyle = '#3a4456';
+        context.textBaseline = 'top';
+        const label = d.label.length > 10 ? `${d.label.slice(0, 9)}…` : d.label;
+        context.fillText(label, x + barW / 2, baselineY + 8);
+      });
+    }
+
+    function renderPie(data, topOffset) {
+      const total = data.reduce((sum, d) => sum + d.value, 0);
+      const legendW = 230;
+      const areaW = canvas.width - legendW;
+      const areaH = canvas.height - topOffset;
+      const radius = Math.min(areaW, areaH) / 2 - 30;
+      const cx = areaW / 2;
+      const cy = topOffset + areaH / 2;
+
+      if (total <= 0) return;
+      let start = -Math.PI / 2;
+      data.forEach((d, i) => {
+        const angle = (d.value / total) * Math.PI * 2;
+        context.beginPath();
+        context.moveTo(cx, cy);
+        context.arc(cx, cy, radius, start, start + angle);
+        context.closePath();
+        context.fillStyle = palette[i % palette.length];
+        context.fill();
+        context.strokeStyle = '#fff';
+        context.lineWidth = 2;
+        context.stroke();
+        start += angle;
+      });
+
+      const legendX = areaW + 10;
+      let legendY = topOffset + 20;
+      context.textAlign = 'left';
+      context.textBaseline = 'middle';
+      data.forEach((d, i) => {
+        context.fillStyle = palette[i % palette.length];
+        context.fillRect(legendX, legendY - 8, 16, 16);
+        context.fillStyle = '#18212f';
+        context.font = '600 14px sans-serif';
+        const pct = ((d.value / total) * 100).toFixed(1);
+        const label = d.label.length > 14 ? `${d.label.slice(0, 13)}…` : d.label;
+        context.fillText(`${label}  ${pct}%`, legendX + 24, legendY);
+        legendY += 28;
+      });
+    }
+
+    function render() {
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      context.fillStyle = '#ffffff';
+      context.fillRect(0, 0, canvas.width, canvas.height);
+      const topOffset = drawTitle();
+      const data = readData();
+      if (!data.length) {
+        note.textContent = labels.emptyHint;
+        return;
+      }
+      note.textContent = '';
+      if (chartType === 'pie') renderPie(data, topOffset || 20);
+      else renderBar(data, topOffset);
+    }
+
+    function download() {
+      render();
+      const anchor = document.createElement('a');
+      anchor.href = canvas.toDataURL('image/png');
+      anchor.download = `${chartType}-chart.png`;
+      anchor.click();
+    }
+
+    root.querySelector('[data-add]')?.addEventListener('click', () => {
+      createRow();
+      render();
+    });
+    root.querySelector('[data-download]')?.addEventListener('click', download);
+    titleInput.addEventListener('input', render);
+
+    const seedLabels = (labels.seedLabels || '').split(',');
+    const seedValues = (labels.seedValues || '').split(',');
+    const seedCount = Math.max(seedLabels.length, 1);
+    for (let i = 0; i < seedCount; i += 1) {
+      createRow((seedLabels[i] || '').trim(), (seedValues[i] || '').trim());
+    }
+    render();
+  });
+</script>

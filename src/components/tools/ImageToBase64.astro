@@ -1,0 +1,152 @@
+---
+interface Props {
+  labels: Record<string, string>;
+}
+
+const { labels } = Astro.props;
+---
+
+<section class="tool-widget card image-tool" data-image-base64-tool data-labels={JSON.stringify(labels)}>
+  <p class="note">{labels.localNote}</p>
+  <label>
+    <span>{labels.upload}</span>
+    <input data-file type="file" accept="image/*" />
+  </label>
+
+  <p class="form-error" data-error role="alert" hidden></p>
+
+  <div class="stats-grid image-stats" aria-live="polite">
+    <div><span>{labels.originalSize}</span><strong data-original-size>-</strong></div>
+    <div><span>{labels.dimensions}</span><strong data-dimensions>-</strong></div>
+    <div><span>{labels.base64Length}</span><strong data-length>-</strong></div>
+  </div>
+
+  <label class="b64-output-field">
+    <span>{labels.output}</span>
+    <textarea data-output rows="6" readonly placeholder={labels.waiting}></textarea>
+  </label>
+
+  <div class="actions">
+    <button class="btn go" type="button" data-copy disabled>{labels.copy}</button>
+    <button class="btn ghost" type="button" data-copy-css disabled>{labels.copyCss}</button>
+    <button class="btn ghost" type="button" data-clear>{labels.reset}</button>
+  </div>
+  <span class="toast" role="status" aria-live="polite" hidden>{labels.copied}</span>
+</section>
+
+<style>
+  .b64-output-field {
+    display: grid;
+    gap: 4px;
+    margin: 16px 0;
+  }
+
+  .b64-output-field textarea {
+    width: 100%;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.85rem;
+    word-break: break-all;
+    resize: vertical;
+  }
+
+  .image-stats {
+    margin-top: 16px;
+  }
+</style>
+
+<script>
+  document.querySelectorAll('[data-image-base64-tool]').forEach((root) => {
+    const labels = JSON.parse(root.getAttribute('data-labels') || '{}');
+    const fileInput = root.querySelector('[data-file]');
+    const output = root.querySelector('[data-output]');
+    const error = root.querySelector('[data-error]');
+    const copyButton = root.querySelector('[data-copy]');
+    const copyCssButton = root.querySelector('[data-copy-css]');
+    const toast = root.querySelector('.toast');
+    const out = {
+      original: root.querySelector('[data-original-size]'),
+      dimensions: root.querySelector('[data-dimensions]'),
+      length: root.querySelector('[data-length]'),
+    };
+    const maxBytes = 5 * 1024 * 1024;
+    let dataUrl = '';
+
+    function setError(message) {
+      error.textContent = message;
+      error.hidden = !message;
+    }
+
+    function formatSize(bytes) {
+      if (!bytes) return '-';
+      return bytes >= 1024 * 1024 ? `${(bytes / 1024 / 1024).toFixed(2)} MB` : `${(bytes / 1024).toFixed(1)} KB`;
+    }
+
+    function showToast() {
+      toast.hidden = false;
+      window.setTimeout(() => { toast.hidden = true; }, 1500);
+    }
+
+    async function copyText(text) {
+      if (!text) return;
+      try {
+        await navigator.clipboard.writeText(text);
+        showToast();
+      } catch {
+        window.prompt(labels.copy, text);
+      }
+    }
+
+    function clearAll() {
+      dataUrl = '';
+      fileInput.value = '';
+      output.value = '';
+      out.original.textContent = '-';
+      out.dimensions.textContent = '-';
+      out.length.textContent = '-';
+      copyButton.disabled = true;
+      copyCssButton.disabled = true;
+      setError('');
+    }
+
+    function readImage(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onerror = reject;
+        reader.onload = () => {
+          const result = String(reader.result || '');
+          const image = new Image();
+          image.onload = () => resolve({ result, image });
+          image.onerror = reject;
+          image.src = result;
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    async function handleFile() {
+      const file = fileInput.files?.[0];
+      clearAll();
+      if (!file) return;
+      if (!file.type.startsWith('image/')) { setError(labels.invalidType); return; }
+      if (file.size > maxBytes) { setError(labels.tooLarge); return; }
+      try {
+        const { result, image } = await readImage(file);
+        dataUrl = result;
+        output.value = result;
+        out.original.textContent = formatSize(file.size);
+        out.dimensions.textContent = `${image.naturalWidth} x ${image.naturalHeight}`;
+        out.length.textContent = `${result.length.toLocaleString()}`;
+        copyButton.disabled = false;
+        copyCssButton.disabled = false;
+        setError('');
+      } catch {
+        setError(labels.processError);
+      }
+    }
+
+    fileInput.addEventListener('change', handleFile);
+    copyButton.addEventListener('click', () => copyText(dataUrl));
+    copyCssButton.addEventListener('click', () => copyText(dataUrl ? `background-image: url("${dataUrl}");` : ''));
+    root.querySelector('[data-clear]')?.addEventListener('click', clearAll);
+  });
+</script>

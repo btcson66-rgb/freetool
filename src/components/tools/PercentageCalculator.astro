@@ -1,0 +1,136 @@
+---
+interface Props {
+  labels: Record<string, string>;
+}
+
+const { labels } = Astro.props;
+---
+
+<section class="tool-widget" data-percent-tool data-labels={JSON.stringify(labels)}>
+  <article class="card percent-block" data-mode="of">
+    <h3>{labels.p1Title}</h3>
+    <p class="percent-desc">{labels.p1Desc}</p>
+    <div class="percent-inputs">
+      <label><span>{labels.p1Percent}</span><input data-a type="number" inputmode="decimal" step="any" value="25" /></label>
+      <label><span>{labels.p1Value}</span><input data-b type="number" inputmode="decimal" step="any" value="200" /></label>
+    </div>
+    <p class="percent-result"><span>{labels.result}</span><strong data-result>--</strong></p>
+  </article>
+
+  <article class="card percent-block" data-mode="ratio">
+    <h3>{labels.p2Title}</h3>
+    <p class="percent-desc">{labels.p2Desc}</p>
+    <div class="percent-inputs">
+      <label><span>{labels.p2Part}</span><input data-a type="number" inputmode="decimal" step="any" value="30" /></label>
+      <label><span>{labels.p2Whole}</span><input data-b type="number" inputmode="decimal" step="any" value="120" /></label>
+    </div>
+    <p class="percent-result"><span>{labels.result}</span><strong data-result>--</strong></p>
+  </article>
+
+  <article class="card percent-block" data-mode="change">
+    <h3>{labels.p3Title}</h3>
+    <p class="percent-desc">{labels.p3Desc}</p>
+    <div class="percent-inputs">
+      <label><span>{labels.p3From}</span><input data-a type="number" inputmode="decimal" step="any" value="80" /></label>
+      <label><span>{labels.p3To}</span><input data-b type="number" inputmode="decimal" step="any" value="100" /></label>
+    </div>
+    <p class="percent-result"><span>{labels.result}</span><strong data-result>--</strong></p>
+  </article>
+</section>
+
+<style>
+  [data-percent-tool] {
+    display: grid;
+    gap: 16px;
+  }
+
+  .percent-block {
+    padding: 18px;
+  }
+
+  .percent-block h3 {
+    margin: 0 0 4px;
+    font-size: 1.05rem;
+  }
+
+  .percent-desc {
+    margin: 0 0 12px;
+    color: var(--muted);
+    font-size: 0.92rem;
+  }
+
+  .percent-inputs {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .percent-inputs label {
+    display: grid;
+    gap: 4px;
+  }
+
+  .percent-result {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin: 14px 0 0;
+  }
+
+  .percent-result span {
+    color: var(--muted);
+  }
+
+  .percent-result strong {
+    font-size: 1.3rem;
+  }
+
+  @media (max-width: 760px) {
+    .percent-inputs {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  document.querySelectorAll('[data-percent-tool]').forEach((root) => {
+    const labels = JSON.parse(root.getAttribute('data-labels') || '{}');
+
+    function fmt(n) {
+      return Number(n.toFixed(4)).toString();
+    }
+
+    function update(block) {
+      const mode = block.getAttribute('data-mode');
+      const aEl = block.querySelector('[data-a]');
+      const bEl = block.querySelector('[data-b]');
+      const result = block.querySelector('[data-result]');
+      const a = aEl.value.trim() === '' ? NaN : Number(aEl.value);
+      const b = bEl.value.trim() === '' ? NaN : Number(bEl.value);
+
+      if (!Number.isFinite(a) || !Number.isFinite(b)) {
+        result.textContent = labels.invalid;
+        return;
+      }
+
+      if (mode === 'of') {
+        result.textContent = fmt((a / 100) * b);
+      } else if (mode === 'ratio') {
+        if (b === 0) { result.textContent = labels.divideZero; return; }
+        result.textContent = fmt((a / b) * 100) + '%';
+      } else {
+        if (a === 0) { result.textContent = labels.divideZero; return; }
+        const change = ((b - a) / a) * 100;
+        const word = change > 0 ? labels.increase : change < 0 ? labels.decrease : labels.noChange;
+        result.textContent = `${fmt(Math.abs(change))}% ${word}`;
+      }
+    }
+
+    root.querySelectorAll('.percent-block').forEach((block) => {
+      block.querySelectorAll('input').forEach((input) => {
+        input.addEventListener('input', () => update(block));
+      });
+      update(block);
+    });
+  });
+</script>

@@ -81,21 +81,12 @@ export const categories: Category[] = [
     },
   },
   {
-    id: 'personality',
-    icon: '🧠',
-    name: { zh: '趣味測驗', en: 'Personality Quizzes' },
-    description: {
-      zh: '輕鬆有趣的心理小測驗，適合打發時間或和朋友一起玩。',
-      en: 'Fun personality quizzes to pass the time or share with friends.',
-    },
-  },
-  {
     id: 'statistics',
     icon: '📊',
     name: { zh: '教育與統計', en: 'Education & Statistics' },
     description: {
-      zh: '統計分析與教育相關的計算工具，幫助研究與學習。',
-      en: 'Statistical analysis and educational tools for research and learning.',
+      zh: '標準差、百分比與平均等統計計算工具，幫助學習、作業與資料分析。',
+      en: 'Statistics calculators for standard deviation, percentages, and averages to support study and analysis.',
     },
   },
 ];
