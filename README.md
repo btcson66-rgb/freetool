@@ -1,13 +1,13 @@
-# Free Tools Hub
+# FunnyTools
 
-Free Tools Hub is a bilingual Astro static site for small browser-based utilities. It is data-driven, runs without a backend, and keeps monetization disabled by default.
+FunnyTools (https://funnytools.win) is a bilingual Astro static site for small browser-based utilities. It is data-driven and runs without a backend.
 
 ## Stack
 
-- Astro static output with `base: '/freetools'` and `trailingSlash: 'always'`.
+- Astro static output with `base: '/'` and `trailingSlash: 'always'`, deployed on Cloudflare Pages.
 - Vanilla JavaScript inside `.astro` tool widgets.
 - `qrcode` for QR code generation.
-- No database, server API, analytics script, or active ad script.
+- No database or server API. Google AdSense is enabled (`adsenseEnabled: true`, client `ca-pub-7052036786750044`) while the site is under AdSense review.
 
 ## Architecture
 
@@ -48,7 +48,7 @@ Embed routes are intentionally not listed in `src/pages/sitemap.xml.ts`.
 
 ## Monetization Flags
 
-All monetization is off by default in `src/config/site.ts`:
+AdSense is controlled by the top-level `adsenseEnabled` flag in `src/config/site.ts` (currently `true`, loading the AdSense script under review). The granular `features` flags below remain off and gate individual slots/integrations:
 
 ```ts
 features: {
@@ -60,7 +60,7 @@ features: {
 }
 ```
 
-Future activation is a flag flip plus real content configuration. The current scaffold does not load ad, affiliate, newsletter, analytics, or third-party scripts.
+Activating affiliate, sponsor, related-resources, or newsletter is a flag flip plus real content configuration.
 
 ## Asset Types
 
