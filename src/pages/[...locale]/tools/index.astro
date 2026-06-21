@@ -67,6 +67,7 @@ const breadcrumbLd = breadcrumbJsonLd([
   { name: ui.breadcrumbHome, href: localePath(lang) },
   { name: ui.toolsPageH1, href: localePath(lang, 'tools') },
 ]);
+const ga4Enabled = !!SITE.ga4MeasurementId;
 ---
 
 <BaseLayout
@@ -192,11 +193,29 @@ const breadcrumbLd = breadcrumbJsonLd([
     </nav>
   </section>
 
-  <!-- Search script (unchanged) -->
-  <script>
+  <!-- Search script -->
+  <script is:inline define:vars={{ ga4Enabled }}>
     const searchInput = document.querySelector('[data-tools-search]');
     const emptyState = document.querySelector('[data-tools-empty]');
     const sections = Array.from(document.querySelectorAll('[data-tool-section]'));
+    let searchEventTimer = 0;
+
+    const sendSearchEvent = (query, visibleCount) => {
+      if (!ga4Enabled || query === '') return;
+
+      const analyticsWindow = window;
+      const eventParams = {
+        search_term: query,
+        results_count: visibleCount,
+      };
+
+      if (typeof analyticsWindow.gtag === 'function') {
+        analyticsWindow.gtag('event', 'site_search', eventParams);
+      } else {
+        analyticsWindow.dataLayer = analyticsWindow.dataLayer || [];
+        analyticsWindow.dataLayer.push(['event', 'site_search', eventParams]);
+      }
+    };
 
     if (searchInput instanceof HTMLInputElement && emptyState instanceof HTMLElement) {
       const initialQuery = new URLSearchParams(window.location.search).get('q');
@@ -231,6 +250,10 @@ const breadcrumbLd = breadcrumbJsonLd([
         });
 
         emptyState.hidden = visibleTotal > 0;
+        window.clearTimeout(searchEventTimer);
+        searchEventTimer = window.setTimeout(() => {
+          sendSearchEvent(query, visibleTotal);
+        }, 500);
       };
 
       searchInput.addEventListener('input', filterTools);

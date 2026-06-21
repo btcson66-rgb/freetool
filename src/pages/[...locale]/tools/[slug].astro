@@ -43,8 +43,35 @@ const jsonLd = [
   webApplicationJsonLd(lang, tool, content, category),
   breadcrumbJsonLd(breadcrumbItems),
 ];
+const ga4Enabled = !!SITE.ga4MeasurementId;
 ---
 
 <ToolLayout lang={lang} tool={tool} category={category} content={content} jsonLd={jsonLd}>
   <Widget labels={content.labels} slug={tool.slug} />
+  {
+    ga4Enabled && (
+      <script
+        is:inline
+        define:vars={{
+          toolSlug: tool.slug,
+          toolName: content.name,
+          toolCategory: category.id,
+        }}
+      >
+        const analyticsWindow = window;
+        const eventParams = {
+          tool_slug: toolSlug,
+          tool_name: toolName,
+          tool_category: toolCategory,
+        };
+
+        if (typeof analyticsWindow.gtag === 'function') {
+          analyticsWindow.gtag('event', 'tool_view', eventParams);
+        } else {
+          analyticsWindow.dataLayer = analyticsWindow.dataLayer || [];
+          analyticsWindow.dataLayer.push(['event', 'tool_view', eventParams]);
+        }
+      </script>
+    )
+  }
 </ToolLayout>
