@@ -11,6 +11,7 @@ export const SITE = {
     zh: '免費線上工具大全，打開網頁即可使用，免下載 App。',
     en: 'Free online tools for everyday work, study, files, money, and quick decisions.',
   },
+  ga4MeasurementId: 'G-SV027MPXK4',
   adsenseClient: 'ca-pub-7052036786750044',
   // Keep enabled while the site is under AdSense review. Visible ad slots remain separately gated below.
   adsenseEnabled: true,

@@ -47,13 +47,14 @@ const brandedDescription = lang === 'zh' && !description.includes(SITE.name.zh)
   : description;
 const ui = t(lang);
 const adsenseEnabled = SITE.adsenseEnabled || SITE.features.adsense;
+const ga4Enabled = !!SITE.ga4MeasurementId;
 const contentSecurityPolicy = [
   "default-src 'self'",
-  `script-src 'self' 'unsafe-inline'${adsenseEnabled ? ' https://pagead2.googlesyndication.com https://www.googletagservices.com https://adservice.google.com https://*.adtrafficquality.google' : ''}`,
+  `script-src 'self' 'unsafe-inline'${ga4Enabled ? ' https://www.googletagmanager.com' : ''}${adsenseEnabled ? ' https://pagead2.googlesyndication.com https://www.googletagservices.com https://adservice.google.com https://*.adtrafficquality.google' : ''}`,
   "style-src 'self' 'unsafe-inline'",
-  `img-src 'self' data: blob:${adsenseEnabled ? ' https://pagead2.googlesyndication.com https://*.googleusercontent.com https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://*.adtrafficquality.google' : ''}`,
+  `img-src 'self' data: blob:${ga4Enabled ? ' https://www.googletagmanager.com' : ''}${adsenseEnabled ? ' https://pagead2.googlesyndication.com https://*.googleusercontent.com https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://*.adtrafficquality.google' : ''}`,
   `frame-src 'self'${adsenseEnabled ? ' https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://*.adtrafficquality.google https://www.google.com' : ''}`,
-  `connect-src 'self'${adsenseEnabled ? ' https://pagead2.googlesyndication.com https://*.adtrafficquality.google https://googleads.g.doubleclick.net https://csi.gstatic.com' : ''}`,
+  `connect-src 'self'${ga4Enabled ? ' https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://analytics.google.com' : ''}${adsenseEnabled ? ' https://pagead2.googlesyndication.com https://*.adtrafficquality.google https://googleads.g.doubleclick.net https://csi.gstatic.com' : ''}`,
   "object-src 'none'",
   "base-uri 'self'",
   "form-action 'self'",
@@ -92,6 +93,20 @@ const contentSecurityPolicy = [
     <meta name="twitter:image" content={ogImage} />
     <meta name="twitter:image:alt" content={ogAlt} />
     {jsonLdItems.map((item) => <script type="application/ld+json" set:html={JSON.stringify(item)} />)}
+    {
+      ga4Enabled && (
+        <>
+          <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
+          <script async src={`https://www.googletagmanager.com/gtag/js?id=${SITE.ga4MeasurementId}`} />
+          <script is:inline define:vars={{ measurementId: SITE.ga4MeasurementId }}>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', measurementId);
+          </script>
+        </>
+      )
+    }
     {
       adsenseEnabled && (
         <>
