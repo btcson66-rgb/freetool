@@ -53,7 +53,7 @@ export default {
     name: 'Percentage Calculator',
     short: 'Find a percentage of a number, ratios, and percentage change.',
     long: 'This percentage calculator covers three common needs: a percentage of a number (what is X% of Y), a ratio (X is what percent of Y), and percentage change (how much did A change to B). Results update as you type and everything runs locally in your browser — handy for discounts, grade weighting, and data analysis.',
-    seoTitle: 'Percentage Calculator | Discounts, Ratios & Percentage Change',
+    seoTitle: 'Percentage Calculator | Discounts, Ratios & Change',
     seoDescription: 'Free percentage calculator: find a percentage of a number, a ratio, and percentage change. Great for discounts, grades, and analysis, processed locally.',
     keywords: ['percentage calculator', 'percent of a number', 'percentage change', 'discount calculator', 'ratio percentage'],
     instructions: [

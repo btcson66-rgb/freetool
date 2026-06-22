@@ -18,7 +18,7 @@ export default {
     name: 'PDF 旋轉',
     short: '將整份 PDF 或指定頁面順時針旋轉 90、180 或 270 度。',
     long: 'PDF 旋轉工具會在瀏覽器本機讀取 PDF，讓你旋轉所有頁面或指定頁碼範圍，並下載新的 PDF。它會保留既有旋轉角度並加上你選擇的角度。',
-    seoTitle: 'PDF 旋轉 | 免費線上旋轉 PDF 頁面',
+    seoTitle: 'PDF 旋轉｜批次旋轉 PDF 頁面方向',
     seoDescription: '免費 PDF 旋轉工具，可將全部頁面或指定頁碼範圍順時針旋轉 90、180、270 度，檔案不會上傳。',
     keywords: ['PDF 旋轉', '旋轉 PDF 頁面', 'rotate PDF', 'PDF page rotation', 'local PDF tool'],
     instructions: [

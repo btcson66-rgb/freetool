@@ -18,7 +18,7 @@ export default {
     name: '轉盤抽籤',
     short: '把清單變成彩色轉盤，公平抽出一個結果。',
     long: '轉盤抽籤可以把每行一個選項畫成彩色轉盤，按下旋轉後用動畫抽出結果。適合課堂點名、活動抽獎、晚餐選擇或任何需要公開、直覺決定的情境。',
-    seoTitle: '轉盤抽籤 | 免費線上 Random Wheel Picker',
+    seoTitle: '轉盤抽籤｜隨機名單、獎項與決定轉盤',
     seoDescription: '輸入選項清單，轉成可視化彩色轉盤並隨機抽出結果，可複製中選項。',
     keywords: ['轉盤抽籤', 'random wheel', 'wheel picker', '抽籤工具'],
     instructions: [

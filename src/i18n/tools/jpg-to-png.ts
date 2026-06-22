@@ -18,7 +18,7 @@ export default {
     name: 'JPG 轉 PNG',
     short: '在瀏覽器本機把 JPG 或其他圖片輸出成 PNG。',
     long: 'JPG 轉 PNG 工具會在你的瀏覽器本機讀取圖片，透過 canvas 產生無失真 PNG 下載檔。檔案只在你的裝置上處理，不會上傳到伺服器。PNG 支援透明度，但原本的 JPG 沒有透明資訊，因此輸出通常是不透明圖片。',
-    seoTitle: 'JPG 轉 PNG | 免費本機圖片轉檔工具',
+    seoTitle: 'JPG 轉 PNG｜本機圖片轉檔與透明格式',
     seoDescription: '把 JPG 或瀏覽器可讀取的圖片轉成 PNG，所有處理都在瀏覽器本機完成，檔案不會上傳。',
     keywords: ['JPG 轉 PNG', 'JPG to PNG', '圖片轉檔', 'PNG converter'],
     instructions: [

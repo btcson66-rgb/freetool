@@ -64,7 +64,7 @@ export default {
     name: 'Online Sketchpad',
     short: 'Draw freehand with brush color, size, eraser, undo, clear, and PNG export.',
     long: 'Online Sketchpad is a simple local drawing canvas. Choose a brush color and size, toggle the eraser, undo the last stroke, clear the canvas, and export your drawing as a PNG image.',
-    seoTitle: 'Online Sketchpad | Free browser drawing canvas with PNG export',
+    seoTitle: 'Online Sketchpad | Drawing Canvas with PNG Export',
     seoDescription: 'Draw online in your browser with brush color, brush size, eraser, undo, clear, and PNG export. Works with mouse and touch.',
     keywords: ['online sketchpad', 'drawing canvas', 'freehand drawing', 'browser drawing tool', 'PNG export'],
     instructions: [

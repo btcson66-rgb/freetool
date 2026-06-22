@@ -18,7 +18,7 @@ export default {
     name: '年齡計算器',
     short: '計算生日到指定日期的年齡、已活天數與下次生日倒數。',
     long: '年齡計算器會根據生日與指定日期，顯示年、月、日形式的年齡、累積生活天數、近似小時數、下次生日倒數、出生星期與趣味心跳估算。適合生日提醒、表單確認、活動資格與個人紀念日規劃。',
-    seoTitle: '年齡計算器｜免費線上 Age Calculator',
+    seoTitle: '年齡計算器｜生日、歲數與天數試算',
     seoDescription: '輸入生日即可計算實際年齡、月數、天數、小時、已活天數、下次生日倒數、出生星期與趣味心跳估算。',
     keywords: ['年齡計算器', '生日計算', 'Age Calculator', '下次生日倒數'],
     instructions: [
@@ -77,7 +77,7 @@ export default {
     name: 'Age Calculator',
     short: 'Calculate age, days lived, next birthday, and birthday facts.',
     long: 'Age Calculator uses a birthday and an as-of date to show age in years, months, and days, plus total days lived, approximate hours lived, next birthday countdown, weekday born, and a playful heartbeat estimate. It is useful for birthday planning, eligibility checks, forms, and personal milestones.',
-    seoTitle: 'Age Calculator | Free online birthday and age calculator',
+    seoTitle: 'Age Calculator | Birthday, Age and Days Calculator',
     seoDescription: 'Enter a birthday to calculate age in years, months, days, hours, total days lived, next birthday countdown, weekday born, and a fun heartbeat estimate.',
     keywords: ['age calculator', 'birthday calculator', 'days lived', 'next birthday'],
     instructions: [

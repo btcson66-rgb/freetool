@@ -18,7 +18,7 @@ export default {
     name: '圖片轉 PDF',
     short: '把多張 JPG 或 PNG 依順序整理成一份 PDF，檔案不離開瀏覽器。',
     long: '圖片轉 PDF 工具可選取多張 JPG 或 PNG 圖片，調整順序、頁面尺寸與方向，再在瀏覽器本機輸出成一份 PDF。圖片不會上傳。',
-    seoTitle: '圖片轉 PDF | 免費 JPG PNG 轉 PDF 工具',
+    seoTitle: '圖片轉 PDF｜JPG、PNG 合併成 PDF',
     seoDescription: '免費圖片轉 PDF 工具，可將多張 JPG 或 PNG 排序後合成 PDF，支援 A4、Letter 與符合圖片尺寸，全部在瀏覽器本機處理。',
     keywords: ['圖片轉 PDF', 'JPG 轉 PDF', 'PNG 轉 PDF', 'images to PDF', 'image PDF maker'],
     instructions: [

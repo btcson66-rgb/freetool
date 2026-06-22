@@ -96,7 +96,7 @@ export default {
     name: 'Word Counter',
     short: 'Paste text and instantly count words, characters, lines, paragraphs, sentences, and reading time.',
     long: 'This word counter updates as you type and reports characters with spaces, characters without spaces, combined word count, lines, paragraphs, sentences, and estimated reading time. It is designed for mixed English and CJK text: Chinese, Japanese, and Korean ideographs are counted character by character, while English words and numbers are counted as word tokens. Use it for social posts, drafts, assignments, applications, scripts, newsletters, and bilingual content checks.',
-    seoTitle: 'Word Counter | Free online character and reading time tool',
+    seoTitle: 'Word Counter | Characters, Words & Reading Time',
     seoDescription: 'Count words, characters, lines, paragraphs, sentences, and estimated reading time online with CJK-aware counting for English and multilingual text.',
     keywords: ['word counter', 'character counter', 'reading time calculator', 'CJK word count', 'online word count'],
     instructions: [

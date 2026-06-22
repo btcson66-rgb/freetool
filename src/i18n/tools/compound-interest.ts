@@ -118,7 +118,7 @@ export default {
     name: 'Compound Interest Calculator',
     short: 'Project future value from principal, monthly deposits, rate, and time.',
     long: 'Compound Interest Calculator helps you model savings, long-term investing, or goal-fund scenarios with simple assumptions. Enter an initial principal, monthly contribution, annual return rate, number of years, and compounding frequency. The tool estimates future value, total contributed, and interest earned, then draws a yearly balance chart so you can compare scenarios. It is useful for planning conversations, but it does not guarantee investment performance.',
-    seoTitle: 'Compound Interest Calculator | Free Future Value Tool',
+    seoTitle: 'Compound Interest Calc | Future Value Estimator',
     seoDescription: 'Estimate future value, total contributed, and interest earned from principal, monthly deposits, annual rate, years, and compounding frequency.',
     keywords: ['compound interest calculator', 'future value calculator', 'investment growth calculator', 'savings calculator'],
     instructions: [

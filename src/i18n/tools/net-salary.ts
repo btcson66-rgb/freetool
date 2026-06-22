@@ -93,7 +93,7 @@ export default {
     name: 'Net Salary',
     short: 'Estimate take-home pay after common deductions.',
     long: 'Net Salary estimates monthly take-home pay from salary, allowances, and editable deduction rates. Formula: net salary = salary + allowance - salary × (labor insurance rate + health insurance rate + voluntary pension rate + withholding tax rate) - other fixed deductions.',
-    seoTitle: 'Net Salary Calculator | Editable rate take-home pay estimate',
+    seoTitle: 'Net Salary Calculator | Take-Home Pay Estimate',
     seoDescription: 'Estimate monthly take-home pay with user-editable labor insurance, health insurance, pension, withholding tax, and fixed deduction assumptions.',
     keywords: ['net salary calculator', 'take home pay calculator', 'salary deductions', 'paycheck estimate'],
     instructions: [

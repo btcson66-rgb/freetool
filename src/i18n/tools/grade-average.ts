@@ -95,7 +95,7 @@ export default {
     name: 'Grade Average Calculator',
     short: 'Calculate simple and weighted averages from grade entries.',
     long: 'Grade Average Calculator accepts multiple homework, quiz, exam, or activity scores with optional weights. It ignores blank or invalid rows and immediately shows valid item count, score sum, simple average, and weighted average. Use it to organize classroom records, estimate term performance, or explain how score categories affect a result.',
-    seoTitle: 'Grade Average Calculator | Simple and weighted average',
+    seoTitle: 'Grade Average Calculator | Simple & Weighted Grades',
     seoDescription: 'Calculate grade totals, simple averages, and weighted averages from scores and optional weights.',
     keywords: ['grade average calculator', 'weighted average', 'score average', 'average calculator'],
     instructions: [

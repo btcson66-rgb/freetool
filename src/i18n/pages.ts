@@ -27,7 +27,7 @@ export type InfoPageKey = 'about' | 'contact' | 'privacy' | 'terms' | 'disclaime
 
 export const home = {
   zh: {
-    seoTitle: "FunnyTools 免費線上工具箱｜PDF、圖片、文字、隨機與教學工具",
+    seoTitle: "免費線上工具箱｜PDF、圖片、文字、隨機、計算與教學工具 - FunnyTools",
     seoDescription: "FunnyTools 免費線上工具箱提供免安裝的免費線上工具，包含 PDF、圖片、文字、隨機、金錢、時間與教學工具，手機與電腦皆可使用，多數工具開啟瀏覽器即可操作，免註冊也能快速完成日常工作與學習需求。",
     eyebrow: '免費、快速、免安裝',
     title: 'FunnyTools 免費線上工具箱',
@@ -36,7 +36,7 @@ export const home = {
     secondaryCta: '熱門工具',
   },
   en: {
-    seoTitle: "FunnyTools | Free PDF, Image, Text & Calculator Tools",
+    seoTitle: "Free Online Tools | PDF, Image & Text Tools - FunnyTools",
     seoDescription: "Free FunnyTools for PDF, images, text, random picks, timers, money, teaching, and everyday calculations. No install or sign-up required.",
     eyebrow: 'Free, fast, no install',
     title: 'Free Online Tools Collection',
@@ -190,7 +190,7 @@ export const pages = {
   zh: {
     about: {
       title: '關於 FunnyTools 免費線上工具箱',
-      seoTitle: '關於 FunnyTools 免費線上工具箱',
+      seoTitle: '關於我們｜免費線上工具箱簡介 - FunnyTools',
       description: '了解 FunnyTools 免費線上工具箱的網站定位、工具原則、資料處理方式與目前涵蓋的工具分類。本站工具可免費使用且不需註冊，並優先採用瀏覽器本機處理，協助你安全完成日常工作、學習與檔案任務。',
       body: [
         "FunnyTools 免費線上工具箱是一個免費、免安裝、免註冊的線上工具網站，把工作、學習、金錢與日常生活常用的小工具整理在乾淨、好讀、手機友善的頁面中。",
@@ -205,7 +205,7 @@ export const pages = {
     },
     contact: {
       title: '聯絡我們',
-      seoTitle: '聯絡 FunnyTools 免費線上工具箱',
+      seoTitle: '聯絡我們｜問題回報與工具建議 - FunnyTools',
       description: '提供 FunnyTools 免費線上工具箱的聯絡方式與回饋管道。你可以回報工具錯誤、提出新工具建議或反映網站內容問題；來信時若附上頁面網址、操作步驟、裝置與瀏覽器資訊，將更容易確認問題。',
       body: [
         `如果你想回報錯誤、提出工具建議、詢問網站內容，或有其他與 FunnyTools 免費線上工具箱相關的問題，請寄信到 ${SITE.email}。`,
@@ -219,7 +219,7 @@ export const pages = {
     },
     privacy: {
       title: '隱私權政策',
-      seoTitle: '隱私權政策｜FunnyTools 免費線上工具箱',
+      seoTitle: '隱私權政策｜資料處理與 Cookie 說明 - FunnyTools',
       description: '說明 FunnyTools 免費線上工具箱如何處理使用者輸入、瀏覽器本機計算、localStorage、第三方連結與未來可能使用的廣告 Cookie，並整理資料安全提醒、使用者權利及聯絡方式。',
       body: [
         "生效日期：2026 年 6 月 20 日。本隱私權政策說明 FunnyTools 免費線上工具箱（funnytools.win，以下稱「本站」）如何處理你的資料。",
@@ -237,7 +237,7 @@ export const pages = {
     },
     terms: {
       title: '使用條款',
-      seoTitle: '使用條款｜FunnyTools 免費線上工具箱',
+      seoTitle: '使用條款｜服務範圍與責任限制 - FunnyTools',
       description: '閱讀 FunnyTools 免費線上工具箱的使用條款與基本使用規則，包含服務範圍、使用者責任、可接受使用方式、智慧財產權、第三方服務與責任限制，使用網站前請先確認相關內容。',
       body: [
         "生效日期：2026 年 6 月 16 日。使用 FunnyTools 免費線上工具箱（funnytools.win）即表示你同意本使用條款。",
@@ -255,7 +255,7 @@ export const pages = {
     },
     disclaimer: {
       title: '免責聲明',
-      seoTitle: '免責聲明｜FunnyTools 免費線上工具箱',
+      seoTitle: '免責聲明｜工具結果僅供參考 - FunnyTools',
       description: '了解 FunnyTools 免費線上工具箱的結果限制與使用者責任。薪資、貸款、統計、隨機及其他工具僅供一般參考，不構成法律、醫療、投資、稅務或會計建議，正式決策請查證官方資料。',
       body: [
         "生效日期：2026 年 6 月 20 日。本站提供的所有結果僅供一般參考，使用前請自行判斷並驗證。",
@@ -272,7 +272,7 @@ export const pages = {
     },
     aboutTools: {
       title: '本站工具如何運作',
-      seoTitle: '本站工具如何運作｜FunnyTools 免費線上工具箱',
+      seoTitle: '本站工具如何運作｜瀏覽器本機處理說明 - FunnyTools',
       description: '了解 FunnyTools 免費線上工具箱如何在瀏覽器本機處理文字、圖片、PDF 與計算資料，以及本機儲存、檔案大小、結果限制、錯誤回報與新工具建議方式，使用前可先確認各項限制。',
       body: [
         "FunnyTools 免費線上工具箱的多數工具是直接在瀏覽器中執行的靜態網頁工具。你打開工具頁後，輸入欄位、按鈕、計算公式與結果顯示通常都在目前瀏覽器分頁內完成。",
@@ -289,7 +289,7 @@ export const pages = {
   en: {
     about: {
       title: 'About FunnyTools',
-      seoTitle: 'About FunnyTools',
+      seoTitle: 'About Us | Free Online Toolbox - FunnyTools',
       description: 'Learn what FunnyTools is, how its free browser tools work, how local processing protects inputs, and what practical categories the site covers.',
       body: [
         "FunnyTools is a free, no-install, no-sign-up website that gathers everyday tools for work, study, money, and daily life into clean, readable, mobile-friendly pages.",
@@ -304,7 +304,7 @@ export const pages = {
     },
     contact: {
       title: 'Contact',
-      seoTitle: 'Contact FunnyTools',
+      seoTitle: 'Contact Us | Bug Reports & Tool Suggestions - FunnyTools',
       description: 'Contact FunnyTools to report a tool error, suggest a practical new browser tool, request a content correction, or ask a site-related question.',
       body: [
         `For bug reports, tool suggestions, content questions, or site-related questions, email ${SITE.email}.`,
@@ -318,7 +318,7 @@ export const pages = {
     },
     privacy: {
       title: 'Privacy Policy',
-      seoTitle: 'Privacy Policy | FunnyTools',
+      seoTitle: 'Privacy Policy | Data Handling & Cookies - FunnyTools',
       description: 'How FunnyTools handles browser processing, user input, local storage, third-party links, account-free access, and future advertising cookies.',
       body: [
         "Effective date: June 20, 2026. This Privacy Policy explains how FunnyTools (funnytools.win, the \"Site\") handles your data.",
@@ -336,7 +336,7 @@ export const pages = {
     },
     terms: {
       title: 'Terms of Use',
-      seoTitle: 'Terms of Use | FunnyTools',
+      seoTitle: 'Terms of Use | Service Scope & Limits - FunnyTools',
       description: 'FunnyTools terms covering service scope, user responsibility, acceptable use, intellectual property, third-party services, and liability limits.',
       body: [
         "Effective date: June 16, 2026. By using FunnyTools (funnytools.win), you agree to these Terms of Use.",
@@ -354,7 +354,7 @@ export const pages = {
     },
     disclaimer: {
       title: 'Disclaimer',
-      seoTitle: 'Disclaimer | FunnyTools',
+      seoTitle: 'Disclaimer | Results Are Reference Only - FunnyTools',
       description: 'Limits of FunnyTools results, user responsibility, and why calculator, random, financial, legal, and health outputs are reference only.',
       body: [
         "Effective date: June 20, 2026. All results from the Site are for general reference only; use your own judgment and verify before relying on them.",
@@ -371,7 +371,7 @@ export const pages = {
     },
     aboutTools: {
       title: 'How Our Tools Work',
-      seoTitle: 'How Our Tools Work | FunnyTools',
+      seoTitle: 'How Our Tools Work | Local Browser Processing - FunnyTools',
       description: 'How FunnyTools processes text, images, PDFs, and calculations locally in the browser, plus storage, result limits, bug reports, and suggestions.',
       body: [
         "Most FunnyTools tools are static browser tools. After you open a tool page, form inputs, buttons, formulas, and result displays usually run inside your current browser tab.",

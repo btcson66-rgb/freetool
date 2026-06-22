@@ -5,7 +5,7 @@ export default {
     name: '字元計數器',
     short: '即時計算字元、UTF-8 位元組、字數、行數與常見平台長度限制。',
     long: '字元計數器適合檢查社群貼文、簡訊、推播、Meta description、廣告文案與編輯稿。輸入文字後會即時計算含空白字元、不含空白字元、UTF-8 位元組、字數與行數，並標示 Twitter/X、SMS 與搜尋摘要常見限制。',
-    seoTitle: '字元計數器 | 免費 Character Counter 與 UTF-8 位元組計算',
+    seoTitle: '字元計數器｜文字長度與 UTF-8 位元組計算',
     seoDescription: '免費即時計算字元、字數、行數、UTF-8 位元組，並檢查 Twitter/X、SMS、Meta description 常見限制。',
     keywords: ['字元計數器', '字數統計', 'UTF-8 位元組', 'character counter', 'SMS 字數'],
     instructions: [
@@ -91,7 +91,7 @@ export default {
     name: 'Character Counter',
     short: 'Count characters, bytes, words, lines, and common platform limits live.',
     long: 'Character Counter is useful for social posts, SMS copy, push notifications, meta descriptions, ad text, and editing drafts. As you type, it reports characters with spaces, characters without spaces, UTF-8 bytes, words, and lines, while tracking common Twitter/X, SMS, and search snippet limits.',
-    seoTitle: 'Character Counter | Free online character and byte counter',
+    seoTitle: 'Character Counter | Characters, Words & UTF-8 Bytes',
     seoDescription: 'Count characters with spaces, without spaces, UTF-8 bytes, words, and lines while checking Twitter/X, SMS, and meta description limits.',
     keywords: ['character counter', 'byte counter', 'Twitter character count', 'SMS counter', 'meta description length'],
     instructions: [

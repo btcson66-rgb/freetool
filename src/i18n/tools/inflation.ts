@@ -91,7 +91,7 @@ export default {
     name: 'Inflation Calculator',
     short: 'Estimate how inflation changes future purchasing power.',
     long: 'Inflation Calculator estimates future cost or purchasing power from an amount, annual inflation rate, and years. Formula: future cost = amount × (1 + annual rate)^years; future purchasing power = amount ÷ (1 + annual rate)^years.',
-    seoTitle: 'Inflation Calculator | Purchasing power and future cost',
+    seoTitle: 'Inflation Calculator | Purchasing Power Estimator',
     seoDescription: 'Enter amount, annual inflation rate, and years to estimate future cost, future purchasing power, or a past equivalent amount.',
     keywords: ['inflation calculator', 'purchasing power calculator', 'future cost', 'inflation estimate'],
     instructions: [

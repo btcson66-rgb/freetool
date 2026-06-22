@@ -18,7 +18,7 @@ export default {
     name: 'PNG 轉 JPG',
     short: '用背景色填補透明區域，將圖片轉成 JPG。',
     long: 'PNG 轉 JPG 工具會在瀏覽器本機讀取圖片，把透明區域填上你選擇的背景色，再用 canvas 輸出 JPG。檔案留在你的裝置上處理，不會上傳到伺服器。',
-    seoTitle: 'PNG 轉 JPG | 免費本機圖片轉檔工具',
+    seoTitle: 'PNG 轉 JPG｜本機圖片轉檔與背景色',
     seoDescription: '把 PNG 或瀏覽器可讀取的圖片轉成 JPG，選擇背景色與品質，所有處理都在瀏覽器本機完成。',
     keywords: ['PNG 轉 JPG', 'PNG to JPG', '圖片轉檔', 'JPG converter'],
     instructions: [

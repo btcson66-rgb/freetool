@@ -43,10 +43,8 @@ const jsonLdItems = Array.isArray(jsonLd) ? jsonLd : [jsonLd];
 const ogLocale = lang === 'zh' ? 'zh_TW' : 'en_US';
 const ogImage = customOgImage ?? defaultOgImage();
 const ogAlt = ogImageAlt ?? SITE.name[lang];
-const brandedTitle = lang === 'zh' && !title.includes(SITE.name.zh) ? `${title}｜${SITE.name.zh}` : title;
-const brandedDescription = lang === 'zh' && !description.includes(SITE.name.zh)
-  ? `${SITE.name.zh}：${description}`
-  : description;
+const brandedTitle = title.includes('FunnyTools') ? title : `${title} - FunnyTools`;
+const brandedDescription = description;
 const ui = t(lang);
 const adsenseEnabled = SITE.adsenseEnabled || SITE.features.adsense;
 const ga4Enabled = !!SITE.ga4MeasurementId;

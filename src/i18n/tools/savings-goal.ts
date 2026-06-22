@@ -98,7 +98,7 @@ export default {
     name: 'Savings Goal Calculator',
     short: 'Estimate how long a goal takes or the monthly savings required.',
     long: 'Savings Goal Calculator has two modes: estimate how long a fixed monthly deposit takes to reach a target, or calculate the monthly deposit needed within a chosen number of months. A simple annual rate can be included as a growth assumption.',
-    seoTitle: 'Savings Goal Calculator | Free monthly savings planner',
+    seoTitle: 'Savings Goal Calculator | Monthly Savings Planner',
     seoDescription: 'Calculate how long a savings goal takes or the monthly deposit required using target amount, current savings, monthly deposit, months, and annual rate.',
     keywords: ['savings goal calculator', 'monthly savings', 'goal planner', 'how long to save'],
     instructions: [

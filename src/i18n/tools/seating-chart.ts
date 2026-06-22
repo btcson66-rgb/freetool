@@ -98,7 +98,7 @@ export default {
     name: 'Seating Chart',
     short: 'Arrange classroom seating from a student list.',
     long: 'Seating Chart places a student list into a row-and-column grid for new terms, exam seating, activity tables, and temporary room layouts. Choose whether to shuffle, then fill seats by row or by column. Copy the plain-text chart, print it from the browser, or save it as a PDF from the print dialog.',
-    seoTitle: 'Seating Chart Generator | Free classroom seating tool',
+    seoTitle: 'Seating Chart Generator | Classroom Seating Tool',
     seoDescription: 'Paste a student list, choose rows and columns, shuffle or keep order, and generate a copyable printable seating chart.',
     keywords: ['seating chart', 'classroom seating chart', 'student seating', 'seat planner'],
     instructions: [

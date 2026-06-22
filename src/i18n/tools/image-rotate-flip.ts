@@ -51,7 +51,7 @@ export default {
     name: 'Image Rotate & Flip',
     short: 'Rotate an image by 90 degrees or flip it horizontally or vertically, then download.',
     long: 'The image rotate and flip tool lets you upload an image and rotate it left or right by 90 degrees, or flip it horizontally or vertically, with a live preview, then download the result. It is handy for fixing photos taken at the wrong orientation, making mirror images, or straightening scans. Everything runs locally in your browser and images are never uploaded.',
-    seoTitle: 'Image Rotate & Flip | Free Online Rotate and Mirror Tool',
+    seoTitle: 'Image Rotate & Flip | Rotate and Mirror Images',
     seoDescription: 'Free online image rotate and flip tool: rotate 90 degrees or flip horizontally and vertically, then download. Processed locally with no upload.',
     keywords: ['rotate image', 'flip image', 'mirror image online', 'image rotate tool', 'rotate photo'],
     instructions: [

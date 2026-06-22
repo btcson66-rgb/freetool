@@ -18,7 +18,7 @@ export default {
     name: '刪除 PDF 頁面',
     short: '輸入要移除的頁碼範圍，產生不含那些頁面的新 PDF。',
     long: '刪除 PDF 頁面工具會在瀏覽器本機讀取 PDF，依你輸入的頁碼或範圍移除頁面，並輸出新的 PDF。工具會避免刪除全部頁面。',
-    seoTitle: '刪除 PDF 頁面 | 免費線上移除 PDF 頁碼',
+    seoTitle: '刪除 PDF 頁面｜移除指定頁碼並下載',
     seoDescription: '免費刪除 PDF 頁面工具，可輸入 2, 5-7 這類頁碼範圍，產生移除指定頁面的新 PDF，檔案不會上傳。',
     keywords: ['刪除 PDF 頁面', '移除 PDF 頁碼', 'delete PDF pages', 'remove PDF pages', 'local PDF tool'],
     instructions: [

@@ -117,7 +117,7 @@ export default {
     name: 'Overtime Pay Calculator',
     short: 'Estimate overtime pay from hours, hourly rate, and editable multipliers.',
     long: 'Overtime Pay Calculator lets you estimate extra pay with editable assumptions. Enter a base hourly rate, overtime hours, and multipliers for weekday, extended, rest-day, or holiday work. The tool calculates each category as hourly rate times hours times multiplier, then sums the total overtime pay. Use it as a payroll-check draft, not as an official labor-law or company payroll result.',
-    seoTitle: 'Overtime Pay Calculator | Editable Multiplier Estimate',
+    seoTitle: 'Overtime Pay Calculator | Editable Multiplier Tool',
     seoDescription: 'Enter hourly wage, overtime hours, and editable multipliers to estimate weekday, extended, rest-day, or holiday overtime pay.',
     keywords: ['overtime pay calculator', 'overtime multiplier', 'hourly pay calculator', 'payroll estimate'],
     instructions: [

@@ -38,7 +38,7 @@ export interface CategoryContent {
 export const categoryContent: Record<string, CategoryContent> = {
   money: {
     title: {
-      zh: '薪資與金錢免費工具｜薪水、貸款、複利試算 - FunnyTools 免費線上工具箱',
+      zh: '薪資與金錢免費工具｜薪水、貸款、複利試算 - FunnyTools',
       en: 'Money & Salary Calculators | Free Tools - FunnyTools',
     },
     metaDescription: {
@@ -141,7 +141,7 @@ export const categoryContent: Record<string, CategoryContent> = {
 
   time: {
     title: {
-      zh: '工作與時間免費工具｜番茄鐘、倒數計時、日期計算 - FunnyTools 免費線上工具箱',
+      zh: '工作與時間免費工具｜番茄鐘、倒數計時、日期計算 - FunnyTools',
       en: 'Work & Time Tools | Timers & Date Calculators - FunnyTools',
     },
     metaDescription: {
@@ -250,7 +250,7 @@ export const categoryContent: Record<string, CategoryContent> = {
 
   random: {
     title: {
-      zh: '隨機與抽籤免費工具｜抽號碼、抽名字、分組、轉盤 - FunnyTools 免費線上工具箱',
+      zh: '隨機與抽籤免費工具｜抽號碼、抽名字、分組、轉盤 - FunnyTools',
       en: 'Random Pickers & Generators | Free Tools - FunnyTools',
     },
     metaDescription: {
@@ -369,7 +369,7 @@ export const categoryContent: Record<string, CategoryContent> = {
 
   text: {
     title: {
-      zh: '文字與寫作免費工具｜字數統計、大小寫、文字清理 - FunnyTools 免費線上工具箱',
+      zh: '文字與寫作免費工具｜字數統計、大小寫、文字清理 - FunnyTools',
       en: 'Text & Writing Tools | Count, Convert & Clean - FunnyTools',
     },
     metaDescription: {
@@ -494,7 +494,7 @@ export const categoryContent: Record<string, CategoryContent> = {
 
   image: {
     title: {
-      zh: '圖片與檔案免費工具｜圖片壓縮、轉檔、尺寸調整 - FunnyTools 免費線上工具箱',
+      zh: '圖片與檔案免費工具｜圖片壓縮、轉檔、尺寸調整 - FunnyTools',
       en: 'Image Tools | Compress, Convert & Resize - FunnyTools',
     },
     metaDescription: {
@@ -616,7 +616,7 @@ export const categoryContent: Record<string, CategoryContent> = {
 
   pdf: {
     title: {
-      zh: 'PDF 免費工具｜合併、拆分、旋轉、壓縮 PDF - FunnyTools 免費線上工具箱',
+      zh: 'PDF 免費工具｜合併、拆分、旋轉、壓縮 PDF - FunnyTools',
       en: 'PDF Tools | Merge, Split, Rotate & Compress - FunnyTools',
     },
     metaDescription: {
@@ -729,7 +729,7 @@ export const categoryContent: Record<string, CategoryContent> = {
 
   draw: {
     title: {
-      zh: '製圖與圖表免費工具｜2D CAD、流程圖、長條圖、圓餅圖 - FunnyTools 免費線上工具箱',
+      zh: '製圖與圖表免費工具｜2D CAD、流程圖、長條圖、圓餅圖 - FunnyTools',
       en: 'Drawing & Chart Tools | CAD, Flowcharts & Charts - FunnyTools',
     },
     metaDescription: {
@@ -823,7 +823,7 @@ export const categoryContent: Record<string, CategoryContent> = {
 
   study: {
     title: {
-      zh: '學生與老師免費工具｜點名、分組、座位表、成績計算 - FunnyTools 免費線上工具箱',
+      zh: '學生與老師免費工具｜點名、分組、座位表、成績計算 - FunnyTools',
       en: 'Student & Teacher Tools | Groups, Grades & Roll Call - FunnyTools',
     },
     metaDescription: {
@@ -912,7 +912,7 @@ export const categoryContent: Record<string, CategoryContent> = {
 
   statistics: {
     title: {
-      zh: '教育與統計免費工具｜標準差、百分比、平均計算 - FunnyTools 免費線上工具箱',
+      zh: '教育與統計免費工具｜標準差、百分比、平均計算 - FunnyTools',
       en: 'Education & Statistics Calculators | Free Tools - FunnyTools',
     },
     metaDescription: {

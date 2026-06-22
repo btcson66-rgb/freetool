@@ -5,7 +5,7 @@ export default {
     name: 'JSON 格式化 / 驗證',
     short: '在瀏覽器內格式化、壓縮與驗證 JSON 片段，方便 API 與設定檔檢查。',
     long: 'JSON 格式化工具適合整理 API 回應、偵錯資料、設定檔與文件範例。你可以把 JSON 美化成兩格縮排、壓縮成單行，或只驗證語法並查看錯誤訊息。工具使用瀏覽器內建 JSON 解析，不會主動修復無效 JSON。',
-    seoTitle: 'JSON 格式化 / 驗證 | 免費 JSON Formatter Validator',
+    seoTitle: 'JSON 格式化與驗證｜整理、壓縮與除錯',
     seoDescription: '免費在瀏覽器內格式化、壓縮與驗證 JSON，適合 API 回應、設定檔、文件範例與偵錯資料。',
     keywords: ['JSON 格式化', 'JSON 驗證', 'JSON 壓縮', 'json formatter', 'json validator'],
     instructions: [

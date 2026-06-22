@@ -5,7 +5,7 @@ export default {
     name: '工作日計算器',
     short: '計算兩個日期之間的工作日，並可排除週末與自訂假日。',
     long: '工作日計算器適合估算交件期限、合約審核、請假安排或服務時效。選擇開始日與結束日後，你可以決定是否包含結束日、是否排除週末，並貼上自訂假日清單。工具會列出日曆天數、週末天數、假日扣除與工作日總數，方便把結果複製到排程或筆記中。',
-    seoTitle: '工作日計算器 | 免費 Business Days Calculator',
+    seoTitle: '工作日計算器｜扣除週末與假日天數',
     seoDescription: '計算兩個日期之間的工作日，可排除週末並扣除自訂假日。適合專案期限、請假、合約與服務時效估算。',
     keywords: ['工作日計算器', 'business days calculator', 'workdays between dates', '日期計算'],
     instructions: [
@@ -101,7 +101,7 @@ export default {
     name: 'Business Days Calculator',
     short: 'Count workdays between two dates with optional weekends and custom holidays.',
     long: 'Business Days Calculator helps estimate delivery windows, review periods, leave plans, and service timelines. Choose a start date and end date, decide whether to include the end date, exclude weekends if needed, and paste custom holidays in YYYY-MM-DD format. The tool reports calendar days, weekend days, holiday deductions, and total business days, then lets you copy a clean summary into schedules, contracts, or notes.',
-    seoTitle: 'Business Days Calculator | Free Workday Counter',
+    seoTitle: 'Business Days Calculator | Count Workdays & Holidays',
     seoDescription: 'Calculate business days between two dates, optionally exclude weekends, and subtract custom holidays from a pasted date list.',
     keywords: ['business days calculator', 'workdays between dates', 'date calculator', 'holiday counter'],
     instructions: [

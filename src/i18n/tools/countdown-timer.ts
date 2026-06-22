@@ -18,7 +18,7 @@ export default {
     name: '倒數計時器',
     short: '用時間長度或目標日期建立清楚的倒數。',
     long: '倒數計時器支援固定時長與目標日期兩種模式。你可以設定幾分鐘後提醒，也可以倒數到會議、截止日、活動開始或旅程出發時間，時間到時會顯示提示並播放短音效。',
-    seoTitle: '倒數計時器｜免費線上 Countdown Timer',
+    seoTitle: '倒數計時器｜日期、時間與活動倒數',
     seoDescription: '免費線上倒數計時器，支援時分秒、目標日期時間、開始暫停重設、瀏覽器標題更新、時間到音效與提示。',
     keywords: ['倒數計時器', 'Countdown Timer', '線上計時器', '目標日期倒數'],
     instructions: [
@@ -75,7 +75,7 @@ export default {
     name: 'Countdown Timer',
     short: 'Count down by duration or to a target date and time.',
     long: 'Countdown Timer supports both fixed durations and exact target datetimes. Use it for short reminders, meetings, deadlines, events, cooking, workouts, or any moment where a clear browser-based countdown helps.',
-    seoTitle: 'Countdown Timer | Free online duration and date countdown',
+    seoTitle: 'Countdown Timer | Duration and Date Countdown',
     seoDescription: 'Use a free online countdown timer with duration mode, target datetime mode, start, pause, reset, title updates, beep, and time-up alert.',
     keywords: ['countdown timer', 'online timer', 'date countdown', 'duration timer'],
     instructions: [

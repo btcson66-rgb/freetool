@@ -54,7 +54,7 @@ export default {
     name: 'Standard Deviation Calculator',
     short: 'Compute mean, median, variance, and standard deviation from a set of numbers.',
     long: 'Paste or type a set of numbers separated by commas, spaces, or new lines, and this calculator returns the count, sum, mean, median, mode, min, max, range, plus population and sample variance and standard deviation. Everything runs locally in your browser, which is handy for homework, reports, and quick data checks.',
-    seoTitle: 'Standard Deviation Calculator | Mean, Variance & SD Online',
+    seoTitle: 'Standard Deviation Calculator | Mean, Variance & SD',
     seoDescription: 'Free standard deviation calculator: enter numbers to get mean, median, mode, range, population and sample variance and standard deviation, processed locally.',
     keywords: ['standard deviation calculator', 'variance calculator', 'mean median mode', 'population sample standard deviation'],
     instructions: [

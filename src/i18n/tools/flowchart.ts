@@ -72,7 +72,7 @@ export default {
     name: 'Flowchart Maker',
     short: 'Build simple flowcharts with editable nodes, arrows, dragging, delete, and PNG export.',
     long: 'Flowchart Maker lets you build simple diagrams in the browser. Add process rectangles and decision diamonds, double-click to edit text, drag nodes, connect nodes with arrows, delete selected items, and export PNG.',
-    seoTitle: 'Flowchart Maker | Free online diagram tool with PNG export',
+    seoTitle: 'Flowchart Maker | Online Diagram with PNG Export',
     seoDescription: 'Create simple flowcharts online with process nodes, decision diamonds, arrows, dragging, text editing, delete, clear, and PNG export.',
     keywords: ['flowchart maker', 'online flowchart', 'diagram tool', 'process diagram', 'PNG export'],
     instructions: [

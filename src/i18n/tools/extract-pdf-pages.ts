@@ -18,7 +18,7 @@ export default {
     name: '擷取 PDF 頁面',
     short: '依輸入順序保留指定頁面，輸出一份新的精簡 PDF。',
     long: '擷取 PDF 頁面工具會在瀏覽器本機讀取 PDF，只保留你輸入的頁碼或頁碼範圍，並依輸入順序輸出成新的 PDF。原始檔案不會上傳或被修改。',
-    seoTitle: '擷取 PDF 頁面 | 免費線上保留指定 PDF 頁碼',
+    seoTitle: '擷取 PDF 頁面｜保留指定頁碼與範圍',
     seoDescription: '免費擷取 PDF 頁面工具，可輸入 1, 3-5 這類頁碼範圍，只保留指定頁面並在瀏覽器本機下載新 PDF。',
     keywords: ['擷取 PDF 頁面', '保留 PDF 頁碼', 'extract PDF pages', 'keep PDF pages', 'local PDF tool'],
     instructions: [

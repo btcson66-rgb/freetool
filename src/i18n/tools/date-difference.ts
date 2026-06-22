@@ -18,7 +18,7 @@ export default {
     name: '日期差距計算器',
     short: '計算兩個日期之間的天數、週數、月份與工作日分布。',
     long: '日期差距計算器可以快速比較開始日與結束日，並同時顯示總天數、週數與剩餘天數、約略月份、年月日拆解、平日與週末天數。你也可以切換是否包含結束日期，讓計算更符合請假、專案或旅遊規劃情境。',
-    seoTitle: '日期差距計算器｜免費線上 Date Difference Calculator',
+    seoTitle: '日期差距計算器｜計算兩日期相差天數',
     seoDescription: '免費計算兩個日期之間的總天數、週數、月份、年月日差距、平日與週末天數，可選擇是否包含結束日期。',
     keywords: ['日期差距', '天數計算', 'Date Difference Calculator', '平日週末計算'],
     instructions: [
@@ -75,7 +75,7 @@ export default {
     name: 'Date Difference Calculator',
     short: 'Calculate days, weeks, months, weekdays, and weekends between dates.',
     long: 'Date Difference Calculator compares a start date and an end date in several practical ways: total days, weeks plus remaining days, approximate months, calendar years-months-days, weekdays, and weekends. Toggle whether the end date should count for planning vacations, deadlines, contracts, and events.',
-    seoTitle: 'Date Difference Calculator | Free online days between dates',
+    seoTitle: 'Date Difference Calculator | Days Between Dates',
     seoDescription: 'Calculate the difference between two dates in total days, weeks, approximate months, years-months-days, weekdays, and weekends.',
     keywords: ['date difference calculator', 'days between dates', 'weekday counter', 'date calculator'],
     instructions: [

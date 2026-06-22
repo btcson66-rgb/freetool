@@ -98,7 +98,7 @@ export default {
     name: 'Image Compressor',
     short: 'Reduce JPG, PNG, and WebP file size locally in the browser.',
     long: 'Image Compressor is built for social posts, avatars, product images, screenshots, and blog graphics that need a smaller file before publishing or sharing. Adjust quality, compare the before-and-after size, and choose whether to keep the format or export JPEG or WebP. Processing happens in your browser, so the original image is not uploaded.',
-    seoTitle: 'Image Compressor | Free local JPG PNG WebP compression',
+    seoTitle: 'Image Compressor | Local JPG PNG WebP Compression',
     seoDescription: 'Compress JPG, PNG, and WebP images locally in your browser with quality and format controls. Files are never uploaded.',
     keywords: ['image compressor', 'compress jpg', 'compress png', 'compress webp', 'local image compression'],
     instructions: [

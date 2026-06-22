@@ -31,7 +31,7 @@ export const blogPosts: BlogPost[] = [
   {
     slug: 'pdf-merge-guide',
     title: 'PDF 合併怎麼做？不用安裝軟體的線上方法',
-    description: '教你使用瀏覽器合併多份 PDF，從排序、預覽到下載一次說明，也整理檔案隱私、頁面方向與合併失敗的注意事項。',
+    description: '教你使用瀏覽器合併多份 PDF，從排序、預覽到下載一次說明，也整理檔案隱私、頁面方向與合併失敗的注意事項，適合報告、附件與掃描檔案整理使用。',
     summary: '把分散的報告、附件或掃描檔整理成一份 PDF，並在送出前完成排序與檢查。',
     published: '2026-06-20',
     updated: '2026-06-20',
@@ -87,7 +87,7 @@ export const blogPosts: BlogPost[] = [
   {
     slug: 'images-to-pdf-guide',
     title: '如何把多張圖片轉成 PDF？',
-    description: '完整說明多張 JPG、PNG 圖片轉成一份 PDF 的步驟，包含排序、方向、留白、畫質與檔案大小的實用檢查。',
+    description: '完整說明多張 JPG、PNG 圖片轉成一份 PDF 的步驟，包含排序、方向、留白、畫質與檔案大小的實用檢查，適合整理收據、報告與作品集案例。',
     summary: '將作業照片、收據或掃描圖片依序整理成方便分享與列印的 PDF。',
     published: '2026-06-20',
     updated: '2026-06-20',
@@ -143,7 +143,7 @@ export const blogPosts: BlogPost[] = [
   {
     slug: 'random-grouping-classroom',
     title: '老師如何用隨機分組工具安排課堂活動？',
-    description: '提供教師使用隨機分組工具的完整課堂流程，包含名單準備、組數設定、公平性、特殊需求調整、角色分工與活動後輪替方式。',
+    description: '提供教師使用隨機分組工具的完整課堂流程，包含名單準備、組數設定、公平性、特殊需求調整、角色分工與活動後輪替方式，讓分組作業更省時且更公平合理。',
     summary: '用可說明、可重複的流程快速分組，同時保留教師對課堂需求的必要調整。',
     published: '2026-06-20',
     updated: '2026-06-20',
@@ -199,7 +199,7 @@ export const blogPosts: BlogPost[] = [
   {
     slug: 'what-to-eat-decision-methods',
     title: '不知道今天吃什麼？選擇困難時可以用的 5 種方法',
-    description: '整理五種解決今天吃什麼的方法：縮小範圍、排除法、隨機輪盤、二選一與建立常用清單，幫你在單人或多人用餐時更快做決定。',
+    description: '整理五種解決今天吃什麼的方法：縮小範圍、排除法、隨機輪盤、二選一與建立常用清單，幫你在單人或多人用餐時更快做出決定，省去反覆猶豫的寶貴時間。',
     summary: '先把選項縮小，再用簡單規則做決定，避免把時間耗在無限比較。',
     published: '2026-06-20',
     updated: '2026-06-20',
@@ -253,7 +253,7 @@ export const blogPosts: BlogPost[] = [
   {
     slug: 'compound-interest-explained',
     title: '複利是什麼？用簡單例子看懂本金、利率與時間',
-    description: '用白話例子說明複利、本金、利率與期數的關係，並提醒試算結果與實際金融產品可能存在費用、稅務及計息差異。',
+    description: '用白話例子說明複利、本金、利率與期數的關係，並提醒試算結果與實際金融產品可能存在費用、稅務及計息差異，幫助理解長期儲蓄與投資的複利累積效果。',
     summary: '了解利息加入本金後如何影響下一期計算，並正確閱讀複利試算結果。',
     published: '2026-06-20',
     updated: '2026-06-20',
@@ -308,7 +308,7 @@ export const blogPosts: BlogPost[] = [
   {
     slug: 'mortgage-payment-explained',
     title: '房貸月付金怎麼算？本息平均攤還白話解釋',
-    description: '白話說明房貸本息平均攤還、每月本金與利息如何變化，以及使用房貸試算時應留意的利率、期數、寬限期與額外費用。',
+    description: '白話說明房貸本息平均攤還、每月本金與利息如何變化，以及使用房貸試算時應留意的利率、期數、寬限期與額外費用，協助評估每月實際還款的總負擔金額。',
     summary: '看懂本息平均攤還的月付金結構，並知道試算與銀行核貸結果的差距來源。',
     published: '2026-06-20',
     updated: '2026-06-20',
@@ -363,7 +363,7 @@ export const blogPosts: BlogPost[] = [
   {
     slug: 'qr-code-guide',
     title: 'QR Code 是什麼？如何製作自己的 QR Code？',
-    description: '說明 QR Code 的用途、建立網址與文字 QR Code 的步驟，以及尺寸、對比、容錯、隱私與印刷前測試注意事項。',
+    description: '說明 QR Code 的用途、建立網址與文字 QR Code 的步驟，以及尺寸、對比、容錯、隱私與印刷前測試注意事項，避免掃描失敗或內容過期。',
     summary: '把網址或文字製作成可掃描的 QR Code，並在分享或印刷前完成實機測試。',
     published: '2026-06-20',
     updated: '2026-06-20',
@@ -418,7 +418,7 @@ export const blogPosts: BlogPost[] = [
   {
     slug: 'word-counter-use-cases',
     title: '字數統計工具可以用在哪些情境？',
-    description: '整理字數統計、字元數、段落數與閱讀時間的差異，說明學生寫作、內容編輯、社群經營與線上表單填寫時的實際用法與注意事項。',
+    description: '整理字數統計、字元數、段落數與閱讀時間的差異，說明學生寫作、內容編輯、社群經營與線上表單填寫時的實際用法與注意事項，協助掌握篇幅與字數限制。',
     summary: '不只看總字數，也用字元、段落與閱讀時間檢查內容是否符合使用情境。',
     published: '2026-06-20',
     updated: '2026-06-20',
@@ -474,7 +474,7 @@ export const blogPosts: BlogPost[] = [
   {
     slug: 'image-compression-quality-guide',
     title: '圖片壓縮會影響畫質嗎？上傳前該注意什麼？',
-    description: '說明圖片壓縮為何可能影響畫質，如何依照片、截圖與文字圖選擇設定，並整理尺寸、格式、隱私及壓縮後檢查方式。',
+    description: '說明圖片壓縮為何可能影響畫質，如何依照片、截圖與文字圖選擇設定，並整理尺寸、格式、隱私及壓縮後檢查方式，幫助縮小檔案大小又能維持清晰度品質。',
     summary: '用實際顯示尺寸與用途決定壓縮程度，避免只追求最小檔案而犧牲可讀性。',
     published: '2026-06-20',
     updated: '2026-06-20',
@@ -530,7 +530,7 @@ export const blogPosts: BlogPost[] = [
   {
     slug: 'pdf-split-guide',
     title: 'PDF 拆分是什麼？如何只保留需要的頁面？',
-    description: '教你將 PDF 拆成指定頁面或範圍，說明頁碼確認、成品預覽、敏感內容檢查、重新合併與拆分後的檔案整理方式。',
+    description: '教你將 PDF 拆成指定頁面或範圍，說明頁碼確認、成品預覽、敏感內容檢查、重新合併與拆分後的檔案整理方式，方便分享單一頁面或特定章節的內容。',
     summary: '從完整 PDF 取出需要的頁面，減少不必要內容並讓分享範圍更清楚。',
     published: '2026-06-20',
     updated: '2026-06-20',

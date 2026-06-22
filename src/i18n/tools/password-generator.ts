@@ -69,7 +69,7 @@ export default {
     name: 'Password Generator',
     short: 'Create strong passwords from configurable character rules.',
     long: 'Generate random passwords in your browser with control over length, uppercase letters, lowercase letters, numbers, symbols, and ambiguous characters. The result updates when options change and includes a simple strength estimate.',
-    seoTitle: 'Password Generator | Free random strong password tool',
+    seoTitle: 'Password Generator | Random Strong Passwords',
     seoDescription: 'Generate random passwords with length, letter, number, symbol, and ambiguous-character options. Runs locally in the browser.',
     keywords: ['password generator', 'random password', 'strong password', 'secure password'],
     instructions: [

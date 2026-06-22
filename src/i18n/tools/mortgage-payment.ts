@@ -111,7 +111,7 @@ export default {
     name: 'Mortgage Payment Calculator',
     short: 'Estimate monthly mortgage payments from loan amount, rate, and term.',
     long: 'Mortgage Payment Calculator helps you make an early monthly-payment estimate before viewing homes, comparing loan terms, or building a household budget. Enter the loan amount, annual interest rate, and term in years, then the tool applies a fixed-rate amortization formula to estimate monthly payment, total paid, and total interest. Use the result as a planning baseline before checking exact fees, approval rules, and contract terms with a lender.',
-    seoTitle: 'Mortgage Payment Calculator | Free Monthly Loan Estimate',
+    seoTitle: 'Mortgage Payment Calculator | Monthly Loan Estimate',
     seoDescription: 'Estimate monthly mortgage payment, total payments, and total interest from loan amount, annual rate, and loan term.',
     keywords: ['mortgage payment calculator', 'loan payment calculator', 'monthly mortgage', 'amortization calculator'],
     instructions: [

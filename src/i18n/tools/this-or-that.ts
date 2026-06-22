@@ -18,7 +18,7 @@ export default {
     name: '二選一決定器',
     short: '在兩個選項之間用 50/50 機率快速決定。',
     long: '二選一決定器適合處理兩個差不多的選項。輸入 A 與 B，按下決定後會短暫交替顯示，最後以 50/50 機率選出其中一個。',
-    seoTitle: '二選一決定器 | 免費 This or That Picker',
+    seoTitle: '二選一決定器｜隨機選擇與快速決策',
     seoDescription: '輸入兩個選項，用 50/50 隨機機率快速決定 A 或 B，可重新決定與複製結果。',
     keywords: ['二選一', 'this or that', 'choice picker', 'random decision'],
     instructions: [
