@@ -136,6 +136,7 @@ export default {
       invalidError: '小組數必須是 1 到名單人數之間的整數。',
       emptyResult: '分組結果會顯示在這裡',
     },
+    privacyNote: '名單與分組結果完全在你的瀏覽器本機處理，不會上傳到本站或第三方伺服器。關閉頁面後資料即消失。',
   },
   en: {
     name: 'Random Group Generator',
@@ -219,5 +220,6 @@ export default {
       invalidError: 'Number of groups must be a whole number from 1 to the number of names.',
       emptyResult: 'Generated groups appear here',
     },
+    privacyNote: 'Names and group results are processed entirely in your browser and never uploaded to this site or any third-party server. Data disappears when you close the page.',
   },
 } satisfies Record<'zh' | 'en', ToolContent>;

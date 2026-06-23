@@ -1,17 +1,4 @@
-interface ToolContent {
-  name: string;
-  short: string;
-  long: string;
-  seoTitle: string;
-  seoDescription: string;
-  keywords: string[];
-  instructions: string[];
-  examples: string[];
-  faq: { q: string; a: string }[];
-  labels: Record<string, string>;
-  disclaimer?: string;
-  privacyNote?: string;
-}
+import type { ToolContent } from './_types';
 
 export default {
   zh: {
@@ -33,6 +20,31 @@ export default {
       '團隊會議隨機指定今天的記錄或簡報順序。',
       '朋友聚會從候選餐廳或遊戲中抽出一個選項。',
     ],
+    audience: [
+      '需要在課堂中公平抽人回答問題、上台報告或分配任務的老師。',
+      '舉辦抽獎、抽籤或隨機點名的活動主持人與社群經營者。',
+      '想用隨機方式決定會議記錄、簡報順序或值日生的團隊成員。',
+      '朋友聚會時需要從候選選項中隨機挑出一個結果的人。',
+    ],
+    caseStudies: [
+      {
+        title: '課堂隨機點名',
+        description: '老師把全班名單貼入工具，每次上課隨機抽一位同學回答問題，讓每位學生都有平等的發言機會。',
+      },
+      {
+        title: '線上活動抽獎',
+        description: '社群小編把留言者名單整理後貼入，抽出 3 位得獎者並複製結果，直接公布在貼文或群組中。',
+      },
+      {
+        title: '會議角色分配',
+        description: '團隊把成員名字貼入工具，每週隨機抽出會議記錄者與時間控管者，避免總是由同一個人負責。',
+      },
+    ],
+    notes: [
+      '抽選結果由瀏覽器內建的隨機數產生，適合日常用途但不適用於需要密碼學等級隨機性的場合。',
+      '同名者建議加上編號或代碼，避免抽選結果無法辨識。',
+      '名單不會儲存在伺服器，重新整理頁面後所有輸入會清除。',
+    ],
     faq: [
       {
         q: '名單會上傳到伺服器嗎？',
@@ -50,7 +62,16 @@ export default {
         q: '空白行會影響抽選嗎？',
         a: '不會。工具會忽略空白行，只使用有內容的行作為候選項目。',
       },
+      {
+        q: '手機可以使用嗎？',
+        a: '可以。手機瀏覽器直接開啟本頁即可貼上名單並抽選，不需要安裝任何 App。',
+      },
+      {
+        q: '抽選結果可以匯出嗎？',
+        a: '可以用「複製結果」按鈕複製文字，貼到訊息、簡報或文件中；目前沒有直接匯出檔案的功能。',
+      },
     ],
+    privacyNote: '你貼入的名單與抽選結果完全在瀏覽器本機處理，不會上傳到本站或第三方伺服器。關閉或重新整理頁面後資料即消失。',
     labels: {
       input: '姓名或項目',
       placeholder: '王小明\n陳怡君\nAlex\nMia',
@@ -88,6 +109,31 @@ export default {
       'Assign meeting roles such as note taker or first presenter.',
       'Select a restaurant, activity, or game from a shared shortlist.',
     ],
+    audience: [
+      'Teachers who need a fair way to call on students for questions, presentations, or task assignments.',
+      'Event hosts and community managers running giveaways, raffles, or random roll calls.',
+      'Team members who want to randomly assign meeting roles like note-taker or presenter order.',
+      'Friends choosing a restaurant, game, or activity from a shared shortlist.',
+    ],
+    caseStudies: [
+      {
+        title: 'Classroom random call',
+        description: 'A teacher pastes the class roster and picks one student each lesson to answer a question, giving everyone an equal chance to participate.',
+      },
+      {
+        title: 'Online giveaway draw',
+        description: 'A social media manager collects commenter names, picks three winners, and copies the result directly into the announcement post.',
+      },
+      {
+        title: 'Meeting role assignment',
+        description: 'A team pastes member names and picks a note-taker and timekeeper each week so the same person does not always volunteer.',
+      },
+    ],
+    notes: [
+      'Randomness comes from the browser\'s built-in random number generator — suitable for everyday use but not for cryptographic purposes.',
+      'Add a number or code next to duplicate names so picked results are easy to identify.',
+      'Names are not saved on any server; refreshing or closing the page clears all input.',
+    ],
     faq: [
       {
         q: 'Are my names uploaded anywhere?',
@@ -105,7 +151,16 @@ export default {
         q: 'Do blank lines count?',
         a: 'No. Blank lines are ignored; only lines with text are used as entries.',
       },
+      {
+        q: 'Does it work on mobile?',
+        a: 'Yes. Open this page in any mobile browser, paste your list, and pick — no app install required.',
+      },
+      {
+        q: 'Can I export the results?',
+        a: 'Use the Copy Result button to copy the text, then paste it into a message, slide, or document. There is no direct file export.',
+      },
     ],
+    privacyNote: 'Your pasted list and pick results are processed entirely in your browser and never uploaded to this site or any third-party server. Data disappears when you close or refresh the page.',
     labels: {
       input: 'Names or items',
       placeholder: 'Avery\nJordan\nMia\nLeo',

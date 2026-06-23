@@ -22,6 +22,17 @@ export default {
       '練習語言、樂器或技能時，用固定時間追蹤練習量。',
       '長時間用電腦工作時，用休息階段提醒自己伸展、喝水或離開螢幕。',
     ],
+    audience: [
+      '需要把大型任務拆成可管理段落的自由工作者、寫手與設計師。',
+      '準備考試或長時間讀書，想維持穩定節奏並避免疲勞的學生。',
+      '經常被 Email、訊息打斷，想用固定區段專心處理批次工作的上班族。',
+      '練習語言、樂器或程式，想用計時追蹤練習量的自學者。',
+    ],
+    notes: [
+      '番茄鐘是一般時間管理技巧，效果因人而異；若你有注意力或焦慮相關困擾，請諮詢專業人士。',
+      '計時器在瀏覽器分頁中運作，關閉或重整頁面後倒數狀態會結束，但自訂分鐘數會保留。',
+      '長時間使用電腦時，建議在休息階段離開螢幕、伸展或補充水分。',
+    ],
     caseStudies: [
       {
         title: '寫作衝刺',
@@ -95,6 +106,17 @@ export default {
       'Batch email, reports, and admin work into deliberate sessions instead of constant task switching.',
       'Track language, music, or skill practice with repeatable timed sessions.',
       'Use breaks as reminders to stretch, hydrate, or step away from the screen during long computer work.',
+    ],
+    audience: [
+      'Freelancers, writers, and designers who need to break large tasks into manageable blocks.',
+      'Students preparing for exams or studying for long periods who want a steady pace without burnout.',
+      'Office workers frequently interrupted by email and messages who want dedicated batch-processing time.',
+      'Self-learners practicing languages, instruments, or coding who want timed sessions to track progress.',
+    ],
+    notes: [
+      'The Pomodoro Technique is a general time-management method; results vary by person. Consult a professional for attention or anxiety concerns.',
+      'The timer runs inside the browser tab. Closing or refreshing the page ends the countdown, but custom minute settings are preserved.',
+      'During long computer sessions, use break phases to step away from the screen, stretch, and hydrate.',
     ],
     caseStudies: [
       {
