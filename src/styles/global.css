@@ -1777,6 +1777,18 @@ input:focus, textarea:focus, select:focus { border-color: var(--color-primary-60
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
 }
+.tool-card__cta {
+  display: inline-flex;
+  align-self: flex-start;
+  margin-top: 6px;
+  padding: 7px 10px;
+  border-radius: 999px;
+  background: var(--category-color, var(--color-primary-600));
+  color: var(--color-surface) !important;
+  font-size: 11px !important;
+  font-weight: 600;
+  line-height: 1;
+}
 .tool-card .asset-type { display: none; }
 .tool-card .badge { position: static; align-self: flex-start; margin-top: 4px; }
 

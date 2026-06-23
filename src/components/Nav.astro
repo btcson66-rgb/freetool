@@ -33,7 +33,14 @@ const ui = t(lang);
     <button class="mobile-menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-navigation" aria-label={lang === 'zh' ? '開啟選單' : 'Open menu'} data-menu-toggle>
         <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16" /></svg>
     </button>
-    <nav id="mobile-navigation" class="mobile-navigation" aria-label={ui.ariaPrimaryNav} data-mobile-nav hidden>
+    <nav
+      id="mobile-navigation"
+      class="mobile-navigation"
+      aria-label={ui.ariaMobileNav}
+      aria-hidden="true"
+      data-mobile-nav
+      hidden
+    >
       <a href={localePath(lang)}>{ui.nav.home}</a>
       <a href={localePath(lang, 'tools')}>{ui.nav.tools}</a>
       {lang === 'zh' && <a href={localePath(lang, 'blog')}>部落格</a>}
@@ -59,6 +66,7 @@ const ui = t(lang);
       const open = toggle.getAttribute('aria-expanded') === 'true';
       toggle.setAttribute('aria-expanded', String(!open));
       menu.hidden = open;
+      menu.setAttribute('aria-hidden', String(open));
     });
   })();
 </script>
