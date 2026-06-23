@@ -22,6 +22,9 @@ export interface BlogPost {
   summary: string;
   published: string;
   updated: string;
+  categorySlug?: string;
+  categoryLabel?: string;
+  relatedArticleSlugs?: string[];
   toolLinks: BlogToolLink[];
   sections: BlogSection[];
   faq: { question: string; answer: string }[];
@@ -586,7 +589,7 @@ export const blogPosts: BlogPost[] = [
   {
     slug: 'mobile-pdf-merge',
     title: '手機怎麼合併 PDF？免安裝 App 的操作方法',
-    description: '用手機瀏覽器直接合併多份 PDF，不需要下載 App，從選檔、排序到下載完整說明，包含常見失敗原因與注意事項。',
+    description: '用手機瀏覽器直接合併多份 PDF，不需要下載 App，從選檔、排序到下載完整說明，並整理常見失敗原因、檔案隱私、頁面順序與上傳前檢查重點，也提供對應工具與實用檢查清單。',
     summary: '在手機上用瀏覽器把多份 PDF 合成一個檔案，不必安裝額外 App。',
     published: '2026-06-23',
     updated: '2026-06-23',
@@ -635,7 +638,7 @@ export const blogPosts: BlogPost[] = [
   {
     slug: 'pdf-too-large',
     title: 'PDF 太大不能上傳怎麼辦？實用縮小方法整理',
-    description: '整理 PDF 檔案過大的常見原因與解決方法，包含壓縮、移除不必要頁面、降低掃描解析度等，適合需要用 Email 或表單上傳 PDF 的人。',
+    description: '整理 PDF 檔案過大的常見原因與解決方法，包含壓縮、移除不必要頁面、降低掃描解析度、重新輸出與上傳前檢查，適合 Email 或表單送件使用，也補充相關工具與常見錯誤。',
     summary: '檔案超過上傳限制時，用壓縮、拆分或重新掃描等方法把 PDF 縮小到可接受的大小。',
     published: '2026-06-23',
     updated: '2026-06-23',
@@ -686,7 +689,7 @@ export const blogPosts: BlogPost[] = [
   {
     slug: 'compress-large-images',
     title: '圖片太大怎麼壓縮？品質與大小的平衡指南',
-    description: '說明圖片壓縮的原理、操作步驟與品質控制方法，幫助你在不明顯降低畫質的情況下縮小圖片檔案，適合上傳、寄信與網頁使用。',
+    description: '說明圖片壓縮的原理、操作步驟與品質控制方法，幫助你在不明顯降低畫質的情況下縮小圖片檔案，並整理上傳、寄信與網頁使用前的檢查方式、工具選擇和實際範例。',
     summary: '用線上工具把過大的圖片縮小到適合上傳、寄信或放在網頁上的大小，同時控制品質損失。',
     published: '2026-06-23',
     updated: '2026-06-23',
@@ -735,7 +738,7 @@ export const blogPosts: BlogPost[] = [
   {
     slug: 'png-to-jpg-quality',
     title: 'PNG 轉 JPG 會失真嗎？格式轉換前該知道的事',
-    description: '解釋 PNG 和 JPG 的差異、轉換時可能的品質變化、透明背景的處理方式，幫助你判斷什麼時候該轉、什麼時候不該轉。',
+    description: '解釋 PNG 和 JPG 的差異、轉換時可能的品質變化、透明背景的處理方式與檔案大小取捨，幫助你判斷什麼時候該轉、什麼時候不該轉，並附轉檔前後檢查重點。',
     summary: '了解 PNG 轉 JPG 的品質影響與適用情境，避免轉錯格式造成畫質下降或透明背景消失。',
     published: '2026-06-23',
     updated: '2026-06-23',
@@ -777,7 +780,7 @@ export const blogPosts: BlogPost[] = [
   {
     slug: 'free-qr-code-guide',
     title: '如何免費製作 QR Code？從產生到列印的完整流程',
-    description: '完整說明免費製作 QR Code 的方法，包含網址、文字、Wi-Fi 等類型的製作步驟，以及尺寸、測試與列印的注意事項。',
+    description: '完整說明免費製作 QR Code 的方法，包含網址、文字、Wi-Fi 等類型的製作步驟，以及尺寸、對比、掃描測試、列印與分享前的注意事項，也整理常見錯誤。',
     summary: '用免費線上工具製作網址、文字或 Wi-Fi QR Code，並確認掃得到、印得清。',
     published: '2026-06-23',
     updated: '2026-06-23',
@@ -827,7 +830,7 @@ export const blogPosts: BlogPost[] = [
   {
     slug: 'threads-word-count',
     title: 'Threads 文案字數怎麼算？掌握字數限制的實用方法',
-    description: '說明 Threads 的字數限制規則、中英文字數計算差異，以及如何用字數統計工具在發文前確認長度，避免內容被截斷。',
+    description: '說明 Threads 的字數限制規則、中英文字數計算差異，以及如何用字數統計工具在發文前確認長度、換行與標點，避免內容被截斷或重寫，並附文案檢查流程。',
     summary: '了解 Threads 的字數限制，用字數統計工具在發文前確認文案長度。',
     published: '2026-06-23',
     updated: '2026-06-23',
@@ -867,7 +870,7 @@ export const blogPosts: BlogPost[] = [
   {
     slug: 'teacher-random-grouping',
     title: '老師如何快速隨機分組？省時公平的課堂分組方法',
-    description: '從教學角度說明課堂隨機分組的流程、工具選擇、公平性考量與分組後的調整策略，幫助老師節省課堂時間。',
+    description: '從教學角度說明課堂隨機分組的流程、工具選擇、公平性考量、名單清理與分組後的調整策略，幫助老師節省課堂時間並降低爭議，也整理課堂使用檢查清單。',
     summary: '用線上工具在課堂上快速完成隨機分組，並依教學需求微調結果。',
     published: '2026-06-23',
     updated: '2026-06-23',
@@ -917,7 +920,7 @@ export const blogPosts: BlogPost[] = [
   {
     slug: 'seating-chart-guide',
     title: '班級座位表怎麼快速產生？老師與活動主辦的實用方法',
-    description: '說明快速建立班級或活動座位表的方法，包含輸入名單、調整排列與匯出結果的流程，適合老師、班導師與活動主辦人。',
+    description: '說明快速建立班級或活動座位表的方法，包含輸入名單、調整排列、保留特殊需求與匯出結果的流程，適合老師、班導師與活動主辦人，也附常見錯誤提醒和檢查清單。',
     summary: '用線上工具快速產生座位表，省去手動畫表格的時間。',
     published: '2026-06-23',
     updated: '2026-06-23',
@@ -958,7 +961,7 @@ export const blogPosts: BlogPost[] = [
   {
     slug: 'mortgage-calculation-guide',
     title: '房貸月付金怎麼算？公式原理與線上試算教學',
-    description: '從公式原理出發，說明房貸月付金的計算方法、本金與利息的拆解、影響月付金的關鍵因素，以及如何用線上工具快速試算不同方案。',
+    description: '從公式原理出發，說明房貸月付金的計算方法、本金與利息的拆解、影響月付金的關鍵因素，以及如何用線上工具快速試算不同利率與年限方案，並提醒估算限制。',
     summary: '理解房貸月付金的計算邏輯，用線上工具比較不同貸款條件下的每月還款金額。',
     published: '2026-06-23',
     updated: '2026-06-23',
@@ -1008,7 +1011,7 @@ export const blogPosts: BlogPost[] = [
   {
     slug: 'compound-interest-reading-guide',
     title: '複利計算器怎麼看？搞懂每個數字的意思',
-    description: '教你看懂複利計算器的輸出結果，包含本金、利息、總額、年化報酬率的意義，以及常見的計算誤區。',
+    description: '教你看懂複利計算器的輸出結果，包含本金、利息、總額、年化報酬率的意義，以及常見的計算誤區、費用假設與長期試算注意事項，並提醒結果不是投資保證。',
     summary: '學會閱讀複利計算器的每一個數字，理解你的儲蓄或投資在時間推移下的變化。',
     published: '2026-06-23',
     updated: '2026-06-23',
@@ -1050,7 +1053,7 @@ export const blogPosts: BlogPost[] = [
   {
     slug: 'image-format-comparison',
     title: '圖片格式差異：JPG、PNG、WebP 怎麼選？',
-    description: '比較 JPG、PNG、WebP 三種常見圖片格式的特點、適用場景、檔案大小和品質差異，幫助你在不同情境下選擇正確的格式。',
+    description: '比較 JPG、PNG、WebP 三種常見圖片格式的特點、適用場景、透明背景、檔案大小和品質差異，幫助你在不同情境下選擇正確格式，並連到相關轉檔工具。',
     summary: '了解 JPG、PNG、WebP 各自的優缺點，根據用途選擇最適合的圖片格式。',
     published: '2026-06-23',
     updated: '2026-06-23',
@@ -1093,7 +1096,7 @@ export const blogPosts: BlogPost[] = [
   {
     slug: 'pomodoro-focus-guide',
     title: '線上番茄鐘怎麼用？提升專注力的免費工具教學',
-    description: '說明番茄鐘工作法的原理、線上工具的操作步驟、時間設定建議，以及在不同情境下如何調整，幫助你建立穩定的工作節奏。',
+    description: '說明番茄鐘工作法的原理、線上工具的操作步驟、時間設定建議，以及在讀書、遠端工作與專案整理等情境下如何調整節奏，並附常見使用錯誤與休息安排建議。',
     summary: '學會用免費線上番茄鐘建立專注與休息的節奏，提升工作和學習效率。',
     published: '2026-06-23',
     updated: '2026-06-23',

@@ -2,7 +2,7 @@ import type { APIRoute } from 'astro';
 import { SITE, type Locale } from '../config/site';
 import { categories } from '../data/categories';
 import { hasLiveTools, liveTools } from '../data/tools';
-import { blogPosts } from '../data/blogPosts';
+import { allBlogPosts } from '../data/allBlogPosts';
 import { absoluteUrl, localePath } from '../lib/url';
 
 const legalPages = ['about', 'about-tools', 'contact', 'privacy', 'terms', 'disclaimer'];
@@ -96,8 +96,8 @@ export const GET: APIRoute = () => {
 
   const zhOnlyPages: SitemapPage[] = [
     { segments: ['support'], changefreq: 'monthly', priority: '0.3' },
-    { segments: ['blog'], lastmod: blogPosts[0]?.updated, changefreq: 'weekly', priority: '0.7' },
-    ...blogPosts.map((post) => ({
+    { segments: ['blog'], lastmod: allBlogPosts[0]?.updated, changefreq: 'weekly', priority: '0.7' },
+    ...allBlogPosts.map((post) => ({
       segments: ['blog', post.slug],
       lastmod: post.updated,
       changefreq: 'monthly' as const,

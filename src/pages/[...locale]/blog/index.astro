@@ -1,7 +1,7 @@
 ---
 import Breadcrumb from '../../../components/Breadcrumb.astro';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
-import { blogPosts } from '../../../data/blogPosts';
+import { allBlogPosts } from '../../../data/allBlogPosts';
 import { SITE } from '../../../config/site';
 import { absoluteUrl, localePath, toolUrl } from '../../../lib/url';
 import { breadcrumbJsonLd } from '../../../lib/seo';
@@ -27,7 +27,7 @@ const collectionLd = {
   inLanguage: SITE.hreflang.zh,
   mainEntity: {
     '@type': 'ItemList',
-    itemListElement: blogPosts.map((post, index) => ({
+    itemListElement: allBlogPosts.map((post, index) => ({
       '@type': 'ListItem',
       position: index + 1,
       name: post.title,
@@ -55,7 +55,7 @@ const collectionLd = {
   <section class="wrap content-section" aria-labelledby="latest-guides">
     <h2 id="latest-guides">最新文章</h2>
     <div class="blog-grid">
-      {blogPosts.map((post) => (
+      {allBlogPosts.map((post) => (
         <article class="blog-card">
           <p class="blog-date"><time datetime={post.updated}>最後更新：{post.updated}</time></p>
           <h3><a href={localePath(lang, 'blog', post.slug)}>{post.title}</a></h3>

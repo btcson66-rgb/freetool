@@ -1,6 +1,6 @@
 {
   "name": "funnytools",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "private": true,
   "type": "module",
   "scripts": {
@@ -12,6 +12,7 @@
     "audit:security": "node scripts/security-preflight.mjs",
     "audit:lang-switch": "node scripts/lang-switch-audit.mjs",
     "audit:ui-dark": "node scripts/ui-dark-audit.mjs",
+    "seo:audit": "node scripts/seo-system-audit.mjs",
     "report:analytics": "node scripts/analytics-report.mjs",
     "preflight": "npm run build && npm run audit:lang-switch && npm run audit:adsense && npm run audit:analytics && npm run audit:security"
   },

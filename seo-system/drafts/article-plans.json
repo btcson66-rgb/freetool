@@ -1,0 +1,43 @@
+{
+  "version": "2026-06-23",
+  "status": "drafts_only_not_published",
+  "publishing_gate": "Only move an item into src/data/blogPosts.ts after human_reviewed=true and the quality gate passes.",
+  "article_template": {
+    "required_sections": ["明確 H1", "快速答案", "詳細步驟", "對應工具 CTA", "常見錯誤", "FAQ", "相關工具與文章內連"],
+    "internal_link_minimum": {
+      "primary_tool_page": 1,
+      "category_page": 1,
+      "related_resources": 2
+    }
+  },
+  "plans": [
+    {
+      "tool_id": "merge-pdf",
+      "drafts": [
+        { "type": "how_to", "h1": "手機怎麼合併 PDF？不用安裝 App 的整理方法", "primary_query": "手機合併 PDF", "quick_answer": "先確認檔案順序，再用 PDF 合併工具在瀏覽器內選取多份 PDF，確認排序後下載合併檔。", "cta_tool": "merge-pdf", "category_link": "/category/pdf/", "related_links": ["split-pdf", "pdf-page-reorder"], "human_reviewed": false },
+        { "type": "how_to", "h1": "報名資料如何合併成一個 PDF？上傳前檢查清單", "primary_query": "報名資料 合併 PDF", "quick_answer": "將身分證明、表單與附件依要求排序，合併後重新開啟確認頁數、方向與檔名。", "cta_tool": "merge-pdf", "category_link": "/category/pdf/", "related_links": ["pdf-compressor", "delete-pdf-pages"], "human_reviewed": false },
+        { "type": "how_to", "h1": "PDF 合併後順序錯了怎麼辦？重新排序與重做流程", "primary_query": "PDF 合併 順序錯誤", "quick_answer": "若尚未送出，先用頁面重新排序或重新選檔；若有多餘頁面，先刪頁再合併。", "cta_tool": "merge-pdf", "category_link": "/category/pdf/", "related_links": ["pdf-page-reorder", "delete-pdf-pages"], "human_reviewed": false },
+        { "type": "comparison", "h1": "PDF 合併、拆分、重新排序差在哪？整理文件前先選對工具", "primary_query": "PDF 合併 拆分 重新排序", "quick_answer": "合併處理多檔整合，拆分處理頁面取出，重新排序處理同一份 PDF 的頁序調整。", "cta_tool": "merge-pdf", "category_link": "/category/pdf/", "related_links": ["split-pdf", "pdf-page-reorder"], "human_reviewed": false }
+      ]
+    },
+    {
+      "tool_id": "pdf-compressor",
+      "drafts": [
+        { "type": "how_to", "h1": "PDF 太大不能上傳怎麼辦？先壓縮再檢查品質", "primary_query": "PDF 太大不能上傳", "quick_answer": "先移除不需要頁面，再嘗試 PDF 壓縮；若仍太大，檢查是否由高解析圖片造成。", "cta_tool": "pdf-compressor", "category_link": "/category/pdf/", "related_links": ["delete-pdf-pages", "image-compressor"], "human_reviewed": false },
+        { "type": "how_to", "h1": "履歷 PDF 如何壓到指定大小？寄出前的實用流程", "primary_query": "履歷 PDF 壓縮", "quick_answer": "保留可讀文字與必要圖片，壓縮後開啟檢查版面，不要只看檔案大小。", "cta_tool": "pdf-compressor", "category_link": "/category/pdf/", "related_links": ["merge-pdf", "image-compressor"], "human_reviewed": false },
+        { "type": "how_to", "h1": "PDF 壓縮後反而變大是正常的嗎？原因與替代做法", "primary_query": "PDF 壓縮 變大", "quick_answer": "有些 PDF 已經被最佳化，重新儲存可能增加結構資料；此時可改用刪頁或壓縮來源圖片。", "cta_tool": "pdf-compressor", "category_link": "/category/pdf/", "related_links": ["delete-pdf-pages", "image-compressor"], "human_reviewed": false },
+        { "type": "comparison", "h1": "PDF 壓縮、刪頁、圖片壓縮怎麼選？三種縮小檔案方法比較", "primary_query": "PDF 壓縮 刪頁 圖片壓縮", "quick_answer": "頁面多先刪頁，圖片大先壓圖，結構未最佳化再用 PDF 壓縮。", "cta_tool": "pdf-compressor", "category_link": "/category/pdf/", "related_links": ["delete-pdf-pages", "image-compressor"], "human_reviewed": false }
+      ]
+    },
+    {
+      "tool_id": "image-compressor",
+      "drafts": [
+        { "type": "how_to", "h1": "圖片太大怎麼壓縮？畫質與檔案大小的取捨", "primary_query": "圖片太大怎麼壓縮", "quick_answer": "先確認用途需要的尺寸，再調整品質與寬高；不要只用最低品質硬壓。", "cta_tool": "image-compressor", "category_link": "/category/image/", "related_links": ["image-resizer", "png-to-jpg"], "human_reviewed": false },
+        { "type": "how_to", "h1": "手機照片怎麼壓到 1MB？上傳證件與表單前檢查", "primary_query": "手機照片 壓到 1MB", "quick_answer": "先縮小像素尺寸，再調整壓縮品質，最後檢查文字或臉部是否仍清楚。", "cta_tool": "image-compressor", "category_link": "/category/image/", "related_links": ["image-resizer", "image-crop"], "human_reviewed": false },
+        { "type": "how_to", "h1": "社群圖片上傳前如何減少檔案大小？", "primary_query": "社群圖片 壓縮", "quick_answer": "社群貼文通常不需要原始相機解析度，可先裁切構圖，再輸出較小尺寸。", "cta_tool": "image-compressor", "category_link": "/category/image/", "related_links": ["image-crop", "jpg-to-webp"], "human_reviewed": false },
+        { "type": "comparison", "h1": "圖片壓縮、改尺寸、轉檔差在哪？上傳前的選擇順序", "primary_query": "圖片壓縮 改尺寸 轉檔", "quick_answer": "尺寸不合先改尺寸，格式不合先轉檔，檔案仍太大再壓縮品質。", "cta_tool": "image-compressor", "category_link": "/category/image/", "related_links": ["image-resizer", "png-to-jpg"], "human_reviewed": false }
+      ]
+    }
+  ],
+  "remaining_tools_rule": "Use tools-keywords.json article_ideas to generate the same four-draft package for the other priority tools before publishing. This file intentionally starts with the highest risk/highest value topics to keep review manageable."
+}

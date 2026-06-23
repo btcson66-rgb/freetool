@@ -1,0 +1,56 @@
+{
+  "version": "2026-06-23",
+  "status": "content_briefs_not_auto_published",
+  "required_sections": ["工具介紹", "如何使用", "適合誰使用", "實際案例 3 個", "注意事項", "FAQ 5-8 題", "相關工具 5 個", "隱私與本機處理說明"],
+  "implementation_note": "The current ToolLayout already renders many of these hooks from src/i18n/tools/*.ts. Use this file as the review checklist before editing any live tool content.",
+  "briefs": [
+    {
+      "tool_id": "merge-pdf",
+      "intro_angle": "聚焦在文件整理順序、上傳前檢查與本機處理，不承諾壓縮或修復損壞 PDF。",
+      "audiences": ["學生或求職者整理附件", "行政人員整理報名與簽核文件", "老師整理講義或作業檔"],
+      "case_studies": ["將履歷、作品集與證明合成一份 PDF", "把多份掃描合約依章節排序", "把課堂講義與補充資料整理成單一檔案"],
+      "notes": ["合併前先確認頁面方向", "機密資料送出前仍需自行檢查", "若檔案太大，合併後再考慮壓縮"],
+      "faq_targets": ["檔案是否上傳", "頁面順序", "手機支援", "檔案大小", "損壞 PDF"],
+      "related_tools": ["split-pdf", "pdf-compressor", "pdf-page-reorder", "images-to-pdf", "delete-pdf-pages"]
+    },
+    {
+      "tool_id": "pdf-compressor",
+      "intro_angle": "說明壓縮是嘗試縮小，不保證每個 PDF 變小，避免誇大。",
+      "audiences": ["需要符合上傳限制的人", "要寄送較小附件的人", "要先做快速檔案整理的人"],
+      "case_studies": ["履歷附件超過 5MB", "報名系統限制單檔大小", "掃描文件需要先刪頁再壓縮"],
+      "notes": ["壓縮後必須重新開啟檢查", "已最佳化 PDF 可能無法縮小", "正式文件保留原始檔"],
+      "faq_targets": ["是否一定變小", "畫質影響", "本機處理", "大小限制", "替代做法"],
+      "related_tools": ["merge-pdf", "split-pdf", "pdf-page-reorder", "delete-pdf-pages", "image-compressor"]
+    },
+    {
+      "tool_id": "split-pdf",
+      "intro_angle": "強調取出頁碼、分段整理與刪除不必要頁面的工作流。",
+      "audiences": ["只需提交部分頁面的人", "老師拆分教材", "行政人員整理附件"],
+      "case_studies": ["只取出合約簽名頁", "把講義按章節拆檔", "送件前移除多餘頁面"],
+      "notes": ["頁碼需與 PDF 檢視器確認", "拆分不會改動原始檔", "機密文件送出前需人工複核"],
+      "faq_targets": ["頁碼範圍", "原始檔安全", "本機處理", "手機使用", "頁碼錯位"],
+      "related_tools": ["merge-pdf", "extract-pdf-pages", "delete-pdf-pages", "pdf-page-reorder", "pdf-compressor"]
+    },
+    {
+      "tool_id": "image-compressor",
+      "intro_angle": "從上傳限制、手機照片、畫質檢查切入，避免只談檔案越小越好。",
+      "audiences": ["手機照片要上傳表單的人", "社群與部落格管理者", "學生或行政人員準備附件"],
+      "case_studies": ["證件照壓到 1MB 以下", "網頁圖片減少載入時間", "報告截圖縮小後寄出"],
+      "notes": ["先調尺寸再壓縮品質", "文字圖片要檢查可讀性", "保留原圖備份"],
+      "faq_targets": ["畫質", "格式", "本機處理", "手機限制", "仍太大"],
+      "related_tools": ["image-resizer", "png-to-jpg", "jpg-to-png", "image-crop", "jpg-to-webp"]
+    },
+    {
+      "tool_id": "word-counter",
+      "intro_angle": "把字數統計定位成投稿、社群文案、SEO snippet 與作業檢查工具。",
+      "audiences": ["寫社群文案的人", "學生與投稿者", "SEO 或內容編輯"],
+      "case_studies": ["Threads 文案發文前檢查", "投稿摘要控制在限制內", "meta description 避免過長"],
+      "notes": ["平台算法可能不同", "中文字、標點、空白規則要確認", "正式提交以對方系統為準"],
+      "faq_targets": ["中文字計算", "空白標點", "平台差異", "隱私", "閱讀時間"],
+      "related_tools": ["character-counter", "remove-empty-lines", "case-converter", "sort-lines", "markdown-previewer"]
+    }
+  ],
+  "coverage_todo": [
+    "png-to-jpg", "jpg-to-png", "qr-code-generator", "random-group-generator", "random-name-picker", "pomodoro-timer", "countdown-timer", "mortgage-payment", "compound-interest", "percentage-calculator", "date-difference", "timestamp-converter", "password-generator", "color-generator", "markdown-previewer"
+  ]
+}
