@@ -23,17 +23,17 @@ const seoIntro = homeSeoIntro[lang];
 const ui = t(lang);
 const popularSlugs = [
   'merge-pdf',
-  'split-pdf',
   'image-compressor',
   'qr-code-generator',
   'word-counter',
   'random-group-generator',
+  'pomodoro-timer',
+  'split-pdf',
   'mortgage-payment',
   'compound-interest',
-  'pomodoro-timer',
-  'business-days',
+  'what-to-eat',
+  'random-name-picker',
   'json-formatter',
-  'seating-chart',
 ];
 const isLiveTool = (tool: ToolMeta | undefined): tool is ToolMeta => tool?.status === 'live';
 const popularTools = popularSlugs.map(getToolBySlug).filter(isLiveTool);
