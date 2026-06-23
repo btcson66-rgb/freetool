@@ -10,6 +10,7 @@
     .split(',')
     .map((item) => item.trim())
     .filter(Boolean);
+  const productsSrc = grid.dataset.supportProductsSrc || '/data/support-products.json';
   const labels = isEnglish
     ? {
       fallbackImageAlt: 'Recommended resource image',
@@ -180,7 +181,7 @@
     });
   });
 
-  fetch('/data/support-products.json', { headers: { Accept: 'application/json' } })
+  fetch(productsSrc, { headers: { Accept: 'application/json' } })
     .then((response) => {
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       return response.json();

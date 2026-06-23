@@ -146,7 +146,13 @@ const jsonLd = [
 
       <p class="resource-note">For English visitors, this section currently shows Amazon resources only.</p>
       <p class="resource-status" data-resource-status role="status" aria-live="polite">Loading recommended resources...</p>
-      <div class="support-product-grid" data-support-products data-support-products-platforms="amazon" aria-busy="true"></div>
+      <div
+        class="support-product-grid"
+        data-support-products
+        data-support-products-src="/data/support-products-en.json"
+        data-support-products-platforms="amazon"
+        aria-busy="true"
+      ></div>
       <noscript>
         <p class="empty-state">Enable JavaScript to view recommended resources.</p>
       </noscript>
@@ -158,7 +164,7 @@ const jsonLd = [
     </section>
   </div>
 
-  <script src={assetPath('support-products.js')} defer></script>
+  <script src={`${assetPath('support-products.js')}?v=20260623-support-en`} defer></script>
   <script>
     const copyButton = document.querySelector('[data-copy-home-link]');
     const copyStatus = document.querySelector('[data-copy-status]');
@@ -411,6 +417,24 @@ const jsonLd = [
     border-radius: 14px;
     background: linear-gradient(135deg, rgba(15, 143, 140, 0.13), rgba(62, 99, 221, 0.11));
     font-size: 1.35rem;
+  }
+
+  :global(.support-product-media) {
+    display: grid;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    max-height: 180px;
+    place-items: center;
+    overflow: hidden;
+    border: 1px solid #e3e9f1;
+    border-radius: 12px;
+    background: #fff;
+  }
+
+  :global(.support-product-media img) {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
   }
 
   :global(.support-product-platform) {
