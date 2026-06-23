@@ -1,6 +1,6 @@
 # Technical SEO Report
 
-Generated: 2026-06-23T11:11:26.778Z
+Generated: 2026-06-23T15:53:54.541Z
 
 ## Critical
 

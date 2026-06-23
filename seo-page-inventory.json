@@ -1,0 +1,5132 @@
+[
+  {
+    "route": "/404.html",
+    "type": "other",
+    "lang": "zh",
+    "title": "找不到這個頁面 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/about/",
+    "type": "legal",
+    "lang": "zh",
+    "title": "關於我們｜免費線上工具箱簡介 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/about-tools/",
+    "type": "other",
+    "lang": "zh",
+    "title": "本站工具如何運作｜瀏覽器本機處理說明 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/classroom-random-tools-guide/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "老師課堂隨機工具整理：抽籤、分組、座位表怎麼搭配 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/color-generator-color-tools-workflow/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "顏色選擇器和圖片工具如何搭配？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/color-generator-hex-rgb-hsl/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "HEX、RGB、HSL 差在哪？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/color-generator-presentation-palette/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "簡報配色如何快速建立？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/color-generator-qr-code-colors/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "QR Code 顏色怎麼選比較好掃？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/compound-interest-annual-return-risk/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "年化報酬率不能保證什麼？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/compound-interest-dca-vs-lump-sum/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "定期定額和一次投入差多少？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/compound-interest-explained/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "複利是什麼？用簡單例子看懂本金、利率與時間 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/compound-interest-formula/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "複利怎麼算？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/compound-interest-inflation-purchasing-power/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "複利、通膨與購買力如何一起看？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/compound-interest-reading-guide/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "複利計算器怎麼看？搞懂每個數字的意思 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/compress-large-images/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "圖片太大怎麼壓縮？品質與大小的平衡指南 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/countdown-timer-classroom-uses/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "線上倒數計時器可以用在哪些課堂情境？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/countdown-timer-event-draw/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "活動抽獎倒數如何安排？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/countdown-timer-presentation-time/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "簡報時間怎麼用倒數工具控制？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/countdown-timer-timer-vs-pomodoro/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "倒數計時器與番茄鐘怎麼選？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/date-difference-date-vs-business-days/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "日期計算與工作日計算差在哪？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/date-difference-days-between-dates/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "兩個日期相差幾天怎麼算？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/date-difference-event-countdown/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "活動倒數和日期差怎麼搭配？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/date-difference-include-start-date/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "含不含起始日會差多少？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/free-qr-code-guide/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "如何免費製作 QR Code？從產生到列印的完整流程 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/image-compression-quality-guide/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "圖片壓縮會影響畫質嗎？上傳前該注意什麼？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/image-compressor-compress-resize-convert/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "圖片壓縮、改尺寸與轉檔差在哪？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/image-compressor-large-image/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "圖片太大怎麼壓縮？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/image-compressor-photo-under-1mb/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "手機照片怎麼壓到 1MB？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/image-compressor-social-upload/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "上傳證件照前如何調整圖片大小？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/image-format-comparison/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "圖片格式差異：JPG、PNG、WebP 怎麼選？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/image-format-workflow-guide/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "圖片格式怎麼選：JPG、PNG、WebP、壓縮與 QR Code 實用整理 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/images-to-pdf-guide/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "如何把多張圖片轉成 PDF？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "實用工具教學與生活指南 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/jpg-to-png-convert-crop-compress/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "JPG 轉 PNG、裁切與壓縮的正確順序 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/jpg-to-png-design-export/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "設計稿需要 PNG 時該怎麼轉？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/jpg-to-png-image-quality/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "JPG 轉 PNG 會讓圖片變清楚嗎？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/jpg-to-png-transparent-background/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "JPG 可以直接變透明背景嗎？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/markdown-previewer-basic-syntax/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "Markdown 基本語法怎麼寫？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/markdown-previewer-link-list-errors/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "Markdown 連結和清單常見錯誤 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/markdown-previewer-markdown-writing-workflow/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "Markdown 編輯器、字數統計與 JSON 工具怎麼搭配？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/markdown-previewer-readme-preview/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "README 檔案如何快速預覽？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/merge-pdf-application-files/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "多份報名資料如何整理成一個 PDF？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/merge-pdf-merge-split-reorder/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "PDF 合併、拆分與重新排序差在哪？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/merge-pdf-mobile-merge/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "手機怎麼合併 PDF？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/merge-pdf-page-order-check/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "PDF 合併後頁碼順序錯誤怎麼檢查？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/mobile-pdf-merge/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "手機怎麼合併 PDF？免安裝 App 的操作方法 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/mortgage-calculation-guide/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "房貸月付金怎麼算？公式原理與線上試算教學 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/mortgage-payment-explained/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "房貸月付金怎麼算？本息平均攤還白話解釋 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/mortgage-payment-income-ratio/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "買房前如何估月付和收入比例？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/mortgage-payment-monthly-payment/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "房貸月付金怎麼算？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/mortgage-payment-mortgage-vs-compound/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "房貸試算與複利計算差在哪？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/mortgage-payment-rate-change/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "利率升一碼月付會差多少？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/password-generator-length-vs-complexity/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "密碼長度和複雜度哪個更重要？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/password-generator-password-manager/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "密碼產生器與密碼管理器怎麼搭配？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/password-generator-secure-password/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "如何產生安全密碼？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/password-generator-unique-passwords/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "每個網站都要不同密碼嗎？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/pdf-compressor-compress-delete-image/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "PDF 壓縮、刪頁與圖片壓縮如何搭配？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/pdf-compressor-resume-file-size/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "PDF 壓縮後反而變大是正常的嗎？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/pdf-compressor-upload-limit/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "PDF 太大不能上傳怎麼辦？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/pdf-compressor-why-file-gets-bigger/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "履歷 PDF 如何壓到指定大小？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/pdf-merge-guide/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "PDF 合併怎麼做？不用安裝軟體的線上方法 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/pdf-split-guide/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "PDF 拆分是什麼？如何只保留需要的頁面？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/pdf-too-large/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "PDF 太大不能上傳怎麼辦？實用縮小方法整理 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/pdf-workflow-guide/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "PDF 工具怎麼選：合併、拆分、壓縮、頁面整理一次看 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/percentage-calculator-buy-one-get-one/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "買一送一和打幾折哪個划算？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/percentage-calculator-discount-price/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "折扣後價格怎麼算？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/percentage-calculator-discount-vs-percentage/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "折扣計算器和百分比計算器是否需要分頁？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/percentage-calculator-percentage-change/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "百分比增加與減少怎麼判讀？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/png-to-jpg-png-jpg-webp/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "PNG、JPG、WebP 格式怎麼選？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/png-to-jpg-presentation-images/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "簡報圖片如何轉成 JPG？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/png-to-jpg-quality/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "PNG 轉 JPG 會失真嗎？格式轉換前該知道的事 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/png-to-jpg-reduce-file-size/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "PNG 太大要先轉 JPG 還是先壓縮？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/png-to-jpg-transparent-background/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "PNG 轉 JPG 後透明背景會怎樣？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/pomodoro-focus-guide/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "線上番茄鐘怎麼用？提升專注力的免費工具教學 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/pomodoro-timer-pomodoro-vs-timer/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "番茄鐘、倒數計時器與碼表差在哪？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/pomodoro-timer-remote-work/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "遠端工作如何用番茄鐘控管時間？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/pomodoro-timer-study-breaks/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "讀書番茄鐘怎麼安排休息？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/pomodoro-timer-twenty-five-minutes/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "番茄鐘 25 分鐘一定適合每個人嗎？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/qr-code-generator-color-contrast/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "QR Code 顏色與對比怎麼選？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/qr-code-generator-free-qr-code/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "如何免費製作 QR Code？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/qr-code-generator-long-url-scan/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "網址太長會影響 QR Code 掃描嗎？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/qr-code-generator-poster-checklist/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "QR Code 放海報前要檢查什麼？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/qr-code-guide/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "QR Code 是什麼？如何製作自己的 QR Code？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/random-group-generator-clean-name-list/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "分組前名單要怎麼整理？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/random-group-generator-event-teams/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "活動名單怎麼公平分成多組？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/random-group-generator-random-vs-rules/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "隨機分組和指定條件分組差在哪？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/random-group-generator-teacher-classroom/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "老師如何快速隨機分組？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/random-grouping-classroom/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "老師如何用隨機分組工具安排課堂活動？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/random-name-picker-duplicate-name-list/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "抽獎名單要如何整理避免重複？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/random-name-picker-fair-draw/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "線上隨機抽籤怎麼做比較公平？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/random-name-picker-picker-wheel-dice/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "隨機抽籤、轉盤與骰子工具怎麼選？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/random-name-picker-teacher-picker/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "老師點名抽人有哪些注意事項？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/seating-chart-guide/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "班級座位表怎麼快速產生？老師與活動主辦的實用方法 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/split-pdf-chapter-files/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "掃描檔太長如何拆成章節 PDF？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/split-pdf-extract-pages/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "如何只取出 PDF 的其中幾頁？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/split-pdf-page-range/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "PDF 拆分頁碼範圍怎麼寫？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/split-pdf-split-or-delete/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "PDF 拆分與刪頁工具怎麼選？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/t-score-pr-guide/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "T 分數、Z 分數、PR 怎麼看：教育統計快速指南 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/teacher-exam-score-guide/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "教師甄試成績怎麼估：筆試、口試、試教加權與 T 分數整理 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/teacher-random-grouping/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "老師如何快速隨機分組？省時公平的課堂分組方法 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/threads-word-count/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "Threads 文案字數怎麼算？掌握字數限制的實用方法 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/timestamp-converter-api-time-debug/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "API 回傳時間看不懂怎麼辦？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/timestamp-converter-seconds-milliseconds/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "秒和毫秒時間戳怎麼判斷？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/timestamp-converter-unit-converter-scope/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "是否需要新增正式單位換算器頁面？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/timestamp-converter-unix-to-date/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "Unix 時間戳怎麼轉日期？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/what-to-eat-decision-methods/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "不知道今天吃什麼？選擇困難時可以用的 5 種方法 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/word-counter-chinese-character-count/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "中文字數和字元數差在哪？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/word-counter-meta-description-length/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "Meta description 長度如何用字數工具檢查？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/word-counter-submission-check/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "投稿前如何快速檢查字數？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/word-counter-threads-length/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "Threads 文案字數怎麼算？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/blog/word-counter-use-cases/",
+    "type": "blog",
+    "lang": "zh",
+    "title": "字數統計工具可以用在哪些情境？ - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/category/draw/",
+    "type": "category",
+    "lang": "zh",
+    "title": "製圖與圖表免費工具｜2D CAD、流程圖、長條圖、圓餅圖 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/category/image/",
+    "type": "category",
+    "lang": "zh",
+    "title": "圖片與檔案免費工具｜圖片壓縮、轉檔、尺寸調整 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/category/money/",
+    "type": "category",
+    "lang": "zh",
+    "title": "薪資與金錢免費工具｜薪水、貸款、複利試算 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/category/pdf/",
+    "type": "category",
+    "lang": "zh",
+    "title": "PDF 免費工具｜合併、拆分、旋轉、壓縮 PDF - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/category/random/",
+    "type": "category",
+    "lang": "zh",
+    "title": "隨機與抽籤免費工具｜抽號碼、抽名字、分組、轉盤 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/category/statistics/",
+    "type": "category",
+    "lang": "zh",
+    "title": "教育與統計免費工具｜標準差、百分比、平均計算 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/category/study/",
+    "type": "category",
+    "lang": "zh",
+    "title": "學生與老師免費工具｜點名、分組、座位表、成績計算 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/category/text/",
+    "type": "category",
+    "lang": "zh",
+    "title": "文字與寫作免費工具｜字數統計、大小寫、文字清理 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/category/time/",
+    "type": "category",
+    "lang": "zh",
+    "title": "工作與時間免費工具｜番茄鐘、倒數計時、日期計算 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/contact/",
+    "type": "legal",
+    "lang": "zh",
+    "title": "聯絡我們｜問題回報與工具建議 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/disclaimer/",
+    "type": "legal",
+    "lang": "zh",
+    "title": "免責聲明｜工具結果僅供參考 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/embed/age-calculator/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "年齡計算器",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/embed/bar-chart-maker/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "長條圖製作工具",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/embed/break-reminder/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "休息提醒",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/embed/business-days/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "工作日計算器",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/embed/cad-2d/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "簡易 2D CAD 製圖板",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/embed/character-counter/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "字元計數器",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/embed/class-rank-percentile-calculator/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "排名百分比計算器",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/embed/color-generator/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "隨機顏色產生器",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/embed/compound-interest/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "複利計算器",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/embed/countdown-timer/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "倒數計時器",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/embed/date-difference/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "日期差距計算器",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/embed/dice-roller/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "骰子產生器",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/embed/flowchart/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "流程圖製作工具",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/embed/gpa-calculator/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "GPA 計算器",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/embed/grade-average/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "成績平均計算器強化版",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/embed/group-generator/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "課堂分組工具",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/embed/image-compressor/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "圖片壓縮",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/embed/image-crop/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "圖片裁切工具",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/embed/image-resizer/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "圖片尺寸調整",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/embed/image-rotate-flip/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "圖片旋轉翻轉工具",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/embed/inflation/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "通膨購買力試算",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/embed/jpg-to-png/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "JPG 轉 PNG",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/embed/jpg-to-webp/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "JPG 轉 WebP",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/embed/markdown-previewer/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "Markdown 預覽器",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/embed/mortgage-payment/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "房貸月付試算器",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/embed/net-salary/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "實領薪資試算",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/embed/normalized-score-converter/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "常態化分數轉換工具",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/embed/overtime-pay/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "加班費試算器",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/embed/password-generator/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "密碼產生器",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/embed/percentage-calculator/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "百分比計算器",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/embed/percentile-rank-calculator/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "PR 百分等級計算器",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/embed/pie-chart-maker/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "圓餅圖製作工具",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/embed/png-to-jpg/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "PNG 轉 JPG",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/embed/pomodoro-timer/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "番茄鐘計時器",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/embed/qr-code-generator/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "QR Code 產生器",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/embed/random-group-generator/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "隨機分組工具",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/embed/random-name-picker/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "隨機姓名抽選器",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/embed/random-number-picker/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "隨機數字產生器",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/embed/random-student-picker/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "隨機點名工具",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/embed/random-wheel/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "轉盤抽籤",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/embed/remove-duplicate-lines/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "移除重複行",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/embed/remove-empty-lines/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "移除空白行",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/embed/savings-goal/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "儲蓄目標計算器",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/embed/seating-chart/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "座位表產生器",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/embed/sketchpad/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "線上繪圖板",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/embed/sort-lines/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "文字行排序",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/embed/standard-deviation/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "標準差計算器",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/embed/stopwatch/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "碼錶",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/embed/t-score-calculator/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "T 分數計算器",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/embed/teacher-exam-score-converter/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "教師甄試成績轉換模擬器",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/embed/this-or-that/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "二選一決定器",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/embed/timestamp-converter/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "時間戳記轉換器",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/embed/uuid-generator/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "UUID 產生器",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/embed/webp-to-jpg/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "WebP 轉 JPG",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/embed/weighted-average-calculator/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "加權平均計算器",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/embed/what-to-eat/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "今天吃什麼",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/embed/word-counter/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "字數統計工具",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/embed/z-score-calculator/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "Z 分數計算器",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/about/",
+    "type": "legal",
+    "lang": "en",
+    "title": "About Us | Free Online Toolbox - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/about-tools/",
+    "type": "other",
+    "lang": "en",
+    "title": "How Our Tools Work | Local Browser Processing - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/blog/classroom-random-tools-guide/",
+    "type": "blog",
+    "lang": "en",
+    "title": "Teacher Classroom Tools Guide - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/blog/image-format-workflow-guide/",
+    "type": "blog",
+    "lang": "en",
+    "title": "Image Tools Workflow Guide - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/blog/",
+    "type": "blog",
+    "lang": "en",
+    "title": "FunnyTools Blog: PDF, Image, and Teacher Guides",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/blog/pdf-workflow-guide/",
+    "type": "blog",
+    "lang": "en",
+    "title": "PDF Tools Workflow Guide - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/blog/t-score-pr-guide/",
+    "type": "blog",
+    "lang": "en",
+    "title": "T Score, Z Score, and PR Guide - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/blog/teacher-exam-score-guide/",
+    "type": "blog",
+    "lang": "en",
+    "title": "Teacher Exam Score Guide - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/category/draw/",
+    "type": "category",
+    "lang": "en",
+    "title": "Drawing &amp; Chart Tools | CAD, Flowcharts &amp; Charts - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/category/image/",
+    "type": "category",
+    "lang": "en",
+    "title": "Image Tools | Compress, Convert &amp; Resize - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/category/money/",
+    "type": "category",
+    "lang": "en",
+    "title": "Money &amp; Salary Calculators | Free Tools - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/category/pdf/",
+    "type": "category",
+    "lang": "en",
+    "title": "PDF Tools | Merge, Split, Rotate &amp; Compress - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/category/random/",
+    "type": "category",
+    "lang": "en",
+    "title": "Random Pickers &amp; Generators | Free Tools - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/category/statistics/",
+    "type": "category",
+    "lang": "en",
+    "title": "Education &amp; Statistics Calculators | Free Tools - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/category/study/",
+    "type": "category",
+    "lang": "en",
+    "title": "Student &amp; Teacher Tools | Groups, Grades &amp; Roll Call - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/category/text/",
+    "type": "category",
+    "lang": "en",
+    "title": "Text &amp; Writing Tools | Count, Convert &amp; Clean - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/category/time/",
+    "type": "category",
+    "lang": "en",
+    "title": "Work &amp; Time Tools | Timers &amp; Date Calculators - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/contact/",
+    "type": "legal",
+    "lang": "en",
+    "title": "Contact Us | Bug Reports &amp; Tool Suggestions - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/disclaimer/",
+    "type": "legal",
+    "lang": "en",
+    "title": "Disclaimer | Results Are Reference Only - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/embed/age-calculator/",
+    "type": "embed",
+    "lang": "en",
+    "title": "Age Calculator",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/embed/bar-chart-maker/",
+    "type": "embed",
+    "lang": "en",
+    "title": "Bar Chart Maker",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/embed/break-reminder/",
+    "type": "embed",
+    "lang": "en",
+    "title": "Break Reminder",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/embed/business-days/",
+    "type": "embed",
+    "lang": "en",
+    "title": "Business Days Calculator",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/embed/cad-2d/",
+    "type": "embed",
+    "lang": "en",
+    "title": "2D CAD Drawing Board",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/embed/character-counter/",
+    "type": "embed",
+    "lang": "en",
+    "title": "Character Counter",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/embed/class-rank-percentile-calculator/",
+    "type": "embed",
+    "lang": "en",
+    "title": "Class Rank Percentile Calculator",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/embed/color-generator/",
+    "type": "embed",
+    "lang": "en",
+    "title": "Random Color Generator",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/embed/compound-interest/",
+    "type": "embed",
+    "lang": "en",
+    "title": "Compound Interest Calculator",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/embed/countdown-timer/",
+    "type": "embed",
+    "lang": "en",
+    "title": "Countdown Timer",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/embed/date-difference/",
+    "type": "embed",
+    "lang": "en",
+    "title": "Date Difference Calculator",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/embed/dice-roller/",
+    "type": "embed",
+    "lang": "en",
+    "title": "Dice Roller",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/embed/flowchart/",
+    "type": "embed",
+    "lang": "en",
+    "title": "Flowchart Maker",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/embed/gpa-calculator/",
+    "type": "embed",
+    "lang": "en",
+    "title": "GPA Calculator",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/embed/grade-average/",
+    "type": "embed",
+    "lang": "en",
+    "title": "Grade Average Calculator",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/embed/group-generator/",
+    "type": "embed",
+    "lang": "en",
+    "title": "Class Group Generator",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/embed/image-compressor/",
+    "type": "embed",
+    "lang": "en",
+    "title": "Image Compressor",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/embed/image-crop/",
+    "type": "embed",
+    "lang": "en",
+    "title": "Image Cropper",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/embed/image-resizer/",
+    "type": "embed",
+    "lang": "en",
+    "title": "Image Resizer",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/embed/image-rotate-flip/",
+    "type": "embed",
+    "lang": "en",
+    "title": "Image Rotate &amp; Flip",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/embed/inflation/",
+    "type": "embed",
+    "lang": "en",
+    "title": "Inflation Calculator",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/embed/jpg-to-png/",
+    "type": "embed",
+    "lang": "en",
+    "title": "JPG to PNG Converter",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/embed/jpg-to-webp/",
+    "type": "embed",
+    "lang": "en",
+    "title": "JPG to WebP Converter",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/embed/markdown-previewer/",
+    "type": "embed",
+    "lang": "en",
+    "title": "Markdown Previewer",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/embed/mortgage-payment/",
+    "type": "embed",
+    "lang": "en",
+    "title": "Mortgage Payment Calculator",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/embed/net-salary/",
+    "type": "embed",
+    "lang": "en",
+    "title": "Net Salary",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/embed/normalized-score-converter/",
+    "type": "embed",
+    "lang": "en",
+    "title": "Normalized Score Converter",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/embed/overtime-pay/",
+    "type": "embed",
+    "lang": "en",
+    "title": "Overtime Pay Calculator",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/embed/password-generator/",
+    "type": "embed",
+    "lang": "en",
+    "title": "Password Generator",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/embed/percentage-calculator/",
+    "type": "embed",
+    "lang": "en",
+    "title": "Percentage Calculator",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/embed/percentile-rank-calculator/",
+    "type": "embed",
+    "lang": "en",
+    "title": "Percentile Rank Calculator",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/embed/pie-chart-maker/",
+    "type": "embed",
+    "lang": "en",
+    "title": "Pie Chart Maker",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/embed/png-to-jpg/",
+    "type": "embed",
+    "lang": "en",
+    "title": "PNG to JPG Converter",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/embed/pomodoro-timer/",
+    "type": "embed",
+    "lang": "en",
+    "title": "Pomodoro Timer",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/embed/qr-code-generator/",
+    "type": "embed",
+    "lang": "en",
+    "title": "QR Code Generator",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/embed/random-group-generator/",
+    "type": "embed",
+    "lang": "en",
+    "title": "Random Group Generator",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/embed/random-name-picker/",
+    "type": "embed",
+    "lang": "en",
+    "title": "Random Name Picker",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/embed/random-number-picker/",
+    "type": "embed",
+    "lang": "en",
+    "title": "Random Number Picker",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/embed/random-student-picker/",
+    "type": "embed",
+    "lang": "en",
+    "title": "Random Student Picker",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/embed/random-wheel/",
+    "type": "embed",
+    "lang": "en",
+    "title": "Random Wheel Picker",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/embed/remove-duplicate-lines/",
+    "type": "embed",
+    "lang": "en",
+    "title": "Remove Duplicate Lines",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/embed/remove-empty-lines/",
+    "type": "embed",
+    "lang": "en",
+    "title": "Remove Empty Lines",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/embed/savings-goal/",
+    "type": "embed",
+    "lang": "en",
+    "title": "Savings Goal Calculator",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/embed/seating-chart/",
+    "type": "embed",
+    "lang": "en",
+    "title": "Seating Chart",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/embed/sketchpad/",
+    "type": "embed",
+    "lang": "en",
+    "title": "Online Sketchpad",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/embed/sort-lines/",
+    "type": "embed",
+    "lang": "en",
+    "title": "Sort Lines",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/embed/standard-deviation/",
+    "type": "embed",
+    "lang": "en",
+    "title": "Standard Deviation Calculator",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/embed/stopwatch/",
+    "type": "embed",
+    "lang": "en",
+    "title": "Stopwatch",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/embed/t-score-calculator/",
+    "type": "embed",
+    "lang": "en",
+    "title": "T Score Calculator",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/embed/teacher-exam-score-converter/",
+    "type": "embed",
+    "lang": "en",
+    "title": "Teacher Exam Score Converter",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/embed/this-or-that/",
+    "type": "embed",
+    "lang": "en",
+    "title": "This or That Picker",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/embed/timestamp-converter/",
+    "type": "embed",
+    "lang": "en",
+    "title": "Timestamp Converter",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/embed/uuid-generator/",
+    "type": "embed",
+    "lang": "en",
+    "title": "UUID Generator",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/embed/webp-to-jpg/",
+    "type": "embed",
+    "lang": "en",
+    "title": "WebP to JPG Converter",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/embed/weighted-average-calculator/",
+    "type": "embed",
+    "lang": "en",
+    "title": "Weighted Average Calculator",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/embed/what-to-eat/",
+    "type": "embed",
+    "lang": "en",
+    "title": "What Should I Eat",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/embed/word-counter/",
+    "type": "embed",
+    "lang": "en",
+    "title": "Word Counter",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/embed/z-score-calculator/",
+    "type": "embed",
+    "lang": "en",
+    "title": "Z Score Calculator",
+    "hasDescription": true,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/",
+    "type": "homepage",
+    "lang": "en",
+    "title": "Free Online Tools | PDF, Image &amp; Text Tools - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/privacy/",
+    "type": "legal",
+    "lang": "en",
+    "title": "Privacy Policy | Data Handling &amp; Cookies - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/support/",
+    "type": "support",
+    "lang": "en",
+    "title": "Support FunnyTools with sharing and feedback",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/terms/",
+    "type": "legal",
+    "lang": "en",
+    "title": "Terms of Use | Service Scope &amp; Limits - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/age-calculator/",
+    "type": "tool",
+    "lang": "en",
+    "title": "Age Calculator｜Birthday, Age and Days Calculator - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/bar-chart-maker/",
+    "type": "tool",
+    "lang": "en",
+    "title": "Bar Chart Maker｜Free Online Bar Chart Generator - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/base64/",
+    "type": "tool",
+    "lang": "en",
+    "title": "Base64 Encoder / Decoder｜Free UTF-8 online tool - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/break-reminder/",
+    "type": "tool",
+    "lang": "en",
+    "title": "Break Reminder｜Free screen break interval timer - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/business-days/",
+    "type": "tool",
+    "lang": "en",
+    "title": "Business Days Calculator｜Count Workdays &amp; Holidays - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/cad-2d/",
+    "type": "tool",
+    "lang": "en",
+    "title": "2D CAD Drawing Board｜Browser Grid Drafting Tool - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/case-converter/",
+    "type": "tool",
+    "lang": "en",
+    "title": "Case Converter｜Free online text case tool - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/character-counter/",
+    "type": "tool",
+    "lang": "en",
+    "title": "Character Counter｜Characters, Words &amp; UTF-8 Bytes - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/class-rank-percentile-calculator/",
+    "type": "tool",
+    "lang": "en",
+    "title": "Class Rank Calculator｜Rank to Percentile - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/color-generator/",
+    "type": "tool",
+    "lang": "en",
+    "title": "Random Color Generator｜HEX RGB HSL palette tool - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/compound-interest/",
+    "type": "tool",
+    "lang": "en",
+    "title": "Compound Interest Calc｜Future Value Estimator - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/countdown-timer/",
+    "type": "tool",
+    "lang": "en",
+    "title": "Countdown Timer｜Duration and Date Countdown - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/cronbach-alpha-calculator/",
+    "type": "tool",
+    "lang": "en",
+    "title": "Cronbach Alpha Calculator｜Scale Reliability - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/csv-to-json/",
+    "type": "tool",
+    "lang": "en",
+    "title": "CSV to JSON Converter｜Free Online Data Format Tool - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/date-difference/",
+    "type": "tool",
+    "lang": "en",
+    "title": "Date Difference Calculator｜Days Between Dates - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/delete-pdf-pages/",
+    "type": "tool",
+    "lang": "en",
+    "title": "Delete PDF Pages｜Remove Selected Pages - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/dice-roller/",
+    "type": "tool",
+    "lang": "en",
+    "title": "Dice Roller｜Free online d4 d6 d20 roller - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/extract-pdf-pages/",
+    "type": "tool",
+    "lang": "en",
+    "title": "Extract PDF Pages｜Keep Selected Ranges - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/flowchart/",
+    "type": "tool",
+    "lang": "en",
+    "title": "Flowchart Maker｜Online Diagram with PNG Export - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/gpa-calculator/",
+    "type": "tool",
+    "lang": "en",
+    "title": "GPA Calculator｜4.3 scale credit-weighted GPA - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/grade-average/",
+    "type": "tool",
+    "lang": "en",
+    "title": "Grade Average Calculator｜Simple &amp; Weighted Grades - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/group-generator/",
+    "type": "tool",
+    "lang": "en",
+    "title": "Class Group Generator｜Classroom Team Maker - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/image-compressor/",
+    "type": "tool",
+    "lang": "en",
+    "title": "Image Compressor｜Local JPG PNG WebP Compression - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/image-crop/",
+    "type": "tool",
+    "lang": "en",
+    "title": "Image Crop Tool｜Online Cropper for Avatars and - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/image-resizer/",
+    "type": "tool",
+    "lang": "en",
+    "title": "Image Resizer｜Free local image resize tool - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/image-rotate-flip/",
+    "type": "tool",
+    "lang": "en",
+    "title": "Image Rotate &amp; Flip｜Rotate and Mirror Images - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/image-to-base64/",
+    "type": "tool",
+    "lang": "en",
+    "title": "Image to Base64｜Free Online Image to Data URI - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/images-to-pdf/",
+    "type": "tool",
+    "lang": "en",
+    "title": "Images to PDF｜Combine JPG and PNG Files - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/independent-samples-t-test-calculator/",
+    "type": "tool",
+    "lang": "en",
+    "title": "Independent Samples t-test Calculator｜Welch t Test - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/",
+    "type": "tools-index",
+    "lang": "en",
+    "title": "All Free Tools | PDF, Image, Text &amp; Calculators - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/inflation/",
+    "type": "tool",
+    "lang": "en",
+    "title": "Inflation Calculator｜Purchasing Power Estimator - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/jpg-to-png/",
+    "type": "tool",
+    "lang": "en",
+    "title": "JPG to PNG｜Local Image Format Converter - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/jpg-to-webp/",
+    "type": "tool",
+    "lang": "en",
+    "title": "JPG to WebP｜Compress Website Images - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/json-formatter/",
+    "type": "tool",
+    "lang": "en",
+    "title": "JSON Formatter / Validator｜Free online JSON tool - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/json-to-csv/",
+    "type": "tool",
+    "lang": "en",
+    "title": "JSON to CSV Converter｜Export JSON Arrays to - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/markdown-previewer/",
+    "type": "tool",
+    "lang": "en",
+    "title": "Markdown Previewer｜Live Editor with HTML Export - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/merge-pdf/",
+    "type": "tool",
+    "lang": "en",
+    "title": "Merge PDF｜Free online PDF combiner - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/mortgage-payment/",
+    "type": "tool",
+    "lang": "en",
+    "title": "Mortgage Payment Calculator｜Monthly Loan Estimate - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/net-salary/",
+    "type": "tool",
+    "lang": "en",
+    "title": "Net Salary Calculator｜Take-Home Pay Estimate - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/normalized-score-converter/",
+    "type": "tool",
+    "lang": "en",
+    "title": "Normalized Score Converter｜Standard Score Tool - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/overtime-pay/",
+    "type": "tool",
+    "lang": "en",
+    "title": "Overtime Pay Calculator｜Editable Multiplier Tool - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/password-generator/",
+    "type": "tool",
+    "lang": "en",
+    "title": "Password Generator｜Random Strong Passwords - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/pdf-compressor/",
+    "type": "tool",
+    "lang": "en",
+    "title": "PDF Compressor｜Reduce PDF File Size Online Free - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/pdf-page-reorder/",
+    "type": "tool",
+    "lang": "en",
+    "title": "PDF Page Reorder｜Rearrange PDF Pages Online Free - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/pdf-to-image/",
+    "type": "tool",
+    "lang": "en",
+    "title": "PDF to Image Converter｜Export Pages as PNG or JPG - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/percentage-calculator/",
+    "type": "tool",
+    "lang": "en",
+    "title": "Percentage Calculator｜Discounts, Ratios &amp; Change - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/percentile-rank-calculator/",
+    "type": "tool",
+    "lang": "en",
+    "title": "Percentile Rank Calc｜Formula &amp; Education Guide - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/pie-chart-maker/",
+    "type": "tool",
+    "lang": "en",
+    "title": "Pie Chart Maker｜Free Online Pie Chart Generator - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/png-to-jpg/",
+    "type": "tool",
+    "lang": "en",
+    "title": "PNG to JPG｜Convert Transparent Images - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/pomodoro-timer/",
+    "type": "tool",
+    "lang": "en",
+    "title": "Pomodoro Timer｜Free online focus timer - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/qr-code-generator/",
+    "type": "tool",
+    "lang": "en",
+    "title": "QR Code Generator｜Free online QR PNG maker - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/random-group-generator/",
+    "type": "tool",
+    "lang": "en",
+    "title": "Random Group Generator｜Free online team splitter - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/random-name-picker/",
+    "type": "tool",
+    "lang": "en",
+    "title": "Random Name Picker｜Free online list picker - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/random-number-picker/",
+    "type": "tool",
+    "lang": "en",
+    "title": "Random Number Picker｜Free online integer generator - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/random-student-picker/",
+    "type": "tool",
+    "lang": "en",
+    "title": "Random Student Picker｜Free classroom name picker - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/random-wheel/",
+    "type": "tool",
+    "lang": "en",
+    "title": "Random Wheel Picker｜Free online spinning wheel - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/remove-duplicate-lines/",
+    "type": "tool",
+    "lang": "en",
+    "title": "Remove Duplicate Lines｜Free unique list cleaner - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/remove-empty-lines/",
+    "type": "tool",
+    "lang": "en",
+    "title": "Remove Empty Lines｜Free text cleanup tool - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/rotate-pdf/",
+    "type": "tool",
+    "lang": "en",
+    "title": "Rotate PDF｜Free online PDF page rotator - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/savings-goal/",
+    "type": "tool",
+    "lang": "en",
+    "title": "Savings Goal Calculator｜Monthly Savings Planner - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/seating-chart/",
+    "type": "tool",
+    "lang": "en",
+    "title": "Seating Chart Generator｜Classroom Seating Tool - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/sketchpad/",
+    "type": "tool",
+    "lang": "en",
+    "title": "Online Sketchpad｜Drawing Canvas with PNG Export - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/sort-lines/",
+    "type": "tool",
+    "lang": "en",
+    "title": "Sort Lines｜Free multiline text sorter - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/split-pdf/",
+    "type": "tool",
+    "lang": "en",
+    "title": "Split PDF｜Free online PDF splitter - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/standard-deviation/",
+    "type": "tool",
+    "lang": "en",
+    "title": "Standard Deviation Calculator｜Mean and Variance - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/stopwatch/",
+    "type": "tool",
+    "lang": "en",
+    "title": "Stopwatch｜Free online timer with laps - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/t-score-calculator/",
+    "type": "tool",
+    "lang": "en",
+    "title": "T Score Calculator｜Convert Z Scores for Education - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/teacher-exam-score-converter/",
+    "type": "tool",
+    "lang": "en",
+    "title": "Teacher Exam Score Calculator｜Weighted Exam - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/this-or-that/",
+    "type": "tool",
+    "lang": "en",
+    "title": "This or That Picker｜Free 50/50 decision tool - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/timestamp-converter/",
+    "type": "tool",
+    "lang": "en",
+    "title": "Unix Timestamp Converter｜Epoch to Date, UTC &amp; ISO - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/url-encoder/",
+    "type": "tool",
+    "lang": "en",
+    "title": "URL Encoder / Decoder｜Free percent-encoding tool - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/uuid-generator/",
+    "type": "tool",
+    "lang": "en",
+    "title": "UUID Generator｜Bulk UUID v4 with Copy &amp; Download - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/webp-to-jpg/",
+    "type": "tool",
+    "lang": "en",
+    "title": "WebP to JPG｜Compatible Image Conversion - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/weighted-average-calculator/",
+    "type": "tool",
+    "lang": "en",
+    "title": "Weighted Average Calculator｜Scores and Weights - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/what-to-eat/",
+    "type": "tool",
+    "lang": "en",
+    "title": "What Should I Eat｜Free random meal picker - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/word-counter/",
+    "type": "tool",
+    "lang": "en",
+    "title": "Word Counter｜Characters, Words &amp; Reading Time - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/en/tools/z-score-calculator/",
+    "type": "tool",
+    "lang": "en",
+    "title": "Z Score Calculator｜Standard Score Formula - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/",
+    "type": "homepage",
+    "lang": "zh",
+    "title": "免費線上工具箱｜PDF、圖片、文字、隨機、計算與教學工具 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/privacy/",
+    "type": "legal",
+    "lang": "zh",
+    "title": "隱私權政策｜資料處理與 Cookie 說明 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/support/",
+    "type": "support",
+    "lang": "zh",
+    "title": "支持 FunnyTools｜免費工具網站營運支持",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/terms/",
+    "type": "legal",
+    "lang": "zh",
+    "title": "使用條款｜服務範圍與責任限制 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/age-calculator/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "年齡計算器｜生日、歲數與天數試算 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/bar-chart-maker/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "長條圖製作工具｜線上免費長條圖產生器 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/base64/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Base64 編碼解碼｜免費 UTF-8 線上工具 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/break-reminder/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "休息提醒｜免費螢幕休息間隔計時器 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/business-days/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "工作日計算器｜扣除週末與假日天數 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/cad-2d/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "簡易 2D CAD 製圖板｜免費線上網格製圖工具 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/case-converter/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "英文大小寫轉換器｜免費線上 Case Converter - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/character-counter/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "字元計數器｜文字長度與 UTF-8 位元組計算 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/class-rank-percentile-calculator/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "班級排名百分比計算器｜名次轉 PR - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/color-generator/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "隨機顏色產生器｜HEX RGB HSL 色票工具 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/compound-interest/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "複利計算器｜本金、每月投入與未來價值試算 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/countdown-timer/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "倒數計時器｜日期、時間與活動倒數 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/cronbach-alpha-calculator/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Cronbach Alpha 計算器｜問卷量表信度估算 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/csv-to-json/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "CSV 轉 JSON 工具｜線上表格資料轉換 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/date-difference/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "日期差距計算器｜計算兩日期相差天數 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/delete-pdf-pages/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "刪除 PDF 頁面｜移除空白頁與指定頁碼 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/dice-roller/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "骰子產生器｜免費線上擲骰工具 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/extract-pdf-pages/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "擷取 PDF 頁面｜保留指定頁碼與頁面範圍 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/flowchart/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "流程圖製作工具｜免費線上流程圖與 PNG 匯出 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/gpa-calculator/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "GPA 計算器｜4.3 制學分加權試算 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/grade-average/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "成績平均計算器｜簡單平均與加權平均 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/group-generator/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "課堂分組工具｜老師活動分組與學生名單分組 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/image-compressor/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "圖片壓縮｜免費縮小 JPG、PNG 與 WebP 檔案 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/image-crop/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "圖片裁切工具｜免費線上裁剪大頭貼與縮圖 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/image-resizer/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "圖片尺寸調整｜本機縮放寬高與比例 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/image-rotate-flip/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "圖片旋轉翻轉工具｜線上免費旋轉、鏡像圖片 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/image-to-base64/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "圖片轉 Base64｜線上免費 Image 轉 Data URI - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/images-to-pdf/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "圖片轉 PDF｜JPG PNG 排序合併成 PDF - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/independent-samples-t-test-calculator/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "獨立樣本 t 檢定計算器｜Welch t test - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/",
+    "type": "tools-index",
+    "lang": "zh",
+    "title": "所有免費線上工具｜PDF、圖片、文字、計算工具總覽 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/inflation/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "通膨計算器｜購買力與未來成本試算 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/jpg-to-png/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "JPG 轉 PNG｜本機圖片轉檔與報告素材整理 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/jpg-to-webp/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "JPG 轉 WebP｜網站圖片壓縮與格式轉換 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/json-formatter/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "JSON 格式化與驗證｜整理、壓縮與除錯 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/json-to-csv/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "JSON 轉 CSV 工具｜物件陣列匯出表格 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/markdown-previewer/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Markdown 預覽器｜即時編輯與 HTML 匯出 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/merge-pdf/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "PDF 合併｜免費線上合併多個 PDF，不上傳檔案 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/mortgage-payment/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "房貸月付試算｜本息平均攤還、總利息計算器 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/net-salary/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "實領薪資試算｜可編輯費率的薪資估算工具 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/normalized-score-converter/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "常態化分數轉換工具｜原始分數轉標準分數 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/overtime-pay/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "加班費試算器｜可編輯時薪、時數與倍率 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/password-generator/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "密碼產生器｜免費隨機強密碼工具 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/pdf-compressor/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "PDF 壓縮工具｜縮小 PDF 檔案大小 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/pdf-page-reorder/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "PDF 頁面重新排序｜拖曳調整 PDF 頁面順序 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/pdf-to-image/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "PDF 轉圖片工具｜每頁轉成 PNG 或 JPG 下載 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/percentage-calculator/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "百分比計算器｜折扣、占比與百分比增減 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/percentile-rank-calculator/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "PR 百分等級計算器｜Percentile Rank 線上估算 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/pie-chart-maker/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "圓餅圖製作工具｜線上免費圓餅圖產生器 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/png-to-jpg/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "PNG 轉 JPG｜透明背景與圖片壓縮轉檔 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/pomodoro-timer/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "番茄鐘計時器｜免費線上 Pomodoro 專注工具 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/qr-code-generator/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "QR Code 產生器｜免費製作網址與文字 QR Code - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/random-group-generator/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "隨機分組工具｜免費線上名單分組，適合老師課堂與活動分組 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/random-name-picker/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "隨機姓名抽選器｜免費線上名單抽籤工具 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/random-number-picker/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "隨機數字產生器｜免費抽號碼、亂數與不重複數字 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/random-student-picker/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "隨機點名工具｜免費課堂抽學生工具 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/random-wheel/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "轉盤抽籤｜隨機名單、獎項與決定轉盤 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/remove-duplicate-lines/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "移除重複行｜免費唯一清單整理工具 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/remove-empty-lines/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "移除空白行｜免費文字清理工具 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/rotate-pdf/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "PDF 旋轉｜批次旋轉 PDF 頁面方向 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/savings-goal/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "儲蓄目標計算器｜達標時間與每月存款試算 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/seating-chart/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "座位表產生器｜免費教室座位安排工具 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/sketchpad/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "線上繪圖板｜免費手繪畫布與 PNG 匯出 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/sort-lines/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "文字行排序｜免費多行文字排序工具 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/split-pdf/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "PDF 拆分｜免費線上分割頁面與擷取範圍 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/standard-deviation/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "標準差計算器｜平均數變異數與樣本標準差 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/stopwatch/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "碼錶｜免費線上計時與圈速工具 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/t-score-calculator/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "T 分數計算器｜Z 分數轉換與教育統計解讀 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/teacher-exam-score-converter/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "教師甄試成績計算｜筆試口試試教加權模擬 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/this-or-that/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "二選一決定器｜隨機選擇與快速決策 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/timestamp-converter/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Unix 時間戳轉換器｜Epoch 轉日期、UTC 與 ISO 8601 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/url-encoder/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "URL 編碼解碼｜免費網址參數工具 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/uuid-generator/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "UUID 產生器｜批次產生 UUID v4 識別碼 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/webp-to-jpg/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "WebP 轉 JPG｜相容格式與背景色轉換 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/weighted-average-calculator/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "加權平均計算器｜分數權重與平均公式 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/what-to-eat/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "今天吃什麼｜午餐、晚餐隨機選擇與美食決定器 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/word-counter/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "字數統計工具｜即時計算中英文字數與字元數 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/tools/z-score-calculator/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Z 分數計算器｜標準分數公式與班級成績解讀 - FunnyTools",
+    "hasDescription": true,
+    "hasHreflang": true,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/about/",
+    "type": "legal",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/about-tools/",
+    "type": "other",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/category/draw/",
+    "type": "category",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/category/image/",
+    "type": "category",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/category/money/",
+    "type": "category",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/category/pdf/",
+    "type": "category",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/category/random/",
+    "type": "category",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/category/statistics/",
+    "type": "category",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/category/study/",
+    "type": "category",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/category/text/",
+    "type": "category",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/category/time/",
+    "type": "category",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/contact/",
+    "type": "legal",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/disclaimer/",
+    "type": "legal",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/embed/age-calculator/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/embed/bar-chart-maker/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/embed/break-reminder/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/embed/business-days/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/embed/cad-2d/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/embed/character-counter/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/embed/class-rank-percentile-calculator/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/embed/color-generator/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/embed/compound-interest/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/embed/countdown-timer/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/embed/date-difference/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/embed/dice-roller/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/embed/flowchart/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/embed/gpa-calculator/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/embed/grade-average/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/embed/group-generator/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/embed/image-compressor/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/embed/image-crop/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/embed/image-resizer/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/embed/image-rotate-flip/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/embed/inflation/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/embed/jpg-to-png/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/embed/jpg-to-webp/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/embed/markdown-previewer/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/embed/mortgage-payment/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/embed/net-salary/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/embed/normalized-score-converter/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/embed/overtime-pay/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/embed/password-generator/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/embed/percentage-calculator/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/embed/percentile-rank-calculator/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/embed/pie-chart-maker/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/embed/png-to-jpg/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/embed/pomodoro-timer/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/embed/qr-code-generator/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/embed/random-group-generator/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/embed/random-name-picker/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/embed/random-number-picker/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/embed/random-student-picker/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/embed/random-wheel/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/embed/remove-duplicate-lines/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/embed/remove-empty-lines/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/embed/savings-goal/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/embed/seating-chart/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/embed/sketchpad/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/embed/sort-lines/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/embed/standard-deviation/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/embed/stopwatch/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/embed/t-score-calculator/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/embed/teacher-exam-score-converter/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/embed/this-or-that/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/embed/timestamp-converter/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/embed/uuid-generator/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/embed/webp-to-jpg/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/embed/weighted-average-calculator/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/embed/what-to-eat/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/embed/word-counter/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/embed/z-score-calculator/",
+    "type": "embed",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/",
+    "type": "other",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/privacy/",
+    "type": "legal",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/terms/",
+    "type": "legal",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/age-calculator/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/bar-chart-maker/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/base64/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/break-reminder/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/business-days/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/cad-2d/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/case-converter/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/character-counter/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/class-rank-percentile-calculator/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/color-generator/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/compound-interest/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/countdown-timer/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/cronbach-alpha-calculator/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/csv-to-json/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/date-difference/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/delete-pdf-pages/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/dice-roller/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/extract-pdf-pages/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/flowchart/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/gpa-calculator/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/grade-average/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/group-generator/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/image-compressor/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/image-crop/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/image-resizer/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/image-rotate-flip/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/image-to-base64/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/images-to-pdf/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/independent-samples-t-test-calculator/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/",
+    "type": "tools-index",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/inflation/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/jpg-to-png/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/jpg-to-webp/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/json-formatter/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/json-to-csv/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/markdown-previewer/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/merge-pdf/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/mortgage-payment/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/net-salary/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/normalized-score-converter/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/overtime-pay/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/password-generator/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/pdf-compressor/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/pdf-page-reorder/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/pdf-to-image/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/percentage-calculator/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/percentile-rank-calculator/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/pie-chart-maker/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/png-to-jpg/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/pomodoro-timer/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/qr-code-generator/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/random-group-generator/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/random-name-picker/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/random-number-picker/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/random-student-picker/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/random-wheel/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/remove-duplicate-lines/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/remove-empty-lines/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/rotate-pdf/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/savings-goal/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/seating-chart/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/sketchpad/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/sort-lines/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/split-pdf/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/standard-deviation/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/stopwatch/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/t-score-calculator/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/teacher-exam-score-converter/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/this-or-that/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/timestamp-converter/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/url-encoder/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/uuid-generator/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/webp-to-jpg/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/weighted-average-calculator/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/what-to-eat/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/word-counter/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  },
+  {
+    "route": "/zh/tools/z-score-calculator/",
+    "type": "tool",
+    "lang": "zh",
+    "title": "Redirecting...",
+    "hasDescription": false,
+    "hasHreflang": false,
+    "inSitemap": true
+  }
+]

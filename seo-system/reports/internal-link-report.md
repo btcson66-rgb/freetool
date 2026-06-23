@@ -1,6 +1,6 @@
 # Internal Link Report
 
-Generated: 2026-06-23T11:11:26.775Z
+Generated: 2026-06-23T15:53:54.538Z
 
 ## Critical
 
@@ -8,22 +8,7 @@ Generated: 2026-06-23T11:11:26.775Z
 
 ## Warning
 
-- /tools/merge-pdf/: only 4/5 keyword-defined related tools linked in built HTML.
-- /tools/split-pdf/: only 4/5 keyword-defined related tools linked in built HTML.
-- /tools/image-compressor/: only 4/5 keyword-defined related tools linked in built HTML.
-- /tools/jpg-to-png/: only 3/5 keyword-defined related tools linked in built HTML.
-- /tools/qr-code-generator/: only 4/5 keyword-defined related tools linked in built HTML.
-- /tools/word-counter/: only 4/5 keyword-defined related tools linked in built HTML.
-- /tools/random-group-generator/: only 3/5 keyword-defined related tools linked in built HTML.
-- /tools/random-name-picker/: only 4/5 keyword-defined related tools linked in built HTML.
-- /tools/mortgage-payment/: only 4/5 keyword-defined related tools linked in built HTML.
-- /tools/compound-interest/: only 3/5 keyword-defined related tools linked in built HTML.
-- /tools/percentage-calculator/: only 3/5 keyword-defined related tools linked in built HTML.
-- /tools/date-difference/: only 4/5 keyword-defined related tools linked in built HTML.
-- /tools/timestamp-converter/: only 2/5 keyword-defined related tools linked in built HTML.
-- /tools/password-generator/: only 3/5 keyword-defined related tools linked in built HTML.
-- /tools/color-generator/: only 2/5 keyword-defined related tools linked in built HTML.
-- /tools/markdown-previewer/: only 4/5 keyword-defined related tools linked in built HTML.
+- None
 
 ## Suggestion
 
