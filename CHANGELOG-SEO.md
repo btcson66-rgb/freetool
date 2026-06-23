@@ -59,12 +59,12 @@ Each article includes: title, description, summary, published/updated dates, 2-3
 - **WebSite + SearchAction**: ✅ Homepage (`index.astro`)
 - **Organization**: ✅ Homepage (`index.astro`)
 - **ItemList (popular tools)**: ✅ Homepage (`index.astro`)
-- **FAQPage**: ✅ Homepage, ✅ Tool pages (newly added), ✅ Blog pages
+- **FAQPage**: ✅ Homepage, ✅ Tool pages (via `Faq.astro` component), ✅ Blog pages
 - **BreadcrumbList**: ✅ Tool pages, category pages, blog pages, support page
 - **WebApplication**: ✅ All tool pages via `webApplicationJsonLd()`
 - **BlogPosting (Article)**: ✅ Blog pages (`blog/[slug].astro`)
 
-New: Added FAQPage JSON-LD to `src/pages/[...locale]/tools/[slug].astro` for tools with FAQ data.
+Note: FAQPage JSON-LD on tool pages is handled by the `Faq.astro` component (not in `[slug].astro`) to avoid duplicates.
 
 ### Task 10: Sitemap, robots.txt, Canonical, Hreflang
 - **robots.txt**: Correct (`Allow: /`, sitemap pointer)

@@ -39,21 +39,10 @@ const breadcrumbItems = [
   { name: category.name[lang], href: categoryUrl(lang, category.id) },
   { name: content.name, href: toolUrl(lang, tool.slug) },
 ];
-const jsonLd: Record<string, unknown>[] = [
+const jsonLd = [
   webApplicationJsonLd(lang, tool, content, category),
   breadcrumbJsonLd(breadcrumbItems),
 ];
-if (content.faq && content.faq.length > 0) {
-  jsonLd.push({
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: content.faq.map((item: { q: string; a: string }) => ({
-      '@type': 'Question',
-      name: item.q,
-      acceptedAnswer: { '@type': 'Answer', text: item.a },
-    })),
-  });
-}
 const ga4Enabled = !!SITE.ga4MeasurementId;
 ---
 
