@@ -145,9 +145,9 @@ const popularItemListJsonLd = {
   </section>
 
   <section class="wrap content-section hero-tools-section" aria-labelledby="hero-tools-title">
-    <h2 id="hero-tools-title" class="sr-only">{lang === 'zh' ? '熱門工具快速開啟' : 'Quick access to popular tools'}</h2>
+    <h2 id="hero-tools-title">{lang === 'zh' ? '熱門工具' : 'Popular Tools'}</h2>
     <div class="hero-tools-grid">
-      {popularTools.slice(0, 6).map((tool) => (
+      {popularTools.slice(0, 5).map((tool) => (
         <a class="hero-tool-card" href={toolUrl(lang, tool.slug)} data-tool-id={tool.slug} data-tool-name={tool.name[lang]} data-tool-category={tool.category}>
           <span class="hero-tool-card__icon" aria-hidden="true">{tool.icon}</span>
           <strong class="hero-tool-card__name">{tool.name[lang]}</strong>
