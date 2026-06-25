@@ -1,0 +1,151 @@
+import { SITE, type Locale } from '../config/site';
+import { categories } from '../data/categories';
+import { hasLiveTools, liveTools } from '../data/tools';
+import { allBlogPosts } from '../data/allBlogPosts';
+import { isPostAvailableInLocale } from '../data/blogPosts';
+import { absoluteUrl, localePath } from './url';
+
+const legalPages = ['about', 'about-tools', 'contact', 'privacy', 'terms', 'disclaimer'];
+const buildDate = new Date().toISOString().slice(0, 10);
+const mainToolSlugs = new Set(
+  liveTools
+    .filter((tool) => tool.featured)
+    .slice(0, 6)
+    .map((tool) => tool.slug),
+);
+
+export interface SitemapPage {
+  segments: string[];
+  lastmod?: string;
+  changefreq: 'daily' | 'weekly' | 'monthly' | 'yearly';
+  priority: string;
+  alternates?: boolean;
+}
+
+export interface SitemapEntry {
+  lang: Locale;
+  page: SitemapPage;
+}
+
+export function escapeXml(value: string): string {
+  return value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;');
+}
+
+export function sitemapLastmod(page?: SitemapPage): string {
+  return page?.lastmod ?? buildDate;
+}
+
+function alternateLinks(segments: string[]): string {
+  const localeLinks = SITE.locales
+    .map((locale) => {
+      const href = absoluteUrl(localePath(locale, ...segments));
+      return `<xhtml:link rel="alternate" hreflang="${SITE.hreflang[locale]}" href="${escapeXml(href)}" />`;
+    })
+    .join('');
+  const xDefault = absoluteUrl(localePath(SITE.defaultLocale, ...segments));
+
+  return `${localeLinks}<xhtml:link rel="alternate" hreflang="x-default" href="${escapeXml(xDefault)}" />`;
+}
+
+export function urlEntry({ lang, page }: SitemapEntry): string {
+  const loc = absoluteUrl(localePath(lang, ...page.segments));
+  const alternates = page.alternates ? `\n    ${alternateLinks(page.segments)}` : '';
+
+  return [
+    '  <url>',
+    `    <loc>${escapeXml(loc)}</loc>`,
+    `    <lastmod>${sitemapLastmod(page)}</lastmod>`,
+    `    <changefreq>${page.changefreq}</changefreq>`,
+    `    <priority>${page.priority}</priority>${alternates}`,
+    '  </url>',
+  ].join('\n');
+}
+
+export function sitemapUrlSet(entries: SitemapEntry[]): string {
+  return [
+    '<?xml version="1.0" encoding="UTF-8"?>',
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">',
+    entries.map(urlEntry).join('\n'),
+    '</urlset>',
+    '',
+  ].join('\n');
+}
+
+function basePages(): SitemapPage[] {
+  const liveCategories = categories.filter((category) => hasLiveTools(category.id));
+  return [
+    { segments: [], changefreq: 'daily', priority: '1.0', alternates: true },
+    { segments: ['tools'], changefreq: 'weekly', priority: '0.9', alternates: true },
+    { segments: ['support'], changefreq: 'monthly', priority: '0.3', alternates: true },
+    ...liveCategories.map((category) => ({
+      segments: ['category', category.id],
+      changefreq: 'weekly' as const,
+      priority: '0.7',
+      alternates: true,
+    })),
+    ...legalPages.map((page) => ({
+      segments: [page],
+      changefreq: 'yearly' as const,
+      priority: '0.3',
+      alternates: true,
+    })),
+  ];
+}
+
+function toolPages(): SitemapPage[] {
+  return liveTools.map((tool) => ({
+    segments: ['tools', tool.slug],
+    lastmod: tool.updated,
+    changefreq: 'monthly' as const,
+    priority: mainToolSlugs.has(tool.slug) ? '0.8' : '0.6',
+    alternates: true,
+  }));
+}
+
+function blogPages(): SitemapPage[] {
+  return [
+    { segments: ['blog'], lastmod: allBlogPosts[0]?.updated, changefreq: 'weekly', priority: '0.7', alternates: true },
+    ...allBlogPosts.map((post) => ({
+      segments: ['blog', post.slug],
+      lastmod: post.updated,
+      changefreq: 'monthly' as const,
+      priority: '0.6',
+      alternates: isPostAvailableInLocale(post, 'en'),
+    })),
+  ];
+}
+
+export function defaultPageEntries(): SitemapEntry[] {
+  return basePages().map((page) => ({ lang: 'zh', page }));
+}
+
+export function defaultToolEntries(): SitemapEntry[] {
+  return toolPages().map((page) => ({ lang: 'zh', page }));
+}
+
+export function defaultBlogEntries(): SitemapEntry[] {
+  return blogPages().map((page) => ({ lang: 'zh', page }));
+}
+
+export function englishEntries(): SitemapEntry[] {
+  return [
+    ...basePages(),
+    ...toolPages(),
+    ...blogPages().filter((page) => page.segments.length === 1 || isPostAvailableInLocale(allBlogPosts.find((post) => post.slug === page.segments[1])!, 'en')),
+  ].map((page) => ({ lang: 'en' as const, page }));
+}
+
+export function allSitemapEntries(): SitemapEntry[] {
+  return [
+    ...defaultPageEntries(),
+    ...defaultToolEntries(),
+    ...defaultBlogEntries(),
+    ...englishEntries(),
+  ];
+}
+
