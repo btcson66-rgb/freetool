@@ -1,10 +1,10 @@
-# FunnyTools SEO/GEO Baseline Audit Report
+# FreeTools SEO/GEO Baseline Audit Report
 
 Generated: 2026-06-23
 
 ## Site Overview
 
-FunnyTools is an Astro static site published at `https://funnytools.win/`.
+FreeTools is an Astro static site published at `https://FreeTools.win/`.
 
 - Built HTML pages: 570
 - Tools: 76
@@ -113,7 +113,7 @@ Recommended human checks before submission or resubmission:
 
 ## Current Baseline
 
-FunnyTools currently has a clean local SEO audit baseline:
+FreeTools currently has a clean local SEO audit baseline:
 
 - 570 built pages
 - 302 SEO-eligible pages

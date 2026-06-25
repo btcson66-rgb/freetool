@@ -72,7 +72,7 @@ export default {
       {
         heading: "隱私與本機處理",
         paragraphs: [
-          "PDF 會在你的瀏覽器內以 JavaScript 和 pdf-lib 讀取與合併，不會上傳到 FunnyTools 或第三方伺服器。",
+          "PDF 會在你的瀏覽器內以 JavaScript 和 pdf-lib 讀取與合併，不會上傳到 FreeTools 或第三方伺服器。",
           "因為處理發生在本機裝置，大型 PDF 或頁數很多的檔案可能會受瀏覽器記憶體與裝置效能影響。"
         ]
       },
@@ -129,7 +129,7 @@ export default {
     faq: [
       {
         q: "PDF 會被上傳嗎？",
-        a: "不會。檔案會在瀏覽器中讀取與合併，不會離開你的裝置，也不會儲存在 FunnyTools 伺服器。"
+        a: "不會。檔案會在瀏覽器中讀取與合併，不會離開你的裝置，也不會儲存在 FreeTools 伺服器。"
       },
       {
         q: "可以調整 PDF 合併順序嗎？",
@@ -169,7 +169,7 @@ export default {
   en: {
     name: 'Merge PDF',
     short: 'Combine multiple PDFs in your chosen order locally in the browser.',
-    long: 'Merge PDF is a browser-based PDF combiner for contracts, scans, class handouts, application packets, and other small document batches. Choose multiple PDFs, review page counts, move files into the right order, and download one combined file. Processing runs locally with JavaScript and pdf-lib, so your documents are not uploaded to FunnyTools or a third-party server.',
+    long: 'Merge PDF is a browser-based PDF combiner for contracts, scans, class handouts, application packets, and other small document batches. Choose multiple PDFs, review page counts, move files into the right order, and download one combined file. Processing runs locally with JavaScript and pdf-lib, so your documents are not uploaded to FreeTools or a third-party server.',
     seoTitle: "Merge PDF Online Free | Combine Multiple PDF Files Locally",
     seoDescription: 'Merge multiple PDF files locally in your browser, reorder them, view page counts, and download one combined PDF. Files are never uploaded.',
     keywords: [
@@ -214,7 +214,7 @@ export default {
       {
         heading: "Privacy and local processing",
         paragraphs: [
-          "PDF files are read and merged inside your browser using JavaScript and pdf-lib. They are not uploaded to FunnyTools or a third-party server.",
+          "PDF files are read and merged inside your browser using JavaScript and pdf-lib. They are not uploaded to FreeTools or a third-party server.",
           "Because processing is local, very large PDFs can depend on your device memory and browser performance."
         ]
       },
@@ -271,7 +271,7 @@ export default {
     faq: [
       {
         q: "Are my PDFs uploaded?",
-        a: "No. Files are read and merged inside your browser. They are not uploaded or stored by FunnyTools."
+        a: "No. Files are read and merged inside your browser. They are not uploaded or stored by FreeTools."
       },
       {
         q: "Can I change the merge order?",

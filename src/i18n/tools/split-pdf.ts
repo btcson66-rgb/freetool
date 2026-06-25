@@ -71,7 +71,7 @@ export default {
       {
         heading: "隱私與本機處理",
         paragraphs: [
-          "PDF 會在你的瀏覽器中讀取與分割，不會上傳到 FunnyTools 或第三方伺服器。",
+          "PDF 會在你的瀏覽器中讀取與分割，不會上傳到 FreeTools 或第三方伺服器。",
           "大型 PDF 或一次輸出太多檔案時，處理速度會受你的裝置記憶體與瀏覽器效能影響。"
         ]
       },
@@ -171,7 +171,7 @@ export default {
   en: {
     name: 'Split PDF',
     short: 'Split one PDF into single pages or custom page-range files.',
-    long: 'Split PDF helps you extract only the pages you need from reports, contracts, class material, scanned files, and application packets. Create one PDF per page or enter custom ranges such as 1-3, 5, 8-10 to build separate downloads. Processing runs locally in your browser with pdf-lib, so the original PDF is not uploaded to FunnyTools or a third-party server.',
+    long: 'Split PDF helps you extract only the pages you need from reports, contracts, class material, scanned files, and application packets. Create one PDF per page or enter custom ranges such as 1-3, 5, 8-10 to build separate downloads. Processing runs locally in your browser with pdf-lib, so the original PDF is not uploaded to FreeTools or a third-party server.',
     seoTitle: "Split PDF Online Free | Extract Pages and Custom Ranges",
     seoDescription: 'Split a PDF into single pages or custom page ranges locally in your browser. Files are never uploaded.',
     keywords: [
@@ -216,7 +216,7 @@ export default {
       {
         heading: "Privacy and local processing",
         paragraphs: [
-          "The PDF is read and split in your browser. It is not uploaded to FunnyTools or a third-party server.",
+          "The PDF is read and split in your browser. It is not uploaded to FreeTools or a third-party server.",
           "Large files and many generated outputs can be limited by browser memory, so custom ranges are often more stable than exporting every page at once."
         ]
       },

@@ -1,6 +1,6 @@
-# FunnyTools
+# FreeTools
 
-FunnyTools (https://funnytools.win) is a bilingual Astro static site for small browser-based utilities. It is data-driven and runs without a backend.
+FreeTools (https://funnytools.win) is a bilingual Astro static site for small browser-based utilities. It is data-driven and runs without a backend.
 
 ## Stack
 

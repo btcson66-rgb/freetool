@@ -52,7 +52,7 @@ export default {
       {
         heading: "隱私與本機處理",
         paragraphs: [
-          "名單與分組結果都在你的瀏覽器中處理，不會上傳到 FunnyTools 或第三方伺服器。關閉或重新整理頁面後，工具不會保存分組名單。"
+          "名單與分組結果都在你的瀏覽器中處理，不會上傳到 FreeTools 或第三方伺服器。關閉或重新整理頁面後，工具不會保存分組名單。"
         ]
       },
       {
@@ -187,7 +187,7 @@ export default {
       {
         heading: "Privacy and local processing",
         paragraphs: [
-          "Names and generated groups are processed in your browser. They are not uploaded to FunnyTools or a third-party server. The tool does not save the list after you leave or refresh the page."
+          "Names and generated groups are processed in your browser. They are not uploaded to FreeTools or a third-party server. The tool does not save the list after you leave or refresh the page."
         ]
       },
       {

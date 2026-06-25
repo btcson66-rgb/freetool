@@ -1,10 +1,10 @@
-# FunnyTools Final SEO / GEO / AdSense Readiness Report
+# FreeTools Final SEO / GEO / AdSense Readiness Report
 
 Generated: 2026-06-23
 
 ## Executive Summary
 
-FunnyTools (https://funnytools.win/) is a bilingual (zh-TW / en) free online tools website built with Astro as a static site. After a comprehensive 13-loop audit and optimization process, the site achieves a clean SEO baseline with **0 critical issues and 0 warnings** across all automated audit checks.
+FreeTools (https://FreeTools.win/) is a bilingual (zh-TW / en) free online tools website built with Astro as a static site. After a comprehensive 13-loop audit and optimization process, the site achieves a clean SEO baseline with **0 critical issues and 0 warnings** across all automated audit checks.
 
 ## Scores
 
@@ -148,7 +148,7 @@ FunnyTools (https://funnytools.win/) is a bilingual (zh-TW / en) free online too
 ## Search Console Next Steps
 
 1. **Verify domain ownership** in Google Search Console
-2. **Submit sitemap**: `https://funnytools.win/sitemap.xml`
+2. **Submit sitemap**: `https://FreeTools.win/sitemap.xml`
 3. **Request indexing** for key pages (homepage, top tool pages, category pages)
 4. **Export query/page data** to `seo-system/gsc/` for future audit integration
 5. **Monitor** Core Web Vitals, mobile usability, and coverage reports

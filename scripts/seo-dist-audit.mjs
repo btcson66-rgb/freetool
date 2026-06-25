@@ -3,7 +3,7 @@ import { join, relative, sep } from 'node:path';
 
 const root = process.cwd();
 const distDir = join(root, 'dist');
-const site = 'https://funnytools.win';
+const site = 'https://FreeTools.win';
 const prioritySlugs = [
   'teacher-exam-score-converter',
   't-score-calculator',
@@ -182,7 +182,7 @@ const keywordRows = prioritySlugs.map((slug) => {
   const url = zh?.url ?? `${site}/tools/${slug}/`;
   const title = zh?.title ?? slug;
   const type = slug.includes('pdf') ? 'PDF tool' : slug.includes('image') || slug.includes('jpg') || slug.includes('png') || slug.includes('webp') || slug.includes('qr') ? 'image tool' : slug.includes('student') || slug.includes('group') || slug.includes('seating') ? 'classroom tool' : 'education/statistics tool';
-  return `| ${url} | ${title.replace(' - FunnyTools', '')} | ${slug.replaceAll('-', ', ')} | tool-use / calculator intent | ${type} | high | ${zh && en ? 'zh+en live' : zh ? 'zh live' : 'missing'} | ${zh?.risks.join('; ') || 'monitor CTR and query fit'} |`;
+  return `| ${url} | ${title.replace(' - FreeTools', '')} | ${slug.replaceAll('-', ', ')} | tool-use / calculator intent | ${type} | high | ${zh && en ? 'zh+en live' : zh ? 'zh live' : 'missing'} | ${zh?.risks.join('; ') || 'monitor CTR and query fit'} |`;
 }).join('\n');
 
 writeFileSync(

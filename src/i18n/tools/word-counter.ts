@@ -52,7 +52,7 @@ export default {
       {
         heading: "隱私與本機處理",
         paragraphs: [
-          "文字只會在你的瀏覽器中分析，不會上傳到 FunnyTools 伺服器，也不會被儲存。重新整理或關閉頁面後，輸入內容不會由工具保留。"
+          "文字只會在你的瀏覽器中分析，不會上傳到 FreeTools 伺服器，也不會被儲存。重新整理或關閉頁面後，輸入內容不會由工具保留。"
         ]
       },
       {
@@ -140,7 +140,7 @@ export default {
       copied: '已複製！',
       note: '計算規則：CJK 字元逐字計算，英文與數字以詞彙 token 計算。閱讀時間以約 200 English wpm 與 300 CJK cpm 估算。',
     },
-    privacyNote: '此工具完全在瀏覽器本機分析文字。你貼上的文章、作業、文案或腳本不會傳送到 FunnyTools 免費線上工具箱伺服器，也不會被儲存。',
+    privacyNote: '此工具完全在瀏覽器本機分析文字。你貼上的文章、作業、文案或腳本不會傳送到 FreeTools 免費線上工具箱伺服器，也不會被儲存。',
     disclaimer: '統計結果會因平台、學校、出版社或投稿系統的計算規則而不同。若有正式字數規範，請以該平台或單位的規則為準。',
   },
   en: {
@@ -189,7 +189,7 @@ export default {
       {
         heading: "Privacy and local processing",
         paragraphs: [
-          "Text is analyzed entirely in your browser. It is not uploaded to FunnyTools and is not stored on a server. If you refresh or close the page, the tool does not keep your pasted content."
+          "Text is analyzed entirely in your browser. It is not uploaded to FreeTools and is not stored on a server. If you refresh or close the page, the tool does not keep your pasted content."
         ]
       },
       {
@@ -267,7 +267,7 @@ export default {
       copied: 'Copied!',
       note: 'Counting rule: CJK ideographs count one by one, Latin text and numbers count as word tokens. Reading time uses about 200 English wpm and 300 CJK cpm.',
     },
-    privacyNote: 'This tool analyzes text entirely in your browser. Your articles, assignments, copy, or scripts are not sent to FunnyTools servers and are not stored.',
+    privacyNote: 'This tool analyzes text entirely in your browser. Your articles, assignments, copy, or scripts are not sent to FreeTools servers and are not stored.',
     disclaimer: 'Counts can differ from the rules used by platforms, schools, publishers, or submission systems. For official limits, follow the rule shown by that platform or organization.',
   },
 } satisfies LocalizedToolContent;

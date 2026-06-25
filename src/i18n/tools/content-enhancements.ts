@@ -357,8 +357,8 @@ function priorityEnhancement(spec: PrioritySpec): Record<Locale, Enhancement> {
       })),
       notes: spec.zhMistakes,
       faq: [
-        { q: `${spec.zhName}可以免費使用嗎？`, a: '可以。FunnyTools 的工具可直接在瀏覽器使用，不需要註冊。' },
-        { q: '資料會上傳到伺服器嗎？', a: '這個工具採瀏覽器本機處理；輸入內容與檔案不會主動上傳到 FunnyTools 伺服器。' },
+        { q: `${spec.zhName}可以免費使用嗎？`, a: '可以。FreeTools 的工具可直接在瀏覽器使用，不需要註冊。' },
+        { q: '資料會上傳到伺服器嗎？', a: '這個工具採瀏覽器本機處理；輸入內容與檔案不會主動上傳到 FreeTools 伺服器。' },
         { q: '結果可以當作正式規則嗎？', a: '不建議。這裡提供的是試算、整理與檢查輔助，正式用途仍要依簡章、學校、機關或平台公告為準。' },
         { q: '輸入後結果看起來不合理怎麼辦？', a: '先檢查單位、權重、頁碼範圍、樣本數、格式與空白字元，再用小範例驗算一次。' },
         { q: '還可以搭配哪些工具？', a: spec.relatedZh },
@@ -403,7 +403,7 @@ function priorityEnhancement(spec: PrioritySpec): Record<Locale, Enhancement> {
       notes: spec.enMistakes,
       faq: [
         { q: `Is ${spec.enName} free to use?`, a: 'Yes. You can use the tool directly in the browser with no registration.' },
-        { q: 'Is my data uploaded?', a: 'No. This tool runs locally in your browser and does not actively upload inputs or files to FunnyTools servers.' },
+        { q: 'Is my data uploaded?', a: 'No. This tool runs locally in your browser and does not actively upload inputs or files to FreeTools servers.' },
         { q: 'Can I treat the result as official?', a: 'No. Use it as a calculation, cleanup, or checking aid and confirm formal requirements with official sources.' },
         { q: 'What should I check when the result looks wrong?', a: 'Review units, weights, page ranges, sample size, source format, whitespace, and output settings, then test again with a small known example.' },
         { q: 'Which related tools should I use next?', a: spec.relatedEn },

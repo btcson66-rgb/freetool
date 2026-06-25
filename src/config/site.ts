@@ -6,10 +6,10 @@ export const SITE = {
   basePath: '',
   locales: ['zh', 'en'] as Locale[],
   defaultLocale: 'zh' as Locale,
-  name: { zh: 'FunnyTools 免費線上工具箱', en: 'FunnyTools' },
+  name: { zh: 'FreeTools 免費線上工具箱', en: 'FreeTools' },
   tagline: {
-    zh: '免費線上工具大全，打開網頁即可使用，免下載 App。',
-    en: 'Free online tools for everyday work, study, files, money, and quick decisions.',
+    zh: '免費線上工具箱，提供 PDF、圖片、文字、QR Code、隨機、時間、金錢、教學與統計工具。免安裝、免註冊，手機與電腦都能使用。',
+    en: 'Free online toolbox with browser-based tools for PDF, images, text, QR codes, random picks, time, money, teachers and more.',
   },
   ga4MeasurementId: 'G-SV027MPXK4',
   adsenseClient: 'ca-pub-7052036786750044',

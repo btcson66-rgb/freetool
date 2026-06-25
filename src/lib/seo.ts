@@ -36,7 +36,7 @@ function truncateText(value: string, maxLength: number, locale: Locale): string 
 export function toolSeoTitle(lang: Locale, content: ToolContentForSeo): string {
   const sourceTitle = (content.seoTitle || content.name).replace(/\s+\|\s+/g, '｜');
   const conciseTitle = truncateText(sourceTitle, lang === 'zh' ? 42 : 52, lang);
-  return `${conciseTitle} - FunnyTools`;
+  return `${conciseTitle} - FreeTools`;
 }
 
 export function toolSeoDescription(lang: Locale, content: ToolContentForSeo, localOnly = false): string {
@@ -49,7 +49,7 @@ export function toolSeoDescription(lang: Locale, content: ToolContentForSeo, loc
   }
 
   const usage = localOnly
-    ? 'Free, no registration. Inputs and files stay in your browser and are not uploaded to FunnyTools servers.'
+    ? 'Free, no registration. Inputs and files stay in your browser and are not uploaded to FreeTools servers.'
     : 'Free, no registration. Any required network transfer and related limitations are clearly explained on the page.';
   const purpose = endSentence(cleanSentenceFragment(truncateText(content.seoDescription || content.short, 150 - usage.length - 2, lang), lang), lang);
   return `${purpose} ${usage}`;
@@ -87,12 +87,17 @@ export function websiteJsonLd(lang: Locale) {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     name: SITE.name[lang],
-    alternateName: 'FunnyTools',
+    alternateName: 'FreeTools Online Toolbox',
     url: absoluteUrl(localePath(lang)),
     description: lang === 'zh'
-      ? '免費線上工具箱，提供 PDF、圖片、文字、金錢、時間與教學工具。'
-      : SITE.tagline.en,
+      ? 'FreeTools 是一個免費線上工具箱，提供 PDF、圖片、文字、QR Code、隨機、時間、金錢、教學與統計工具。免安裝、免註冊，手機與電腦都能使用。'
+      : 'FreeTools is a free online toolbox with browser-based tools for PDF, images, text, QR codes, random picks, time, money, teachers and more.',
     inLanguage: SITE.hreflang[lang],
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: `${absoluteUrl(localePath(lang, 'tools'))}?q={search_term_string}`,
+      'query-input': 'required name=search_term_string',
+    },
   };
 }
 
@@ -101,7 +106,7 @@ export function organizationJsonLd(lang: Locale) {
     '@context': 'https://schema.org',
     '@type': 'Organization',
     name: SITE.name[lang],
-    alternateName: 'FunnyTools',
+    alternateName: 'FreeTools Online Toolbox',
     url: absoluteUrl('/'),
     logo: absoluteUrl(assetPath('favicon.svg')),
     image: defaultOgImage(),

@@ -52,7 +52,7 @@ export default {
       {
         heading: "隱私與本機處理",
         paragraphs: [
-          "QR Code 會在你的瀏覽器內產生，輸入的文字或網址不會傳送到 FunnyTools 伺服器。若加入中心 Logo，Logo 圖片也只在本機合成，不會上傳。"
+          "QR Code 會在你的瀏覽器內產生，輸入的文字或網址不會傳送到 FreeTools 伺服器。若加入中心 Logo，Logo 圖片也只在本機合成，不會上傳。"
         ]
       },
       {
@@ -189,7 +189,7 @@ export default {
       {
         heading: "Privacy and local processing",
         paragraphs: [
-          "The QR code is generated inside your browser. Your text or URL is not sent to FunnyTools or a backend QR service. Optional center logos are composited locally and are not uploaded."
+          "The QR code is generated inside your browser. Your text or URL is not sent to FreeTools or a backend QR service. Optional center logos are composited locally and are not uploaded."
         ]
       },
       {

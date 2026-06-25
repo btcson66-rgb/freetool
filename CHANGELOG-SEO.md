@@ -1,11 +1,11 @@
 # CHANGELOG-SEO
 
-SEO, AdSense credibility, and user retention optimizations for funnytools.win.
+SEO, AdSense credibility, and user retention optimizations for FreeTools.win.
 
 ## 2026-06-23
 
 ### Task 1: Brand Unification
-- Verified all source files use consistent brand naming: "FunnyTools 免費線上工具箱" (zh) / "FunnyTools" (en)
+- Verified all source files use consistent brand naming: "FreeTools 免費線上工具箱" (zh) / "FreeTools" (en)
 - `src/config/site.ts` already correct; no stale "Free Tools Hub" or orphaned "免費工具箱" brand references found
 
 ### Task 2: Homepage Popular Tools Reorder

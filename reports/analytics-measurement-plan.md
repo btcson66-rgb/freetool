@@ -1,4 +1,4 @@
-# FunnyTools analytics measurement plan
+# FreeTools analytics measurement plan
 
 Date: 2026-06-22
 

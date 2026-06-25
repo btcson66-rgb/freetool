@@ -1,4 +1,4 @@
-# FunnyTools 支持本站頁面實作檢查
+# FreeTools 支持本站頁面實作檢查
 
 檢查日期：2026-06-21（Asia/Taipei）
 
@@ -21,11 +21,11 @@
 
 ## 資料與選品
 
-- 商品由酷澎台灣 Partners `bestcategories` API 依 FunnyTools 使用情境篩選；此端點提供可驗證的官方 CDN 商品圖片。
-- API 呼叫使用獨立的 `subId=funnytools-support`。
+- 商品由酷澎台灣 Partners `bestcategories` API 依 FreeTools 使用情境篩選；此端點提供可驗證的官方 CDN 商品圖片。
+- API 呼叫使用獨立的 `subId=FreeTools-support`。
 - JSON 只保留商品名稱、分潤網址及頁面顯示所需欄位；不包含 API 憑證、價格、折扣或分潤率。
 - 30/30 商品包含酷澎 Partners API 回傳的真實商品圖片；圖片已轉成網站本機 WebP，瀏覽器僅延遲載入目前顯示的卡片。
-- 商品說明為 FunnyTools 原創的中性用途說明，未複製平台商品描述。
+- 商品說明為 FreeTools 原創的中性用途說明，未複製平台商品描述。
 
 ## 建置驗證
 
@@ -33,10 +33,10 @@
 - 商品資料：30 筆 active、30 個唯一 ID、30 個唯一分潤網址、5 個使用情境分類。
 - 商品圖片：30/30 由酷澎官方 CDN 取得並轉為本機 WebP，不需放寬外部圖片 CSP。
 - 圖片總量：30 張，合計約 451 KB；卡片使用 `loading="lazy"` 與固定尺寸避免版面位移。
-- 分潤網址格式：30/30 使用 HTTPS 酷澎 Partners 網址，並包含 `subId=funnytools-support`。
+- 分潤網址格式：30/30 使用 HTTPS 酷澎 Partners 網址，並包含 `subId=FreeTools-support`。
 - 瀏覽器首次載入：顯示 8 張卡片，8 個商品名稱皆不重複。
 - 點擊「換一批」：維持 8 張卡片，顯示批次與點擊前不同，且不重新載入頁面。
 - CTA 屬性：瀏覽器渲染出的 8/8 外部連結皆為 `rel="sponsored nofollow noopener"`。
 - SEO：canonical、`index, follow`、單一 H1、WebPage 與 BreadcrumbList JSON-LD 均已輸出。
-- sitemap：包含 `https://funnytools.win/support/`。
+- sitemap：包含 `https://FreeTools.win/support/`。
 - 禁用詞掃描：0 筆。

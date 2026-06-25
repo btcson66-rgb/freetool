@@ -1,4 +1,4 @@
-# FunnyTools SEO Resource System
+# FreeTools SEO Resource System
 
 This system is intentionally draft-first. It supports white-hat SEO work through structured keyword data, content briefs, internal linking checks, schema checks, technical SEO checks, and Search Console feedback. It does not auto-publish bulk article pages.
 

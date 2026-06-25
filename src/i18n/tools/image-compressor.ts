@@ -52,7 +52,7 @@ export default {
       {
         heading: "隱私與本機處理",
         paragraphs: [
-          "圖片會在你的瀏覽器中處理，不會上傳到 FunnyTools 或第三方伺服器。大型圖片會使用較多記憶體；若瀏覽器變慢，建議先縮小圖片尺寸或分批處理。"
+          "圖片會在你的瀏覽器中處理，不會上傳到 FreeTools 或第三方伺服器。大型圖片會使用較多記憶體；若瀏覽器變慢，建議先縮小圖片尺寸或分批處理。"
         ]
       },
       {
@@ -108,7 +108,7 @@ export default {
     faq: [
       {
         q: "圖片會上傳到伺服器嗎？",
-        a: "不會。圖片在瀏覽器內處理，FunnyTools 不會接收、儲存或上傳你的圖片。"
+        a: "不會。圖片在瀏覽器內處理，FreeTools 不會接收、儲存或上傳你的圖片。"
       },
       {
         q: "為什麼 PNG 有時候不會變小？",
@@ -191,7 +191,7 @@ export default {
       {
         heading: "Privacy and local processing",
         paragraphs: [
-          "Images are processed locally in your browser. They are not uploaded to FunnyTools or a third-party server. Very large images can use significant memory, so process them one at a time."
+          "Images are processed locally in your browser. They are not uploaded to FreeTools or a third-party server. Very large images can use significant memory, so process them one at a time."
         ]
       },
       {

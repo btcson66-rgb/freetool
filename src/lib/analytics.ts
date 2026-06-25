@@ -1,4 +1,4 @@
-// GA4 custom event helper for FunnyTools
+// GA4 custom event helper for FreeTools
 // All events use gtag() which is already loaded in BaseLayout.astro
 
 type GA4Params = Record<string, string | number | boolean | undefined>;

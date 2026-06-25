@@ -47,7 +47,7 @@ export default {
       {
         heading: "隱私與本機處理",
         paragraphs: [
-          "名單與座位表都在你的瀏覽器中產生，不會上傳到 FunnyTools 或第三方伺服器。工具不會替你保存座位表；需要保留時請複製、匯出或列印。"
+          "名單與座位表都在你的瀏覽器中產生，不會上傳到 FreeTools 或第三方伺服器。工具不會替你保存座位表；需要保留時請複製、匯出或列印。"
         ]
       },
       {
@@ -191,7 +191,7 @@ export default {
       {
         heading: "Privacy and local processing",
         paragraphs: [
-          "Names and seating charts are generated locally in your browser. They are not uploaded to FunnyTools or a third-party server. The tool does not store charts, so copy, export, or print anything you need to keep."
+          "Names and seating charts are generated locally in your browser. They are not uploaded to FreeTools or a third-party server. The tool does not store charts, so copy, export, or print anything you need to keep."
         ]
       },
       {

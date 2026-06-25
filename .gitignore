@@ -8,3 +8,6 @@ cloudflare/
 .codex-prompt.txt
 api token/
 reports/analytics/
+reports/daily/
+data/traffic/
+logs/traffic-report/

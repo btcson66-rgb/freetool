@@ -47,7 +47,7 @@ export default {
       {
         heading: "隱私與本機處理",
         paragraphs: [
-          "自訂分鐘設定會儲存在此瀏覽器的 localStorage，不會上傳到 FunnyTools 伺服器。目前倒數狀態不會跨重新整理保存；關閉或重新整理頁面會結束當前計時。"
+          "自訂分鐘設定會儲存在此瀏覽器的 localStorage，不會上傳到 FreeTools 伺服器。目前倒數狀態不會跨重新整理保存；關閉或重新整理頁面會結束當前計時。"
         ]
       },
       {
@@ -183,7 +183,7 @@ export default {
       {
         heading: "Privacy and local processing",
         paragraphs: [
-          "Custom minute settings are stored only in this browser using localStorage. They are not uploaded to FunnyTools. The active countdown state is not preserved across refreshes."
+          "Custom minute settings are stored only in this browser using localStorage. They are not uploaded to FreeTools. The active countdown state is not preserved across refreshes."
         ]
       },
       {
@@ -270,7 +270,7 @@ export default {
       sessions: 'sessions',
       minutesError: 'Minutes must be whole numbers from 1 to 180.',
     },
-    privacyNote: 'Your custom Pomodoro minute settings are stored only in this browser using localStorage. FunnyTools does not receive your timer settings, session count, or usage history.',
+    privacyNote: 'Your custom Pomodoro minute settings are stored only in this browser using localStorage. FreeTools does not receive your timer settings, session count, or usage history.',
     disclaimer: 'This tool is a general time-management aid. It is not medical, mental-health, or workplace performance advice. For sleep, anxiety, or health concerns, consult a qualified professional.',
   },
 } satisfies LocalizedToolContent;

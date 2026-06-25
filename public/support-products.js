@@ -34,7 +34,7 @@
     shopee: '蝦皮',
     coupang: '酷澎',
     amazon: 'Amazon',
-    internal: 'FunnyTools',
+    internal: 'FreeTools',
     other: '其他',
   };
   let products = [];

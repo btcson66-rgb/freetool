@@ -365,7 +365,7 @@ const rawBlogPosts: RawBlogPost[] = [
       { question: 'PDF 壓縮一定會變小嗎？', answer: '不一定。若原始檔已最佳化或主要容量來自圖片，壓縮效果可能有限。' },
       { question: '合併 PDF 前要先排序嗎？', answer: '建議先確認檔案順序，也可合併後再用頁面重新排序檢查。' },
       { question: '刪除頁面和擷取頁面差在哪？', answer: '刪除頁面是移除指定頁；擷取頁面是只保留指定頁。兩者方向相反。' },
-      { question: '檔案會上傳嗎？', answer: 'FunnyTools 的 PDF 工具設計為瀏覽器本機處理，檔案不會主動上傳到伺服器。' },
+      { question: '檔案會上傳嗎？', answer: 'FreeTools 的 PDF 工具設計為瀏覽器本機處理，檔案不會主動上傳到伺服器。' },
       { question: '簽章 PDF 可以處理嗎？', answer: '處理後可能影響簽章或表單狀態，正式文件請保留原檔並審慎檢查。' },
     ],
   },
