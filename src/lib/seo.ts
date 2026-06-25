@@ -108,6 +108,7 @@ export function organizationJsonLd(lang: Locale) {
     name: SITE.name[lang],
     alternateName: 'FreeTools Online Toolbox',
     url: absoluteUrl('/'),
+    description: 'FreeTools is the free online toolbox published at funnytools.win.',
     logo: absoluteUrl(assetPath('favicon.svg')),
     image: defaultOgImage(),
     email: SITE.email,

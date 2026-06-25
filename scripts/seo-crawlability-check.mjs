@@ -10,6 +10,12 @@ const expectedRobots = [
   'User-agent: *',
   'Allow: /',
   '',
+  'User-agent: OAI-SearchBot',
+  'Allow: /',
+  '',
+  'User-agent: GPTBot',
+  'Allow: /',
+  '',
   'Sitemap: https://funnytools.win/sitemap.xml',
 ].join('\n');
 
@@ -68,6 +74,26 @@ function parseTag(block, tagName) {
   return matches;
 }
 
+function sitemapPathFromUrl(loc) {
+  let parsed;
+  try {
+    parsed = new URL(loc);
+  } catch {
+    fail(`sitemap index contains an invalid child sitemap URL: ${loc}.`);
+    return '';
+  }
+
+  if (parsed.protocol !== 'https:' || parsed.hostname !== 'funnytools.win') {
+    fail(`sitemap index child must use https://funnytools.win: ${loc}.`);
+    return '';
+  }
+
+  const fileName = parsed.pathname.replace(/^\/+/, '');
+  const fullPath = join(distDir, fileName);
+  if (!existsSync(fullPath)) fail(`sitemap index child is missing from dist: ${parsed.pathname}.`);
+  return fullPath;
+}
+
 function validateRobots() {
   if (!existsSync(robotsPath)) {
     fail('dist/robots.txt is missing. Run npm.cmd run build before seo:check.');
@@ -88,27 +114,46 @@ function validateSitemap() {
     return;
   }
 
-  const sitemap = readFileSync(sitemapPath, 'utf8');
-  if (!sitemap.startsWith('<?xml version="1.0" encoding="UTF-8"?>')) fail('sitemap.xml must start with the XML declaration.');
-  if (!/<urlset\s+[^>]*xmlns="http:\/\/www\.sitemaps\.org\/schemas\/sitemap\/0\.9"/.test(sitemap)) fail('sitemap.xml missing urlset sitemap namespace.');
-  if (!sitemap.trim().endsWith('</urlset>')) fail('sitemap.xml must end with </urlset>.');
-  for (const pattern of [/monthly0\.6https/i, /daily0\.8https/i, /weekly0\.7https/i, /yearly0\.3https/i]) {
-    if (pattern.test(sitemap)) fail(`sitemap.xml contains broken concatenated text matching ${pattern}.`);
-  }
+  const sitemapIndex = readFileSync(sitemapPath, 'utf8');
+  if (!sitemapIndex.startsWith('<?xml version="1.0" encoding="UTF-8"?>')) fail('sitemap.xml must start with the XML declaration.');
+  if (!/<sitemapindex\s+[^>]*xmlns="http:\/\/www\.sitemaps\.org\/schemas\/sitemap\/0\.9"/.test(sitemapIndex)) fail('sitemap.xml missing sitemapindex namespace.');
+  if (!sitemapIndex.trim().endsWith('</sitemapindex>')) fail('sitemap.xml must end with </sitemapindex>.');
 
-  const withoutTags = sitemap
-    .replace(/^<\?xml[^>]*\?>\s*/i, '')
-    .replace(/<\/?urlset\b[^>]*>/gi, '')
-    .replace(/<url>[\s\S]*?<\/url>/gi, '')
-    .trim();
-  if (withoutTags) fail('sitemap.xml contains text outside <url> entries.');
-
-  const urlBlocks = [...sitemap.matchAll(/<url>([\s\S]*?)<\/url>/g)].map((match) => match[1]);
-  if (!urlBlocks.length) fail('sitemap.xml contains no <url> entries.');
+  const childBlocks = [...sitemapIndex.matchAll(/<sitemap>([\s\S]*?)<\/sitemap>/g)].map((match) => match[1]);
+  if (!childBlocks.length) fail('sitemap.xml contains no child sitemap entries.');
+  const childPaths = childBlocks.flatMap((block, index) => {
+    const loc = parseTag(block, 'loc');
+    const lastmod = parseTag(block, 'lastmod');
+    if (loc.length !== 1) fail(`sitemap index entry ${index + 1} must contain exactly one <loc>.`);
+    if (lastmod.length !== 1) fail(`sitemap index entry ${index + 1} must contain exactly one <lastmod>.`);
+    if (lastmod[0] && !/^\d{4}-\d{2}-\d{2}$/.test(lastmod[0])) fail(`sitemap index entry ${index + 1} has invalid lastmod: ${lastmod[0]}.`);
+    return loc[0] ? [sitemapPathFromUrl(loc[0])] : [];
+  }).filter(Boolean);
 
   const htmlFiles = walk(distDir, (file) => file.endsWith('.html'));
   const routeToFile = new Map(htmlFiles.map((file) => [routeFromHtml(file), file]));
   const locs = [];
+  const urlBlocks = [];
+
+  for (const childPath of childPaths) {
+    const sitemap = readFileSync(childPath, 'utf8');
+    const childName = relative(distDir, childPath).replaceAll('\\', '/');
+    if (!sitemap.startsWith('<?xml version="1.0" encoding="UTF-8"?>')) fail(`${childName} must start with the XML declaration.`);
+    if (!/<urlset\s+[^>]*xmlns="http:\/\/www\.sitemaps\.org\/schemas\/sitemap\/0\.9"/.test(sitemap)) fail(`${childName} missing urlset sitemap namespace.`);
+    if (!sitemap.trim().endsWith('</urlset>')) fail(`${childName} must end with </urlset>.`);
+    for (const pattern of [/monthly0\.6https/i, /daily0\.8https/i, /weekly0\.7https/i, /yearly0\.3https/i]) {
+      if (pattern.test(sitemap)) fail(`${childName} contains broken concatenated text matching ${pattern}.`);
+    }
+    const withoutTags = sitemap
+      .replace(/^<\?xml[^>]*\?>\s*/i, '')
+      .replace(/<\/?urlset\b[^>]*>/gi, '')
+      .replace(/<url>[\s\S]*?<\/url>/gi, '')
+      .trim();
+    if (withoutTags) fail(`${childName} contains text outside <url> entries.`);
+    urlBlocks.push(...[...sitemap.matchAll(/<url>([\s\S]*?)<\/url>/g)].map((match) => match[1]));
+  }
+
+  if (!urlBlocks.length) fail('child sitemaps contain no <url> entries.');
 
   urlBlocks.forEach((block, index) => {
     const entryNumber = index + 1;

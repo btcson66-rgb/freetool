@@ -43,6 +43,40 @@ function markdownList(items) {
   return items.length ? items.map((item) => `- ${item}`).join('\n') : '- None';
 }
 
+function decodeXml(value) {
+  return value
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&apos;/g, "'");
+}
+
+function sitemapLocsFromDist() {
+  const indexPath = join(distDir, 'sitemap.xml');
+  if (!existsSync(indexPath)) return [];
+
+  const sitemap = readFileSync(indexPath, 'utf8');
+  if (!/<sitemapindex\b/i.test(sitemap)) {
+    return [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map((m) => decodeXml(m[1]));
+  }
+
+  const childLocs = [...sitemap.matchAll(/<sitemap>[\s\S]*?<loc>(.*?)<\/loc>[\s\S]*?<\/sitemap>/g)].map((m) => decodeXml(m[1]));
+  return childLocs.flatMap((loc) => {
+    let parsed;
+    try {
+      parsed = new URL(loc);
+    } catch {
+      return [];
+    }
+    if (parsed.hostname !== 'funnytools.win') return [];
+    const childPath = join(distDir, parsed.pathname.replace(/^\/+/, ''));
+    if (!existsSync(childPath)) return [];
+    const child = readFileSync(childPath, 'utf8');
+    return [...child.matchAll(/<loc>(.*?)<\/loc>/g)].map((m) => decodeXml(m[1]));
+  });
+}
+
 function routeFromFile(file) {
   const rel = relative(distDir, file).replaceAll('\\', '/');
   if (rel.endsWith('/index.html')) return `/${rel.slice(0, -'index.html'.length)}`;
@@ -228,8 +262,7 @@ function technicalReport(pages) {
   if (!existsSync(sitemapPath)) {
     critical.push('dist/sitemap.xml is missing. Run npm.cmd run build first.');
   } else {
-    const sitemap = readFileSync(sitemapPath, 'utf8');
-    const locs = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map((m) => m[1]);
+    const locs = sitemapLocsFromDist();
     const locSet = new Set(locs.map((loc) => new URL(loc).pathname));
     for (const page of eligiblePages) {
       if (!page.route.startsWith('/zh/') && !locSet.has(page.route)) {
