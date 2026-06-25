@@ -5,6 +5,7 @@ import { escapeXml, sitemapLastmod } from '../lib/sitemap';
 const childSitemaps = [
   { path: '/sitemap-pages.xml' },
   { path: '/sitemap-tools.xml' },
+  { path: '/sitemap-categories.xml' },
   { path: '/sitemap-blog.xml' },
   { path: '/sitemap-en.xml' },
 ];

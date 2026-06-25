@@ -22,6 +22,24 @@ const localFileForPath = (pathname) => {
   const relative = decoded.replace(/^\//, '');
   return join(dist, relative.endsWith('/') ? relative : `${relative}/`, 'index.html');
 };
+const decodeXml = (value) => value
+  .replace(/&amp;/g, '&')
+  .replace(/&lt;/g, '<')
+  .replace(/&gt;/g, '>')
+  .replace(/&quot;/g, '"')
+  .replace(/&apos;/g, "'");
+const locsFromXml = (xml) => [...xml.matchAll(/<loc>(.*?)<\/loc>/g)].map((item) => decodeXml(item[1]));
+const sitemapUrls = (xml) => {
+  if (!/<sitemapindex\b/i.test(xml)) return locsFromXml(xml).map((item) => new URL(item));
+  return locsFromXml(xml).flatMap((loc) => {
+    const childPath = join(dist, new URL(loc).pathname.replace(/^\//, ''));
+    if (!existsSync(childPath)) {
+      errors.push(`Sitemap 子檔不存在：${new URL(loc).pathname}`);
+      return [];
+    }
+    return locsFromXml(read(childPath)).map((item) => new URL(item));
+  });
+};
 
 if (!existsSync(dist)) {
   errors.push('找不到 dist，請先執行 npm run build。');
@@ -41,7 +59,7 @@ if (!existsSync(sitemapPath)) {
   errors.push('缺少 sitemap.xml。');
 } else {
   const sitemap = read(sitemapPath);
-  const urls = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map((item) => new URL(item[1]));
+  const urls = sitemapUrls(sitemap);
   const internalLinkErrors = new Set();
   const titles = new Map();
   const descriptions = new Map();

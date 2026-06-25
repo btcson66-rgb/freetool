@@ -36,7 +36,7 @@ export const home = {
     secondaryCta: '熱門工具',
   },
   en: {
-    seoTitle: "FreeTools - Free Online Tools for PDF, Images, Text, QR Codes and More",
+    seoTitle: "FreeTools - Free PDF, Image, Text and QR Code Tools",
     seoDescription: "FreeTools is a free online toolbox with browser-based tools for PDF, images, text, QR codes, random picks, time, money, teachers and more. No signup required.",
     eyebrow: 'Free, fast, no install',
     title: 'FreeTools - Free Online Tools for Everyday Tasks',

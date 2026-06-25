@@ -39,6 +39,11 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Generate deployment sitemaps
+        run: node scripts/generate-sitemaps.mjs
+        env:
+          INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}
+
       - name: Configure Pages
         uses: actions/configure-pages@v5
 

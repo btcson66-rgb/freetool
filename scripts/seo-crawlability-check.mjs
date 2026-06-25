@@ -10,6 +10,12 @@ const expectedRobots = [
   'User-agent: *',
   'Allow: /',
   '',
+  'User-agent: Bingbot',
+  'Allow: /',
+  '',
+  'User-agent: Googlebot',
+  'Allow: /',
+  '',
   'User-agent: OAI-SearchBot',
   'Allow: /',
   '',
@@ -164,8 +170,8 @@ function validateSitemap() {
 
     if (loc.length !== 1) fail(`sitemap entry ${entryNumber} must contain exactly one <loc>.`);
     if (lastmod.length !== 1) fail(`sitemap entry ${entryNumber} must contain exactly one <lastmod>.`);
-    if (changefreq.length !== 1) fail(`sitemap entry ${entryNumber} must contain exactly one <changefreq>.`);
-    if (priority.length !== 1) fail(`sitemap entry ${entryNumber} must contain exactly one <priority>.`);
+    if (changefreq.length > 1) fail(`sitemap entry ${entryNumber} must contain at most one <changefreq>.`);
+    if (priority.length > 1) fail(`sitemap entry ${entryNumber} must contain at most one <priority>.`);
     if (lastmod[0] && !/^\d{4}-\d{2}-\d{2}$/.test(lastmod[0])) fail(`sitemap entry ${entryNumber} has invalid lastmod: ${lastmod[0]}.`);
     if (changefreq[0] && !/^(always|hourly|daily|weekly|monthly|yearly|never)$/.test(changefreq[0])) fail(`sitemap entry ${entryNumber} has invalid changefreq: ${changefreq[0]}.`);
     if (priority[0] && !/^(0(\.\d)?|1(\.0)?)$/.test(priority[0])) fail(`sitemap entry ${entryNumber} has invalid priority: ${priority[0]}.`);

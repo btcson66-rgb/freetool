@@ -77,17 +77,10 @@ export function sitemapUrlSet(entries: SitemapEntry[]): string {
 }
 
 function basePages(): SitemapPage[] {
-  const liveCategories = categories.filter((category) => hasLiveTools(category.id));
   return [
     { segments: [], changefreq: 'daily', priority: '1.0', alternates: true },
     { segments: ['tools'], changefreq: 'weekly', priority: '0.9', alternates: true },
     { segments: ['support'], changefreq: 'monthly', priority: '0.3', alternates: true },
-    ...liveCategories.map((category) => ({
-      segments: ['category', category.id],
-      changefreq: 'weekly' as const,
-      priority: '0.7',
-      alternates: true,
-    })),
     ...legalPages.map((page) => ({
       segments: [page],
       changefreq: 'yearly' as const,
@@ -95,6 +88,15 @@ function basePages(): SitemapPage[] {
       alternates: true,
     })),
   ];
+}
+
+function categoryPages(): SitemapPage[] {
+  return categories.filter((category) => hasLiveTools(category.id)).map((category) => ({
+    segments: ['category', category.id],
+    changefreq: 'weekly' as const,
+    priority: '0.7',
+    alternates: true,
+  }));
 }
 
 function toolPages(): SitemapPage[] {
@@ -128,6 +130,10 @@ export function defaultToolEntries(): SitemapEntry[] {
   return toolPages().map((page) => ({ lang: 'zh', page }));
 }
 
+export function defaultCategoryEntries(): SitemapEntry[] {
+  return categoryPages().map((page) => ({ lang: 'zh', page }));
+}
+
 export function defaultBlogEntries(): SitemapEntry[] {
   return blogPages().map((page) => ({ lang: 'zh', page }));
 }
@@ -135,6 +141,7 @@ export function defaultBlogEntries(): SitemapEntry[] {
 export function englishEntries(): SitemapEntry[] {
   return [
     ...basePages(),
+    ...categoryPages(),
     ...toolPages(),
     ...blogPages().filter((page) => page.segments.length === 1 || isPostAvailableInLocale(allBlogPosts.find((post) => post.slug === page.segments[1])!, 'en')),
   ].map((page) => ({ lang: 'en' as const, page }));
@@ -144,6 +151,7 @@ export function allSitemapEntries(): SitemapEntry[] {
   return [
     ...defaultPageEntries(),
     ...defaultToolEntries(),
+    ...defaultCategoryEntries(),
     ...defaultBlogEntries(),
     ...englishEntries(),
   ];

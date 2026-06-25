@@ -14,6 +14,13 @@
     "audit:ui-dark": "node scripts/ui-dark-audit.mjs",
     "seo:audit": "node scripts/seo-system-audit.mjs",
     "seo:check": "node scripts/seo-crawlability-check.mjs",
+    "seo:sitemap": "node scripts/generate-sitemaps.mjs",
+    "seo:validate": "node scripts/validate-indexable-urls.mjs",
+    "seo:indexnow": "node scripts/submit-indexnow.mjs",
+    "seo:bing": "node scripts/submit-bing-urls.mjs",
+    "seo:gsc-sitemaps": "node scripts/gsc-submit-sitemaps.mjs",
+    "seo:gsc-inspect": "node scripts/gsc-inspect-priority-urls.mjs",
+    "seo:all": "npm run seo:sitemap && npm run seo:validate && npm run seo:indexnow && npm run seo:bing && npm run seo:gsc-sitemaps",
     "report:analytics": "node scripts/analytics-report.mjs",
     "traffic-report": "node scripts/traffic-report/index.mjs",
     "preflight": "npm run build && npm run seo:check && npm run audit:lang-switch && npm run audit:adsense && npm run audit:analytics && npm run audit:security"
