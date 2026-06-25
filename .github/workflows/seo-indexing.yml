@@ -66,11 +66,13 @@ jobs:
           INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}
 
       - name: Submit Bing URLs
+        if: always()
         run: node scripts/submit-bing-urls.mjs
         env:
           BING_API_KEY: ${{ secrets.BING_API_KEY }}
 
       - name: Submit sitemap to Google Search Console
+        if: always()
         run: node scripts/gsc-submit-sitemaps.mjs
         env:
           GSC_SERVICE_ACCOUNT_JSON: ${{ secrets.GSC_SERVICE_ACCOUNT_JSON }}
