@@ -56,6 +56,8 @@ import sketchpadContent from '../i18n/tools/sketchpad';
 import sortLinesContent from '../i18n/tools/sort-lines';
 import splitPdfContent from '../i18n/tools/split-pdf';
 import standardDeviationContent from '../i18n/tools/standard-deviation';
+import apa7ReportGeneratorContent from '../i18n/tools/apa-7-report-generator';
+import spssResultInterpreterContent from '../i18n/tools/spss-result-interpreter';
 import percentageCalculatorContent from '../i18n/tools/percentage-calculator';
 import stopwatchContent from '../i18n/tools/stopwatch';
 import thisOrThatContent from '../i18n/tools/this-or-that';
@@ -139,6 +141,8 @@ export const contentBySlug = {
   'pdf-to-image': pdfToImageContent,
   'pdf-compressor': pdfCompressorContent,
   'standard-deviation': standardDeviationContent,
+  'apa-7-report-generator': apa7ReportGeneratorContent,
+  'spss-result-interpreter': spssResultInterpreterContent,
   'percentage-calculator': percentageCalculatorContent,
   'bar-chart-maker': barChartMakerContent,
   'pie-chart-maker': pieChartMakerContent,

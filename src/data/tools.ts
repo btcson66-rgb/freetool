@@ -959,17 +959,17 @@ export const tools: ToolMeta[] = [
   },
   {
     slug: 'percentile-rank-calculator', category: 'statistics', icon: 'PR', status: 'live', privacyLevel: 'local-only',
-    relatedTools: ['class-rank-percentile-calculator', 'z-score-calculator', 'normalized-score-converter'], assetType: 'calculator', searchIntent: 'high', shareIntent: 'medium', embedPotential: 'medium', maintenanceRisk: 'low', monetizationTags: ['adsense'], featured: true, isNew: true, updated: '2026-06-18',
+    relatedTools: ['z-score-calculator', 't-score-calculator', 'standard-deviation', 'class-rank-percentile-calculator', 'normalized-score-converter'], assetType: 'calculator', searchIntent: 'high', shareIntent: 'medium', embedPotential: 'medium', maintenanceRisk: 'low', monetizationTags: ['adsense'], featured: true, isNew: true, updated: '2026-06-25',
     name: { zh: 'PR 百分等級計算器', en: 'Percentile Rank Calculator' }, short: { zh: '依低於與同分人數計算百分等級（PR）。', en: 'Calculate percentile rank from counts below and equal to a score.' },
   },
   {
     slug: 'z-score-calculator', category: 'statistics', icon: 'Z', status: 'live', privacyLevel: 'local-only',
-    relatedTools: ['t-score-calculator', 'normalized-score-converter', 'percentile-rank-calculator'], assetType: 'calculator', searchIntent: 'high', shareIntent: 'medium', embedPotential: 'high', maintenanceRisk: 'low', monetizationTags: ['adsense'], featured: true, isNew: true, updated: '2026-06-18',
+    relatedTools: ['t-score-calculator', 'percentile-rank-calculator', 'standard-deviation', 'normalized-score-converter'], assetType: 'calculator', searchIntent: 'high', shareIntent: 'medium', embedPotential: 'high', maintenanceRisk: 'low', monetizationTags: ['adsense'], featured: true, isNew: true, updated: '2026-06-25',
     name: { zh: 'Z 分數計算器', en: 'Z Score Calculator' }, short: { zh: '將原始分數轉換為相對於平均數的標準分數。', en: 'Convert a raw score into standard deviations from the mean.' },
   },
   {
     slug: 't-score-calculator', category: 'statistics', icon: 'T', status: 'live', privacyLevel: 'local-only',
-    relatedTools: ['z-score-calculator', 'normalized-score-converter', 'teacher-exam-score-converter'], assetType: 'calculator', searchIntent: 'high', shareIntent: 'medium', embedPotential: 'high', maintenanceRisk: 'low', monetizationTags: ['adsense'], featured: true, isNew: true, updated: '2026-06-18',
+    relatedTools: ['z-score-calculator', 'percentile-rank-calculator', 'standard-deviation', 'normalized-score-converter', 'teacher-exam-score-converter'], assetType: 'calculator', searchIntent: 'high', shareIntent: 'medium', embedPotential: 'high', maintenanceRisk: 'low', monetizationTags: ['adsense'], featured: true, isNew: true, updated: '2026-06-25',
     name: { zh: 'T 分數計算器', en: 'T Score Calculator' }, short: { zh: '將 Z 分數轉換為平均 50、標準差 10 的 T 分數。', en: 'Convert a z score to a T score with mean 50 and SD 10.' },
   },
   {
@@ -989,7 +989,7 @@ export const tools: ToolMeta[] = [
   },
   {
     slug: 'teacher-exam-score-converter', category: 'statistics', icon: '📝', status: 'live', privacyLevel: 'local-only',
-    relatedTools: ['weighted-average-calculator', 't-score-calculator', 'z-score-calculator', 'percentile-rank-calculator', 'normalized-score-converter', 'grade-average'], assetType: 'calculator', searchIntent: 'high', shareIntent: 'high', embedPotential: 'medium', maintenanceRisk: 'low', monetizationTags: ['adsense'], featured: true, isNew: true, updated: '2026-06-18',
+    relatedTools: ['apa-7-report-generator', 'normalized-score-converter', 'class-rank-percentile-calculator', 'weighted-average-calculator', 't-score-calculator', 'z-score-calculator', 'percentile-rank-calculator', 'grade-average'], assetType: 'calculator', searchIntent: 'high', shareIntent: 'high', embedPotential: 'medium', maintenanceRisk: 'low', monetizationTags: ['adsense'], featured: true, isNew: true, updated: '2026-06-25',
     name: { zh: '教師甄試成績轉換模擬器', en: 'Teacher Exam Score Converter' }, short: { zh: '依筆試、口試與試教權重模擬加權總成績。', en: 'Simulate a weighted teacher-exam total from written, interview, and teaching scores.' },
   },
   {
@@ -1001,6 +1001,18 @@ export const tools: ToolMeta[] = [
     slug: 'independent-samples-t-test-calculator', category: 'statistics', icon: 't', status: 'live', privacyLevel: 'local-only',
     relatedTools: ['cronbach-alpha-calculator', 'z-score-calculator', 'normalized-score-converter'], assetType: 'calculator', searchIntent: 'high', shareIntent: 'medium', embedPotential: 'low', maintenanceRisk: 'medium', monetizationTags: ['adsense'], featured: true, isNew: true, updated: '2026-06-18',
     name: { zh: '獨立樣本 t 檢定簡易計算器', en: 'Independent Samples t-test Calculator' }, short: { zh: '用兩組樣本數、平均數與標準差執行 Welch t 檢定。', en: 'Run a Welch independent-samples t test from summary statistics.' },
+  },
+  {
+    slug: 'apa-7-report-generator', category: 'statistics', icon: 'APA', status: 'live', privacyLevel: 'local-only',
+    relatedTools: ['independent-samples-t-test-calculator', 'standard-deviation', 'z-score-calculator', 'spss-result-interpreter'], assetType: 'generator', searchIntent: 'high', shareIntent: 'medium', embedPotential: 'medium', maintenanceRisk: 'low', monetizationTags: ['adsense'], featured: true, isNew: true, updated: '2026-06-25',
+    name: { zh: 'APA 7 統計結果報告產生器', en: 'APA 7 Statistics Report Generator' },
+    short: { zh: '輸入 t、F、p、r 等統計值，產生 APA 7 格式的中英文結果句。', en: 'Generate APA 7 result sentences from t, F, p, r, and common effect sizes.' },
+  },
+  {
+    slug: 'spss-result-interpreter', category: 'statistics', icon: 'SPSS', status: 'live', privacyLevel: 'local-only',
+    relatedTools: ['apa-7-report-generator', 'independent-samples-t-test-calculator', 'standard-deviation'], assetType: 'tool', searchIntent: 'high', shareIntent: 'medium', embedPotential: 'medium', maintenanceRisk: 'low', monetizationTags: ['adsense'], featured: true, isNew: true, updated: '2026-06-25',
+    name: { zh: 'SPSS 結果解讀助手', en: 'SPSS Result Interpretation Helper' },
+    short: { zh: '用結構化欄位整理 SPSS t 檢定、ANOVA 與二因子 ANOVA 輸出。', en: 'Turn structured SPSS t-test and ANOVA values into guidance and APA sentences.' },
   },
   {
     slug: 'gpa-calculator',

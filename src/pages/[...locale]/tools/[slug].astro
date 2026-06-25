@@ -48,6 +48,14 @@ const ga4Enabled = !!SITE.ga4MeasurementId;
 
 <ToolLayout lang={lang} tool={tool} category={category} content={content} jsonLd={jsonLd}>
   <Widget labels={content.labels} slug={tool.slug} />
+  <script>
+    import { recordRecentlyUsedTool } from '../../../lib/userTools.client';
+
+    const toolPage = document.querySelector('[data-tool-slug]');
+    if (toolPage instanceof HTMLElement) {
+      recordRecentlyUsedTool(toolPage.dataset.toolSlug || '');
+    }
+  </script>
   {
     ga4Enabled && (
       <script

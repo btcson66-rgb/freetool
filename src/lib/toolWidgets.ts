@@ -57,6 +57,8 @@ import Sketchpad from '../components/tools/Sketchpad.astro';
 import SortLines from '../components/tools/SortLines.astro';
 import SplitPdf from '../components/tools/SplitPdf.astro';
 import StandardDeviation from '../components/tools/StandardDeviation.astro';
+import Apa7ReportGenerator from '../components/tools/Apa7ReportGenerator.astro';
+import SpssResultInterpreter from '../components/tools/SpssResultInterpreter.astro';
 import PercentageCalculator from '../components/tools/PercentageCalculator.astro';
 import Stopwatch from '../components/tools/Stopwatch.astro';
 import ThisOrThat from '../components/tools/ThisOrThat.astro';
@@ -135,6 +137,8 @@ export const widgetBySlug = {
   'pdf-to-image': PdfToImage,
   'pdf-compressor': PdfCompressor,
   'standard-deviation': StandardDeviation,
+  'apa-7-report-generator': Apa7ReportGenerator,
+  'spss-result-interpreter': SpssResultInterpreter,
   'percentage-calculator': PercentageCalculator,
   'bar-chart-maker': ChartMaker,
   'pie-chart-maker': ChartMaker,

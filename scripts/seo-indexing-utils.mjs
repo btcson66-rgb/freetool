@@ -286,6 +286,14 @@ export function sourceCandidatesForRoute(route) {
       'src/pages/[...locale]/blog/[slug].astro',
     ];
   }
+  if (parts[0] === 'education-statistics') {
+    return [
+      'src/pages/[...locale]/education-statistics/index.astro',
+      'src/data/tools.ts',
+      'src/components/ToolCard.astro',
+      'src/components/Faq.astro',
+    ];
+  }
   const pageName = parts[0] || 'index';
   return [
     'src/i18n/pages.ts',

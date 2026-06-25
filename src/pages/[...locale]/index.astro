@@ -43,6 +43,19 @@ const searchTools = liveTools.map((tool) => ({
   search: `${tool.name[lang]} ${tool.short[lang]} ${tool.slug}`.toLowerCase(),
   isDefault: popularSlugs.includes(tool.slug),
 }));
+const allToolsData = liveTools.map((tool) => ({
+  slug: tool.slug,
+  name: tool.name[lang],
+  short: tool.short[lang],
+  category: tool.category,
+  icon: tool.icon,
+  url: toolUrl(lang, tool.slug),
+  assetType: ui.assetTypes[tool.assetType ?? 'tool'],
+  isLocalOnly: tool.privacyLevel === 'local-only',
+  isNew: Boolean(tool.isNew),
+  isFeatured: popularSlugs.includes(tool.slug) || Boolean(tool.featured),
+}));
+const allToolsJson = JSON.stringify(allToolsData).replace(/</g, '\\u003c');
 const categorySummaries = categories
   .map((category) => ({
     category,
@@ -157,6 +170,38 @@ const popularItemListJsonLd = {
     </div>
   </section>
 
+  <script type="application/json" id="freetools-all-tools" set:html={allToolsJson}></script>
+
+  <section
+    class="wrap content-section personalized-tools-section"
+    aria-labelledby="favorite-tools-title"
+    data-personalized-tools
+    data-empty-text={ui.favoriteToolsEmpty}
+    data-browse-label={ui.favoriteToolsBrowse}
+    data-browse-href={localePath(lang, 'tools')}
+    data-favorite-add={ui.favoriteAdd}
+    data-favorite-remove={ui.favoriteRemove}
+    data-tool-cta={ui.toolCardCta}
+    data-privacy-badge={ui.privacyBadge}
+    data-newest={ui.newest}
+  >
+    <div class="section-head">
+      <h2 id="favorite-tools-title">{ui.favoriteToolsHeading}</h2>
+    </div>
+    <div class="grid home-personalized-grid" data-favorite-tools aria-live="polite"></div>
+    <div class="empty-state personalized-empty" data-favorite-empty hidden>
+      <p>{ui.favoriteToolsEmpty}</p>
+      <a class="btn ghost" href={localePath(lang, 'tools')}>{ui.favoriteToolsBrowse}</a>
+    </div>
+  </section>
+
+  <section class="wrap content-section personalized-tools-section" aria-labelledby="recent-tools-title" data-recent-section>
+    <div class="section-head">
+      <h2 id="recent-tools-title">{ui.recentToolsHeading}</h2>
+    </div>
+    <div class="grid home-personalized-grid" data-recent-tools aria-live="polite"></div>
+  </section>
+
   <section class="wrap content-section priority-cluster-section" aria-labelledby="teacher-exam-cluster-title">
     <div class="section-head">
       <h2 id="teacher-exam-cluster-title">
@@ -167,6 +212,9 @@ const popularItemListJsonLd = {
           ? '從筆試口試試教加權、T 分數、Z 分數、PR 百分等級到標準差，先用小範例檢查公式，再整理正式資料。'
           : 'Start with weighted teacher-exam scores, T scores, Z scores, percentile rank, and standard deviation before checking official data.'}
       </p>
+      <a class="btn go" href={localePath(lang, 'education-statistics')}>
+        {lang === 'zh' ? '教育與統計工具中心' : 'Education & Statistics Tools Center'}
+      </a>
     </div>
     <div class="use-case-tools priority-tool-row">
       {teacherExamTools.map((tool) => (
@@ -379,6 +427,120 @@ const popularItemListJsonLd = {
 
   <script src="/home-search.js" is:inline></script>
   <script>
+    import { getFavoriteTools, getRecentlyUsedTools } from '../../lib/userTools.client';
+
+    const dataElement = document.getElementById('freetools-all-tools');
+    const personalizedRoot = document.querySelector('[data-personalized-tools]');
+    const favoriteContainer = document.querySelector('[data-favorite-tools]');
+    const favoriteEmpty = document.querySelector('[data-favorite-empty]');
+    const recentContainer = document.querySelector('[data-recent-tools]');
+    const allTools = (() => {
+      try {
+        return dataElement?.textContent ? JSON.parse(dataElement.textContent) : [];
+      } catch {
+        return [];
+      }
+    })();
+    const toolMap = new Map(allTools.map((tool) => [tool.slug, tool]));
+    const fallbackRecentTools = allTools.filter((tool) => tool.isFeatured).slice(0, 6);
+
+    function textFromData(name, fallback) {
+      return personalizedRoot instanceof HTMLElement ? personalizedRoot.dataset[name] || fallback : fallback;
+    }
+
+    function createToolCard(tool) {
+      const card = document.createElement('a');
+      card.className = 'tile tool-tile tool-card';
+      card.href = tool.url;
+      card.dataset.category = tool.category;
+      card.dataset.toolId = tool.slug;
+      card.dataset.toolName = tool.name;
+      card.dataset.toolCategory = tool.category;
+
+      const favorite = document.createElement('button');
+      favorite.className = 'favorite-toggle';
+      favorite.type = 'button';
+      favorite.setAttribute('aria-label', textFromData('favoriteAdd', 'Add to favorites'));
+      favorite.setAttribute('aria-pressed', 'false');
+      favorite.dataset.favoriteToggle = '';
+      favorite.dataset.favSlug = tool.slug;
+      favorite.dataset.labelAdd = textFromData('favoriteAdd', 'Add to favorites');
+      favorite.dataset.labelRemove = textFromData('favoriteRemove', 'Remove from favorites');
+      const favoriteIcon = document.createElement('span');
+      favoriteIcon.setAttribute('aria-hidden', 'true');
+      favoriteIcon.textContent = '☆';
+      favorite.append(favoriteIcon);
+
+      const icon = document.createElement('span');
+      icon.className = 'tile-icon tool-card__icon';
+      icon.setAttribute('aria-hidden', 'true');
+      icon.textContent = tool.icon;
+
+      const body = document.createElement('span');
+      body.className = 'tile-body tool-card__body';
+      const title = document.createElement('strong');
+      title.className = 'tool-card__title';
+      title.textContent = tool.name;
+      const desc = document.createElement('span');
+      desc.className = 'tool-card__desc';
+      desc.textContent = tool.short;
+      const assetType = document.createElement('span');
+      assetType.className = 'asset-type';
+      assetType.textContent = tool.assetType;
+      const cta = document.createElement('span');
+      cta.className = 'tool-card__cta';
+      cta.textContent = textFromData('toolCta', 'Use Now');
+      body.append(title, desc, assetType);
+      if (tool.isLocalOnly) {
+        const privacy = document.createElement('span');
+        privacy.className = 'privacy-badge badge badge--privacy';
+        privacy.textContent = textFromData('privacyBadge', 'Local only');
+        body.append(privacy);
+      }
+      body.append(cta);
+      card.append(favorite, icon, body);
+      if (tool.isNew) {
+        const badge = document.createElement('span');
+        badge.className = 'badge';
+        badge.textContent = textFromData('newest', 'Newest');
+        card.append(badge);
+      }
+      card.addEventListener('click', function() {
+        if (window.__ft_track) {
+          window.__ft_track('tool_card_click', {
+            tool_id: tool.slug,
+            tool_name: tool.name,
+            category: tool.category,
+            source: 'personalized_tools'
+          });
+        }
+      });
+      return card;
+    }
+
+    function renderToolList(container, tools) {
+      if (!(container instanceof HTMLElement)) return;
+      container.replaceChildren(...tools.map(createToolCard));
+      document.dispatchEvent(new CustomEvent('freetools:rendered-tools'));
+    }
+
+    function renderFavorites() {
+      const favoriteTools = getFavoriteTools().map((slug) => toolMap.get(slug)).filter(Boolean);
+      renderToolList(favoriteContainer, favoriteTools);
+      if (favoriteEmpty instanceof HTMLElement) {
+        favoriteEmpty.hidden = favoriteTools.length > 0;
+      }
+    }
+
+    function renderRecent() {
+      const recentTools = getRecentlyUsedTools().map((slug) => toolMap.get(slug)).filter(Boolean);
+      renderToolList(recentContainer, recentTools.length > 0 ? recentTools : fallbackRecentTools);
+    }
+
+    renderFavorites();
+    renderRecent();
+    document.addEventListener('freetools:favorites-changed', renderFavorites);
+
     document.querySelectorAll('.hero-tool-card[data-tool-id]').forEach(function(card) {
       card.addEventListener('click', function() {
         if (window.__ft_track) {

@@ -42,6 +42,7 @@ const useCases = content ? content.useCases[lang] : [];
 const howToChoose = content ? content.howToChoose[lang] : [];
 const faqItems = content ? content.faq[lang] : [];
 const disclaimer = content?.disclaimer?.[lang];
+const educationStatisticsHubLabel = lang === 'zh' ? '教育與統計工具中心' : 'Education & Statistics Tools Center';
 
 const blurbFor = (slug: string): string =>
   content?.toolBlurbs[slug]?.[lang] ?? categoryTools.find((tool) => tool.slug === slug)?.short[lang] ?? '';
@@ -97,6 +98,13 @@ if (faqItems.length > 0) {
   {introParagraphs.length > 1 && (
     <section class="wrap content-section category-intro">
       {introParagraphs.slice(1).map((paragraph) => <p>{paragraph}</p>)}
+      {categoryData.id === 'statistics' && (
+        <p>
+          {lang === 'zh' ? '想用學習路徑整理這些分數與研究工具，可前往 ' : 'For a study-oriented path through these score and research tools, visit the '}
+          <a class="inline-link" href={localePath(lang, 'education-statistics')}>{educationStatisticsHubLabel}</a>
+          {lang === 'zh' ? '。' : '.'}
+        </p>
+      )}
     </section>
   )}
 

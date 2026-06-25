@@ -24,6 +24,9 @@ const footerBrand = lang === 'zh' ? `${SITE.name.zh} by FunnyTools.win` : SITE.n
         <span>{lang === 'zh' ? '探索' : 'Explore'}</span>
         <a href={localePath(lang)}>{ui.nav.home}</a>
         <a href={localePath(lang, 'tools')}>{ui.nav.tools}</a>
+        <a href={localePath(lang, 'education-statistics')}>
+          {lang === 'zh' ? '教育與統計工具中心' : 'Education & Statistics Tools Center'}
+        </a>
         {lang === 'zh' && <a href={localePath(lang, 'blog')}>部落格</a>}
       </div>
       <div>

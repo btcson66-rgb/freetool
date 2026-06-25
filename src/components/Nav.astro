@@ -2,7 +2,7 @@
 import LangSwitch from './LangSwitch.astro';
 import { SITE, type Locale } from '../config/site';
 import { t } from '../i18n/ui';
-import { categoryUrl, localePath } from '../lib/url';
+import { localePath } from '../lib/url';
 
 interface Props {
   lang: Locale;
@@ -22,7 +22,7 @@ const ui = t(lang);
       <a href={localePath(lang, 'tools')}>{ui.nav.tools}</a>
       {lang === 'zh' && <a href={localePath(lang, 'blog')}>部落格</a>}
       <a href={`${localePath(lang)}#categories`}>{ui.nav.categories}</a>
-      <a href={categoryUrl(lang, 'statistics')}>{lang === 'zh' ? '教育與統計' : 'Education & Statistics'}</a>
+      <a href={localePath(lang, 'education-statistics')}>{lang === 'zh' ? '教育與統計' : 'Education & Statistics'}</a>
       <a href={localePath(lang, 'support')} data-support-link data-support-source="nav">{lang === 'zh' ? '支持我們' : 'Support'}</a>
     </nav>
     {showLangSwitch && <LangSwitch lang={lang} segments={segments} />}
@@ -45,7 +45,7 @@ const ui = t(lang);
       <a href={localePath(lang, 'tools')}>{ui.nav.tools}</a>
       {lang === 'zh' && <a href={localePath(lang, 'blog')}>部落格</a>}
       <a href={`${localePath(lang)}#categories`}>{ui.nav.categories}</a>
-      <a href={categoryUrl(lang, 'statistics')}>{lang === 'zh' ? '教育與統計' : 'Education & Statistics'}</a>
+      <a href={localePath(lang, 'education-statistics')}>{lang === 'zh' ? '教育與統計' : 'Education & Statistics'}</a>
       <a href={localePath(lang, 'support')} data-support-link data-support-source="mobile_nav">{lang === 'zh' ? '支持我們' : 'Support'}</a>
     </nav>
   </div>

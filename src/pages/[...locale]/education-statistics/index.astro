@@ -1,0 +1,247 @@
+---
+import Breadcrumb from '../../../components/Breadcrumb.astro';
+import Faq from '../../../components/Faq.astro';
+import ToolCard from '../../../components/ToolCard.astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { SITE, type Locale } from '../../../config/site';
+import { getToolBySlug, type ToolMeta } from '../../../data/tools';
+import { t } from '../../../i18n/ui';
+import { localePath } from '../../../lib/url';
+import { breadcrumbJsonLd, collectionPageJsonLd } from '../../../lib/seo';
+
+export function getStaticPaths() {
+  return SITE.locales.map((lang) => ({
+    params: { locale: lang === SITE.defaultLocale ? undefined : lang },
+    props: { lang },
+  }));
+}
+
+const { lang } = Astro.props as { lang: Locale };
+const ui = t(lang);
+const hubPath = localePath(lang, 'education-statistics');
+
+const copy = {
+  zh: {
+    title: '教育與統計工具中心',
+    seoTitle: '教育與統計工具中心 | 教師考試、研究與 APA 統計報告工具',
+    description: '免費教育與統計工具中心，整理標準差、百分比、T 分數、Z 分數、教師考試加權分數、APA 7 統計報告與 SPSS 結果解讀工具。',
+    subtitle: '免費工具，適合學生、教師、研究者與教育考試準備，協助處理分數換算、基礎統計、APA 統計報告與 SPSS 結果判讀。',
+    breadcrumb: '教育與統計',
+  },
+  en: {
+    title: 'Education & Statistics Tools Center',
+    seoTitle: 'Education & Statistics Tools Center | Free APA, SPSS, and Score Tools',
+    description: 'Free education and statistics tools for standard deviation, percentage, T scores, Z scores, teacher exam weighted scores, APA 7 reports, and SPSS interpretation.',
+    subtitle: 'Free tools for students, teachers, researchers, and education exam preparation.',
+    breadcrumb: 'Education & Statistics',
+  },
+}[lang];
+
+const groupCopy = {
+  zh: [
+    {
+      id: 'basic-statistics',
+      title: '基礎統計',
+      body: [
+        '這一組工具適合先整理資料的中心趨勢、離散程度、百分比、標準分數與百分等級。',
+        '學生可以用來檢查作業或報告，教師可以用來快速檢視班級分數分布，研究者也能在正式分析前做初步確認。',
+        '常見情境包括計算一組測驗分數的標準差、把原始分數轉成 Z 分數或 T 分數，以及估算某個分數約落在第幾百分位。',
+      ],
+    },
+    {
+      id: 'research-apa',
+      title: '研究與 APA 報告',
+      body: [
+        '這一組工具協助把統計結果轉成較容易檢查的研究報告文字，特別適合論文、課堂研究與小型研究專案。',
+        '目前可產生 APA 7 統計結果句，並支援獨立樣本 t 檢定的摘要統計計算。',
+        '說明文字也涵蓋 ANOVA、相關、迴歸與效果量的 APA 寫法，適合在完成正式統計分析後整理報告段落。',
+      ],
+    },
+    {
+      id: 'spss-interpretation',
+      title: 'SPSS 結果解讀',
+      body: [
+        '這一組工具適合已經從 SPSS 取得表格，但不確定該看哪一列、如何判斷顯著性或如何寫成結果段落的人。',
+        '它會協助整理 t 檢定與 ANOVA 常見輸出，並提醒 Levene 同質性檢定、單純主要效果與事後比較在解讀時的角色。',
+        '使用時仍應回到研究設計與課程要求確認最終寫法。',
+      ],
+    },
+    {
+      id: 'teacher-score',
+      title: '教師考試與教育分數',
+      body: [
+        '這一組工具聚焦教師甄試、班級排名、常模分數與加權總分等教育現場常見分數問題。',
+        '考生可以先估算筆試、口試與試教加權後的總分，教師也可以用來說明排名百分位或標準化分數。',
+        '若同時需要 PR、T 分數與 Z 分數，建議先確認原始分數、平均數與標準差來源是否一致。',
+      ],
+    },
+    {
+      id: 'special-education-research',
+      title: '特教、教學研究與課堂工具',
+      body: [
+        '這一組整理適合教學活動、特教課程安排與小型教學研究的現有工具。',
+        '可用於隨機抽學生、分組、排座位、計算成績平均與整理 GPA，協助教師在課堂前快速完成準備。',
+        '工具只連到目前站內已上線的功能，不列出尚未建立的表單、量表或評分規準工具。',
+      ],
+    },
+  ],
+  en: [
+    {
+      id: 'basic-statistics',
+      title: 'Basic Statistics',
+      body: [
+        'Use these tools to understand spread, percentages, standardized scores, and percentile rank before writing up results.',
+        'Students can check homework, teachers can review class score distributions, and researchers can do a quick sanity check before formal analysis.',
+        'Example situations include calculating standard deviation for exam scores, converting raw scores to Z or T scores, and estimating where a score sits in a group.',
+      ],
+    },
+    {
+      id: 'research-apa',
+      title: 'Research & APA Reporting',
+      body: [
+        'This group helps turn statistical results into clearer report wording for papers, class projects, and small research studies.',
+        'It includes APA 7 result sentence generation and an independent-samples t-test calculator based on summary statistics.',
+        'The guidance also mentions APA write-ups for ANOVA, correlation, regression, and effect size, so it is useful after your formal analysis is complete.',
+      ],
+    },
+    {
+      id: 'spss-interpretation',
+      title: 'SPSS Result Interpretation',
+      body: [
+        'Use this group when you already have SPSS output but need help deciding which row to read and how to explain the result.',
+        'The interpreter focuses on common t-test and ANOVA outputs, including Levene\'s test, simple main effects, and post hoc comparisons.',
+        'Always check the final wording against your research design, assignment requirements, or supervisor guidance.',
+      ],
+    },
+    {
+      id: 'teacher-score',
+      title: 'Teacher Exam / Education Score',
+      body: [
+        'These tools focus on teacher exam scoring, class rank, norm-referenced scores, and weighted totals used in education settings.',
+        'Candidates can estimate written, interview, and teaching-demo weighted totals, while teachers can explain rank percentiles and standardized scores.',
+        'When using PR, T score, and Z score tools together, make sure the raw score, mean, and standard deviation come from the same reference group.',
+      ],
+    },
+    {
+      id: 'special-education-research',
+      title: 'Special Education / Teaching Research',
+      body: [
+        'This group collects existing tools that fit classroom activities, special education planning, and small teaching research workflows.',
+        'Use them to pick students, create groups, arrange seating, calculate grade averages, or prepare GPA summaries before class or analysis.',
+        'Only currently live tools are linked here; no unbuilt forms, scales, or rubric tools are listed.',
+      ],
+    },
+  ],
+}[lang];
+
+const groupSlugs = [
+  ['standard-deviation', 'percentage-calculator', 'weighted-average-calculator', 'z-score-calculator', 't-score-calculator', 'percentile-rank-calculator'],
+  ['apa-7-report-generator', 'independent-samples-t-test-calculator'],
+  ['spss-result-interpreter'],
+  ['teacher-exam-score-converter', 'class-rank-percentile-calculator', 'normalized-score-converter', 'percentile-rank-calculator'],
+  ['random-student-picker', 'seating-chart', 'group-generator', 'random-group-generator', 'grade-average', 'gpa-calculator'],
+];
+
+const liveTool = (slug: string): ToolMeta | undefined => {
+  const tool = getToolBySlug(slug);
+  return tool?.status === 'live' ? tool : undefined;
+};
+
+const groups = groupCopy.map((group, index) => ({
+  ...group,
+  tools: groupSlugs[index].map(liveTool).filter((tool): tool is ToolMeta => Boolean(tool)),
+}));
+
+const faqItems = {
+  zh: [
+    {
+      q: 'T 分數和 Z 分數有什麼差別？',
+      a: 'Z 分數表示某個分數距離平均數幾個標準差，平均數通常是 0、標準差是 1。T 分數通常把 Z 分數轉成平均數 50、標準差 10 的尺度，較常用於測驗與教育分數報告。',
+    },
+    {
+      q: '什麼時候應該使用 APA 7 統計報告格式？',
+      a: '當你在論文、研究報告、課堂作業或投稿稿件中呈現 t 檢定、ANOVA、相關、迴歸或效果量時，可以使用 APA 7 格式整理統計量、自由度、p 值與效果量。',
+    },
+    {
+      q: 'SPSS 的 Levene 檢定要怎麼解讀？',
+      a: 'Levene 檢定用來檢查變異數同質性。若結果顯著，通常表示兩組變異數可能不相等，解讀 t 檢定時應考慮使用不假設變異數相等的列，並依課程或研究規範確認寫法。',
+    },
+    {
+      q: '為什麼教師考試會使用加權分數？',
+      a: '教師考試常把筆試、口試、試教或其他項目設定不同權重，因為每一項評量重點不同。加權分數能把多個項目依規定比例合成總分，但最後仍應以官方簡章和公告為準。',
+    },
+  ],
+  en: [
+    {
+      q: 'What is the difference between T-score and Z-score?',
+      a: 'A Z-score tells you how many standard deviations a value is from the mean. A T-score is a transformed standard score, commonly using mean 50 and standard deviation 10, which is often easier to read in education and testing contexts.',
+    },
+    {
+      q: 'When should I use APA 7 statistical reporting format?',
+      a: 'Use APA 7 reporting when presenting statistical results in papers, research reports, class assignments, or manuscripts, especially for tests such as t tests, ANOVA, correlations, regressions, and effect sizes.',
+    },
+    {
+      q: 'How do I interpret Levene\'s test in SPSS?',
+      a: 'Levene\'s test checks whether group variances can be treated as equal. If it is significant, you usually review the row or method that does not assume equal variances, then match the final wording to your research design or assignment rules.',
+    },
+    {
+      q: 'Why are weighted scores used in teacher exams?',
+      a: 'Teacher exams often combine written tests, interviews, teaching demonstrations, and other components with different weights. Weighted scores reflect those official proportions, but final decisions should always follow the published exam rules.',
+    },
+  ],
+}[lang];
+
+const breadcrumbItems = [
+  { name: ui.breadcrumbHome, href: localePath(lang) },
+  { name: copy.breadcrumb, href: hubPath },
+];
+
+const jsonLd = [
+  collectionPageJsonLd(lang, copy.title, copy.description, hubPath),
+  breadcrumbJsonLd(breadcrumbItems),
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqItems.map((item) => ({
+      '@type': 'Question',
+      name: item.q,
+      acceptedAnswer: { '@type': 'Answer', text: item.a },
+    })),
+  },
+];
+---
+
+<BaseLayout
+  lang={lang}
+  title={copy.seoTitle}
+  description={copy.description}
+  alternateSegments={['education-statistics']}
+  jsonLd={jsonLd}
+>
+  <section class="wrap page-head category-page-head">
+    <Breadcrumb
+      items={[
+        { label: ui.breadcrumbHome, href: localePath(lang) },
+        { label: copy.breadcrumb, href: hubPath },
+      ]}
+    />
+    <h1>{copy.title}</h1>
+    <p class="lead">{copy.subtitle}</p>
+  </section>
+
+  {groups.map((group) => (
+    <section class="wrap content-section" id={group.id}>
+      <div class="section-head">
+        <h2>{group.title}</h2>
+        {group.body.map((paragraph) => <p>{paragraph}</p>)}
+      </div>
+      <div class="grid">
+        {group.tools.map((tool) => <ToolCard lang={lang} tool={tool} />)}
+      </div>
+    </section>
+  ))}
+
+  <div class="wrap">
+    <Faq lang={lang} items={faqItems} emitJsonLd={false} />
+  </div>
+</BaseLayout>

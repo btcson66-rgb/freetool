@@ -25,6 +25,18 @@ const assetType = tool.assetType ?? 'tool';
       data-tool-name={tool.name[lang]}
       data-tool-category={tool.category}
     >
+      <button
+        class="favorite-toggle"
+        type="button"
+        aria-label={ui.favoriteAdd}
+        aria-pressed="false"
+        data-favorite-toggle
+        data-fav-slug={tool.slug}
+        data-label-add={ui.favoriteAdd}
+        data-label-remove={ui.favoriteRemove}
+      >
+        <span aria-hidden="true">☆</span>
+      </button>
       <span class="tile-icon tool-card__icon"><CategoryIcon category={tool.category} /></span>
       <span class="tile-body tool-card__body">
         <strong class="tool-card__title">{tool.name[lang]}</strong>
@@ -49,6 +61,38 @@ const assetType = tool.assetType ?? 'tool';
 }
 
 <script>
+  import { isFavoriteTool, toggleFavoriteTool } from '../lib/userTools.client';
+
+  function initializeFavoriteToggles() {
+    document.querySelectorAll('[data-favorite-toggle]').forEach(function(toggle) {
+      if (!(toggle instanceof HTMLButtonElement) || toggle.dataset.favoriteReady === 'true') return;
+      const slug = toggle.dataset.favSlug || toggle.closest('[data-tool-id]')?.getAttribute('data-tool-id') || '';
+      const labelAdd = toggle.dataset.labelAdd || 'Add to favorites';
+      const labelRemove = toggle.dataset.labelRemove || 'Remove from favorites';
+
+      const setState = function(isFavorite) {
+        toggle.classList.toggle('is-favorite', isFavorite);
+        toggle.setAttribute('aria-pressed', String(isFavorite));
+        toggle.setAttribute('aria-label', isFavorite ? labelRemove : labelAdd);
+        const icon = toggle.querySelector('[aria-hidden="true"]');
+        if (icon) icon.textContent = isFavorite ? '★' : '☆';
+      };
+
+      toggle.dataset.favoriteReady = 'true';
+      setState(isFavoriteTool(slug));
+      toggle.addEventListener('click', function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        const nextState = toggleFavoriteTool(slug);
+        setState(nextState);
+        document.dispatchEvent(new CustomEvent('freetools:favorites-changed'));
+      });
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', initializeFavoriteToggles);
+  document.addEventListener('freetools:rendered-tools', initializeFavoriteToggles);
+
   document.querySelectorAll('.tool-card[data-tool-id]').forEach(function(card) {
     card.addEventListener('click', function() {
       if (window.__ft_track) {

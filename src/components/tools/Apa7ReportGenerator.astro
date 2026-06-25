@@ -1,0 +1,222 @@
+---
+interface Props {
+  labels: Record<string, string>;
+  slug?: string;
+}
+
+const { labels, slug } = Astro.props;
+---
+
+<section class="tool-widget card tool-interaction apa-report-tool" data-apa-report data-slug={slug} data-labels={JSON.stringify(labels)}>
+  <div class="form-grid">
+    <label>
+      <span>{labels.testType}</span>
+      <select data-field="testType">
+        <option value="independentT">{labels.independentT}</option>
+        <option value="pairedT">{labels.pairedT}</option>
+        <option value="oneWayAnova">{labels.oneWayAnova}</option>
+        <option value="twoWayAnova">{labels.twoWayAnova}</option>
+        <option value="chiSquare">{labels.chiSquare}</option>
+        <option value="pearson">{labels.pearson}</option>
+        <option value="regression">{labels.regression}</option>
+      </select>
+    </label>
+    <label><span>{labels.variable}</span><input data-field="variable" type="text" value="test score" /></label>
+    <label data-show="t"><span>{labels.t}</span><input data-field="t" type="number" step="any" value="2.45" /></label>
+    <label data-show="df"><span>{labels.df}</span><input data-field="df" type="number" step="1" value="28" /></label>
+    <label data-show="p"><span>{labels.p}</span><input data-field="p" type="number" step="any" min="0" max="1" value="0.021" /></label>
+    <label data-show="d"><span>{labels.d}</span><input data-field="d" type="number" step="any" value="0.89" /></label>
+    <label data-show="f"><span>{labels.f}</span><input data-field="f" type="number" step="any" value="4.62" /></label>
+    <label data-show="df1"><span>{labels.df1}</span><input data-field="df1" type="number" step="1" value="2" /></label>
+    <label data-show="df2"><span>{labels.df2}</span><input data-field="df2" type="number" step="1" value="57" /></label>
+    <label data-show="eta"><span>{labels.eta}</span><input data-field="eta" type="number" step="any" value="0.14" /></label>
+    <label data-show="chi"><span>{labels.chi}</span><input data-field="chi" type="number" step="any" value="9.84" /></label>
+    <label data-show="v"><span>{labels.v}</span><input data-field="v" type="number" step="any" value="0.31" /></label>
+    <label data-show="r"><span>{labels.r}</span><input data-field="r" type="number" step="any" value="0.42" /></label>
+    <label data-show="r2"><span>{labels.r2}</span><input data-field="r2" type="number" step="any" value="0.18" /></label>
+    <label data-show="beta"><span>{labels.beta}</span><input data-field="beta" type="number" step="any" value="0.37" /></label>
+    <label data-show="groups"><span>{labels.groupA}</span><input data-field="groupA" type="text" value="Group A" /></label>
+    <label data-show="groups"><span>{labels.groupB}</span><input data-field="groupB" type="text" value="Group B" /></label>
+    <label data-show="groups"><span>{labels.meanA}</span><input data-field="meanA" type="number" step="any" value="78.4" /></label>
+    <label data-show="groups"><span>{labels.meanB}</span><input data-field="meanB" type="number" step="any" value="73.1" /></label>
+    <label data-show="groups"><span>{labels.sdA}</span><input data-field="sdA" type="number" step="any" value="8.2" /></label>
+    <label data-show="groups"><span>{labels.sdB}</span><input data-field="sdB" type="number" step="any" value="9.5" /></label>
+  </div>
+
+  <div class="actions">
+    <button class="btn go" type="button" data-generate>{labels.generate}</button>
+    <button class="btn ghost" type="button" data-example>{labels.example}</button>
+    <button class="btn ghost" type="button" data-reset>{labels.reset}</button>
+    <button class="btn ghost" type="button" data-copy>{labels.copy}</button>
+  </div>
+
+  <p class="form-error" data-error role="alert" hidden></p>
+  <div class="resultbox apa-output" data-output aria-live="polite" hidden></div>
+  <span class="toast" role="status" aria-live="polite" hidden>{labels.copied}</span>
+</section>
+
+<style>
+  .apa-output { display: grid; gap: 12px; }
+  .apa-output h3 { margin: 0; font-size: 1rem; }
+  .apa-output p { margin: 0; }
+</style>
+
+<script>
+  document.querySelectorAll('[data-apa-report]').forEach((root) => {
+    if (!(root instanceof HTMLElement)) return;
+    const labels = JSON.parse(root.dataset.labels || '{}');
+    const lang = document.documentElement.lang === 'en' ? 'en' : 'zh';
+    const error = root.querySelector('[data-error]');
+    const output = root.querySelector('[data-output]');
+    const toast = root.querySelector('.toast');
+    let latest = '';
+
+    const input = (key) => root.querySelector(`[data-field="${key}"]`);
+    const value = (key) => {
+      const element = input(key);
+      return element instanceof HTMLInputElement || element instanceof HTMLSelectElement ? element.value.trim() : '';
+    };
+    const num = (key) => Number(value(key));
+    const has = (key) => value(key) !== '' && Number.isFinite(num(key));
+    const validP = (p) => Number.isFinite(p) && p >= 0 && p <= 1;
+    const esc = (text) => String(text).replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
+    const fmt = (number, digits = 2) => Number(number).toFixed(digits);
+    const fmtBounded = (number, digits = 2) => fmt(number, digits).replace(/^-0\./, '-.').replace(/^0\./, '.');
+    const fmtP = (p) => p < 0.001 ? 'p < .001' : `p = ${Number(p).toFixed(3).replace(/^0\./, '.')}`;
+    const sig = (p) => p < 0.05;
+
+    const fieldsByType = {
+      independentT: ['t', 'df', 'p', 'd', 'groups'],
+      pairedT: ['t', 'df', 'p', 'd'],
+      oneWayAnova: ['f', 'df1', 'df2', 'p', 'eta'],
+      twoWayAnova: ['f', 'df1', 'df2', 'p', 'eta'],
+      chiSquare: ['chi', 'df', 'p', 'v'],
+      pearson: ['r', 'p'],
+      regression: ['r2', 'f', 'df1', 'df2', 'beta', 'p'],
+    };
+
+    function updateVisible() {
+      const type = value('testType');
+      const visible = fieldsByType[type] || [];
+      root.querySelectorAll('[data-show]').forEach((element) => {
+        if (!(element instanceof HTMLElement)) return;
+        element.hidden = !visible.includes(element.dataset.show || '');
+      });
+    }
+
+    function setError() {
+      if (error instanceof HTMLElement) {
+        error.textContent = labels.invalid;
+        error.hidden = false;
+      }
+      if (output instanceof HTMLElement) output.hidden = true;
+    }
+
+    function render(sentence, explanation) {
+      latest = sentence;
+      if (error instanceof HTMLElement) error.hidden = true;
+      if (!(output instanceof HTMLElement)) return;
+      output.innerHTML = `<div><h3>${esc(labels.apaSentence)}</h3><p>${esc(sentence)}</p></div><div><h3>${esc(labels.explanation)}</h3><p>${esc(explanation)}</p></div>`;
+      output.hidden = false;
+    }
+
+    function generate() {
+      const type = value('testType');
+      const variable = value('variable') || (lang === 'en' ? 'the outcome' : '結果變項');
+      const p = num('p');
+      if (!validP(p)) return setError();
+      const decision = sig(p) ? labels.significant : labels.notSignificant;
+      let sentence = '';
+      let explanation = '';
+
+      if (type === 'independentT' || type === 'pairedT') {
+        const t = num('t'), df = num('df');
+        if (!Number.isFinite(t) || !Number.isFinite(df)) return setError();
+        const dText = has('d') ? `, d = ${fmt(num('d'), 2)}` : '';
+        const testName = type === 'pairedT' ? (lang === 'en' ? 'paired-samples t test' : '相依樣本 t 檢定') : (lang === 'en' ? 'independent-samples t test' : '獨立樣本 t 檢定');
+        sentence = lang === 'en'
+          ? `An ${testName} showed a ${decision} result for ${variable}, t(${Math.round(df)}) = ${fmt(t)}, ${fmtP(p)}${dText}.`
+          : `${testName}顯示「${variable}」的結果${decision}，t(${Math.round(df)}) = ${fmt(t)}，${fmtP(p)}${dText}。`;
+        if (type === 'independentT' && has('meanA') && has('meanB') && value('groupA') && value('groupB')) {
+          const groupText = lang === 'en'
+            ? `${value('groupA')} (M = ${fmt(num('meanA'))}${has('sdA') ? `, SD = ${fmt(num('sdA'))}` : ''}) and ${value('groupB')} (M = ${fmt(num('meanB'))}${has('sdB') ? `, SD = ${fmt(num('sdB'))}` : ''})`
+            : `${value('groupA')}（M = ${fmt(num('meanA'))}${has('sdA') ? `，SD = ${fmt(num('sdA'))}` : ''}）與${value('groupB')}（M = ${fmt(num('meanB'))}${has('sdB') ? `，SD = ${fmt(num('sdB'))}` : ''}）`;
+          sentence = sentence.replace(variable, `${variable}: ${groupText}`);
+        }
+        explanation = lang === 'en'
+          ? `The entered p value indicates the difference is ${decision}. The t statistic compares the observed mean difference with its sampling uncertainty.`
+          : `依輸入的 p 值判斷，差異${decision}。t 值表示平均差相對於抽樣不確定性的大小。`;
+      } else if (type === 'oneWayAnova' || type === 'twoWayAnova') {
+        const f = num('f'), df1 = num('df1'), df2 = num('df2');
+        if (!Number.isFinite(f) || !Number.isFinite(df1) || !Number.isFinite(df2)) return setError();
+        const etaText = has('eta') ? `, η² = ${fmtBounded(num('eta'))}` : '';
+        const name = type === 'oneWayAnova' ? 'one-way ANOVA' : 'two-way ANOVA';
+        sentence = lang === 'en'
+          ? `A ${name} showed a ${decision} effect for ${variable}, F(${Math.round(df1)}, ${Math.round(df2)}) = ${fmt(f)}, ${fmtP(p)}${etaText}.`
+          : `${type === 'oneWayAnova' ? '單因子 ANOVA' : '二因子 ANOVA'}顯示「${variable}」效果${decision}，F(${Math.round(df1)}, ${Math.round(df2)}) = ${fmt(f)}，${fmtP(p)}${etaText}。`;
+        explanation = lang === 'en'
+          ? `The F test evaluates whether explained variation is large relative to unexplained variation. This result is ${decision}.`
+          : `F 檢定用來比較可解釋變異與誤差變異的比例；此結果${decision}。`;
+      } else if (type === 'chiSquare') {
+        const chi = num('chi'), df = num('df');
+        if (!Number.isFinite(chi) || !Number.isFinite(df)) return setError();
+        const vText = has('v') ? `, V = ${fmtBounded(num('v'))}` : '';
+        sentence = lang === 'en'
+          ? `A chi-square test showed a ${decision} association for ${variable}, χ²(${Math.round(df)}) = ${fmt(chi)}, ${fmtP(p)}${vText}.`
+          : `卡方檢定顯示「${variable}」的關聯${decision}，χ²(${Math.round(df)}) = ${fmt(chi)}，${fmtP(p)}${vText}。`;
+        explanation = lang === 'en' ? `The chi-square test checks whether observed counts differ from expected counts; the association is ${decision}.` : `卡方檢定檢查觀察次數是否偏離期望次數；此關聯${decision}。`;
+      } else if (type === 'pearson') {
+        const r = num('r');
+        if (!Number.isFinite(r)) return setError();
+        sentence = lang === 'en'
+          ? `Pearson correlation showed a ${decision} association with ${variable}, r = ${fmtBounded(r)}, ${fmtP(p)}.`
+          : `Pearson 相關顯示與「${variable}」的關聯${decision}，r = ${fmtBounded(r)}，${fmtP(p)}。`;
+        explanation = lang === 'en' ? `The r value describes direction and strength of a linear relationship; the p value indicates it is ${decision}.` : `r 值描述線性關係的方向與強度；p 值顯示此關係${decision}。`;
+      } else {
+        const r2 = num('r2'), f = num('f'), df1 = num('df1'), df2 = num('df2');
+        if (!Number.isFinite(r2) || !Number.isFinite(f) || !Number.isFinite(df1) || !Number.isFinite(df2)) return setError();
+        const betaText = has('beta') ? `, β = ${fmtBounded(num('beta'))}` : '';
+        sentence = lang === 'en'
+          ? `The simple regression model was ${decision}, R² = ${fmtBounded(r2)}, F(${Math.round(df1)}, ${Math.round(df2)}) = ${fmt(f)}, ${fmtP(p)}${betaText}.`
+          : `簡單迴歸模型${decision}，R² = ${fmtBounded(r2)}，F(${Math.round(df1)}, ${Math.round(df2)}) = ${fmt(f)}，${fmtP(p)}${betaText}。`;
+        explanation = lang === 'en' ? `R squared is the proportion of outcome variance explained by the predictor; this model is ${decision}.` : `R² 表示預測變項可解釋結果變異的比例；此模型${decision}。`;
+      }
+      render(sentence, explanation);
+    }
+
+    function reset() {
+      root.querySelectorAll('input').forEach((element) => { element.value = ''; });
+      if (output instanceof HTMLElement) output.hidden = true;
+      if (error instanceof HTMLElement) error.hidden = true;
+      latest = '';
+    }
+
+    function example() {
+      const values = { variable: 'test score', t: '2.45', df: '28', p: '0.021', d: '0.89', groupA: 'Group A', groupB: 'Group B', meanA: '78.4', meanB: '73.1', sdA: '8.2', sdB: '9.5' };
+      Object.entries(values).forEach(([key, item]) => {
+        const element = input(key);
+        if (element instanceof HTMLInputElement) element.value = item;
+      });
+      generate();
+    }
+
+    input('testType')?.addEventListener('change', () => { updateVisible(); generate(); });
+    root.querySelector('[data-generate]')?.addEventListener('click', generate);
+    root.querySelector('[data-reset]')?.addEventListener('click', reset);
+    root.querySelector('[data-example]')?.addEventListener('click', example);
+    root.querySelector('[data-copy]')?.addEventListener('click', async () => {
+      if (!latest) return;
+      try {
+        await navigator.clipboard.writeText(latest);
+        if (toast instanceof HTMLElement) {
+          toast.hidden = false;
+          window.setTimeout(() => { toast.hidden = true; }, 1500);
+        }
+      } catch {
+        window.prompt(labels.copy, latest);
+      }
+    });
+    updateVisible();
+    generate();
+  });
+</script>

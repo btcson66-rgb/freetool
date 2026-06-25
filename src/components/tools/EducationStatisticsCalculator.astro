@@ -80,11 +80,16 @@ const fields = simpleFields[slug] ?? [];
 
   <div class="actions stat-actions">
     {slug === 'weighted-average-calculator' && <button class="btn ghost" type="button" data-add>{labels.add}</button>}
+    {slug === 'teacher-exam-score-converter' && <button class="btn ghost" type="button" data-preset>{labels.preset403030}</button>}
     <button class="btn" type="button" data-calculate>{labels.calculate}</button>
+    {slug === 'teacher-exam-score-converter' && <button class="btn ghost" type="button" data-normalize>{labels.autoNormalize}</button>}
+    {slug === 'teacher-exam-score-converter' && <button class="btn ghost" type="button" data-copy>{labels.copyResult}</button>}
   </div>
 
   <p class="form-error" data-error role="alert" hidden></p>
+  {slug === 'teacher-exam-score-converter' && <p class="form-error" data-warning role="status" hidden></p>}
   <div class="resultbox stat-results" data-results aria-live="polite" hidden></div>
+  {slug === 'teacher-exam-score-converter' && <span class="toast" role="status" aria-live="polite" hidden>{labels.copied}</span>}
 </section>
 
 <style>
@@ -112,7 +117,10 @@ const fields = simpleFields[slug] ?? [];
     const labels = JSON.parse(root.dataset.labels || '{}');
     const error = root.querySelector('[data-error]');
     const results = root.querySelector('[data-results]');
+    const warning = root.querySelector('[data-warning]');
+    const toast = root.querySelector('.toast');
     const rows = root.querySelector('[data-rows]');
+    let latestText = '';
 
     const field = (key) => {
       const input = root.querySelector(`[data-field="${key}"]`);
@@ -130,6 +138,14 @@ const fields = simpleFields[slug] ?? [];
       results.innerHTML = items.map(([label, value]) => `<div class="stat-result-item"><span>${label}</span><strong>${value}</strong></div>`).join('');
       results.hidden = false;
       if (error instanceof HTMLElement) error.hidden = true;
+      latestText = items.map(([label, value]) => `${label}: ${value}`).join('\n');
+    };
+    const showTeacher = (items, breakdown) => {
+      if (!(results instanceof HTMLElement)) return;
+      results.innerHTML = `${items.map(([label, value]) => `<div class="stat-result-item"><span>${label}</span><strong>${value}</strong></div>`).join('')}<div class="stat-result-item stat-breakdown"><span>${labels.breakdown || 'Breakdown'}</span><strong>${breakdown}</strong></div>`;
+      results.hidden = false;
+      if (error instanceof HTMLElement) error.hidden = true;
+      latestText = `${items.map(([label, value]) => `${label}: ${value}`).join('\n')}\n${labels.breakdown || 'Breakdown'}: ${breakdown}`;
     };
 
     const addWeightedRow = (value = '', weight = '') => {
@@ -231,7 +247,12 @@ const fields = simpleFields[slug] ?? [];
         if (values.some(({ score, weight }) => !finite(score, weight) || weight < 0) || !values.some(({ weight }) => weight > 0)) return showError();
         const weightTotal = values.reduce((sum, row) => sum + row.weight, 0);
         const total = values.reduce((sum, row) => sum + row.score * row.weight, 0) / weightTotal;
-        return show([[labels.weightTotal, format(weightTotal, 2)], [labels.result, format(total, 3)]]);
+        if (warning instanceof HTMLElement) {
+          warning.textContent = Math.abs(weightTotal - 100) > 0.0001 ? (labels.weightWarning || `Weights total ${format(weightTotal, 2)}%, not 100%.`) : '';
+          warning.hidden = Math.abs(weightTotal - 100) <= 0.0001;
+        }
+        const weightedParts = scoreKeys.map((key, index) => `${labels[key]} ${format(values[index].score, 2)} × ${format(values[index].weight, 2)}%`).join(' + ');
+        return showTeacher([[labels.weightTotal, `${format(weightTotal, 2)}%`], [labels.result, format(total, 3)]], `${weightedParts} ÷ ${format(weightTotal, 2)}`);
       }
       if (slug === 'cronbach-alpha-calculator') {
         const raw = field('data')?.value.trim() || '';
@@ -263,6 +284,37 @@ const fields = simpleFields[slug] ?? [];
 
     root.querySelector('[data-calculate]')?.addEventListener('click', calculate);
     root.querySelector('[data-add]')?.addEventListener('click', () => addWeightedRow());
+    root.querySelector('[data-preset]')?.addEventListener('click', () => {
+      const presets = { writtenWeight: '40', teachingWeight: '30', interviewWeight: '30' };
+      Object.entries(presets).forEach(([key, value]) => {
+        const input = field(key);
+        if (input) input.value = value;
+      });
+      calculate();
+    });
+    root.querySelector('[data-normalize]')?.addEventListener('click', () => {
+      const weightKeys = ['writtenWeight', 'teachingWeight', 'interviewWeight'];
+      const weights = weightKeys.map((key) => number(key));
+      const weightTotal = weights.reduce((sum, value) => sum + value, 0);
+      if (!finite(...weights) || weightTotal <= 0) return showError();
+      weightKeys.forEach((key, index) => {
+        const input = field(key);
+        if (input) input.value = format(weights[index] / weightTotal * 100, 4);
+      });
+      calculate();
+    });
+    root.querySelector('[data-copy]')?.addEventListener('click', async () => {
+      if (!latestText) return;
+      try {
+        await navigator.clipboard.writeText(latestText);
+        if (toast instanceof HTMLElement) {
+          toast.hidden = false;
+          window.setTimeout(() => { toast.hidden = true; }, 1500);
+        }
+      } catch {
+        window.prompt(labels.copyResult || labels.calculate, latestText);
+      }
+    });
     if (slug === 'weighted-average-calculator') {
       addWeightedRow('80', '30'); addWeightedRow('90', '70');
     }

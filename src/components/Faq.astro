@@ -5,9 +5,10 @@ import { t } from '../i18n/ui';
 interface Props {
   lang: Locale;
   items: { q: string; a: string }[];
+  emitJsonLd?: boolean;
 }
 
-const { lang, items } = Astro.props;
+const { lang, items, emitJsonLd = true } = Astro.props;
 const ui = t(lang);
 const faqJsonLd = {
   '@context': 'https://schema.org',
@@ -35,5 +36,5 @@ const faqJsonLd = {
       ))
     }
   </dl>
-  <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
+  {emitJsonLd && <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />}
 </section>
