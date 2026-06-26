@@ -92,6 +92,60 @@ interface RawSeoGuide {
 
 type EnglishSeoGuideContent = Omit<RawSeoGuide, 'id' | 'slug' | 'priority' | 'relatedToolIds' | 'relatedGuideIds' | 'relatedWorkflowIds' | 'updatedAt'>;
 
+const guideSeoOverrides: Record<string, Partial<Record<'zhMetaDescription' | 'enMetaTitle', string>>> = {
+  't-score-calculator-guide': {
+    zhMetaDescription: 'T 分數教學說明平均數、標準差、Z 分數轉換與常見判讀方式，適合教師考試、教育測驗與研究報告前先檢查公式、保存範例並確認解讀脈絡。',
+    enMetaTitle: 'T Score Calculator Guide: Formula and Examples',
+  },
+  'z-score-calculator-guide': {
+    zhMetaDescription: 'Z 分數教學整理平均數、標準差、正負號與標準化判讀，協助比較不同量尺成績並延伸到 T 分數、百分等級與研究報告說明。',
+    enMetaTitle: 'Z Score Calculator Guide: Formula and Examples',
+  },
+  'percentile-rank-guide': {
+    zhMetaDescription: 'PR 百分等級教學說明排名位置、百分等級與原始分數的差異，適合搭配 T 分數、Z 分數與教師考試成績換算，並檢查結果是否容易誤讀。',
+    enMetaTitle: 'Percentile Rank Guide: PR Meaning and Examples',
+  },
+  'teacher-exam-weighted-score-guide': {
+    zhMetaDescription: '教師甄試加權成績教學整理筆試、試教、口試與作品集權重，協助先用範例檢查公式、確認總權重，再保存正式計算結果與備查資料。',
+    enMetaTitle: 'Teacher Exam Weighted Score Guide and Examples',
+  },
+  'spss-levene-test-guide': {
+    zhMetaDescription: 'Levene 檢定教學說明 SPSS 變異數同質性表格、p 值判讀與報告注意事項，適合 t 檢定與 ANOVA 前檢查假設、表格與後續寫法。',
+    enMetaTitle: 'SPSS Levene Test Guide for Variance Checks',
+  },
+  't-test-apa-format-guide': {
+    zhMetaDescription: 't 檢定 APA 格式教學整理 t 值、df、p 值、效果量與描述統計，協助把 SPSS 或計算結果改成可檢查句子，並補上變項脈絡。',
+    enMetaTitle: 'T Test APA Format Guide with Examples',
+  },
+  'anova-apa-format-guide': {
+    enMetaTitle: 'ANOVA APA Format Guide with Examples',
+  },
+  'two-way-anova-interaction-guide': {
+    zhMetaDescription: '二因子 ANOVA 交互作用教學說明主效果、交互作用與事後比較，協助研究報告先分清楚表格、結論順序與可寫入 APA 的重點。',
+    enMetaTitle: 'Two Way ANOVA Interaction Guide',
+  },
+  'classroom-random-group-guide': {
+    zhMetaDescription: '課堂隨機分組教學整理名單準備、組數設定、結果檢查與公平分配情境，適合教師快速安排討論、報告、合作任務與活動紀錄。',
+    enMetaTitle: 'Classroom Random Group Guide for Teachers',
+  },
+  'classroom-random-picker-guide': {
+    zhMetaDescription: '課堂隨機抽人教學整理學生名單、抽籤順序、展示方式與紀錄檢查，適合點名、發表順序、題目抽選與課堂互動安排。',
+    enMetaTitle: 'Classroom Random Picker Guide for Teachers',
+  },
+  'classroom-timer-guide': {
+    zhMetaDescription: '課堂計時器教學整理倒數、休息提醒、分段活動與時間紀錄方式，適合討論、報告、寫作、小組任務與轉換流程控管。',
+    enMetaTitle: 'Classroom Timer Guide for Teachers',
+  },
+  'fair-student-grouping-guide': {
+    zhMetaDescription: '公平學生分組教學說明分組名單、缺席調整、組數與組距檢查，協助教師在活動前快速產生可說明結果，並保留必要調整依據。',
+    enMetaTitle: 'Fair Student Grouping Guide for Classrooms',
+  },
+  'classroom-lottery-tool-guide': {
+    zhMetaDescription: '課堂抽籤工具教學整理抽人、抽題、抽順序與結果保存方式，適合教師在課堂活動中快速建立透明規則、說明流程並保存結果。',
+    enMetaTitle: 'Classroom Lottery Tool Guide for Teachers',
+  },
+};
+
 export const statisticsDisclaimer = {
   zh: '本頁協助計算與報告撰寫，但使用者仍應確認自己的研究設計、假設條件與統計解釋。',
   en: 'This page helps with calculation and reporting, but users should still confirm their research design, assumptions, and statistical interpretation.',
@@ -101,15 +155,21 @@ function text(zh: string, en?: string): LocalizedText {
   return { zh, en: en ?? zh };
 }
 
+function completeZhMetaDescription(description: string): string {
+  if ([...description].length >= 70) return description;
+  return `${description} 本頁補充工具連結、操作步驟、常見錯誤與檢查方向，方便正式使用前快速核對。`;
+}
+
 function localizeRawGuide(guide: RawSeoGuide): SeoGuide {
   const en = englishGuideContent[guide.slug];
+  const zhMetaDescription = guideSeoOverrides[guide.slug]?.zhMetaDescription ?? guide.metaDescription;
 
   return {
     ...guide,
     locales: ['zh', 'en'],
     title: text(guide.title, en.title),
-    metaTitle: text(guide.metaTitle, en.metaTitle),
-    metaDescription: text(guide.metaDescription, en.metaDescription),
+    metaTitle: text(guide.metaTitle, guideSeoOverrides[guide.slug]?.enMetaTitle ?? en.metaTitle),
+    metaDescription: text(completeZhMetaDescription(zhMetaDescription), en.metaDescription),
     h1: text(guide.h1, en.h1),
     category: text(guide.category, en.category),
     searchIntent: text(guide.searchIntent, en.searchIntent),

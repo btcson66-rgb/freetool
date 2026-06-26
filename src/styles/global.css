@@ -1590,14 +1590,15 @@ input:focus, textarea:focus, select:focus { border-color: var(--color-primary-60
 .home-page > .content-section { order: 15; }
 .home-page > .hero { order: 1; }
 .home-page > .hero-tools-section { order: 2; }
-.home-page > .personalized-tools-section { order: 3; }
-.home-page > .personalized-tools-section + .personalized-tools-section { order: 4; }
-.home-page > .priority-cluster-section { order: 5; }
-.home-page > .design-category-section { order: 7; }
-.home-page > #home-search { order: 8; }
-.home-page > #popular-tools { order: 9; }
+.home-page > [data-personalized-tools] { order: 3; }
+.home-page > .design-category-section { order: 4; }
+.home-page > [data-recent-section] { order: 5; }
+.home-page > .home-seo-content { order: 12; }
+.home-page > #home-search { order: 7; }
+.home-page > #popular-tools { order: 8; }
+.home-page > .workflow-toolkit-section { order: 9; }
 .home-page > .use-case-section { order: 10; }
-.home-page > .home-seo-content { order: 11; }
+.home-page > .priority-cluster-section { order: 11; }
 .home-page > .legacy-category-section { order: 12; }
 .home-page > .why { order: 13; }
 .home-page > .newest-tools-section { order: 14; }
@@ -1825,7 +1826,96 @@ input:focus, textarea:focus, select:focus { border-color: var(--color-primary-60
   box-shadow: none;
 }
 
-.home-page > #popular-tools .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.workflow-toolkit-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.workflow-toolkit-card {
+  display: grid;
+  align-content: start;
+  gap: 12px;
+  min-height: 100%;
+  padding: 18px;
+  border: 1px solid var(--color-slate-100);
+  border-radius: 8px;
+  background: var(--color-surface);
+  box-shadow: var(--shadow-md);
+}
+
+.workflow-toolkit-card h3,
+.workflow-toolkit-card p {
+  margin: 0;
+}
+
+.workflow-toolkit-card h3 {
+  font-size: 16px;
+  line-height: 1.35;
+}
+
+.workflow-toolkit-card h3 a:hover,
+.workflow-toolkit-cta:hover {
+  color: var(--color-primary-700);
+}
+
+.workflow-toolkit-card p {
+  display: -webkit-box;
+  overflow: hidden;
+  color: var(--color-slate-500);
+  font-size: 13px;
+  line-height: 1.65;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+}
+
+.tool-chip-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.tool-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 34px;
+  padding: 6px 9px;
+  border: 1px solid var(--color-slate-200);
+  border-radius: 999px;
+  background: var(--color-bg-subtle);
+  color: var(--color-slate-700);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.tool-chip:hover {
+  border-color: rgba(13, 148, 136, 0.36);
+  background: var(--color-primary-50);
+  color: var(--color-primary-700);
+}
+
+.tool-chip--guide {
+  background: #fff7ed;
+  color: #9a3412;
+}
+
+.workflow-toolkit-cta,
+.workflow-toolkit-all {
+  justify-self: start;
+  font-weight: 800;
+}
+
+.workflow-toolkit-cta {
+  margin-top: auto;
+  color: var(--color-primary-700);
+}
+
+.workflow-toolkit-all {
+  display: inline-flex;
+  margin-top: 14px;
+}
 
 .tool-card {
   min-height: 102px;
@@ -1860,6 +1950,24 @@ input:focus, textarea:focus, select:focus { border-color: var(--color-primary-60
 }
 .tool-card .asset-type { display: none; }
 .tool-card .badge { position: static; align-self: flex-start; margin-top: 4px; }
+
+.tool-card--compact {
+  min-height: 88px;
+  padding-right: 48px;
+}
+
+.tool-card--compact .tool-card__icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+}
+
+.tool-card--compact .tool-card__cta,
+.tool-card--compact .asset-type,
+.tool-card--compact .privacy-badge,
+.tool-card--compact > .badge {
+  display: none;
+}
 
 .favorite-toggle {
   position: absolute;
@@ -1927,6 +2035,14 @@ input:focus, textarea:focus, select:focus { border-color: var(--color-primary-60
   min-height: 102px;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
+}
+
+.home-personalized-grid[data-favorite-tools],
+.home-personalized-grid[data-recent-tools] {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-height: 0;
 }
 
 .personalized-empty {
@@ -2168,7 +2284,7 @@ input:focus, textarea:focus, select:focus { border-color: var(--color-primary-60
   .personalized-tools-section,
   .home-page > #popular-tools { width: min(calc(100% - 48px), 960px); }
   .home-personalized-grid,
-  .home-page > #popular-tools .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .workflow-toolkit-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .tool-page { width: min(calc(100% - 48px), 960px); grid-template-columns: minmax(0, 1fr) 240px; gap: 20px 24px; }
 }
 
@@ -2185,7 +2301,7 @@ input:focus, textarea:focus, select:focus { border-color: var(--color-primary-60
   .category-card__count { display: none; }
   .home-page > #popular-tools { margin-top: 32px; }
   .home-personalized-grid,
-  .home-page > #popular-tools .grid { grid-template-columns: 1fr; }
+  .workflow-toolkit-grid { grid-template-columns: 1fr; }
   .tool-page { display: block; width: calc(100% - 32px); }
   .tool-page > * { margin-top: 16px; }
   .tool-page > .breadcrumb { margin-top: 0; }

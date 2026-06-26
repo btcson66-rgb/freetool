@@ -4,7 +4,9 @@ import CategoryIcon from '../../components/CategoryIcon.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { SITE, type Locale } from '../../config/site';
 import { categories } from '../../data/categories';
+import { getSeoGuide, isSeoGuideAvailableInLocale, viewSeoGuide } from '../../data/seoGuides';
 import { getNewTools, getToolBySlug, getToolsByCategory, liveTools, type ToolMeta } from '../../data/tools';
+import { isWorkflowAvailableInLocale, viewWorkflow, workflows } from '../../data/workflows';
 import { home, homeFaq, homePrivacy, homeSeoIntro, homeUseCases } from '../../i18n/pages';
 import { t } from '../../i18n/ui';
 import { absoluteUrl, categoryUrl, localePath, toolUrl } from '../../lib/url';
@@ -97,6 +99,39 @@ const pdfImageArticleLinks = [
   { slug: 'pdf-workflow-guide', label: 'PDF workflow guide' },
   { slug: 'image-format-workflow-guide', label: 'Image compression and conversion guide' },
 ];
+const toolkitCopy = {
+  zh: {
+    heading: '工作流程工具包',
+    intro: '從任務情境開始，串起常用工具、教學指南與可檢查的操作步驟。',
+    open: '開啟流程',
+    tools: '推薦工具',
+    guides: '相關指南',
+    all: '查看全部工作流程',
+  },
+  en: {
+    heading: 'Workflow toolkits',
+    intro: 'Start from a real task, then connect the tools, guides, and checkable steps that belong together.',
+    open: 'Open workflow',
+    tools: 'Recommended tools',
+    guides: 'Related guides',
+    all: 'View all workflows',
+  },
+}[lang];
+const workflowToolkits = workflows
+  .filter((workflow) => isWorkflowAvailableInLocale(workflow, lang))
+  .map((workflow) => {
+    const view = viewWorkflow(workflow, lang);
+    return {
+      ...view,
+      tools: view.recommendedToolIds.map(getToolBySlug).filter(isLiveTool).slice(0, 5),
+      guides: view.relatedGuideIds
+        .map(getSeoGuide)
+        .filter((guide) => guide && isSeoGuideAvailableInLocale(guide, lang))
+        .map((guide) => viewSeoGuide(guide, lang))
+        .slice(0, 3),
+    };
+  })
+  .filter((workflow) => workflow.tools.length > 0);
 const privacy = homePrivacy[lang];
 const faqJsonLd = {
   '@context': 'https://schema.org',
@@ -195,11 +230,137 @@ const popularItemListJsonLd = {
     </div>
   </section>
 
+  <section id="categories" class="wrap design-category-section" aria-labelledby="design-categories-title">
+    <h2 id="design-categories-title">{ui.categories}</h2>
+    <nav class="category-card-grid" aria-label={ui.categories}>
+      {
+        designCategories.map(({ category, tools }) => (
+          <a class="category-card" href={categoryUrl(lang, category.id)} data-category={category.id}>
+            <span class="category-card__icon"><CategoryIcon category={category.id} /></span>
+            <span class="category-card__name">{category.name[lang]}</span>
+            <span class="category-card__count">{tools.length}{ui.toolsCountSuffix}</span>
+          </a>
+        ))
+      }
+    </nav>
+  </section>
+
   <section class="wrap content-section personalized-tools-section" aria-labelledby="recent-tools-title" data-recent-section>
     <div class="section-head">
       <h2 id="recent-tools-title">{ui.recentToolsHeading}</h2>
     </div>
     <div class="grid home-personalized-grid" data-recent-tools aria-live="polite"></div>
+  </section>
+
+  <section class="wrap content-section home-seo-content" aria-labelledby="home-intro-heading">
+    <div class="section-head">
+      <h2 id="home-intro-heading">{seoIntro.heading}</h2>
+    </div>
+    {seoIntro.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+  </section>
+
+  <section id="home-search" class="wrap content-section home-search-section">
+    <div class="section-head">
+      <h2>{ui.homeSearchHeading}</h2>
+      <p>{ui.homeSearchIntro}</p>
+    </div>
+    <label class="home-search-box">
+      <span>{ui.toolsSearch.label}</span>
+      <input
+        type="search"
+        placeholder={ui.toolsSearch.placeholder}
+        aria-label={ui.toolsSearch.label}
+        autocomplete="off"
+        data-home-search
+      />
+    </label>
+    <div class="home-search-results" data-home-search-results>
+      {
+        searchTools.map(({ tool, search, isDefault }) => (
+          <a
+            class="search-result-chip"
+            href={toolUrl(lang, tool.slug)}
+            data-home-search-item
+            data-search={search}
+            data-default={isDefault ? 'true' : 'false'}
+          >
+            <span aria-hidden="true">{tool.icon}</span>
+            <strong>{tool.name[lang]}</strong>
+            {isDefault && <em>{ui.homePopularLabel}</em>}
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  {popularTools.length > 0 && (
+    <section id="popular-tools" class="wrap content-section anchor-section">
+      <div class="section-head">
+        <h2>{ui.popularTools}</h2>
+      </div>
+      <div class="grid">
+        {popularTools.map((tool) => <ToolCard lang={lang} tool={tool} />)}
+      </div>
+    </section>
+  )}
+
+  {workflowToolkits.length > 0 && (
+    <section id="workflow-toolkits" class="wrap content-section workflow-toolkit-section" aria-labelledby="workflow-toolkits-title">
+      <div class="section-head">
+        <h2 id="workflow-toolkits-title">{toolkitCopy.heading}</h2>
+        <p>{toolkitCopy.intro}</p>
+      </div>
+      <div class="workflow-toolkit-grid">
+        {workflowToolkits.map((workflow) => (
+          <article class="workflow-toolkit-card">
+            <h3><a href={localePath(lang, 'workflows', workflow.slug)}>{workflow.title}</a></h3>
+            <p>{workflow.purpose}</p>
+            <div class="tool-chip-group" aria-label={toolkitCopy.tools}>
+              {workflow.tools.map((tool) => (
+                <a class="tool-chip" href={toolUrl(lang, tool.slug)}>
+                  <span aria-hidden="true">{tool.icon}</span>
+                  {tool.name[lang]}
+                </a>
+              ))}
+            </div>
+            {workflow.guides.length > 0 && (
+              <div class="tool-chip-group related-guide-chips" aria-label={toolkitCopy.guides}>
+                {workflow.guides.map((guide) => (
+                  <a class="tool-chip tool-chip--guide" href={localePath(lang, 'guides', guide.slug)}>{guide.title}</a>
+                ))}
+              </div>
+            )}
+            <a class="workflow-toolkit-cta" href={localePath(lang, 'workflows', workflow.slug)}>{toolkitCopy.open}</a>
+          </article>
+        ))}
+      </div>
+      <a class="inline-link workflow-toolkit-all" href={localePath(lang, 'workflows')}>{toolkitCopy.all}</a>
+    </section>
+  )}
+
+  <section class="wrap content-section use-case-section">
+    <div class="section-head">
+      <h2>{ui.homeUseCasesHeading}</h2>
+      <p>{lang === 'zh' ? '從常見任務開始，直接開啟同一情境會用到的工具。' : 'Start with a common task and open the tools typically used for it.'}</p>
+    </div>
+    <div class="use-case-grid">
+      {
+        useCases.map((item) => (
+          <article class="use-case-card">
+            <h3>{item.title}</h3>
+            <p>{item.description}</p>
+            <div class="use-case-tools">
+              {item.tools.map((tool) => (
+                <a href={toolUrl(lang, tool.slug)}>
+                  <span aria-hidden="true">{tool.icon}</span>
+                  {tool.name[lang]}
+                </a>
+              ))}
+            </div>
+          </article>
+        ))
+      }
+    </div>
   </section>
 
   <section class="wrap content-section priority-cluster-section" aria-labelledby="teacher-exam-cluster-title">
@@ -267,97 +428,7 @@ const popularItemListJsonLd = {
     )}
   </section>
 
-  <section class="wrap content-section home-seo-content" aria-labelledby="home-intro-heading">
-    <div class="section-head">
-      <h2 id="home-intro-heading">{seoIntro.heading}</h2>
-    </div>
-    {seoIntro.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
-  </section>
-
-  <section class="wrap design-category-section" aria-labelledby="design-categories-title">
-    <h2 id="design-categories-title">{ui.categories}</h2>
-    <nav class="category-card-grid" aria-label={ui.categories}>
-      {
-        designCategories.map(({ category, tools }) => (
-          <a class="category-card" href={categoryUrl(lang, category.id)} data-category={category.id}>
-            <span class="category-card__icon"><CategoryIcon category={category.id} /></span>
-            <span class="category-card__name">{category.name[lang]}</span>
-            <span class="category-card__count">{tools.length}{ui.toolsCountSuffix}</span>
-          </a>
-        ))
-      }
-    </nav>
-  </section>
-
-  <section id="home-search" class="wrap content-section home-search-section">
-    <div class="section-head">
-      <h2>{ui.homeSearchHeading}</h2>
-      <p>{ui.homeSearchIntro}</p>
-    </div>
-    <label class="home-search-box">
-      <span>{ui.toolsSearch.label}</span>
-      <input
-        type="search"
-        placeholder={ui.toolsSearch.placeholder}
-        aria-label={ui.toolsSearch.label}
-        autocomplete="off"
-        data-home-search
-      />
-    </label>
-    <div class="home-search-results" data-home-search-results>
-      {
-        searchTools.map(({ tool, search, isDefault }) => (
-          <a
-            class="search-result-chip"
-            href={toolUrl(lang, tool.slug)}
-            data-home-search-item
-            data-search={search}
-            data-default={isDefault ? 'true' : 'false'}
-          >
-            <span aria-hidden="true">{tool.icon}</span>
-            <strong>{tool.name[lang]}</strong>
-            {isDefault && <em>{ui.homePopularLabel}</em>}
-          </a>
-        ))
-      }
-    </div>
-  </section>
-
-  {popularTools.length > 0 && (
-    <section id="popular-tools" class="wrap content-section anchor-section">
-      <h2>{ui.popularTools}</h2>
-      <div class="grid home-popular-grid">
-        {popularTools.map((tool) => <ToolCard lang={lang} tool={tool} />)}
-      </div>
-    </section>
-  )}
-
-  <section class="wrap content-section use-case-section">
-    <div class="section-head">
-      <h2>{ui.homeUseCasesHeading}</h2>
-      <p>{lang === 'zh' ? '從常見任務開始，直接開啟同一情境會用到的工具。' : 'Start with a common task and open the tools typically used for it.'}</p>
-    </div>
-    <div class="use-case-grid">
-      {
-        useCases.map((item) => (
-          <article class="use-case-card">
-            <h3>{item.title}</h3>
-            <p>{item.description}</p>
-            <div class="use-case-tools">
-              {item.tools.map((tool) => (
-                <a href={toolUrl(lang, tool.slug)}>
-                  <span aria-hidden="true">{tool.icon}</span>
-                  {tool.name[lang]}
-                </a>
-              ))}
-            </div>
-          </article>
-        ))
-      }
-    </div>
-  </section>
-
-  <section id="categories" class="wrap content-section legacy-category-section">
+  <section class="wrap content-section legacy-category-section">
     <div class="section-head">
       <h2>{ui.categories}</h2>
       <p>{lang === 'zh' ? '依用途瀏覽目前已有工具的分類，並先查看每類常用工具。' : 'Browse active categories and preview commonly used tools in each one.'}</p>
@@ -448,9 +519,11 @@ const popularItemListJsonLd = {
       return personalizedRoot instanceof HTMLElement ? personalizedRoot.dataset[name] || fallback : fallback;
     }
 
-    function createToolCard(tool) {
+    function createToolCard(tool, options = {}) {
+      const isCompact = options.compact === true;
+      const trackingSource = options.source || 'personalized_tools';
       const card = document.createElement('a');
-      card.className = 'tile tool-tile tool-card';
+      card.className = isCompact ? 'tile tool-tile tool-card tool-card--compact' : 'tile tool-tile tool-card';
       card.href = tool.url;
       card.dataset.category = tool.category;
       card.dataset.toolId = tool.slug;
@@ -487,9 +560,6 @@ const popularItemListJsonLd = {
       const assetType = document.createElement('span');
       assetType.className = 'asset-type';
       assetType.textContent = tool.assetType;
-      const cta = document.createElement('span');
-      cta.className = 'tool-card__cta';
-      cta.textContent = textFromData('toolCta', 'Use Now');
       body.append(title, desc, assetType);
       if (tool.isLocalOnly) {
         const privacy = document.createElement('span');
@@ -497,7 +567,12 @@ const popularItemListJsonLd = {
         privacy.textContent = textFromData('privacyBadge', 'Local only');
         body.append(privacy);
       }
-      body.append(cta);
+      if (!isCompact) {
+        const cta = document.createElement('span');
+        cta.className = 'tool-card__cta';
+        cta.textContent = textFromData('toolCta', 'Use Now');
+        body.append(cta);
+      }
       card.append(favorite, icon, body);
       if (tool.isNew) {
         const badge = document.createElement('span');
@@ -511,22 +586,59 @@ const popularItemListJsonLd = {
             tool_id: tool.slug,
             tool_name: tool.name,
             category: tool.category,
-            source: 'personalized_tools'
+            source: trackingSource
           });
         }
       });
       return card;
     }
 
-    function renderToolList(container, tools) {
+    function createToolChip(tool, options = {}) {
+      const chip = document.createElement('a');
+      chip.className = 'tool-chip';
+      chip.href = tool.url;
+      chip.dataset.toolId = tool.slug;
+      chip.dataset.toolName = tool.name;
+      chip.dataset.toolCategory = tool.category;
+
+      const icon = document.createElement('span');
+      icon.setAttribute('aria-hidden', 'true');
+      icon.textContent = tool.icon;
+      const label = document.createElement('strong');
+      label.textContent = tool.name;
+      chip.append(icon, label);
+
+      chip.addEventListener('click', function() {
+        if (window.__ft_track) {
+          window.__ft_track('tool_card_click', {
+            tool_id: tool.slug,
+            tool_name: tool.name,
+            category: tool.category,
+            source: options.source || 'personalized_tool_chips'
+          });
+        }
+      });
+      return chip;
+    }
+
+    function renderToolChips(container, tools, options = {}) {
       if (!(container instanceof HTMLElement)) return;
-      container.replaceChildren(...tools.map(createToolCard));
+      container.replaceChildren(...tools.map((tool) => createToolChip(tool, options)));
+    }
+
+    function renderToolList(container, tools, options = {}) {
+      if (!(container instanceof HTMLElement)) return;
+      if (options.variant === 'chips') {
+        renderToolChips(container, tools, options);
+      } else {
+        container.replaceChildren(...tools.map((tool) => createToolCard(tool, options)));
+      }
       document.dispatchEvent(new CustomEvent('freetools:rendered-tools'));
     }
 
     function renderFavorites() {
       const favoriteTools = getFavoriteTools().map((slug) => toolMap.get(slug)).filter(Boolean);
-      renderToolList(favoriteContainer, favoriteTools);
+      renderToolList(favoriteContainer, favoriteTools, { variant: 'chips', source: 'favorite_tools' });
       if (favoriteEmpty instanceof HTMLElement) {
         favoriteEmpty.hidden = favoriteTools.length > 0;
       }
@@ -534,7 +646,10 @@ const popularItemListJsonLd = {
 
     function renderRecent() {
       const recentTools = getRecentlyUsedTools().map((slug) => toolMap.get(slug)).filter(Boolean);
-      renderToolList(recentContainer, recentTools.length > 0 ? recentTools : fallbackRecentTools);
+      renderToolList(recentContainer, recentTools.length > 0 ? recentTools : fallbackRecentTools, {
+        variant: 'chips',
+        source: recentTools.length > 0 ? 'recent_tools' : 'recent_tools_fallback'
+      });
     }
 
     renderFavorites();

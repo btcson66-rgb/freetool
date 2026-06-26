@@ -46,6 +46,10 @@ const copy = {
   },
 }[lang];
 
+const pageDescription = lang === 'zh'
+  ? 'FreeTools 工作流程整理教育統計、教師考試、SPSS、APA 7、標準差、T/Z/PR 與加權成績相關工具，協助從任務情境快速串起可檢查步驟。'
+  : copy.description;
+
 const workflowViews = workflows
   .filter((workflow) => isWorkflowAvailableInLocale(workflow, lang))
   .map((workflow) => viewWorkflow(workflow, lang));
@@ -76,7 +80,7 @@ const collectionLd = {
 <BaseLayout
   lang={lang}
   title={copy.title}
-  description={copy.description}
+  description={pageDescription}
   alternateSegments={['workflows']}
   hasAlternates={true}
   jsonLd={[collectionLd, breadcrumbLd]}

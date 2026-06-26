@@ -56,19 +56,40 @@ interface RawWorkflow {
 
 type EnglishWorkflowContent = Omit<RawWorkflow, 'id' | 'slug' | 'recommendedToolIds' | 'relatedGuideIds' | 'updatedAt'>;
 
+const workflowSeoOverrides: Record<string, Partial<Record<'zhMetaDescription' | 'enMetaTitle', string>>> = {
+  'graduate-statistics-report-toolkit': {
+    zhMetaDescription: '研究生統計報告流程串接描述統計、SPSS 表格、Levene 檢定、APA 7 句子與效果量檢查，適合交稿前逐步確認資料、表格、假設與報告文字。',
+    enMetaTitle: 'Graduate Statistics Report Workflow Toolkit',
+  },
+  'teacher-exam-score-toolkit': {
+    zhMetaDescription: '教師甄試成績流程整理原始分數、加權總分、T 分數、Z 分數與 PR 百分等級，協助保存可回查的計算紀錄、公式脈絡與備查結果。',
+    enMetaTitle: 'Teacher Exam Score Workflow Toolkit',
+  },
+  'teacher-classroom-random-toolkit': {
+    zhMetaDescription: '教師課堂隨機流程串接名單整理、隨機分組、抽人、抽順序、計時與結果保存，適合討論、報告、複習活動與課堂紀錄安排。',
+    enMetaTitle: 'Teacher Classroom Random Workflow Toolkit',
+  },
+};
+
 function text(zh: string, en?: string): LocalizedText {
   return { zh, en: en ?? zh };
 }
 
+function completeZhMetaDescription(description: string): string {
+  if ([...description].length >= 70) return description;
+  return `${description} 本頁補充推薦工具、相關指南、操作步驟與檢查方向，方便正式使用前快速核對。`;
+}
+
 function localizeRawWorkflow(workflow: RawWorkflow): Workflow {
   const en = englishWorkflowContent[workflow.slug];
+  const zhMetaDescription = workflowSeoOverrides[workflow.slug]?.zhMetaDescription ?? workflow.metaDescription;
 
   return {
     ...workflow,
     locales: ['zh', 'en'],
     title: text(workflow.title, en.title),
-    metaTitle: text(workflow.metaTitle, en.metaTitle),
-    metaDescription: text(workflow.metaDescription, en.metaDescription),
+    metaTitle: text(workflow.metaTitle, workflowSeoOverrides[workflow.slug]?.enMetaTitle ?? en.metaTitle),
+    metaDescription: text(completeZhMetaDescription(zhMetaDescription), en.metaDescription),
     h1: text(workflow.h1, en.h1),
     purpose: text(workflow.purpose, en.purpose),
     steps: workflow.steps.map((step, index) => text(step, en.steps[index])),
