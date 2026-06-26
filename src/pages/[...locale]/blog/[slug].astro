@@ -119,18 +119,22 @@ const breadcrumbLd = breadcrumbJsonLd([
     </aside>
 
     <div class="article-body">
-      {post.sections.map((section) => (
-        <section>
-          <h2>{section.heading}</h2>
-          {section.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
-          {section.subsections?.map((subsection) => (
-            <section class="article-subsection">
-              <h3>{subsection.heading}</h3>
-              {subsection.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
-            </section>
-          ))}
-        </section>
-      ))}
+      {post.contentHtml ? (
+        <div class="markdown-body" set:html={post.contentHtml} />
+      ) : (
+        post.sections.map((section) => (
+          <section>
+            <h2>{section.heading}</h2>
+            {section.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+            {section.subsections?.map((subsection) => (
+              <section class="article-subsection">
+                <h3>{subsection.heading}</h3>
+                {subsection.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+              </section>
+            ))}
+          </section>
+        ))
+      )}
     </div>
 
     <section class="article-faq faq" aria-labelledby="faq-title">
@@ -180,8 +184,16 @@ const breadcrumbLd = breadcrumbJsonLd([
   .tool-links a:hover { border-color: var(--brand); }
   .tool-links span { color: var(--muted); font-size: 0.88rem; line-height: 1.5; }
   .article-body { margin-top: 36px; }
-  .article-body > section { margin-top: 38px; }
-  .article-body p, .article-faq dd { color: #384455; font-size: 1.04rem; line-height: 1.9; }
+  .article-body > section, .markdown-body > :global(*) + :global(*) { margin-top: 22px; }
+  .article-body p, .article-body li, .article-faq dd { color: #384455; font-size: 1.04rem; line-height: 1.9; }
+  .markdown-body :global(h2) { margin-top: 38px; }
+  .markdown-body :global(h3) { margin-top: 28px; font-size: 1.18rem; }
+  .markdown-body :global(ul), .markdown-body :global(ol) { padding-left: 1.4rem; }
+  .markdown-body :global(table) { display: block; width: 100%; overflow-x: auto; border-collapse: collapse; }
+  .markdown-body :global(th), .markdown-body :global(td) { padding: 10px 12px; border: 1px solid var(--line); text-align: left; vertical-align: top; }
+  .markdown-body :global(th) { background: #f2fbfa; color: var(--ink); }
+  .markdown-body :global(pre) { overflow-x: auto; padding: 14px; border-radius: 10px; background: #101827; color: #f7fbff; }
+  .markdown-body :global(code) { font-size: 0.95em; }
   .article-subsection { margin-top: 26px; padding-left: 18px; border-left: 3px solid #d9e5ef; }
   .article-subsection h3 { margin: 0 0 10px; font-size: 1.15rem; }
   .article-faq { margin-top: 44px; padding: 22px; border: 1px solid var(--line); border-radius: 14px; background: var(--card); }

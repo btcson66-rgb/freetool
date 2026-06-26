@@ -32,6 +32,7 @@ export interface BlogPost {
   relatedArticleSlugs?: string[];
   toolLinks: BlogToolLink[];
   sections: BlogSection[];
+  contentHtml?: LocalizedText;
   faq: { question: LocalizedText; answer: LocalizedText }[];
 }
 
@@ -65,6 +66,7 @@ export interface BlogPostView {
   relatedArticleSlugs?: string[];
   toolLinks: BlogToolLinkView[];
   sections: BlogSectionView[];
+  contentHtml?: string;
   faq: { question: string; answer: string }[];
 }
 
@@ -174,6 +176,7 @@ export function viewBlogPost(post: BlogPost, lang: Locale): BlogPostView {
     description: post.description[lang],
     summary: post.summary[lang],
     categoryLabel: post.categoryLabel?.[lang],
+    contentHtml: post.contentHtml?.[lang],
     toolLinks: post.toolLinks.map((tool) => ({
       slug: tool.slug,
       label: tool.label[lang],
