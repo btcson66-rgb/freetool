@@ -7,6 +7,7 @@ import EmbedCode from '../components/EmbedCode.astro';
 import Faq from '../components/Faq.astro';
 import NewsletterSignup from '../components/NewsletterSignup.astro';
 import RelatedResources from '../components/RelatedResources.astro';
+import RelatedToolsAfterSuccess from '../components/RelatedToolsAfterSuccess.astro';
 import RelatedTools from '../components/RelatedTools.astro';
 import ShareButtons from '../components/ShareButtons.astro';
 import SponsorBlock from '../components/SponsorBlock.astro';
@@ -88,6 +89,10 @@ const relatedWorkflowsHeading = lang === 'zh' ? '相關工具包' : 'Related too
       <h2 id="tool-interaction-title">{ui.sections.toolArea}</h2>
       <slot />
     </section>
+
+    <ShareButtons lang={lang} url={currentUrl} title={content.name} />
+
+    <RelatedToolsAfterSuccess lang={lang} current={tool} />
 
     {
       content.capabilities && content.capabilities.length > 0 && (
@@ -251,7 +256,6 @@ const relatedWorkflowsHeading = lang === 'zh' ? '相關工具包' : 'Related too
       </p>
     )}
 
-    <ShareButtons lang={lang} url={currentUrl} title={content.name} />
     {tool.embedPotential !== 'low' && <EmbedCode lang={lang} tool={tool} />}
     <NewsletterSignup lang={lang} />
     <RelatedResources lang={lang} />
@@ -291,6 +295,46 @@ const relatedWorkflowsHeading = lang === 'zh' ? '相關工具包' : 'Related too
 
     document.addEventListener('DOMContentLoaded', initializeFavoriteToggles);
     document.addEventListener('freetools:rendered-tools', initializeFavoriteToggles);
+
+    const interactionRoot = document.querySelector('.tool-interaction');
+    const successRecommendations = document.querySelector('[data-related-after-success]');
+    if (interactionRoot instanceof HTMLElement && successRecommendations instanceof HTMLElement) {
+      let shown = false;
+      const revealRecommendations = () => {
+        if (shown) return;
+        shown = true;
+        successRecommendations.hidden = false;
+      };
+
+      document.addEventListener('freetools:tool-success', revealRecommendations);
+
+      const isVisibleResult = (element) => {
+        if (!(element instanceof HTMLElement)) return false;
+        if (element.hidden || element.getAttribute('aria-hidden') === 'true') return false;
+        if (!element.getClientRects().length) return false;
+        if (!element.textContent?.trim()) return false;
+        return Boolean(element.closest('[data-results], [data-result], output, .resultbox, .bigresult, [aria-live="polite"]'));
+      };
+
+      const observer = new MutationObserver((mutations) => {
+        if (shown) return;
+        for (const mutation of mutations) {
+          const target = mutation.target instanceof Element ? mutation.target : mutation.target.parentElement;
+          if (isVisibleResult(target)) {
+            revealRecommendations();
+            break;
+          }
+        }
+      });
+
+      observer.observe(interactionRoot, {
+        subtree: true,
+        childList: true,
+        characterData: true,
+        attributes: true,
+        attributeFilter: ['hidden', 'aria-hidden'],
+      });
+    }
   </script>
 </BaseLayout>
 

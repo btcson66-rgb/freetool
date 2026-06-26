@@ -2,6 +2,7 @@ import { SITE, type Locale } from '../config/site';
 import type { Category } from '../data/categories';
 import type { ToolMeta } from '../data/tools';
 import { absoluteUrl, altLinks, assetPath, localePath, toolUrl } from './url';
+import pkg from '../../package.json';
 
 interface ToolContentForSeo {
   name: string;
@@ -164,7 +165,7 @@ export function webApplicationJsonLd(
 
   return {
     '@context': 'https://schema.org',
-    '@type': 'WebApplication',
+    '@type': ['SoftwareApplication', 'WebApplication'],
     name: content.name,
     url: absoluteUrl(toolUrl(lang, tool.slug)),
     description: toolSeoDescription(lang, content, tool.privacyLevel === 'local-only'),
@@ -173,12 +174,24 @@ export function webApplicationJsonLd(
     browserRequirements: 'Requires a modern web browser with JavaScript enabled.',
     inLanguage: SITE.hreflang[lang],
     keywords: content.keywords.join(', '),
+    softwareVersion: pkg.version,
     offers: {
       '@type': 'Offer',
       price: 0,
       priceCurrency: 'TWD',
+      availability: 'https://schema.org/InStock',
     },
     provider: {
+      '@type': 'Organization',
+      name: SITE.name[lang],
+      url: absoluteUrl(localePath(lang)),
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: SITE.name[lang],
+      url: absoluteUrl(localePath(lang)),
+    },
+    author: {
       '@type': 'Organization',
       name: SITE.name[lang],
       url: absoluteUrl(localePath(lang)),

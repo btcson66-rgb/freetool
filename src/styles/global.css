@@ -1589,20 +1589,18 @@ input:focus, textarea:focus, select:focus { border-color: var(--color-primary-60
 
 .home-page > .content-section { order: 15; }
 .home-page > .hero { order: 1; }
-.home-page > .hero-tools-section { order: 2; }
-.home-page > [data-personalized-tools] { order: 3; }
-.home-page > .design-category-section { order: 4; }
+.home-page > #home-search { order: 2; }
+.home-page > .hero-tools-section { order: 3; }
+.home-page > [data-personalized-tools] { order: 4; }
 .home-page > [data-recent-section] { order: 5; }
-.home-page > .home-seo-content { order: 12; }
-.home-page > #home-search { order: 7; }
-.home-page > #popular-tools { order: 8; }
-.home-page > .workflow-toolkit-section { order: 9; }
-.home-page > .use-case-section { order: 10; }
-.home-page > .priority-cluster-section { order: 11; }
-.home-page > .legacy-category-section { order: 12; }
-.home-page > .why { order: 13; }
-.home-page > .newest-tools-section { order: 14; }
-.home-page > .privacy-panel { order: 15; }
+.home-page > .design-category-section { order: 6; }
+.home-page > .workflow-toolkit-section { order: 7; }
+.home-page > .home-seo-content { order: 8; }
+.home-page > .use-case-section { order: 9; }
+.home-page > .priority-cluster-section { order: 10; }
+.home-page > .newest-tools-section { order: 11; }
+.home-page > .why { order: 12; }
+.home-page > .privacy-panel { order: 14; }
 .home-page > .faq { order: 16; }
 
 .home-page .hero {
@@ -1611,9 +1609,7 @@ input:focus, textarea:focus, select:focus { border-color: var(--color-primary-60
 }
 
 .home-page .hero::before,
-.home-page .hero .eyebrow,
-.home-page .hero-actions,
-.home-page .hero-stats {
+.home-page .hero .eyebrow {
   display: none;
 }
 
@@ -1625,6 +1621,67 @@ input:focus, textarea:focus, select:focus { border-color: var(--color-primary-60
 .home-page .hero .lead {
   margin-top: 8px;
   font-size: 15px;
+}
+
+.hero-value-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  max-width: 760px;
+  margin: 18px auto 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hero-value-list li {
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--card);
+  color: var(--color-slate-600);
+  font-size: 14px;
+}
+
+.install-prompt {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 40;
+  display: flex;
+  max-width: min(420px, calc(100vw - 32px));
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--card);
+  box-shadow: var(--shadow);
+  color: var(--ink);
+  font-size: 14px;
+}
+
+.install-prompt button {
+  flex: 0 0 auto;
+  min-height: 34px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--ink);
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.install-prompt [data-install-action] {
+  border-color: var(--brand);
+  background: var(--brand);
+  color: #fff;
+}
+
+.install-prompt [data-install-dismiss] {
+  width: 34px;
+  font-size: 20px;
+  line-height: 1;
 }
 
 .hero-tools-grid {
@@ -1767,15 +1824,13 @@ input:focus, textarea:focus, select:focus { border-color: var(--color-primary-60
 
 .home-search-section:focus-within .home-search-results { display: flex; }
 
-.design-category-section,
-.home-page > #popular-tools {
+.design-category-section {
   width: min(calc(100% - 80px), 1280px);
   margin-inline: auto;
 }
 
 .design-category-section { padding-top: 46px; }
-.design-category-section > h2,
-.home-page > #popular-tools > h2 { margin-bottom: 16px; font-size: 20px; }
+.design-category-section > h2 { margin-bottom: 16px; font-size: 20px; }
 
 .category-card-grid {
   display: grid;
@@ -1817,14 +1872,6 @@ input:focus, textarea:focus, select:focus { border-color: var(--color-primary-60
 .category-card__name { color: var(--color-slate-900); font-size: 14px; font-weight: 600; }
 .category-card__count { color: var(--color-slate-400); font-size: 12px; }
 .legacy-category-section { display: none; }
-
-.home-page > #popular-tools {
-  margin-top: 46px;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  box-shadow: none;
-}
 
 .workflow-toolkit-grid {
   display: grid;
@@ -2046,9 +2093,26 @@ input:focus, textarea:focus, select:focus { border-color: var(--color-primary-60
 }
 
 .personalized-empty {
-  min-height: 102px;
-  padding: 18px;
+  display: flex;
+  min-height: 0;
+  margin-top: 0;
+  padding: 8px 10px;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
   border-radius: 10px;
+  font-size: 13px;
+  line-height: 1.3;
+}
+
+.personalized-empty p {
+  margin: 0;
+}
+
+.personalized-empty .btn {
+  min-height: 34px;
+  padding: 6px 10px;
+  font-size: 12px;
 }
 
 .tool-page {
@@ -2281,8 +2345,7 @@ input:focus, textarea:focus, select:focus { border-color: var(--color-primary-60
 
 @media (max-width: 1023px) {
   .design-category-section,
-  .personalized-tools-section,
-  .home-page > #popular-tools { width: min(calc(100% - 48px), 960px); }
+  .personalized-tools-section { width: min(calc(100% - 48px), 960px); }
   .home-personalized-grid,
   .workflow-toolkit-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .tool-page { width: min(calc(100% - 48px), 960px); grid-template-columns: minmax(0, 1fr) 240px; gap: 20px 24px; }
@@ -2292,14 +2355,12 @@ input:focus, textarea:focus, select:focus { border-color: var(--color-primary-60
   .home-page .hero { padding-top: 28px; }
   .home-page .hero h1 { font-size: 28px; }
   .design-category-section,
-  .personalized-tools-section,
-  .home-page > #popular-tools { width: calc(100% - 32px); }
+  .personalized-tools-section { width: calc(100% - 32px); }
   .design-category-section { padding-top: 28px; }
   .category-card-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
   .category-card { min-height: 112px; padding: 14px 6px; }
   .category-card__icon { width: 36px; height: 36px; }
   .category-card__count { display: none; }
-  .home-page > #popular-tools { margin-top: 32px; }
   .home-personalized-grid,
   .workflow-toolkit-grid { grid-template-columns: 1fr; }
   .tool-page { display: block; width: calc(100% - 32px); }

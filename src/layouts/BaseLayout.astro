@@ -71,6 +71,7 @@ const contentSecurityPolicy = [
     <link rel="icon" href={assetPath('favicon.ico')} sizes="any" />
     <link rel="icon" type="image/svg+xml" href={assetPath('favicon.svg')} />
     <link rel="apple-touch-icon" sizes="180x180" href={assetPath('apple-touch-icon.png')} />
+    <link rel="manifest" href={assetPath('manifest.webmanifest')} />
     <meta name="theme-color" content="#0d9488" />
     <script is:inline>
       (() => {
@@ -158,5 +159,6 @@ const contentSecurityPolicy = [
       <slot />
     </main>
     <Footer lang={lang} />
+    <script src={assetPath('install-prompt.js')} defer></script>
   </body>
 </html>

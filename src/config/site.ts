@@ -8,7 +8,7 @@ export const SITE = {
   defaultLocale: 'zh' as Locale,
   name: { zh: 'FreeTools 免費線上工具箱', en: 'FreeTools by FunnyTools.win' },
   tagline: {
-    zh: '免費線上工具箱，提供 PDF、圖片、文字、QR Code、隨機、時間、金錢、教學與統計工具。免安裝、免註冊，手機與電腦都能使用。',
+    zh: '免費、免註冊、可在瀏覽器本機處理的 PDF、圖片、文字、QR Code、隨機、時間、金錢、教學與統計工具。',
     en: 'Free online toolbox with browser-based tools for PDF, images, text, QR codes, random picks, time, money, teachers and more.',
   },
   ga4MeasurementId: 'G-SV027MPXK4',

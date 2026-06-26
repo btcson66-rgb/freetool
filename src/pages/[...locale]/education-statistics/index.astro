@@ -263,6 +263,11 @@ const jsonLd = [
     />
     <h1>{copy.title}</h1>
     <p class="lead">{copy.subtitle}</p>
+    <div class="education-cta-row" aria-label={lang === 'zh' ? '教育統計常用入口' : 'Education statistics shortcuts'}>
+      <a class="btn go" href={localePath(lang, 'tools', 'teacher-exam-score-converter')}>{lang === 'zh' ? '使用教師甄試工具' : 'Use teacher exam tools'}</a>
+      <a class="btn ghost" href={localePath(lang, 'tools', 't-score-calculator')}>{lang === 'zh' ? '換算 T / Z / PR' : 'Convert T / Z / PR'}</a>
+      <a class="btn ghost" href={localePath(lang, 'tools', 'apa-7-report-generator')}>{lang === 'zh' ? '產生 APA 7 報告句' : 'Generate APA 7 wording'}</a>
+    </div>
   </section>
 
   {groups.map((group) => (
@@ -317,6 +322,7 @@ const jsonLd = [
 
 <style>
   .resource-columns { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+  .education-cta-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
   .resource-panel { display: grid; align-content: start; gap: 14px; padding: 20px; border: 1px solid var(--line); border-radius: 12px; background: var(--card); box-shadow: var(--shadow-soft); }
   .resource-panel h3 { margin: 0; font-size: 1.18rem; }
   .resource-list { display: grid; gap: 10px; }

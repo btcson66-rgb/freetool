@@ -1,0 +1,38 @@
+---
+import type { Locale } from '../config/site';
+import { getRelatedTools, type ToolMeta } from '../data/tools';
+import { toolUrl } from '../lib/url';
+
+interface Props {
+  lang: Locale;
+  current: ToolMeta;
+}
+
+const { lang, current } = Astro.props;
+const tools = getRelatedTools(current.slug, 4);
+const copy = {
+  zh: {
+    heading: '完成後可以接著做',
+    intro: '依這個工具的常見流程，推薦下一個可能用得到的工具。',
+  },
+  en: {
+    heading: 'Next useful tools',
+    intro: 'Common follow-up tools for this workflow.',
+  },
+}[lang];
+---
+
+{tools.length > 0 && (
+  <section class="content-section related-after-success" data-related-after-success hidden aria-live="polite">
+    <h2>{copy.heading}</h2>
+    <p>{copy.intro}</p>
+    <div class="tool-chip-group">
+      {tools.map((tool) => (
+        <a class="tool-chip" href={toolUrl(lang, tool.slug)}>
+          <span aria-hidden="true">{tool.icon}</span>
+          <strong>{tool.name[lang]}</strong>
+        </a>
+      ))}
+    </div>
+  </section>
+)}

@@ -20,9 +20,9 @@ const ui = t(lang);
     <nav class="nav-links" aria-label={ui.ariaPrimaryNav}>
       <a href={localePath(lang)}>{ui.nav.home}</a>
       <a href={localePath(lang, 'tools')}>{ui.nav.tools}</a>
-      {lang === 'zh' && <a href={localePath(lang, 'blog')}>部落格</a>}
+      {lang === 'zh' && <a href={localePath(lang, 'blog')}>教學文章</a>}
       <a href={`${localePath(lang)}#categories`}>{ui.nav.categories}</a>
-      <a href={localePath(lang, 'education-statistics')}>{lang === 'zh' ? '教育與統計' : 'Education & Statistics'}</a>
+      <a href={localePath(lang, 'education-statistics')}>{lang === 'zh' ? '教育統計' : 'Education & Statistics'}</a>
       <a href={localePath(lang, 'support')} data-support-link data-support-source="nav">{lang === 'zh' ? '支持我們' : 'Support'}</a>
     </nav>
     {showLangSwitch && <LangSwitch lang={lang} segments={segments} />}
@@ -43,9 +43,9 @@ const ui = t(lang);
     >
       <a href={localePath(lang)}>{ui.nav.home}</a>
       <a href={localePath(lang, 'tools')}>{ui.nav.tools}</a>
-      {lang === 'zh' && <a href={localePath(lang, 'blog')}>部落格</a>}
+      {lang === 'zh' && <a href={localePath(lang, 'blog')}>教學文章</a>}
       <a href={`${localePath(lang)}#categories`}>{ui.nav.categories}</a>
-      <a href={localePath(lang, 'education-statistics')}>{lang === 'zh' ? '教育與統計' : 'Education & Statistics'}</a>
+      <a href={localePath(lang, 'education-statistics')}>{lang === 'zh' ? '教育統計' : 'Education & Statistics'}</a>
       <a href={localePath(lang, 'support')} data-support-link data-support-source="mobile_nav">{lang === 'zh' ? '支持我們' : 'Support'}</a>
     </nav>
   </div>

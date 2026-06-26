@@ -1,6 +1,7 @@
 const homeSearchInput = document.querySelector('[data-home-search]');
 const homeSearchItems = Array.from(document.querySelectorAll('[data-home-search-item]'));
 const homeSearchResults = document.querySelector('[data-home-search-results]');
+const homeSearchSection = document.querySelector('[data-home-search-section]');
 
 if (homeSearchInput instanceof HTMLInputElement && homeSearchResults instanceof HTMLElement) {
   let homeSearchEmpty = null;
@@ -30,8 +31,8 @@ if (homeSearchInput instanceof HTMLInputElement && homeSearchResults instanceof 
       homeSearchEmpty = document.createElement('p');
       homeSearchEmpty.className = 'empty-state';
       homeSearchEmpty.setAttribute('aria-live', 'polite');
-      homeSearchEmpty.textContent = document.documentElement.lang.startsWith('zh')
-        ? '目前找不到符合的工具，請換個關鍵字或查看全部工具。'
+      homeSearchEmpty.textContent = homeSearchSection instanceof HTMLElement
+        ? homeSearchSection.dataset.emptyText || 'No matching tool yet. Try another keyword or view all tools.'
         : 'No matching tool yet. Try another keyword or view all tools.';
       homeSearchResults.insertAdjacentElement('afterend', homeSearchEmpty);
     } else if (!hasNoResults && homeSearchEmpty !== null) {
