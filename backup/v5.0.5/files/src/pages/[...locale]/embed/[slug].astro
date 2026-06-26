@@ -1,0 +1,39 @@
+---
+import EmbedLayout from '../../../layouts/EmbedLayout.astro';
+import { SITE, type Locale } from '../../../config/site';
+import { getEmbeddableTools, type ToolMeta } from '../../../data/tools';
+import { getToolContent } from '../../../lib/toolContent';
+import { getToolWidget } from '../../../lib/toolWidgets';
+import { absoluteUrl, toolUrl } from '../../../lib/url';
+
+export function getStaticPaths() {
+  return SITE.locales.flatMap((lang) =>
+    getEmbeddableTools().map((tool) => ({
+      params: { locale: lang === SITE.defaultLocale ? undefined : lang, slug: tool.slug },
+      props: { lang, tool },
+    })),
+  );
+}
+
+const { lang, tool } = Astro.props as { lang: Locale; tool: ToolMeta };
+const content = getToolContent(tool.slug, lang);
+const Widget = getToolWidget(tool.slug);
+
+if (!content) {
+  throw new Error(`Missing content for embed tool: ${tool.slug}`);
+}
+if (!Widget) {
+  throw new Error(`Missing widget for embed tool: ${tool.slug}`);
+}
+
+const fullToolUrl = absoluteUrl(toolUrl(lang, tool.slug));
+---
+
+<EmbedLayout
+  lang={lang}
+  title={content.name}
+  description={content.short}
+  fullToolUrl={fullToolUrl}
+>
+  <Widget labels={content.labels} slug={tool.slug} />
+</EmbedLayout>

@@ -1,0 +1,189 @@
+---
+interface Props {
+  labels: Record<string, string>;
+}
+
+const { labels } = Astro.props;
+---
+
+<section class="tool-widget card" data-age-tool data-labels={JSON.stringify(labels)}>
+  <div class="form-grid">
+    <label>
+      <span>{labels.birthday}</span>
+      <input data-birthday type="date" />
+    </label>
+    <label>
+      <span>{labels.asOf}</span>
+      <input data-as-of type="date" />
+    </label>
+    <div class="actions compact-actions">
+      <button class="btn go" type="button" data-calculate>{labels.calculate}</button>
+      <button class="btn ghost" type="button" data-today>{labels.useToday}</button>
+    </div>
+  </div>
+  <p class="form-error" data-error role="alert" hidden></p>
+  <div class="stats-grid age-results" aria-live="polite">
+    <div><span>{labels.result}</span><strong data-age>--</strong></div>
+    <div><span>{labels.daysLived}</span><strong data-days-lived>--</strong></div>
+    <div><span>{labels.hours}</span><strong data-hours>--</strong></div>
+    <div><span>{labels.nextBirthday}</span><strong data-next>--</strong></div>
+    <div><span>{labels.bornWeekday}</span><strong data-weekday>--</strong></div>
+    <div><span>{labels.heartbeats}</span><strong data-heartbeats>--</strong></div>
+  </div>
+  <div class="actions">
+    <button class="btn ghost" type="button" data-copy>{labels.copyResult}</button>
+  </div>
+  <span class="toast" role="status" aria-live="polite" hidden>{labels.copied}</span>
+</section>
+
+<style>
+  .compact-actions {
+    align-self: end;
+  }
+
+  .age-results {
+    margin-top: 18px;
+  }
+
+  .age-results strong {
+    font-size: 1.2rem;
+  }
+</style>
+
+<script>
+  document.querySelectorAll('[data-age-tool]').forEach((root) => {
+    const labels = JSON.parse(root.getAttribute('data-labels') || '{}');
+    const birthdayInput = root.querySelector('[data-birthday]');
+    const asOfInput = root.querySelector('[data-as-of]');
+    const error = root.querySelector('[data-error]');
+    const toast = root.querySelector('.toast');
+    const outputs = {
+      age: root.querySelector('[data-age]'),
+      daysLived: root.querySelector('[data-days-lived]'),
+      hours: root.querySelector('[data-hours]'),
+      next: root.querySelector('[data-next]'),
+      weekday: root.querySelector('[data-weekday]'),
+      heartbeats: root.querySelector('[data-heartbeats]'),
+    };
+    let latestText = '';
+
+    function localDate(value) {
+      if (!value) return null;
+      const [year, month, day] = value.split('-').map(Number);
+      if (!year || !month || !day) return null;
+      return new Date(year, month - 1, day);
+    }
+
+    function dateString(date) {
+      const offset = date.getTimezoneOffset() * 60000;
+      return new Date(date.getTime() - offset).toISOString().slice(0, 10);
+    }
+
+    function addYears(date, years) {
+      const copy = new Date(date);
+      copy.setFullYear(copy.getFullYear() + years);
+      return copy;
+    }
+
+    function addMonths(date, months) {
+      const copy = new Date(date);
+      const day = copy.getDate();
+      copy.setDate(1);
+      copy.setMonth(copy.getMonth() + months);
+      const lastDay = new Date(copy.getFullYear(), copy.getMonth() + 1, 0).getDate();
+      copy.setDate(Math.min(day, lastDay));
+      return copy;
+    }
+
+    function setError(message) {
+      error.textContent = message;
+      error.hidden = !message;
+    }
+
+    function formatNumber(number) {
+      return new Intl.NumberFormat(document.documentElement.lang || 'en').format(number);
+    }
+
+    function calendarAge(birthday, asOf) {
+      let years = 0;
+      let months = 0;
+      let cursor = new Date(birthday);
+      while (addYears(cursor, 1) <= asOf) {
+        cursor = addYears(cursor, 1);
+        years += 1;
+      }
+      while (addMonths(cursor, 1) <= asOf) {
+        cursor = addMonths(cursor, 1);
+        months += 1;
+      }
+      const days = Math.floor((asOf - cursor) / 86400000);
+      return { years, months, days };
+    }
+
+    function nextBirthdayDays(birthday, asOf) {
+      let next = new Date(asOf.getFullYear(), birthday.getMonth(), birthday.getDate());
+      if (next < asOf) next = new Date(asOf.getFullYear() + 1, birthday.getMonth(), birthday.getDate());
+      return Math.ceil((next - asOf) / 86400000);
+    }
+
+    function calculate() {
+      const birthday = localDate(birthdayInput.value);
+      const asOf = localDate(asOfInput.value);
+      if (!birthday) {
+        setError(labels.birthdayError);
+        return;
+      }
+      if (!asOf || birthday > asOf) {
+        setError(labels.futureError);
+        return;
+      }
+
+      const age = calendarAge(birthday, asOf);
+      const daysLived = Math.floor((asOf - birthday) / 86400000);
+      const hoursLived = daysLived * 24;
+      const heartbeats = daysLived * 1440 * 70;
+      const nextDays = nextBirthdayDays(birthday, asOf);
+      const weekday = new Intl.DateTimeFormat(document.documentElement.lang || 'en', { weekday: 'long' }).format(birthday);
+
+      outputs.age.textContent = `${age.years} ${labels.years} ${age.months} ${labels.months} ${age.days} ${labels.days}`;
+      outputs.daysLived.textContent = `${formatNumber(daysLived)} ${labels.days}`;
+      outputs.hours.textContent = `${labels.approximate} ${formatNumber(hoursLived)} ${labels.hours}`;
+      outputs.next.textContent = `${nextDays} ${labels.days}`;
+      outputs.weekday.textContent = weekday;
+      outputs.heartbeats.textContent = `${labels.approximate} ${formatNumber(heartbeats)}`;
+      latestText = [
+        `${labels.birthday}: ${birthdayInput.value}`,
+        `${labels.asOf}: ${asOfInput.value}`,
+        `${labels.result}: ${outputs.age.textContent}`,
+        `${labels.daysLived}: ${outputs.daysLived.textContent}`,
+        `${labels.hours}: ${outputs.hours.textContent}`,
+        `${labels.nextBirthday}: ${outputs.next.textContent}`,
+        `${labels.bornWeekday}: ${weekday}`,
+        `${labels.heartbeats}: ${outputs.heartbeats.textContent}`,
+      ].join('\n');
+      setError('');
+    }
+
+    root.querySelector('[data-calculate]')?.addEventListener('click', calculate);
+    root.querySelector('[data-today]')?.addEventListener('click', () => {
+      asOfInput.value = dateString(new Date());
+      calculate();
+    });
+    root.querySelector('[data-copy]')?.addEventListener('click', async () => {
+      if (!latestText) calculate();
+      if (!latestText) return;
+      try {
+        await navigator.clipboard.writeText(latestText);
+        toast.hidden = false;
+        window.setTimeout(() => {
+          toast.hidden = true;
+        }, 1500);
+      } catch {
+        window.prompt(labels.copyResult, latestText);
+      }
+    });
+
+    asOfInput.value = dateString(new Date());
+  });
+</script>
+

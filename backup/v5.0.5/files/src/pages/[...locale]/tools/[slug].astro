@@ -1,0 +1,186 @@
+---
+import ToolLayout from '../../../layouts/ToolLayout.astro';
+import { SITE, type Locale } from '../../../config/site';
+import { getCategoryById } from '../../../data/categories';
+import { liveTools, type ToolMeta } from '../../../data/tools';
+import { t } from '../../../i18n/ui';
+import { breadcrumbJsonLd, webApplicationJsonLd } from '../../../lib/seo';
+import { getToolContent } from '../../../lib/toolContent';
+import { getToolWidget } from '../../../lib/toolWidgets';
+import { categoryUrl, localePath, toolUrl } from '../../../lib/url';
+
+export function getStaticPaths() {
+  return SITE.locales.flatMap((lang) =>
+    liveTools.map((tool) => ({
+      params: { locale: lang === SITE.defaultLocale ? undefined : lang, slug: tool.slug },
+      props: { lang, tool },
+    })),
+  );
+}
+
+const { lang, tool } = Astro.props as { lang: Locale; tool: ToolMeta };
+const category = getCategoryById(tool.category);
+if (!category) {
+  throw new Error(`Missing category for tool: ${tool.slug}`);
+}
+
+const content = getToolContent(tool.slug, lang);
+const Widget = getToolWidget(tool.slug);
+if (!content) {
+  throw new Error(`Missing content for tool: ${tool.slug}`);
+}
+if (!Widget) {
+  throw new Error(`Missing widget for tool: ${tool.slug}`);
+}
+const ui = t(lang);
+const breadcrumbItems = [
+  { name: ui.breadcrumbHome, href: localePath(lang) },
+  { name: ui.allTools, href: localePath(lang, 'tools') },
+  { name: category.name[lang], href: categoryUrl(lang, category.id) },
+  { name: content.name, href: toolUrl(lang, tool.slug) },
+];
+const jsonLd = [
+  webApplicationJsonLd(lang, tool, content, category),
+  breadcrumbJsonLd(breadcrumbItems),
+];
+const ga4Enabled = !!SITE.ga4MeasurementId;
+---
+
+<ToolLayout lang={lang} tool={tool} category={category} content={content} jsonLd={jsonLd}>
+  <Widget labels={content.labels} slug={tool.slug} />
+  <script>
+    import { recordRecentlyUsedTool } from '../../../lib/userTools.client';
+
+    const toolPage = document.querySelector('[data-tool-slug]');
+    if (toolPage instanceof HTMLElement) {
+      recordRecentlyUsedTool(toolPage.dataset.toolSlug || '');
+    }
+  </script>
+  {
+    ga4Enabled && (
+      <script
+        is:inline
+        define:vars={{
+          toolSlug: tool.slug,
+          toolName: content.name,
+          toolCategory: category.id,
+          toolLanguage: lang,
+        }}
+      >
+        const analyticsWindow = window;
+        const eventParams = {
+          tool_slug: toolSlug,
+          tool_name: toolName,
+          tool_category: toolCategory,
+          tool_language: toolLanguage,
+        };
+
+        const sendAnalyticsEvent = (eventName, params = {}) => {
+          const payload = { ...eventParams, ...params };
+          if (typeof analyticsWindow.gtag === 'function') {
+            analyticsWindow.gtag('event', eventName, payload);
+            return;
+          }
+          analyticsWindow.dataLayer = analyticsWindow.dataLayer || [];
+          analyticsWindow.dataLayer.push({ event: eventName, ...payload });
+        };
+
+        const sendCustomToolEvent = (eventName, params = {}) => {
+          analyticsWindow.__ft_track?.(eventName, {
+            tool_id: toolSlug,
+            tool_name: toolName,
+            category: toolCategory,
+            ...params,
+          });
+        };
+
+        sendAnalyticsEvent('tool_view');
+
+        const interactionRoot = document.querySelector('.tool-interaction');
+        if (interactionRoot) {
+          let started = false;
+          let lastCompletionAt = 0;
+          let lastErrorAt = 0;
+
+          const isVisible = (element) =>
+            element instanceof HTMLElement
+            && !element.hidden
+            && element.getAttribute('aria-hidden') !== 'true'
+            && element.getClientRects().length > 0;
+
+          const dataAction = (element) => {
+            if (!(element instanceof HTMLElement)) return 'unknown';
+            const attribute = Array.from(element.attributes).find(
+              ({ name }) => name.startsWith('data-') && name !== 'data-labels',
+            );
+            if (!attribute) return 'generic';
+            const key = attribute.name.slice(5);
+            const staticValue = ['action', 'mode', 'tool'].includes(key) ? attribute.value : '';
+            return `${key}${staticValue ? `_${staticValue}` : ''}`.replace(/[^a-z0-9_]+/gi, '_');
+          };
+
+          const markStarted = (controlType) => {
+            if (started) return;
+            started = true;
+            sendAnalyticsEvent('tool_started', { control_type: controlType });
+            sendCustomToolEvent('tool_use_start', { control_type: controlType });
+          };
+
+          interactionRoot.addEventListener('change', (event) => {
+            const target = event.target;
+            if (target instanceof HTMLInputElement || target instanceof HTMLSelectElement || target instanceof HTMLTextAreaElement) {
+              markStarted(target instanceof HTMLInputElement && target.type === 'file' ? 'file' : target.tagName.toLowerCase());
+            }
+          });
+
+          interactionRoot.addEventListener('click', (event) => {
+            const target = event.target instanceof Element ? event.target.closest('button, a') : null;
+            if (!(target instanceof HTMLElement) || target.hasAttribute('disabled')) return;
+            const actionName = dataAction(target);
+            if (!/(^|_)(reset|clear|pause|undo|redo|remove|delete)(_|$)/.test(actionName)) {
+              markStarted(target.tagName.toLowerCase());
+            }
+
+            if (actionName.includes('copy')) {
+              sendAnalyticsEvent('result_action', { result_action: 'copy' });
+              sendCustomToolEvent('copy_result', { result_action: 'copy' });
+            } else if (actionName.includes('download') || actionName.includes('export') || target.hasAttribute('download')) {
+              sendAnalyticsEvent('file_download', { download_action: actionName });
+              sendCustomToolEvent('result_download', { download_action: actionName });
+            } else if (target.matches('.btn.go')) {
+              sendAnalyticsEvent('tool_action', { action_name: actionName });
+            }
+          });
+
+          const observer = new MutationObserver((mutations) => {
+            const now = Date.now();
+            for (const mutation of mutations) {
+              const element = mutation.target instanceof Element ? mutation.target : mutation.target.parentElement;
+              if (!element) continue;
+              const error = element.closest('[data-error], .form-error');
+              if (error && isVisible(error) && error.textContent?.trim() && now - lastErrorAt > 750) {
+                lastErrorAt = now;
+                sendAnalyticsEvent('tool_error', { error_type: 'validation_or_processing' });
+                continue;
+              }
+              const result = element.closest('[data-results], [data-result], output, .resultbox, .bigresult, [aria-live="polite"]');
+              if (started && result && isVisible(result) && result.textContent?.trim() && now - lastCompletionAt > 750) {
+                lastCompletionAt = now;
+                sendAnalyticsEvent('tool_completed');
+                sendCustomToolEvent('tool_use_success');
+              }
+            }
+          });
+
+          observer.observe(interactionRoot, {
+            subtree: true,
+            childList: true,
+            characterData: true,
+            attributes: true,
+            attributeFilter: ['hidden', 'aria-hidden'],
+          });
+        }
+      </script>
+    )
+  }
+</ToolLayout>

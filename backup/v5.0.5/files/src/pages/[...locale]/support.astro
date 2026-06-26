@@ -1,0 +1,553 @@
+---
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { SITE } from '../../config/site';
+import { absoluteUrl, assetPath, localePath } from '../../lib/url';
+import { breadcrumbJsonLd, webPageJsonLd } from '../../lib/seo';
+
+export function getStaticPaths() {
+  return [{ params: { locale: 'en' }, props: { lang: 'en' } }];
+}
+
+const lang = 'en' as const;
+const title = 'Support FreeTools';
+const seoTitle = 'Support FreeTools with sharing and feedback';
+const description = 'Support FreeTools by sharing free browser tools, sending useful feedback, or using optional resource links when they fit your needs.';
+const supportUrl = localePath(lang, 'support');
+const homeUrl = absoluteUrl(localePath(lang));
+const shareText = 'Free online tools for everyday work, study, files, money, and quick decisions.';
+const encodedHomeUrl = encodeURIComponent(homeUrl);
+const encodedSharePost = encodeURIComponent(`${shareText} ${homeUrl}`);
+const socialShareLinks = [
+  {
+    name: 'Facebook',
+    shortLabel: 'f',
+    href: `https://www.facebook.com/sharer/sharer.php?u=${encodedHomeUrl}`,
+  },
+  {
+    name: 'X',
+    shortLabel: 'X',
+    href: `https://x.com/intent/post?text=${encodedSharePost}`,
+  },
+  {
+    name: 'Threads',
+    shortLabel: '@',
+    href: `https://www.threads.net/intent/post?text=${encodedSharePost}`,
+  },
+];
+const breadcrumbItems = [
+  { name: 'Home', href: localePath(lang) },
+  { name: 'Support', href: supportUrl },
+];
+const jsonLd = [
+  webPageJsonLd(lang, title, description, supportUrl),
+  breadcrumbJsonLd(breadcrumbItems),
+];
+---
+
+<BaseLayout
+  lang={lang}
+  title={seoTitle}
+  description={description}
+  alternateSegments={['support']}
+  robots="index, follow"
+  jsonLd={jsonLd}
+>
+  <div class="support-wrap">
+    <section class="support-hero">
+      <Breadcrumb
+        items={[
+          { label: 'Home', href: localePath(lang) },
+          { label: 'Support' },
+        ]}
+      />
+      <p class="eyebrow">Support</p>
+      <h1>{title}</h1>
+      <p class="lead">
+        FreeTools is kept free for everyday browser-based tasks. If the tools save you time,
+        you can help by sharing the site, reporting problems, suggesting new tools, or using the
+        recommended resource links below.
+      </p>
+    </section>
+
+    <section class="content-section" aria-labelledby="support-methods-heading">
+      <div class="section-head">
+        <h2 id="support-methods-heading">Ways to support FreeTools</h2>
+        <p>Choose the option that is useful to you. Sharing and feedback are just as helpful as affiliate links.</p>
+      </div>
+      <div class="support-methods">
+        <article class="support-method-card">
+          <span class="support-icon" aria-hidden="true">S</span>
+          <h3>Share FreeTools</h3>
+          <p>Send the site to a friend, classmate, teammate, or community when a small browser tool could help them finish a task faster.</p>
+          <div class="share-actions" aria-label="Share FreeTools">
+            {socialShareLinks.map((platform) => (
+              <a
+                class={`share-button share-${platform.name.toLowerCase()}`}
+                href={platform.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-support-source={`share_${platform.name.toLowerCase()}`}
+                aria-label={`Share on ${platform.name}`}
+                title={`Share on ${platform.name}`}
+              >
+                <span aria-hidden="true">{platform.shortLabel}</span>
+                <span>{platform.name}</span>
+              </a>
+            ))}
+          </div>
+          <button class="btn ghost copy-home-link" type="button" data-copy-home-link data-copy-url={homeUrl} data-support-source="copy_site_link">
+            <span aria-hidden="true">Link</span>
+            <span data-copy-label>Copy site link</span>
+          </button>
+          <p class="copy-status" data-copy-status role="status" aria-live="polite"></p>
+        </article>
+        <article class="support-method-card">
+          <span class="support-icon" aria-hidden="true">F</span>
+          <h3>Send feedback</h3>
+          <p>Tell us about broken pages, unclear wording, missing tool options, or small workflows that should be easier.</p>
+          <a class="inline-link" href={localePath(lang, 'contact')} data-support-source="feedback_contact">Go to the contact page</a>
+        </article>
+        <article class="support-method-card">
+          <span class="support-icon" aria-hidden="true">A</span>
+          <h3>Use recommended resource links</h3>
+          <p>When you already plan to shop, using an affiliate link may support ongoing maintenance without changing your price.</p>
+          <div class="support-card-actions">
+            <a class="inline-link" href="#resources" data-support-source="view_resources">View recommended resources</a>
+            <a
+              class="btn support-home-link"
+              href="https://www.amazon.com/?&linkCode=ll2&tag=funnytools-20&linkId=778ecc16814fbbf7f0d053c434db85a8&language=en_US&ref_=as_li_ss_tl"
+              target="_blank"
+              rel="sponsored nofollow noopener"
+              data-support-source="affiliate_amazon"
+            >Open Amazon</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="resources" class="content-section anchor-section" aria-labelledby="resources-heading">
+      <div class="section-head resource-heading">
+        <div>
+          <h2 id="resources-heading">Recommended resources</h2>
+          <p>These links are optional. Use them only when they fit what you already need.</p>
+        </div>
+        <button class="btn ghost refresh-products" type="button" data-refresh-products disabled>
+          <span aria-hidden="true">Refresh</span>
+        </button>
+      </div>
+
+      <aside class="affiliate-disclosure" aria-label="Affiliate link disclosure">
+        <strong>Affiliate disclosure</strong>
+        <p>
+          Some recommended resource links may be affiliate links. FreeTools may receive a commission
+          if you purchase after clicking, with no extra cost added by FreeTools. Recommendations are
+          kept separate from tool results and do not affect how the tools work.
+        </p>
+      </aside>
+
+      <p class="resource-note">For English visitors, this section currently shows Amazon resources only.</p>
+      <p class="resource-status" data-resource-status role="status" aria-live="polite">Loading recommended resources...</p>
+      <div
+        class="support-product-grid"
+        data-support-products
+        data-support-products-src="/data/support-products-en.json"
+        data-support-products-platforms="amazon"
+        aria-busy="true"
+      ></div>
+      <noscript>
+        <p class="empty-state">Enable JavaScript to view recommended resources.</p>
+      </noscript>
+    </section>
+
+    <section class="content-section support-reminder" aria-labelledby="choose-heading">
+      <h2 id="choose-heading">Choose only what makes sense for you</h2>
+      <p>FreeTools remains free to use. Sharing the site or sending a useful bug report is already meaningful support.</p>
+    </section>
+  </div>
+
+  <script src={`${assetPath('support-products.js')}?v=20260623-support-en`} defer></script>
+  <script>
+    const copyButton = document.querySelector('[data-copy-home-link]');
+    const copyStatus = document.querySelector('[data-copy-status]');
+    const copyLabel = copyButton?.querySelector('[data-copy-label]');
+
+    const fallbackCopy = (text: string) => {
+      const input = document.createElement('textarea');
+      input.value = text;
+      input.setAttribute('readonly', '');
+      input.style.position = 'fixed';
+      input.style.opacity = '0';
+      document.body.append(input);
+      input.select();
+      const copied = document.execCommand('copy');
+      input.remove();
+      return copied;
+    };
+
+    copyButton?.addEventListener('click', async () => {
+      const homeUrl = copyButton.getAttribute('data-copy-url');
+      if (!homeUrl) return;
+      window.__ft_track?.('support_click', {
+        source: copyButton.getAttribute('data-support-source') || 'copy_site_link'
+      });
+
+      try {
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(homeUrl);
+        } else if (!fallbackCopy(homeUrl)) {
+          throw new Error('Copy failed');
+        }
+
+        if (copyLabel) copyLabel.textContent = 'Copied';
+        if (copyStatus) copyStatus.textContent = 'FreeTools link copied.';
+        window.setTimeout(() => {
+          if (copyLabel) copyLabel.textContent = 'Copy site link';
+          if (copyStatus) copyStatus.textContent = '';
+        }, 2400);
+      } catch {
+        if (copyStatus) copyStatus.textContent = `Could not copy automatically: ${homeUrl}`;
+      }
+    });
+
+    document.querySelectorAll('[data-support-source]').forEach((link) => {
+      if (link === copyButton) return;
+      link.addEventListener('click', () => {
+        const source = link.getAttribute('data-support-source') || 'support_page';
+        window.__ft_track?.('support_click', { source });
+        if (source.startsWith('share_')) {
+          window.__ft_track?.('share_click', { method: source.replace(/^share_/, '') });
+        }
+      });
+    });
+  </script>
+</BaseLayout>
+
+<style>
+  .support-wrap {
+    width: min(100% - 32px, 960px);
+    margin-inline: auto;
+  }
+
+  .support-hero {
+    margin-top: 20px;
+    padding: 28px 24px 30px;
+    border: 1px solid rgba(219, 227, 238, 0.72);
+    border-radius: 28px;
+    background:
+      linear-gradient(135deg, rgba(15, 143, 140, 0.12), rgba(62, 99, 221, 0.08) 62%, rgba(242, 107, 79, 0.08)),
+      #fff;
+  }
+
+  .support-hero h1 {
+    max-width: 760px;
+  }
+
+  .support-methods {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .support-method-card {
+    display: flex;
+    min-height: 240px;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: var(--card);
+    box-shadow: var(--shadow-soft);
+  }
+
+  .support-method-card h3,
+  .support-method-card p {
+    margin: 0;
+  }
+
+  .support-method-card h3 {
+    margin-top: 14px;
+    font-size: 1.08rem;
+  }
+
+  .support-method-card p {
+    margin-top: 8px;
+    color: var(--muted);
+  }
+
+  .support-method-card .inline-link {
+    margin-top: auto;
+    padding-top: 14px;
+  }
+
+  .share-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    width: 100%;
+    margin-top: 16px;
+  }
+
+  .share-button {
+    display: inline-flex;
+    min-height: 42px;
+    align-items: center;
+    gap: 8px;
+    justify-content: center;
+    padding: 8px 10px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: #fff;
+    color: var(--ink);
+    font-size: 0.86rem;
+    font-weight: 800;
+    text-decoration: none;
+  }
+
+  .share-button > span:first-child,
+  .support-icon {
+    display: inline-grid;
+    place-items: center;
+    font-weight: 900;
+  }
+
+  .share-button > span:first-child {
+    width: 24px;
+    height: 24px;
+    border-radius: 7px;
+    background: var(--soft);
+    color: var(--brand-2);
+    font-size: 0.76rem;
+  }
+
+  .copy-home-link {
+    width: 100%;
+    min-height: 42px;
+    margin-top: 10px;
+  }
+
+  .copy-status {
+    min-height: 1.35em;
+    margin: 6px 0 0 !important;
+    color: var(--brand) !important;
+    font-size: 0.78rem;
+  }
+
+  .support-card-actions {
+    display: grid;
+    gap: 10px;
+    width: 100%;
+    margin-top: auto;
+    padding-top: 14px;
+  }
+
+  .support-card-actions .inline-link {
+    margin-top: 0;
+    padding-top: 0;
+  }
+
+  .support-home-link {
+    justify-self: start;
+    min-height: 40px;
+    padding: 8px 12px;
+    font-size: 0.92rem;
+  }
+
+  .support-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 13px;
+    background: var(--soft);
+    color: var(--brand);
+    font-size: 1rem;
+  }
+
+  .resource-heading {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .resource-heading h2,
+  .resource-heading p {
+    margin: 0;
+  }
+
+  .affiliate-disclosure {
+    padding: 18px 20px;
+    border: 1px solid #cfe6e3;
+    border-left: 4px solid var(--brand);
+    border-radius: 12px;
+    background: #f2fbfa;
+  }
+
+  .affiliate-disclosure strong {
+    color: #0b6f6b;
+  }
+
+  .affiliate-disclosure p {
+    margin: 6px 0 0;
+    color: #3f5f5d;
+  }
+
+  .resource-note,
+  .resource-status {
+    color: var(--muted);
+    font-size: 0.92rem;
+  }
+
+  .resource-note {
+    margin: 14px 0 0;
+  }
+
+  .resource-status {
+    min-height: 1.5em;
+    margin: 6px 0 12px;
+  }
+
+  :global(.support-product-grid) {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  :global(.support-product-card) {
+    display: flex;
+    min-width: 0;
+    min-height: 310px;
+    flex-direction: column;
+    padding: 16px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: var(--card);
+    box-shadow: var(--shadow-soft);
+  }
+
+  :global(.support-product-icon) {
+    display: inline-grid;
+    width: 44px;
+    height: 44px;
+    place-items: center;
+    border-radius: 14px;
+    background: linear-gradient(135deg, rgba(15, 143, 140, 0.13), rgba(62, 99, 221, 0.11));
+    font-size: 1.35rem;
+  }
+
+  :global(.support-product-media) {
+    display: grid;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    max-height: 180px;
+    place-items: center;
+    overflow: hidden;
+    border: 1px solid #e3e9f1;
+    border-radius: 12px;
+    background: #fff;
+  }
+
+  :global(.support-product-media img) {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  :global(.support-product-platform) {
+    align-self: flex-start;
+    margin-top: 14px;
+    padding: 3px 8px;
+    border-radius: 999px;
+    background: #f2f4f7;
+    color: var(--muted);
+    font-size: 0.76rem;
+    font-weight: 800;
+  }
+
+  :global(.support-product-card h3) {
+    margin: 10px 0 0;
+    font-size: 1rem;
+    line-height: 1.35;
+  }
+
+  :global(.support-product-card p) {
+    margin: 8px 0 0;
+    color: var(--muted);
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  :global(.support-product-tags) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin: 12px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  :global(.support-product-tags li) {
+    padding: 2px 7px;
+    border: 1px solid #d9e5ef;
+    border-radius: 999px;
+    color: var(--brand-2);
+    font-size: 0.72rem;
+    font-weight: 700;
+  }
+
+  :global(.support-product-card .btn) {
+    align-self: stretch;
+    margin-top: auto;
+    padding-top: 9px;
+    padding-bottom: 9px;
+  }
+
+  .support-reminder {
+    padding: 20px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: #fff;
+  }
+
+  .support-reminder h2,
+  .support-reminder p {
+    margin: 0;
+  }
+
+  .support-reminder p {
+    margin-top: 8px;
+    color: var(--muted);
+  }
+
+  @media (max-width: 820px) {
+    :global(.support-product-grid) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 760px) {
+    .support-hero {
+      padding: 24px 16px;
+      border-radius: 20px;
+    }
+
+    .support-methods {
+      grid-template-columns: 1fr;
+    }
+
+    .resource-heading {
+      align-items: stretch;
+      flex-direction: column;
+    }
+  }
+
+  @media (max-width: 520px) {
+    :global(.support-product-grid) {
+      grid-template-columns: 1fr;
+    }
+
+    :global(.support-product-card) {
+      min-height: 0;
+    }
+  }
+</style>

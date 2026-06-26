@@ -1,0 +1,40 @@
+---
+import type { Locale } from '../config/site';
+import { t } from '../i18n/ui';
+
+interface Props {
+  lang: Locale;
+  items: { q: string; a: string }[];
+  emitJsonLd?: boolean;
+}
+
+const { lang, items, emitJsonLd = true } = Astro.props;
+const ui = t(lang);
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: items.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.a,
+    },
+  })),
+};
+---
+
+<section class="faq content-section">
+  <h2>{ui.faq}</h2>
+  <dl>
+    {
+      items.map((item) => (
+        <>
+          <dt>{item.q}</dt>
+          <dd>{item.a}</dd>
+        </>
+      ))
+    }
+  </dl>
+  {emitJsonLd && <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />}
+</section>

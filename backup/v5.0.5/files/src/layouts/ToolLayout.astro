@@ -1,0 +1,347 @@
+---
+import AdSlot from '../components/AdSlot.astro';
+import CategoryIcon from '../components/CategoryIcon.astro';
+import AffiliateBlock from '../components/AffiliateBlock.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import EmbedCode from '../components/EmbedCode.astro';
+import Faq from '../components/Faq.astro';
+import NewsletterSignup from '../components/NewsletterSignup.astro';
+import RelatedResources from '../components/RelatedResources.astro';
+import RelatedToolsAfterSuccess from '../components/RelatedToolsAfterSuccess.astro';
+import RelatedTools from '../components/RelatedTools.astro';
+import ShareButtons from '../components/ShareButtons.astro';
+import SponsorBlock from '../components/SponsorBlock.astro';
+import BaseLayout from './BaseLayout.astro';
+import type { Locale } from '../config/site';
+import type { Category } from '../data/categories';
+import type { ToolMeta } from '../data/tools';
+import type { ToolContent } from '../i18n/tools/_types';
+import { getGuidesForTool } from '../data/seoGuides';
+import { getWorkflowsForTool } from '../data/workflows';
+import { t } from '../i18n/ui';
+import { toolSeoDescription, toolSeoTitle } from '../lib/seo';
+import { absoluteUrl, categoryUrl, localePath, toolUrl } from '../lib/url';
+
+interface Props {
+  lang: Locale;
+  tool: ToolMeta;
+  category: Category;
+  content: ToolContent;
+  jsonLd: Record<string, unknown>[];
+}
+
+const { lang, tool, category, content, jsonLd } = Astro.props;
+const ui = t(lang);
+const currentUrl = absoluteUrl(toolUrl(lang, tool.slug));
+const seoTitle = toolSeoTitle(lang, content);
+const seoDescription = toolSeoDescription(lang, content, tool.privacyLevel === 'local-only');
+const breadcrumbItems = [
+  { label: ui.breadcrumbHome, href: localePath(lang) },
+  { label: ui.allTools, href: localePath(lang, 'tools') },
+  { label: category.name[lang], href: categoryUrl(lang, category.id) },
+  { label: content.name },
+];
+const relatedGuides = getGuidesForTool(tool.slug, lang).slice(0, 4);
+const relatedGuidesHeading = lang === 'zh' ? '延伸閱讀：使用教學' : 'Related guides';
+const relatedWorkflows = getWorkflowsForTool(tool.slug, lang).slice(0, 2);
+const relatedWorkflowsHeading = lang === 'zh' ? '相關工具包' : 'Related toolkits';
+---
+
+<BaseLayout
+  lang={lang}
+  title={seoTitle}
+  description={seoDescription}
+  keywords={content.keywords}
+  type="article"
+  alternateSegments={['tools', tool.slug]}
+  jsonLd={jsonLd}
+>
+  <article class="wrap tool-page" data-category={category.id} data-tool-slug={tool.slug}>
+    <Breadcrumb items={breadcrumbItems} />
+    <header class="tool-header tool-header-card">
+      <div class="tool-header-card__top">
+        <span class="tool-title-icon"><CategoryIcon category={category.id} /></span>
+        <div>
+          <h1>{content.name}</h1>
+          <div class="tool-header-card__badges">
+            {tool.privacyLevel === 'local-only' && <span class="badge badge--privacy">{ui.privacyBadge}</span>}
+            <span class="badge category-badge">{category.name[lang]}</span>
+          </div>
+        </div>
+        <button
+          class="favorite-toggle favorite-toggle--header"
+          type="button"
+          aria-label={ui.favoriteAdd}
+          aria-pressed="false"
+          data-favorite-toggle
+          data-fav-slug={tool.slug}
+          data-label-add={ui.favoriteAdd}
+          data-label-remove={ui.favoriteRemove}
+        >
+          <span aria-hidden="true">☆</span>
+        </button>
+      </div>
+      <p class="tool-purpose">{content.short}</p>
+      <p class="lead">{content.long}</p>
+    </header>
+
+    <section class="content-section tool-interaction" aria-labelledby="tool-interaction-title">
+      <h2 id="tool-interaction-title">{ui.sections.toolArea}</h2>
+      <slot />
+    </section>
+
+    <ShareButtons lang={lang} url={currentUrl} title={content.name} />
+
+    <RelatedToolsAfterSuccess lang={lang} current={tool} />
+
+    {
+      content.capabilities && content.capabilities.length > 0 && (
+        <section class="content-section">
+          <h2>{ui.sections.capabilities}</h2>
+          <ul class="check-list">
+            {content.capabilities.map((item) => <li>{item}</li>)}
+          </ul>
+        </section>
+      )
+    }
+
+    {
+      content.contentSections?.map((section) => (
+        <section class="content-section">
+          <h2>{section.heading}</h2>
+          {section.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+          {section.items && section.items.length > 0 && (
+            <ul class="check-list">
+              {section.items.map((item) => <li>{item}</li>)}
+            </ul>
+          )}
+        </section>
+      ))
+    }
+
+    {content.formula && (
+      <section class="content-section formula-panel">
+        <h2>{lang === 'zh' ? '公式與計算方式' : 'Formula and calculation'}</h2>
+        <p class="formula-expression"><code>{content.formula.expression}</code></p>
+        <p>{content.formula.explanation}</p>
+      </section>
+    )}
+
+    {content.educationApplication && (
+      <section class="content-section">
+        <h2>{lang === 'zh' ? '教育應用說明' : 'Educational applications'}</h2>
+        <p>{content.educationApplication}</p>
+      </section>
+    )}
+
+    {content.reportTip && (
+      <section class="content-section report-tip">
+        <h2>{lang === 'zh' ? 'APA／研究報告描述提示' : 'APA / research reporting tip'}</h2>
+        <p>{content.reportTip}</p>
+      </section>
+    )}
+
+    <AdSlot />
+    <SponsorBlock lang={lang} />
+
+    <section class="content-section">
+      <h2>{ui.sections.howToUse}</h2>
+      <ol class="step-list">
+        {content.instructions.map((item) => <li>{item}</li>)}
+      </ol>
+    </section>
+
+    <section class="content-section">
+      <h2>{ui.sections.useCases}</h2>
+      <ul class="check-list">
+        {content.examples.map((item) => <li>{item}</li>)}
+      </ul>
+    </section>
+
+    {
+      content.audience && content.audience.length > 0 && (
+        <section class="content-section">
+          <h2>{ui.sections.audience}</h2>
+          <ul class="check-list">
+            {content.audience.map((item) => <li>{item}</li>)}
+          </ul>
+        </section>
+      )
+    }
+
+    {
+      content.caseStudies && content.caseStudies.length > 0 && (
+        <section class="content-section">
+          <h2>{ui.sections.realExamples}</h2>
+          <div class="case-grid">
+            {content.caseStudies.map((item) => (
+              <article class="case-card">
+                <h3>{item.title}</h3>
+                <p>{item.description}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+      )
+    }
+
+    {
+      content.notes && content.notes.length > 0 && (
+        <section class="content-section">
+          <h2>{ui.sections.notes}</h2>
+          <ul class="note-list">
+            {content.notes.map((item) => <li>{item}</li>)}
+          </ul>
+        </section>
+      )
+    }
+
+    <Faq lang={lang} items={content.faq} />
+    <RelatedTools lang={lang} current={tool} />
+
+    {
+      relatedGuides.length > 0 && (
+        <section class="content-section related-guides" aria-labelledby="related-guides-title">
+          <h2 id="related-guides-title">{relatedGuidesHeading}</h2>
+          <div class="related-guide-list">
+            {relatedGuides.map((guide) => (
+              <a href={localePath(lang, 'guides', guide.slug)}>
+                <strong>{guide.title}</strong>
+                <span>{guide.summary}</span>
+              </a>
+            ))}
+          </div>
+        </section>
+      )
+    }
+
+    {
+      relatedWorkflows.length > 0 && (
+        <section class="content-section related-guides" aria-labelledby="related-workflows-title">
+          <h2 id="related-workflows-title">{relatedWorkflowsHeading}</h2>
+          <div class="related-guide-list">
+            {relatedWorkflows.map((workflow) => (
+              <a href={localePath(lang, 'workflows', workflow.slug)}>
+                <strong>{workflow.title}</strong>
+                <span>{workflow.purpose}</span>
+              </a>
+            ))}
+          </div>
+        </section>
+      )
+    }
+
+    <section class="content-section privacy-note">
+      <h2>{ui.privacy.heading}</h2>
+      {tool.privacyLevel === 'local-only' && <p class="privacy-highlight">{ui.privacy.localOnly}</p>}
+      <p>{content.privacyNote ?? ui.privacy.defaultNote}</p>
+    </section>
+
+    <section class="content-section trust-note">
+      <h2>{ui.trust.heading}</h2>
+      <p>{ui.trust.general}</p>
+      {category.id === 'money' && <p>{ui.trust.financial}</p>}
+    </section>
+
+    {content.disclaimer && (
+      <section class="content-section">
+        <h2>{ui.sections.disclaimer}</h2>
+        <p class="disclaimer">{content.disclaimer}</p>
+      </section>
+    )}
+
+    {tool.updated && (
+      <p class="updated">
+        {ui.lastUpdated}: <time datetime={tool.updated}>{tool.updated}</time>
+      </p>
+    )}
+
+    {tool.embedPotential !== 'low' && <EmbedCode lang={lang} tool={tool} />}
+    <NewsletterSignup lang={lang} />
+    <RelatedResources lang={lang} />
+    <AffiliateBlock lang={lang} />
+    <AdSlot />
+  </article>
+
+  <script>
+    import { isFavoriteTool, toggleFavoriteTool } from '../lib/userTools.client';
+
+    function initializeFavoriteToggles() {
+      document.querySelectorAll('[data-favorite-toggle]').forEach(function(toggle) {
+        if (!(toggle instanceof HTMLButtonElement) || toggle.dataset.favoriteReady === 'true') return;
+        const slug = toggle.dataset.favSlug || toggle.closest('[data-tool-id]')?.getAttribute('data-tool-id') || '';
+        const labelAdd = toggle.dataset.labelAdd || 'Add to favorites';
+        const labelRemove = toggle.dataset.labelRemove || 'Remove from favorites';
+
+        const setState = function(isFavorite) {
+          toggle.classList.toggle('is-favorite', isFavorite);
+          toggle.setAttribute('aria-pressed', String(isFavorite));
+          toggle.setAttribute('aria-label', isFavorite ? labelRemove : labelAdd);
+          const icon = toggle.querySelector('[aria-hidden="true"]');
+          if (icon) icon.textContent = isFavorite ? '★' : '☆';
+        };
+
+        toggle.dataset.favoriteReady = 'true';
+        setState(isFavoriteTool(slug));
+        toggle.addEventListener('click', function(event) {
+          event.preventDefault();
+          event.stopPropagation();
+          const nextState = toggleFavoriteTool(slug);
+          setState(nextState);
+          document.dispatchEvent(new CustomEvent('freetools:favorites-changed'));
+        });
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', initializeFavoriteToggles);
+    document.addEventListener('freetools:rendered-tools', initializeFavoriteToggles);
+
+    const interactionRoot = document.querySelector('.tool-interaction');
+    const successRecommendations = document.querySelector('[data-related-after-success]');
+    if (interactionRoot instanceof HTMLElement && successRecommendations instanceof HTMLElement) {
+      let shown = false;
+      const revealRecommendations = () => {
+        if (shown) return;
+        shown = true;
+        successRecommendations.hidden = false;
+      };
+
+      document.addEventListener('freetools:tool-success', revealRecommendations);
+
+      const isVisibleResult = (element) => {
+        if (!(element instanceof HTMLElement)) return false;
+        if (element.hidden || element.getAttribute('aria-hidden') === 'true') return false;
+        if (!element.getClientRects().length) return false;
+        if (!element.textContent?.trim()) return false;
+        return Boolean(element.closest('[data-results], [data-result], output, .resultbox, .bigresult, [aria-live="polite"]'));
+      };
+
+      const observer = new MutationObserver((mutations) => {
+        if (shown) return;
+        for (const mutation of mutations) {
+          const target = mutation.target instanceof Element ? mutation.target : mutation.target.parentElement;
+          if (isVisibleResult(target)) {
+            revealRecommendations();
+            break;
+          }
+        }
+      });
+
+      observer.observe(interactionRoot, {
+        subtree: true,
+        childList: true,
+        characterData: true,
+        attributes: true,
+        attributeFilter: ['hidden', 'aria-hidden'],
+      });
+    }
+  </script>
+</BaseLayout>
+
+<style>
+  .related-guide-list { display: grid; gap: 10px; }
+  .related-guide-list a { display: grid; gap: 5px; padding: 14px; border: 1px solid var(--line); border-radius: 10px; background: #fff; }
+  .related-guide-list a:hover { border-color: var(--brand); }
+  .related-guide-list strong { color: var(--ink); }
+  .related-guide-list span { color: var(--muted); line-height: 1.6; }
+</style>

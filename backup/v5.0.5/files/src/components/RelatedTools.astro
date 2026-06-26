@@ -1,0 +1,60 @@
+---
+import ToolCard from './ToolCard.astro';
+import type { Locale } from '../config/site';
+import type { ToolMeta } from '../data/tools';
+import { liveTools } from '../data/tools';
+import { t } from '../i18n/ui';
+
+interface Props {
+  lang: Locale;
+  current: ToolMeta;
+  limit?: number;
+}
+
+const { lang, current, limit = 6 } = Astro.props;
+const ui = t(lang);
+
+const manual = (current.relatedTools ?? [])
+  .map((slug) => liveTools.find((t) => t.slug === slug))
+  .filter((t): t is ToolMeta => t != null && t.slug !== current.slug);
+
+const sameCategory = liveTools.filter(
+  (tool) => tool.slug !== current.slug
+    && tool.category === current.category
+    && !manual.some((m) => m.slug === tool.slug),
+);
+
+const fallback = liveTools.filter(
+  (tool) => tool.slug !== current.slug
+    && !manual.some((m) => m.slug === tool.slug)
+    && !sameCategory.some((s) => s.slug === tool.slug),
+);
+
+const related = [...manual, ...sameCategory, ...fallback].slice(0, limit);
+---
+
+{
+  related.length > 0 && (
+    <section class="content-section related-tools">
+      <h2>{ui.relatedTools}</h2>
+      <div class="grid compact">
+        {related.map((tool) => <ToolCard lang={lang} tool={tool} />)}
+      </div>
+    </section>
+  )
+}
+
+<script>
+  document.querySelectorAll('.related-tools .tool-card').forEach(function(card) {
+    card.addEventListener('click', function() {
+      if (window.__ft_track) {
+        var toolPage = document.querySelector('.tool-page');
+        window.__ft_track('related_tool_click', {
+          tool_id: card.getAttribute('data-tool-id') || '',
+          tool_name: card.querySelector('.tool-card__title')?.textContent || '',
+          source_tool_id: toolPage ? toolPage.getAttribute('data-tool-slug') || '' : ''
+        });
+      }
+    });
+  });
+</script>

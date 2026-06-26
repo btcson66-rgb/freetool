@@ -1,0 +1,243 @@
+---
+interface Props {
+  labels: Record<string, string>;
+}
+
+const { labels } = Astro.props;
+---
+
+<section class="tool-widget card" data-qr-tool data-labels={JSON.stringify(labels)}>
+  <label class="textarea-label">
+    <span>{labels.inputLabel}</span>
+    <textarea data-text rows="4" placeholder={labels.placeholder}>https://example.com</textarea>
+  </label>
+  <div class="form-grid qr-options">
+    <label>
+      <span>{labels.correction}</span>
+      <select data-correction>
+        <option value="L">L</option>
+        <option value="M" selected>M</option>
+        <option value="Q">Q</option>
+        <option value="H">H</option>
+      </select>
+    </label>
+    <label>
+      <span>{labels.size}</span>
+      <select data-size>
+        <option value="128">128px</option>
+        <option value="256" selected>256px</option>
+        <option value="512">512px</option>
+      </select>
+    </label>
+  </div>
+  <div class="logo-field">
+    <label>
+      <span>{labels.logo}</span>
+      <input data-logo type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml" />
+    </label>
+    <button class="btn ghost" type="button" data-remove-logo hidden>{labels.removeLogo}</button>
+    <p class="logo-hint">{labels.logoHint}</p>
+  </div>
+  <p class="form-error" data-error role="alert" hidden></p>
+  <div class="qr-preview" aria-live="polite">
+    <canvas data-canvas width="256" height="256" role="img" aria-label={labels.canvasAlt}></canvas>
+  </div>
+  <div class="actions">
+    <button class="btn go" type="button" data-download>{labels.download}</button>
+    <button class="btn ghost" type="button" data-copy>{labels.copyImage}</button>
+  </div>
+  <span class="toast" role="status" aria-live="polite" hidden></span>
+</section>
+
+<style>
+  select {
+    width: 100%;
+    min-height: 48px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: #fff;
+    color: var(--ink);
+    padding: 10px 12px;
+    font: inherit;
+  }
+
+  .qr-options {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-bottom: 16px;
+  }
+
+  .logo-field {
+    margin-bottom: 8px;
+  }
+
+  .logo-field input[type='file'] {
+    width: 100%;
+    margin-top: 6px;
+    font: inherit;
+  }
+
+  .logo-field .btn {
+    margin-top: 8px;
+  }
+
+  .logo-hint {
+    margin: 8px 0 0;
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+
+  .qr-preview {
+    display: grid;
+    place-items: center;
+    margin: 18px 0;
+    padding: 18px;
+    border: 1px solid #cfe6e3;
+    border-radius: 8px;
+    background: #f2fbfa;
+  }
+
+  .qr-preview canvas {
+    width: min(100%, 256px);
+    height: auto;
+    border-radius: 8px;
+    background: #fff;
+  }
+
+  @media (max-width: 760px) {
+    .qr-options {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  document.querySelectorAll('[data-qr-tool]').forEach((root) => {
+    const labels = JSON.parse(root.getAttribute('data-labels') || '{}');
+    const textInput = root.querySelector('[data-text]');
+    const correctionInput = root.querySelector('[data-correction]');
+    const sizeInput = root.querySelector('[data-size]');
+    const canvas = root.querySelector('[data-canvas]');
+    const logoInput = root.querySelector('[data-logo]');
+    const removeLogoButton = root.querySelector('[data-remove-logo]');
+    const error = root.querySelector('[data-error]');
+    const toast = root.querySelector('.toast');
+    let renderTimer = null;
+    let logoImage = null;
+
+    function drawLogo() {
+      if (!logoImage) return;
+      const context = canvas.getContext('2d');
+      const size = Math.round(canvas.width * 0.22);
+      const x = Math.round((canvas.width - size) / 2);
+      const y = Math.round((canvas.height - size) / 2);
+      const pad = Math.round(size * 0.12);
+      context.fillStyle = '#ffffff';
+      context.fillRect(x - pad, y - pad, size + pad * 2, size + pad * 2);
+      context.drawImage(logoImage, x, y, size, size);
+    }
+
+    function setError(message) {
+      error.textContent = message;
+      error.hidden = !message;
+    }
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.hidden = false;
+      window.setTimeout(() => {
+        toast.hidden = true;
+      }, 1800);
+    }
+
+    async function renderQr() {
+      const value = textInput.value.trim();
+      if (!value) {
+        const context = canvas.getContext('2d');
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        setError(labels.emptyError);
+        return;
+      }
+
+      try {
+        const module = await import('qrcode');
+        const QRCode = module.default || module;
+        const width = Number(sizeInput.value);
+        canvas.width = width;
+        canvas.height = width;
+        await QRCode.toCanvas(canvas, value, {
+          errorCorrectionLevel: correctionInput.value,
+          margin: 2,
+          width,
+        });
+        drawLogo();
+        canvas.style.width = `${Math.min(width, 512)}px`;
+        setError('');
+      } catch {
+        setError(labels.renderError);
+      }
+    }
+
+    function scheduleRender() {
+      window.clearTimeout(renderTimer);
+      renderTimer = window.setTimeout(renderQr, 300);
+    }
+
+    function download() {
+      const anchor = document.createElement('a');
+      anchor.href = canvas.toDataURL('image/png');
+      anchor.download = 'qr-code.png';
+      anchor.click();
+    }
+
+    async function copyImage() {
+      if (!navigator.clipboard || typeof ClipboardItem === 'undefined') {
+        showToast(labels.copyUnsupported);
+        return;
+      }
+      canvas.toBlob(async (blob) => {
+        if (!blob) {
+          showToast(labels.copyUnsupported);
+          return;
+        }
+        try {
+          await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+          showToast(labels.copied);
+        } catch {
+          showToast(labels.copyUnsupported);
+        }
+      }, 'image/png');
+    }
+
+    function loadLogo(file) {
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        const image = new Image();
+        image.onload = () => {
+          logoImage = image;
+          removeLogoButton.hidden = false;
+          renderQr();
+        };
+        image.onerror = () => setError(labels.logoError);
+        image.src = reader.result;
+      };
+      reader.onerror = () => setError(labels.logoError);
+      reader.readAsDataURL(file);
+    }
+
+    textInput.addEventListener('input', scheduleRender);
+    correctionInput.addEventListener('change', scheduleRender);
+    sizeInput.addEventListener('change', scheduleRender);
+    logoInput?.addEventListener('change', () => loadLogo(logoInput.files && logoInput.files[0]));
+    removeLogoButton?.addEventListener('click', () => {
+      logoImage = null;
+      if (logoInput) logoInput.value = '';
+      removeLogoButton.hidden = true;
+      renderQr();
+    });
+    root.querySelector('[data-download]')?.addEventListener('click', download);
+    root.querySelector('[data-copy]')?.addEventListener('click', copyImage);
+    renderQr();
+  });
+</script>
+

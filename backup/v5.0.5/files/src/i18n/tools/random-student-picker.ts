@@ -1,0 +1,184 @@
+import type { ToolContent } from './_types';
+
+export default {
+  zh: {
+    name: '隨機點名工具',
+    short: '從學生名單中抽點一位，可避免重複直到全班輪完。',
+    long: '隨機點名工具讓老師貼上學生名單後抽出一位學生，適合課堂提問、活動示範、輪流分享與小組發表。可使用數字助手快速建立座號名單，也能開啟不重複模式，讓已抽過的人暫時排除，直到全部抽完後再開始下一輪，方便在投影畫面旁即時操作。',
+    seoTitle: '隨機點名工具｜免費課堂抽學生工具',
+    seoDescription: '免費隨機點名工具，可貼上學生名單、抽出一位學生、避免重複直到全部抽完。',
+    keywords: ['隨機點名', '抽學生', '課堂工具', 'random student picker'],
+    instructions: [
+      '在名單中輸入學生姓名，一行一位。',
+      '也可以用數字助手快速建立 1 到指定數字的名單。',
+      '視需要勾選不重複，讓每位學生都輪過一次。',
+      '按下抽出學生，結果會經過短暫轉動動畫後顯示。',
+      '需要記錄時，使用「複製結果」把抽到的名字複製成文字。',
+    ],
+    examples: [
+      '課堂問答時抽一位學生回答。',
+      '活動分配前先快速抽出示範者。',
+      '用 1 到座號數字建立名單，省下輸入時間。',
+      '輪流分享作品或報告時避免一直點到同一位學生。',
+    ],
+    audience: [
+      '需要在課堂提問時快速抽點學生的老師與助教。',
+      '想用座號建立名單、減少手動輸入時間的班級導師。',
+      '帶領營隊、社團或工作坊，想輪流安排示範者的活動主持人。',
+      '需要複製抽選結果作為課堂紀錄或活動記錄的人。',
+    ],
+    caseStudies: [
+      {
+        title: '課堂提問輪流抽點',
+        description: '老師貼上全班名單並開啟不重複模式，每次討論後抽一位學生回答，讓一輪結束前已回答的人暫時不再進入抽選池。',
+      },
+      {
+        title: '座號名單快速建立',
+        description: '班級導師使用數字助手建立 1 到 32 的座號名單，不必逐一輸入姓名，適合臨時抽籤或活動分配。',
+      },
+      {
+        title: '活動示範者抽選',
+        description: '工作坊主持人從參與者名單中抽出一位示範者，再把結果複製到活動紀錄，保留簡單可追溯的文字紀錄。',
+      },
+    ],
+    notes: [
+      '隨機抽點是課堂輔助工具，不應作為評量參與度或公平性的唯一依據。',
+      '不重複紀錄只適用於目前頁面與目前名單；重新整理或更換名單後可能需要重新開始。',
+      '工具會依抽選順序記錄點名紀錄，可複製目前結果為文字，也可把整輪紀錄匯出成 CSV；按重設會清空紀錄，目前沒有 Excel 或圖片檔案匯出。',
+    ],
+    faq: [
+      {
+        q: '不重複模式如何運作？',
+        a: '工具會記住目前名單中已抽過的人，下一次從剩餘名單抽選；全部抽完後會自動清空紀錄重新開始。',
+      },
+      {
+        q: '名單會被儲存嗎？',
+        a: '不會。名單只存在目前頁面中，重新整理或離開頁面後不會保留。',
+      },
+      {
+        q: '同名學生怎麼處理？',
+        a: '工具以文字行為單位處理。若有同名，建議加上座號或代碼避免混淆。',
+      },
+      {
+        q: '可以只用座號抽選嗎？',
+        a: '可以。使用數字助手輸入班級人數，就能快速產生 1 到指定數字的名單。',
+      },
+      {
+        q: '可以匯出整份抽選紀錄嗎？',
+        a: '可以。工具會依抽選順序顯示點名紀錄，並可用「匯出點名紀錄 CSV」下載整輪結果（用 Excel 或試算表開啟）。按重設會清空目前紀錄。',
+      },
+    ],
+    labels: {
+      input: '學生名單',
+      placeholder: '一行輸入一位學生...',
+      helperCount: '快速建立 1 到',
+      fillNumbers: '填入數字名單',
+      pick: '抽出學生',
+      dontRepeat: '不重複，直到全部抽完',
+      remaining: '剩餘可抽',
+      reset: '重設',
+      copy: '複製結果',
+      exportCsv: '匯出點名紀錄 CSV',
+      historyTitle: '點名紀錄（依抽選順序）',
+      csvOrder: '順序',
+      csvName: '姓名',
+      result: '抽選結果',
+      emptyResult: '尚未抽選',
+      emptyListError: '請先輸入至少一位學生。',
+      invalidHelperError: '請輸入 1 到 200 之間的數字。',
+      exhausted: '已全部抽完，下一次會重新開始。',
+      spinning: '抽選中...',
+      copied: '已複製',
+    },
+  },
+  en: {
+    name: 'Random Student Picker',
+    short: 'Pick one student from a class list, with optional no-repeat tracking.',
+    long: 'Random Student Picker helps teachers choose one student for questions, demonstrations, sharing rounds, or group presentations. Paste a class list, use the number helper for seat numbers, and turn on no-repeat mode to keep picked students out of the pool until everyone has had a turn.',
+    seoTitle: 'Random Student Picker | Free classroom name picker',
+    seoDescription: 'Pick a random student from a class list, with optional no-repeat tracking until all students have been picked.',
+    keywords: ['random student picker', 'classroom picker', 'name picker', 'student selector'],
+    instructions: [
+      'Enter one student name per line.',
+      'Use the number helper when your class list is based on seat numbers.',
+      'Turn on no-repeat mode if everyone should be picked before repeats happen.',
+      'Press Pick and wait for the short animation to finish.',
+      'Use Copy result when you need a plain-text record of the latest pick.',
+    ],
+    examples: [
+      'Choose one student for a classroom question.',
+      'Pick a volunteer or demonstrator for an activity.',
+      'Fill a numbered roster quickly when you use seat numbers.',
+      'Rotate presentation or sharing turns without picking the same student repeatedly.',
+    ],
+    audience: [
+      'Teachers and assistants who need a quick classroom name picker.',
+      'Homeroom teachers using seat numbers instead of full typed rosters.',
+      'Camp, club, and workshop hosts rotating volunteers or demonstrators.',
+      'People who need to copy the latest pick into a simple class or activity record.',
+    ],
+    caseStudies: [
+      {
+        title: 'Question turns during class',
+        description: 'A teacher pastes the class list, enables no-repeat mode, and picks one student after each discussion so answered students are skipped until the round finishes.',
+      },
+      {
+        title: 'Seat-number roster setup',
+        description: 'A homeroom teacher creates numbers 1 through 32 with the helper, avoiding manual entry when a quick seat-number draw is enough.',
+      },
+      {
+        title: 'Workshop demonstration pick',
+        description: 'A facilitator picks one participant to demonstrate an activity, then copies the result into the session notes for a lightweight record.',
+      },
+    ],
+    notes: [
+      'Random picking is a classroom aid and should not be the only basis for participation grading or fairness decisions.',
+      'No-repeat tracking applies only to the current page and current list; refreshing or changing the list can reset the round.',
+      'The tool keeps a pick-order roll-call log, copies the latest result as text, and can export the full round as CSV; Reset clears the log, and there is no Excel or image export.',
+    ],
+    faq: [
+      {
+        q: 'How does no-repeat mode work?',
+        a: 'The tool tracks names picked from the current list and excludes them until everyone has been picked, then it starts a new round.',
+      },
+      {
+        q: 'Is the class list saved?',
+        a: 'No. The list stays only in the current page session.',
+      },
+      {
+        q: 'What if two students have the same name?',
+        a: 'Each line is treated as one entry. Add a seat number or nickname when names could be confused.',
+      },
+      {
+        q: 'Can I pick by seat number only?',
+        a: 'Yes. Use the number helper to fill a list from 1 to the number you enter.',
+      },
+      {
+        q: 'Can I export a full pick history?',
+        a: 'Yes. The tool shows a roll-call log in pick order and lets you export the whole round with Export roll-call CSV (opens in Excel or Sheets). Reset clears the current log.',
+      },
+    ],
+    labels: {
+      input: 'Student list',
+      placeholder: 'Enter one student per line...',
+      helperCount: 'Fill numbers 1 to',
+      fillNumbers: 'Fill number list',
+      pick: 'Pick student',
+      dontRepeat: 'Do not repeat until all picked',
+      remaining: 'Remaining',
+      reset: 'Reset',
+      copy: 'Copy result',
+      exportCsv: 'Export roll-call CSV',
+      historyTitle: 'Roll-call log (in pick order)',
+      csvOrder: 'Order',
+      csvName: 'Name',
+      result: 'Picked student',
+      emptyResult: 'No pick yet',
+      emptyListError: 'Enter at least one student first.',
+      invalidHelperError: 'Enter a number from 1 to 200.',
+      exhausted: 'Everyone has been picked. The next pick starts a new round.',
+      spinning: 'Picking...',
+      copied: 'Copied!',
+    },
+  },
+} satisfies Record<'zh' | 'en', ToolContent>;

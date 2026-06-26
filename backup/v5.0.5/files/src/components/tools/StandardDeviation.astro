@@ -1,0 +1,176 @@
+---
+interface Props {
+  labels: Record<string, string>;
+}
+
+const { labels } = Astro.props;
+---
+
+<section class="tool-widget card" data-stdev-tool data-labels={JSON.stringify(labels)}>
+  <label class="stdev-input">
+    <span>{labels.inputLabel}</span>
+    <small>{labels.hint}</small>
+    <textarea data-input rows="4" placeholder={labels.placeholder}></textarea>
+  </label>
+
+  <div class="stats-grid stdev-stats" aria-live="polite">
+    <div><span>{labels.count}</span><strong data-count>0</strong></div>
+    <div><span>{labels.sum}</span><strong data-sum>--</strong></div>
+    <div><span>{labels.mean}</span><strong data-mean>--</strong></div>
+    <div><span>{labels.median}</span><strong data-median>--</strong></div>
+    <div><span>{labels.mode}</span><strong data-mode>--</strong></div>
+    <div><span>{labels.min}</span><strong data-min>--</strong></div>
+    <div><span>{labels.max}</span><strong data-max>--</strong></div>
+    <div><span>{labels.range}</span><strong data-range>--</strong></div>
+    <div><span>{labels.variancePopulation}</span><strong data-varp>--</strong></div>
+    <div><span>{labels.stdevPopulation}</span><strong data-sdp>--</strong></div>
+    <div><span>{labels.varianceSample}</span><strong data-vars>--</strong></div>
+    <div><span>{labels.stdevSample}</span><strong data-sds>--</strong></div>
+  </div>
+
+  <div class="actions">
+    <button class="btn ghost" type="button" data-copy>{labels.copy}</button>
+  </div>
+  <p class="note" data-note>{labels.empty}</p>
+  <span class="toast" role="status" aria-live="polite" hidden>{labels.copied}</span>
+</section>
+
+<style>
+  .stdev-input {
+    display: grid;
+    gap: 4px;
+    margin-bottom: 16px;
+  }
+
+  .stdev-input small {
+    color: var(--muted);
+  }
+
+  .stdev-input textarea {
+    width: 100%;
+    font-family: inherit;
+    resize: vertical;
+  }
+
+  .stdev-stats {
+    margin-top: 4px;
+  }
+</style>
+
+<script>
+  document.querySelectorAll('[data-stdev-tool]').forEach((root) => {
+    const labels = JSON.parse(root.getAttribute('data-labels') || '{}');
+    const input = root.querySelector('[data-input]');
+    const note = root.querySelector('[data-note]');
+    const toast = root.querySelector('.toast');
+    const out = {
+      count: root.querySelector('[data-count]'),
+      sum: root.querySelector('[data-sum]'),
+      mean: root.querySelector('[data-mean]'),
+      median: root.querySelector('[data-median]'),
+      mode: root.querySelector('[data-mode]'),
+      min: root.querySelector('[data-min]'),
+      max: root.querySelector('[data-max]'),
+      range: root.querySelector('[data-range]'),
+      varp: root.querySelector('[data-varp]'),
+      sdp: root.querySelector('[data-sdp]'),
+      vars: root.querySelector('[data-vars]'),
+      sds: root.querySelector('[data-sds]'),
+    };
+    let latest = '';
+
+    function fmt(n) {
+      if (!Number.isFinite(n)) return '--';
+      return Number(n.toFixed(4)).toString();
+    }
+
+    function parseNumbers(text) {
+      return text
+        .split(/[\s,]+/)
+        .filter((token) => token.trim() !== '')
+        .map(Number)
+        .filter((n) => Number.isFinite(n));
+    }
+
+    function computeMode(values) {
+      const counts = new Map();
+      let best = 0;
+      values.forEach((v) => {
+        const c = (counts.get(v) || 0) + 1;
+        counts.set(v, c);
+        if (c > best) best = c;
+      });
+      if (best <= 1) return null;
+      const modes = [...counts.entries()].filter(([, c]) => c === best).map(([v]) => v).sort((a, b) => a - b);
+      return modes;
+    }
+
+    function calculate() {
+      const values = parseNumbers(input.value || '');
+      const n = values.length;
+      if (n === 0) {
+        Object.values(out).forEach((el) => { el.textContent = '--'; });
+        out.count.textContent = '0';
+        note.textContent = labels.empty;
+        latest = '';
+        return;
+      }
+
+      const sum = values.reduce((a, b) => a + b, 0);
+      const mean = sum / n;
+      const sorted = [...values].sort((a, b) => a - b);
+      const median = n % 2 ? sorted[(n - 1) / 2] : (sorted[n / 2 - 1] + sorted[n / 2]) / 2;
+      const min = sorted[0];
+      const max = sorted[n - 1];
+      const sqDiff = values.reduce((a, b) => a + (b - mean) ** 2, 0);
+      const varp = sqDiff / n;
+      const vars = n > 1 ? sqDiff / (n - 1) : NaN;
+      const modes = computeMode(values);
+      const modeText = modes ? modes.map(fmt).join(', ') : labels.modeNone;
+
+      out.count.textContent = String(n);
+      out.sum.textContent = fmt(sum);
+      out.mean.textContent = fmt(mean);
+      out.median.textContent = fmt(median);
+      out.mode.textContent = modeText;
+      out.min.textContent = fmt(min);
+      out.max.textContent = fmt(max);
+      out.range.textContent = fmt(max - min);
+      out.varp.textContent = fmt(varp);
+      out.sdp.textContent = fmt(Math.sqrt(varp));
+      out.vars.textContent = Number.isFinite(vars) ? fmt(vars) : '--';
+      out.sds.textContent = Number.isFinite(vars) ? fmt(Math.sqrt(vars)) : '--';
+      note.textContent = '';
+
+      latest = [
+        `${labels.count}: ${n}`,
+        `${labels.sum}: ${fmt(sum)}`,
+        `${labels.mean}: ${fmt(mean)}`,
+        `${labels.median}: ${fmt(median)}`,
+        `${labels.mode}: ${modeText}`,
+        `${labels.min}: ${fmt(min)}`,
+        `${labels.max}: ${fmt(max)}`,
+        `${labels.range}: ${fmt(max - min)}`,
+        `${labels.variancePopulation}: ${fmt(varp)}`,
+        `${labels.stdevPopulation}: ${fmt(Math.sqrt(varp))}`,
+        `${labels.varianceSample}: ${Number.isFinite(vars) ? fmt(vars) : '--'}`,
+        `${labels.stdevSample}: ${Number.isFinite(vars) ? fmt(Math.sqrt(vars)) : '--'}`,
+      ].join('\n');
+    }
+
+    input.addEventListener('input', calculate);
+    root.querySelector('[data-copy]')?.addEventListener('click', async () => {
+      if (!latest) return;
+      try {
+        await navigator.clipboard.writeText(latest);
+        toast.hidden = false;
+        window.setTimeout(() => { toast.hidden = true; }, 1500);
+      } catch {
+        window.prompt(labels.copy, latest);
+      }
+    });
+
+    input.value = '12, 15, 20, 22, 30';
+    calculate();
+  });
+</script>

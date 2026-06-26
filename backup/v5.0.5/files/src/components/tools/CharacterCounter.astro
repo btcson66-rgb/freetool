@@ -1,0 +1,167 @@
+---
+interface Props {
+  labels: Record<string, string>;
+}
+
+const { labels } = Astro.props;
+---
+
+<section class="tool-widget card" data-character-counter-tool data-labels={JSON.stringify(labels)}>
+  <label class="textarea-label">
+    <span>{labels.input}</span>
+    <textarea data-text rows="9" placeholder={labels.placeholder}></textarea>
+  </label>
+
+  <div class="stats-grid" aria-live="polite">
+    <div><span>{labels.characters}</span><strong data-characters>0</strong></div>
+    <div><span>{labels.charactersNoSpaces}</span><strong data-no-spaces>0</strong></div>
+    <div><span>{labels.bytes}</span><strong data-bytes>0</strong></div>
+    <div><span>{labels.words}</span><strong data-words>0</strong></div>
+    <div><span>{labels.lines}</span><strong data-lines>0</strong></div>
+  </div>
+
+  <section class="limits-box" aria-live="polite">
+    <h3>{labels.limits}</h3>
+    <div data-limit="twitter"><span>{labels.twitter}</span><strong data-twitter>0 / 280</strong></div>
+    <div data-limit="sms"><span>{labels.sms}</span><strong data-sms>0 / 160</strong></div>
+    <div data-limit="meta"><span>{labels.meta}</span><strong data-meta>0 / 160</strong></div>
+  </section>
+
+  <p class="note">{labels.note}</p>
+  <div class="actions">
+    <button class="btn go" type="button" data-copy>{labels.copyStats}</button>
+    <button class="btn ghost" type="button" data-clear>{labels.clear}</button>
+  </div>
+  <span class="toast" role="status" aria-live="polite" hidden>{labels.copied}</span>
+</section>
+
+<style>
+  .limits-box {
+    display: grid;
+    gap: 10px;
+    margin-top: 16px;
+    padding: 16px;
+    border: 1px solid #cfe6e3;
+    border-radius: 8px;
+    background: #f2fbfa;
+  }
+
+  .limits-box h3 {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+
+  .limits-box div {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 10px;
+    align-items: center;
+    padding: 10px 12px;
+    border-radius: 8px;
+    background: #fff;
+  }
+
+  .limits-box span {
+    color: var(--muted);
+    font-weight: 800;
+  }
+
+  .limits-box strong {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .limits-box .over {
+    color: #b42318;
+  }
+</style>
+
+<script>
+  document.querySelectorAll('[data-character-counter-tool]').forEach((root) => {
+    const labels = JSON.parse(root.getAttribute('data-labels') || '{}');
+    const text = root.querySelector('[data-text]');
+    const toast = root.querySelector('.toast');
+    const outputs = {
+      characters: root.querySelector('[data-characters]'),
+      noSpaces: root.querySelector('[data-no-spaces]'),
+      bytes: root.querySelector('[data-bytes]'),
+      words: root.querySelector('[data-words]'),
+      lines: root.querySelector('[data-lines]'),
+      twitter: root.querySelector('[data-twitter]'),
+      sms: root.querySelector('[data-sms]'),
+      meta: root.querySelector('[data-meta]'),
+    };
+    const limits = {
+      twitter: 280,
+      sms: 160,
+      meta: 160,
+    };
+    let currentStats = null;
+
+    function countWords(value) {
+      const cjk = value.match(/[\u3400-\u9fff\uf900-\ufaff]/g) || [];
+      const latin = value.match(/[A-Za-z0-9]+(?:['-][A-Za-z0-9]+)*/g) || [];
+      return cjk.length + latin.length;
+    }
+
+    function updateLimit(key, count) {
+      outputs[key].textContent = `${count} / ${limits[key]}`;
+      outputs[key].classList.toggle('over', count > limits[key]);
+    }
+
+    function update() {
+      const value = text.value;
+      currentStats = {
+        characters: value.length,
+        noSpaces: value.replace(/\s/g, '').length,
+        bytes: new TextEncoder().encode(value).length,
+        words: value.trim() ? countWords(value) : 0,
+        lines: value.length ? value.split(/\r\n|\r|\n/).length : 0,
+      };
+      outputs.characters.textContent = String(currentStats.characters);
+      outputs.noSpaces.textContent = String(currentStats.noSpaces);
+      outputs.bytes.textContent = String(currentStats.bytes);
+      outputs.words.textContent = String(currentStats.words);
+      outputs.lines.textContent = String(currentStats.lines);
+      updateLimit('twitter', currentStats.characters);
+      updateLimit('sms', currentStats.characters);
+      updateLimit('meta', currentStats.characters);
+    }
+
+    function summary() {
+      return [
+        `${labels.characters}: ${currentStats.characters}`,
+        `${labels.charactersNoSpaces}: ${currentStats.noSpaces}`,
+        `${labels.bytes}: ${currentStats.bytes}`,
+        `${labels.words}: ${currentStats.words}`,
+        `${labels.lines}: ${currentStats.lines}`,
+        `${labels.twitter}: ${currentStats.characters} / ${limits.twitter}`,
+        `${labels.sms}: ${currentStats.characters} / ${limits.sms}`,
+        `${labels.meta}: ${currentStats.characters} / ${limits.meta}`,
+      ].join('\n');
+    }
+
+    function showToast() {
+      toast.hidden = false;
+      window.setTimeout(() => {
+        toast.hidden = true;
+      }, 1500);
+    }
+
+    text.addEventListener('input', update);
+    root.querySelector('[data-clear]')?.addEventListener('click', () => {
+      text.value = '';
+      update();
+      text.focus();
+    });
+    root.querySelector('[data-copy]')?.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(summary());
+        showToast();
+      } catch {
+        window.prompt(labels.copyStats, summary());
+      }
+    });
+    update();
+  });
+</script>

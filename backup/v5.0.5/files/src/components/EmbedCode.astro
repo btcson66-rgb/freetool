@@ -1,0 +1,70 @@
+---
+import type { Locale } from '../config/site';
+import type { ToolMeta } from '../data/tools';
+import { t } from '../i18n/ui';
+import { absoluteUrl, embedUrl } from '../lib/url';
+
+interface Props {
+  lang: Locale;
+  tool: ToolMeta;
+}
+
+const { lang, tool } = Astro.props;
+const ui = t(lang);
+const src = absoluteUrl(embedUrl(lang, tool.slug));
+const iframeCode = `<iframe src="${src}" title="${tool.name[lang]}" width="100%" height="520" loading="lazy" style="border:1px solid #dbe3ee;border-radius:8px;" data-free-tools-hub="true"></iframe>`;
+---
+
+<section class="content-section embed-code" data-embed-code data-copied={ui.embed.copied}>
+  <h2>{ui.embed.heading}</h2>
+  <label>
+    <span>{ui.embed.codeLabel}</span>
+    <textarea readonly rows="4" data-embed-snippet>{iframeCode}</textarea>
+  </label>
+  <div class="actions">
+    <button class="btn" type="button" data-embed-copy>{ui.embed.copyButton}</button>
+    <span class="copy-status" aria-live="polite" data-embed-status></span>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll('[data-embed-code]').forEach((block) => {
+    const button = block.querySelector('[data-embed-copy]');
+    const snippet = block.querySelector('[data-embed-snippet]');
+    const status = block.querySelector('[data-embed-status]');
+
+    if (!(button instanceof HTMLButtonElement) || !(snippet instanceof HTMLTextAreaElement)) {
+      return;
+    }
+
+    button.addEventListener('click', async () => {
+      snippet.select();
+      try {
+        await navigator.clipboard.writeText(snippet.value);
+      } catch {
+        document.execCommand('copy');
+      }
+
+      if (status) {
+        status.textContent = button.closest('[data-embed-code]')?.getAttribute('data-copied') || '';
+      }
+    });
+  });
+</script>
+
+<style>
+  .embed-code label {
+    gap: 10px;
+  }
+
+  .embed-code textarea {
+    min-height: 112px;
+    font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+    font-size: 0.9rem;
+  }
+
+  .copy-status {
+    color: var(--brand);
+    font-weight: 800;
+  }
+</style>

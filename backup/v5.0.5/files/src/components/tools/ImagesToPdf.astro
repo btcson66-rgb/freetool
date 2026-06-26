@@ -1,0 +1,326 @@
+---
+interface Props {
+  labels: Record<string, string>;
+}
+
+const { labels } = Astro.props;
+---
+
+<section class="tool-widget card pdf-tool" data-images-to-pdf-tool data-labels={JSON.stringify(labels)}>
+  <p class="note">{labels.localNote}</p>
+  <label>
+    <span>{labels.upload}</span>
+    <input data-file type="file" accept="image/*" multiple />
+  </label>
+
+  <div class="form-grid pdf-options">
+    <label>
+      <span>{labels.pageSize}</span>
+      <select data-page-size>
+        <option value="a4">{labels.a4}</option>
+        <option value="letter">{labels.letter}</option>
+        <option value="fit">{labels.fit}</option>
+      </select>
+    </label>
+    <label>
+      <span>{labels.orientation}</span>
+      <select data-orientation>
+        <option value="portrait">{labels.portrait}</option>
+        <option value="landscape">{labels.landscape}</option>
+      </select>
+    </label>
+  </div>
+
+  <div class="pdf-list-block">
+    <h2>{labels.selectedImages}</h2>
+    <div class="image-list" data-list aria-live="polite">
+      <p class="note">{labels.noFiles}</p>
+    </div>
+  </div>
+
+  <p class="form-error" data-error role="alert" hidden></p>
+  <p class="toast" data-status role="status" aria-live="polite" hidden></p>
+
+  <div class="actions">
+    <button class="btn go" type="button" data-create>{labels.create}</button>
+    <button class="btn ghost" type="button" data-reset>{labels.reset}</button>
+  </div>
+</section>
+
+<style>
+  select {
+    width: 100%;
+    min-height: 48px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: #fff;
+    color: var(--ink);
+    padding: 10px 12px;
+    font: inherit;
+  }
+
+  .pdf-tool {
+    display: grid;
+    gap: 16px;
+  }
+
+  .pdf-options {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .pdf-list-block h2 {
+    margin-bottom: 10px;
+    font-size: 1rem;
+  }
+
+  .image-list {
+    display: grid;
+    gap: 10px;
+  }
+
+  .image-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 10px;
+    align-items: center;
+    padding: 12px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: #fbfcff;
+  }
+
+  .image-name {
+    color: var(--ink);
+    font-weight: 900;
+    overflow-wrap: anywhere;
+  }
+
+  .row-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: flex-end;
+  }
+
+  .row-actions .btn {
+    min-height: 44px;
+    padding: 7px 10px;
+    border-radius: 10px;
+    font-size: 0.88rem;
+  }
+
+  @media (max-width: 760px) {
+    .pdf-options,
+    .image-row {
+      grid-template-columns: 1fr;
+    }
+
+    .row-actions {
+      justify-content: flex-start;
+    }
+  }
+</style>
+
+<script>
+  document.querySelectorAll('[data-images-to-pdf-tool]').forEach((root) => {
+    const labels = JSON.parse(root.getAttribute('data-labels') || '{}');
+    const fileInput = root.querySelector('[data-file]');
+    const pageSizeInput = root.querySelector('[data-page-size]');
+    const orientationInput = root.querySelector('[data-orientation]');
+    const list = root.querySelector('[data-list]');
+    const error = root.querySelector('[data-error]');
+    const status = root.querySelector('[data-status]');
+    const actionButtons = root.querySelectorAll('button');
+    let items = [];
+    let pdfLibPromise = null;
+
+    function setError(message) {
+      error.textContent = message;
+      error.hidden = !message;
+    }
+
+    function setStatus(message) {
+      status.textContent = message;
+      status.hidden = !message;
+    }
+
+    function setBusy(isBusy) {
+      actionButtons.forEach((button) => {
+        if (button.matches('[data-reset]')) return;
+        button.disabled = isBusy;
+      });
+      if (isBusy) setStatus(labels.processing);
+    }
+
+    async function loadPdfLib() {
+      if (!pdfLibPromise) {
+        pdfLibPromise = (async () => {
+          const mod = await import('pdf-lib');
+          const { PDFDocument, degrees } = mod;
+          return { PDFDocument, degrees };
+        })();
+      }
+      return pdfLibPromise;
+    }
+
+    function imageKind(file) {
+      const name = file.name.toLowerCase();
+      if (file.type === 'image/jpeg' || /\.jpe?g$/i.test(name)) return 'jpg';
+      if (file.type === 'image/png' || /\.png$/i.test(name)) return 'png';
+      return '';
+    }
+
+    function safeBaseName(name) {
+      return name.replace(/\.[^.]+$/, '').replace(/[^\w-]+/g, '-').replace(/^-|-$/g, '') || 'images';
+    }
+
+    function renderList() {
+      list.innerHTML = '';
+      if (!items.length) {
+        const empty = document.createElement('p');
+        empty.className = 'note';
+        empty.textContent = labels.noFiles;
+        list.append(empty);
+        return;
+      }
+
+      items.forEach((item, index) => {
+        const row = document.createElement('div');
+        row.className = 'image-row';
+        const name = document.createElement('div');
+        name.className = 'image-name';
+        name.textContent = item.file.name;
+
+        const controls = document.createElement('div');
+        controls.className = 'row-actions';
+        const up = document.createElement('button');
+        up.className = 'btn ghost';
+        up.type = 'button';
+        up.textContent = labels.moveUp;
+        up.disabled = index === 0;
+        up.addEventListener('click', () => moveItem(index, -1));
+        const down = document.createElement('button');
+        down.className = 'btn ghost';
+        down.type = 'button';
+        down.textContent = labels.moveDown;
+        down.disabled = index === items.length - 1;
+        down.addEventListener('click', () => moveItem(index, 1));
+        controls.append(up, down);
+
+        row.append(name, controls);
+        list.append(row);
+      });
+    }
+
+    function moveItem(index, direction) {
+      const nextIndex = index + direction;
+      if (nextIndex < 0 || nextIndex >= items.length) return;
+      const [item] = items.splice(index, 1);
+      items.splice(nextIndex, 0, item);
+      renderList();
+    }
+
+    function reset() {
+      items = [];
+      fileInput.value = '';
+      setError('');
+      setStatus('');
+      renderList();
+    }
+
+    function pageDimensions(image) {
+      const fixedSizes = {
+        a4: [595.28, 841.89],
+        letter: [612, 792],
+      };
+      let width;
+      let height;
+      if (pageSizeInput.value === 'fit') {
+        width = image.width;
+        height = image.height;
+      } else {
+        [width, height] = fixedSizes[pageSizeInput.value] || fixedSizes.a4;
+      }
+      const wantsLandscape = orientationInput.value === 'landscape';
+      if (wantsLandscape && height > width) {
+        return [height, width];
+      }
+      if (!wantsLandscape && width > height) {
+        return [height, width];
+      }
+      return [width, height];
+    }
+
+    function drawImageOnPage(page, image, pageWidth, pageHeight) {
+      const margin = pageSizeInput.value === 'fit' ? 0 : 36;
+      const maxWidth = pageWidth - margin * 2;
+      const maxHeight = pageHeight - margin * 2;
+      const scale = Math.min(maxWidth / image.width, maxHeight / image.height);
+      const width = image.width * scale;
+      const height = image.height * scale;
+      page.drawImage(image, {
+        x: (pageWidth - width) / 2,
+        y: (pageHeight - height) / 2,
+        width,
+        height,
+      });
+    }
+
+    function downloadPdf(bytes, filename) {
+      const blob = new Blob([bytes], { type: 'application/pdf' });
+      const url = URL.createObjectURL(blob);
+      const anchor = document.createElement('a');
+      anchor.href = url;
+      anchor.download = filename;
+      anchor.click();
+      window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+    }
+
+    async function createPdf() {
+      if (!items.length) {
+        setError(labels.noImages);
+        return;
+      }
+      try {
+        setBusy(true);
+        setError('');
+        const { PDFDocument } = await loadPdfLib();
+        const pdfDoc = await PDFDocument.create();
+        for (const item of items) {
+          const bytes = await item.file.arrayBuffer();
+          const kind = imageKind(item.file);
+          const image = kind === 'jpg' ? await pdfDoc.embedJpg(bytes) : await pdfDoc.embedPng(bytes);
+          const [pageWidth, pageHeight] = pageDimensions(image);
+          const page = pdfDoc.addPage([pageWidth, pageHeight]);
+          drawImageOnPage(page, image, pageWidth, pageHeight);
+        }
+        const bytes = await pdfDoc.save();
+        const baseName = safeBaseName(items[0].file.name);
+        downloadPdf(bytes, `${baseName}-images.pdf`);
+        setStatus(labels.downloaded);
+      } catch {
+        setError(labels.createError);
+      } finally {
+        setBusy(false);
+      }
+    }
+
+    fileInput.addEventListener('change', () => {
+      const files = Array.from(fileInput.files || []);
+      setError('');
+      setStatus('');
+      if (files.some((file) => !imageKind(file))) {
+        items = [];
+        renderList();
+        setError(labels.invalidType);
+        return;
+      }
+      items = files.map((file, index) => ({ file, id: `${Date.now()}-${index}` }));
+      renderList();
+    });
+
+    root.querySelector('[data-create]')?.addEventListener('click', createPdf);
+    root.querySelector('[data-reset]')?.addEventListener('click', reset);
+    renderList();
+  });
+</script>

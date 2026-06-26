@@ -1,0 +1,50 @@
+---
+interface Props { labels: Record<string, string>; }
+const { labels } = Astro.props;
+---
+
+<section class="tool-widget card" data-timestamp-tool data-labels={JSON.stringify(labels)}>
+  <div class="form-grid two-col">
+    <label><span>{labels.input}</span><input data-input type="text" inputmode="numeric" /></label>
+    <label><span>{labels.unit}</span><select data-unit><option value="auto">{labels.auto}</option><option value="seconds">{labels.seconds}</option><option value="milliseconds">{labels.milliseconds}</option></select></label>
+  </div>
+  <div class="actions"><button class="btn go" type="button" data-convert>{labels.convert}</button><button class="btn" type="button" data-now>{labels.now}</button><button class="btn ghost" type="button" data-copy>{labels.copy}</button></div>
+  <p class="form-error" data-error role="alert" hidden></p>
+  <div class="stats-grid" data-results hidden>
+    <div><span>{labels.local}</span><strong data-local></strong></div>
+    <div><span>{labels.utc}</span><strong data-utc></strong></div>
+    <div><span>{labels.iso}</span><strong data-iso></strong></div>
+    <div><span>{labels.unixSeconds}</span><strong data-seconds></strong></div>
+    <div><span>{labels.unixMilliseconds}</span><strong data-milliseconds></strong></div>
+  </div>
+</section>
+
+<script>
+  // @ts-nocheck -- DOM nodes are guaranteed by this component template.
+  document.querySelectorAll('[data-timestamp-tool]').forEach((root) => {
+    const labels = JSON.parse(root.getAttribute('data-labels') || '{}');
+    const input = root.querySelector('[data-input]'); const unit = root.querySelector('[data-unit]');
+    const error = root.querySelector('[data-error]'); const results = root.querySelector('[data-results]');
+    function show(date) {
+      const ms = date.getTime();
+      root.querySelector('[data-local]').textContent = date.toLocaleString();
+      root.querySelector('[data-utc]').textContent = date.toUTCString();
+      root.querySelector('[data-iso]').textContent = date.toISOString();
+      root.querySelector('[data-seconds]').textContent = String(Math.floor(ms / 1000));
+      root.querySelector('[data-milliseconds]').textContent = String(ms);
+      results.hidden = false; error.hidden = true;
+    }
+    function convert() {
+      const raw = input.value.trim(); const value = Number(raw);
+      if (!raw || !Number.isFinite(value)) { error.textContent = labels.invalid; error.hidden = false; results.hidden = true; return; }
+      const mode = unit.value === 'auto' ? (Math.abs(value) < 100000000000 ? 'seconds' : 'milliseconds') : unit.value;
+      const date = new Date(mode === 'seconds' ? value * 1000 : value);
+      if (Number.isNaN(date.getTime())) { error.textContent = labels.invalid; error.hidden = false; return; }
+      show(date);
+    }
+    root.querySelector('[data-convert]')?.addEventListener('click', convert);
+    root.querySelector('[data-now]')?.addEventListener('click', () => { input.value = String(Date.now()); unit.value = 'milliseconds'; show(new Date()); });
+    root.querySelector('[data-copy]')?.addEventListener('click', async () => { const iso = root.querySelector('[data-iso]')?.textContent; if (iso) await navigator.clipboard.writeText(iso); });
+    input.value = String(Date.now()); show(new Date());
+  });
+</script>

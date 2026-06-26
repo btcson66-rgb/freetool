@@ -1,0 +1,363 @@
+---
+import Breadcrumb from '../../../components/Breadcrumb.astro';
+import CategoryIcon from '../../../components/CategoryIcon.astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { SITE, type Locale } from '../../../config/site';
+import { audiences, isAudienceAvailableInLocale, viewAudience } from '../../../data/audiences';
+import { categories, getCategoryById, type Category } from '../../../data/categories';
+import { getCategoryContent, type CategoryContent } from '../../../data/categoryContent';
+import { getToolsByCategory } from '../../../data/tools';
+import { seoGuides, isSeoGuideAvailableInLocale, viewSeoGuide } from '../../../data/seoGuides';
+import { workflows, isWorkflowAvailableInLocale, viewWorkflow } from '../../../data/workflows';
+import { t } from '../../../i18n/ui';
+import { categoryUrl, localePath, toolUrl } from '../../../lib/url';
+import { breadcrumbJsonLd, collectionPageJsonLd } from '../../../lib/seo';
+
+export function getStaticPaths() {
+  // Only generate pages for categories that actually have live tools,
+  // so we never publish empty/thin category pages.
+  const liveCategories = categories.filter((category) =>
+    getToolsByCategory(category.id).some((tool) => tool.status === 'live'),
+  );
+
+  return SITE.locales.flatMap((lang) =>
+    liveCategories.map((categoryData) => ({
+      params: { locale: lang === SITE.defaultLocale ? undefined : lang, category: categoryData.id },
+      props: { lang, categoryData },
+    })),
+  );
+}
+
+const { lang, categoryData } = Astro.props as { lang: Locale; categoryData: Category };
+const ui = t(lang);
+const content = getCategoryContent(categoryData.id) as CategoryContent | undefined;
+const categoryTools = getToolsByCategory(categoryData.id).filter((tool) => tool.status === 'live');
+
+const h1 = content ? content.h1[lang] : `${categoryData.icon} ${categoryData.name[lang]}`;
+const pageTitle = content
+  ? content.title[lang]
+  : lang === 'zh'
+    ? `${categoryData.name.zh.replace(/工具$/, '').trim()}免費工具 - FreeTools`
+    : `Free ${categoryData.name[lang]} Tools - FreeTools`;
+const pageDescription = content ? content.metaDescription[lang] : categoryData.description[lang];
+const introParagraphs = content ? content.intro[lang] : [categoryData.description[lang]];
+const useCases = content ? content.useCases[lang] : [];
+const howToChoose = content ? content.howToChoose[lang] : [];
+const faqItems = content ? content.faq[lang] : [];
+const disclaimer = content?.disclaimer?.[lang];
+const educationStatisticsHubLabel = lang === 'zh' ? '教育與統計工具中心' : 'Education & Statistics Tools Center';
+const classroomCategoryLabel = { zh: '課堂教學', en: 'Classroom teaching' } satisfies Record<Locale, string>;
+const classroomCategoryPages = ['random', 'study'];
+
+// Surface the data-driven education-statistics guides and workflow toolkits on the statistics category page.
+const statisticsGuideSources = categoryData.id === 'statistics'
+  ? seoGuides
+      .filter((guide) => isSeoGuideAvailableInLocale(guide, lang))
+      .filter((guide) => guide.priority < 10 && guide.category[lang] !== classroomCategoryLabel[lang])
+      .sort((a, b) => a.priority - b.priority)
+      .slice(0, 6)
+  : [];
+const statisticsGuideIds = new Set(statisticsGuideSources.map((guide) => guide.slug));
+const statisticsGuides = categoryData.id === 'statistics'
+  ? statisticsGuideSources.map((guide) => viewSeoGuide(guide, lang))
+  : [];
+const statisticsWorkflows = categoryData.id === 'statistics'
+  ? workflows
+      .filter((workflow) => isWorkflowAvailableInLocale(workflow, lang))
+      .filter((workflow) => workflow.relatedGuideIds.some((guideId) => statisticsGuideIds.has(guideId)))
+      .map((workflow) => viewWorkflow(workflow, lang))
+  : [];
+const classroomGuideSources = classroomCategoryPages.includes(categoryData.id)
+  ? seoGuides
+      .filter((guide) => isSeoGuideAvailableInLocale(guide, lang))
+      .filter((guide) => guide.category[lang] === classroomCategoryLabel[lang])
+      .sort((a, b) => a.priority - b.priority)
+      .slice(0, 5)
+  : [];
+const classroomGuideIds = new Set(classroomGuideSources.map((guide) => guide.slug));
+const classroomGuides = classroomGuideSources.map((guide) => viewSeoGuide(guide, lang));
+const classroomWorkflows = classroomCategoryPages.includes(categoryData.id)
+  ? workflows
+      .filter((workflow) => isWorkflowAvailableInLocale(workflow, lang))
+      .filter((workflow) => workflow.relatedGuideIds.some((guideId) => classroomGuideIds.has(guideId)))
+      .slice(0, 1)
+      .map((workflow) => viewWorkflow(workflow, lang))
+  : [];
+const guidesSectionCopy = lang === 'zh'
+  ? { guides: '教學指南', workflows: '工具包流程' }
+  : { guides: 'Guides', workflows: 'Workflow toolkits' };
+const classroomSectionCopy = lang === 'zh'
+  ? { guides: '課堂教學指南', workflows: '課堂工具包' }
+  : { guides: 'Classroom teaching guides', workflows: 'Classroom toolkits' };
+const categoryToolSlugs = new Set(categoryTools.map((tool) => tool.slug));
+const relatedAudienceViews = audiences
+  .filter((audience) => isAudienceAvailableInLocale(audience, lang))
+  .filter((audience) => audience.relatedCategoryIds.includes(categoryData.id))
+  .map((audience) => viewAudience(audience, lang));
+const relatedWorkflowViews = workflows
+  .filter((workflow) => isWorkflowAvailableInLocale(workflow, lang))
+  .filter((workflow) => workflow.recommendedToolIds.some((toolSlug) => categoryToolSlugs.has(toolSlug)))
+  .map((workflow) => viewWorkflow(workflow, lang));
+const categoryRelatedCopy = lang === 'zh'
+  ? { audiences: '依使用情境延伸', workflows: '相關工作流' }
+  : { audiences: 'Related audience toolkits', workflows: 'Related workflows' };
+
+const blurbFor = (slug: string): string =>
+  content?.toolBlurbs[slug]?.[lang] ?? categoryTools.find((tool) => tool.slug === slug)?.short[lang] ?? '';
+
+const relatedCategories = (content?.relatedCategories ?? [])
+  .map((id) => getCategoryById(id))
+  .filter((cat): cat is Category => cat != null)
+  .filter((cat) => getToolsByCategory(cat.id).some((tool) => tool.status === 'live'));
+
+const breadcrumbItems = [
+  { name: ui.breadcrumbHome, href: localePath(lang) },
+  { name: ui.allTools, href: localePath(lang, 'tools') },
+  { name: categoryData.name[lang], href: categoryUrl(lang, categoryData.id) },
+];
+
+const jsonLd: Record<string, unknown>[] = [
+  collectionPageJsonLd(lang, h1, pageDescription, categoryUrl(lang, categoryData.id)),
+  breadcrumbJsonLd(breadcrumbItems),
+];
+if (faqItems.length > 0) {
+  jsonLd.push({
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqItems.map((item) => ({
+      '@type': 'Question',
+      name: item.q,
+      acceptedAnswer: { '@type': 'Answer', text: item.a },
+    })),
+  });
+}
+---
+
+<BaseLayout
+  lang={lang}
+  title={pageTitle}
+  description={pageDescription}
+  alternateSegments={['category', categoryData.id]}
+  jsonLd={jsonLd}
+>
+  <section class="wrap page-head category-page-head" data-category={categoryData.id}>
+    <Breadcrumb
+      items={[
+        { label: ui.breadcrumbHome, href: localePath(lang) },
+        { label: ui.allTools, href: localePath(lang, 'tools') },
+        { label: categoryData.name[lang], href: categoryUrl(lang, categoryData.id) },
+      ]}
+    />
+    <h1>{categoryData.icon} {h1}</h1>
+    {introParagraphs.length > 0 && <p class="lead">{introParagraphs[0]}</p>}
+    <p class="category-count-line">{ui.category.toolCountLabel}：{categoryTools.length}{ui.toolsCountSuffix}</p>
+  </section>
+
+  {introParagraphs.length > 1 && (
+    <section class="wrap content-section category-intro">
+      {introParagraphs.slice(1).map((paragraph) => <p>{paragraph}</p>)}
+      {categoryData.id === 'statistics' && (
+        <p>
+          {lang === 'zh' ? '想用學習路徑整理這些分數與研究工具，可前往 ' : 'For a study-oriented path through these score and research tools, visit the '}
+          <a class="inline-link" href={localePath(lang, 'education-statistics')}>{educationStatisticsHubLabel}</a>
+          {lang === 'zh' ? '。' : '.'}
+        </p>
+      )}
+    </section>
+  )}
+
+  {(statisticsGuides.length > 0 || statisticsWorkflows.length > 0) && (
+    <section class="wrap content-section statistics-guides">
+      {statisticsGuides.length > 0 && (
+        <>
+          <h2>{guidesSectionCopy.guides}</h2>
+          <div class="related-guide-list">
+            {statisticsGuides.map((guide) => (
+              <a href={localePath(lang, 'guides', guide.slug)}>
+                <strong>{guide.title}</strong>
+                <span>{guide.summary}</span>
+              </a>
+            ))}
+          </div>
+        </>
+      )}
+      {statisticsWorkflows.length > 0 && (
+        <>
+          <h2>{guidesSectionCopy.workflows}</h2>
+          <div class="related-guide-list">
+            {statisticsWorkflows.map((workflow) => (
+              <a href={localePath(lang, 'workflows', workflow.slug)}>
+                <strong>{workflow.title}</strong>
+                <span>{workflow.purpose}</span>
+              </a>
+            ))}
+          </div>
+        </>
+      )}
+    </section>
+  )}
+
+  {(classroomGuides.length > 0 || classroomWorkflows.length > 0) && (
+    <section class="wrap content-section statistics-guides">
+      {classroomGuides.length > 0 && (
+        <>
+          <h2>{classroomSectionCopy.guides}</h2>
+          <div class="related-guide-list">
+            {classroomGuides.map((guide) => (
+              <a href={localePath(lang, 'guides', guide.slug)}>
+                <strong>{guide.title}</strong>
+                <span>{guide.summary}</span>
+              </a>
+            ))}
+          </div>
+        </>
+      )}
+      {classroomWorkflows.length > 0 && (
+        <>
+          <h2>{classroomSectionCopy.workflows}</h2>
+          <div class="related-guide-list">
+            {classroomWorkflows.map((workflow) => (
+              <a href={localePath(lang, 'workflows', workflow.slug)}>
+                <strong>{workflow.title}</strong>
+                <span>{workflow.purpose}</span>
+              </a>
+            ))}
+          </div>
+        </>
+      )}
+    </section>
+  )}
+
+  {disclaimer && (
+    <section class="wrap content-section">
+      <div class="disclaimer-callout" role="note">
+        <strong>{ui.category.disclaimerHeading}</strong>
+        <p>{disclaimer}</p>
+      </div>
+    </section>
+  )}
+
+  {useCases.length > 0 && (
+    <section class="wrap content-section">
+      <h2>{ui.category.useCasesHeading}</h2>
+      <ul class="check-list">
+        {useCases.map((useCase) => <li>{useCase}</li>)}
+      </ul>
+    </section>
+  )}
+
+  <section class="wrap content-section">
+    <h2>{ui.category.recommendedHeading}</h2>
+    <div class="tool-blurb-grid">
+      {
+        categoryTools.map((tool) => (
+          <article class="tool-blurb-card">
+            <h3>
+              <span class="tile-icon" aria-hidden="true">{tool.icon}</span>
+              {tool.name[lang]}
+            </h3>
+            <p>{blurbFor(tool.slug)}</p>
+            <a class="btn go tool-blurb-cta" href={toolUrl(lang, tool.slug)}>
+              {ui.category.goToTool}：{tool.name[lang]}
+            </a>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  {howToChoose.length > 0 && (
+    <section class="wrap content-section">
+      <h2>{ui.category.howToChooseHeading}</h2>
+      <ul class="how-to-choose">
+        {
+          howToChoose.map((item) => (
+            <li>
+              {item.toolSlug ? (
+                <a href={toolUrl(lang, item.toolSlug)}>{item.tip}</a>
+              ) : (
+                <span>{item.tip}</span>
+              )}
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+  )}
+
+  {faqItems.length > 0 && (
+    <section class="wrap content-section faq">
+      <h2>{ui.faq}</h2>
+      <dl>
+        {
+          faqItems.map((item) => (
+            <>
+              <dt>{item.q}</dt>
+              <dd>{item.a}</dd>
+            </>
+          ))
+        }
+      </dl>
+    </section>
+  )}
+
+  {(relatedAudienceViews.length > 0 || relatedWorkflowViews.length > 0) && (
+    <section class="wrap content-section statistics-guides">
+      {relatedAudienceViews.length > 0 && (
+        <>
+          <h2>{categoryRelatedCopy.audiences}</h2>
+          <div class="related-guide-list">
+            {relatedAudienceViews.map((audience) => (
+              <a href={localePath(lang, 'for', audience.slug)}>
+                <strong>{audience.title}</strong>
+                <span>{audience.metaDescription}</span>
+              </a>
+            ))}
+          </div>
+        </>
+      )}
+      {relatedWorkflowViews.length > 0 && (
+        <>
+          <h2>{categoryRelatedCopy.workflows}</h2>
+          <div class="related-guide-list">
+            {relatedWorkflowViews.map((workflow) => (
+              <a href={localePath(lang, 'workflows', workflow.slug)}>
+                <strong>{workflow.title}</strong>
+                <span>{workflow.purpose}</span>
+              </a>
+            ))}
+          </div>
+        </>
+      )}
+    </section>
+  )}
+
+  {relatedCategories.length > 0 && (
+    <section class="wrap content-section">
+      <h2>{ui.category.relatedHeading}</h2>
+      <div class="grid">
+        {
+          relatedCategories.map((cat) => (
+            <a class="tile category-tile" href={categoryUrl(lang, cat.id)} data-category={cat.id}>
+              <span class="tile-icon"><CategoryIcon category={cat.id} /></span>
+              <span class="tile-body">
+                <strong>{cat.name[lang]}</strong>
+                <span>{cat.description[lang]}</span>
+              </span>
+            </a>
+          ))
+        }
+      </div>
+    </section>
+  )}
+</BaseLayout>
+
+<style>
+  .statistics-guides h2 { margin-top: 8px; }
+  .statistics-guides h2 ~ h2 { margin-top: 28px; }
+  .related-guide-list { display: grid; gap: 10px; }
+  .related-guide-list a { display: grid; gap: 5px; padding: 14px; border: 1px solid var(--line); border-radius: 10px; background: #fff; }
+  .related-guide-list a:hover { border-color: var(--brand); }
+  .related-guide-list strong { color: var(--ink); }
+  .related-guide-list span { color: var(--muted); line-height: 1.6; }
+</style>

@@ -1,0 +1,19 @@
+---
+import { type Locale } from '../config/site';
+import { t } from '../i18n/ui';
+import { localePath } from '../lib/url';
+
+interface Props {
+  lang: Locale;
+  segments?: string[];
+}
+
+const { lang, segments = [] } = Astro.props;
+const ui = t(lang);
+const otherLang: Locale = lang === 'zh' ? 'en' : 'zh';
+const label = otherLang === 'zh' ? '繁中' : 'English beta';
+---
+
+<a class="lang-switch" href={localePath(otherLang, ...segments)} aria-label={ui.languageSwitch} data-language-switch data-target-lang={otherLang}>
+  {label}
+</a>

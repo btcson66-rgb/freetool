@@ -1,0 +1,161 @@
+---
+interface Props {
+  labels: Record<string, string>;
+}
+
+const { labels } = Astro.props;
+---
+
+<section class="tool-widget card" data-dice-tool data-labels={JSON.stringify(labels)}>
+  <div class="form-grid dice-controls">
+    <label>
+      <span>{labels.diceType}</span>
+      <select data-sides>
+        <option value="4">d4</option>
+        <option value="6" selected>d6</option>
+        <option value="8">d8</option>
+        <option value="10">d10</option>
+        <option value="12">d12</option>
+        <option value="20">d20</option>
+      </select>
+    </label>
+    <label>
+      <span>{labels.count}</span>
+      <input data-count type="number" inputmode="numeric" value="1" min="1" max="20" step="1" />
+    </label>
+  </div>
+  <div class="actions">
+    <button class="btn go" type="button" data-roll>{labels.roll}</button>
+    <button class="btn ghost" type="button" data-copy>{labels.copy}</button>
+  </div>
+  <p class="form-error" data-error role="alert" hidden></p>
+  <div class="bigresult dice-result" aria-live="polite">
+    <span class="result-label">{labels.result}</span>
+    <output data-output>{labels.placeholder}</output>
+  </div>
+  <div class="dice-list" data-dice-list></div>
+  <span class="toast" role="status" aria-live="polite" hidden>{labels.copied}</span>
+</section>
+
+<style>
+  .dice-controls {
+    grid-template-columns: minmax(160px, 220px) minmax(160px, 220px);
+  }
+
+  select {
+    width: 100%;
+    min-height: 48px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: #fff;
+    color: var(--ink);
+    padding: 10px 12px;
+    font: inherit;
+  }
+
+  .dice-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 14px;
+  }
+
+  .die-chip {
+    min-width: 48px;
+    padding: 9px 11px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: #fbfcff;
+    text-align: center;
+    font-weight: 900;
+  }
+
+  .dice-result output.rolling {
+    color: var(--brand);
+  }
+
+  @media (max-width: 760px) {
+    .dice-controls {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  document.querySelectorAll('[data-dice-tool]').forEach((root) => {
+    const labels = JSON.parse(root.getAttribute('data-labels') || '{}');
+    const sidesInput = root.querySelector('[data-sides]');
+    const countInput = root.querySelector('[data-count]');
+    const output = root.querySelector('[data-output]');
+    const diceList = root.querySelector('[data-dice-list]');
+    const error = root.querySelector('[data-error]');
+    const toast = root.querySelector('.toast');
+    let latest = '';
+    let timer = null;
+
+    function setError(message) {
+      error.textContent = message;
+      error.hidden = !message;
+    }
+
+    function rollOne(sides) {
+      return Math.floor(Math.random() * sides) + 1;
+    }
+
+    function renderDice(results) {
+      diceList.innerHTML = '';
+      results.forEach((result) => {
+        const chip = document.createElement('span');
+        chip.className = 'die-chip';
+        chip.textContent = String(result);
+        diceList.append(chip);
+      });
+    }
+
+    function finish(results, sides) {
+      const total = results.reduce((sum, value) => sum + value, 0);
+      output.classList.remove('rolling');
+      output.textContent = `${labels.total}: ${total}`;
+      renderDice(results);
+      latest = `d${sides} x ${results.length}\n${labels.dice}: ${results.join(', ')}\n${labels.total}: ${total}`;
+      setError('');
+    }
+
+    function roll() {
+      const sides = Number(sidesInput.value);
+      const count = Number(countInput.value);
+      if (!Number.isInteger(count) || count < 1 || count > 20) {
+        setError(labels.countError);
+        return;
+      }
+      window.clearInterval(timer);
+      let cycles = 0;
+      output.classList.add('rolling');
+      output.textContent = labels.rolling;
+      timer = window.setInterval(() => {
+        cycles += 1;
+        const preview = Array.from({ length: count }, () => rollOne(sides));
+        renderDice(preview);
+        if (cycles >= 10) {
+          window.clearInterval(timer);
+          timer = null;
+          finish(preview, sides);
+        }
+      }, 50);
+    }
+
+    root.querySelector('[data-roll]')?.addEventListener('click', roll);
+    root.querySelector('[data-copy]')?.addEventListener('click', async () => {
+      if (!latest) return;
+      try {
+        await navigator.clipboard.writeText(latest);
+        toast.hidden = false;
+        window.setTimeout(() => {
+          toast.hidden = true;
+        }, 1500);
+      } catch {
+        window.prompt(labels.copy, latest);
+      }
+    });
+  });
+</script>

@@ -1,0 +1,67 @@
+---
+import type { Locale } from '../config/site';
+import { t } from '../i18n/ui';
+
+interface Props {
+  lang: Locale;
+  url: string;
+  title: string;
+}
+
+const { lang, url, title } = Astro.props;
+const ui = t(lang);
+const encodedUrl = encodeURIComponent(url);
+const encodedTitle = encodeURIComponent(title);
+---
+
+<section class="share-row" data-share-buttons>
+  <h2>{ui.buttons.share}</h2>
+  <div class="share-actions">
+    <button class="btn" type="button" data-copy-url={url} data-copy-label={ui.share.copyLink} data-share-platform="copy">{ui.share.copyLink}</button>
+    <a class="btn ghost" data-share-platform="line" href={`https://social-plugins.line.me/lineit/share?url=${encodedUrl}`} target="_blank" rel="noopener noreferrer">{ui.share.line}</a>
+    <a class="btn ghost" data-share-platform="facebook" href={`https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`} target="_blank" rel="noopener noreferrer">{ui.share.facebook}</a>
+    <a class="btn ghost" data-share-platform="x" href={`https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`} target="_blank" rel="noopener noreferrer">{ui.share.x}</a>
+  </div>
+  <span class="toast" role="status" aria-live="polite" hidden>{ui.buttons.copied}</span>
+</section>
+
+<script>
+  document.querySelectorAll('[data-share-buttons]').forEach((root) => {
+    const button = root.querySelector('[data-copy-url]');
+    const toast = root.querySelector('.toast');
+    if (!button || !toast) return;
+
+    const trackShare = (platform) => {
+      if (typeof window.gtag === 'function') {
+        window.gtag('event', 'share', {
+          method: platform,
+          content_type: 'tool_or_page',
+        });
+      }
+      if (window.__ft_track) {
+        window.__ft_track('share_click', { method: platform });
+      }
+    };
+
+    root.querySelectorAll('a[data-share-platform]').forEach((link) => {
+      link.addEventListener('click', () => {
+        trackShare(link.getAttribute('data-share-platform') || 'unknown');
+      });
+    });
+
+    button.addEventListener('click', async () => {
+      const value = button.getAttribute('data-copy-url') || window.location.href;
+      try {
+        await navigator.clipboard.writeText(value);
+        toast.hidden = false;
+        window.setTimeout(() => {
+          toast.hidden = true;
+        }, 1600);
+        trackShare('copy');
+      } catch {
+        window.prompt(button.getAttribute('data-copy-label') || 'Copy link', value);
+        trackShare('copy_fallback');
+      }
+    });
+  });
+</script>

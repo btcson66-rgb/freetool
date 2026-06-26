@@ -1,0 +1,177 @@
+---
+interface Props {
+  labels: Record<string, string>;
+}
+
+const { labels } = Astro.props;
+---
+
+<section class="tool-widget card" data-grade-average-tool data-labels={JSON.stringify(labels)}>
+  <div class="grade-rows" data-rows></div>
+  <div class="actions">
+    <button class="btn" type="button" data-add>{labels.addRow}</button>
+    <button class="btn ghost" type="button" data-copy>{labels.copy}</button>
+    <button class="btn ghost" type="button" data-export>{labels.exportCsv}</button>
+  </div>
+  <div class="stats-grid grade-stats" aria-live="polite">
+    <div><span>{labels.totalItems}</span><strong data-items>0</strong></div>
+    <div><span>{labels.sum}</span><strong data-sum>0.00</strong></div>
+    <div><span>{labels.average}</span><strong data-average>--</strong></div>
+    <div><span>{labels.weightedAverage}</span><strong data-weighted>--</strong></div>
+  </div>
+  <p class="note" data-note>{labels.noValidRows}</p>
+  <span class="toast" role="status" aria-live="polite" hidden>{labels.copied}</span>
+</section>
+
+<style>
+  .grade-rows {
+    display: grid;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .grade-row {
+    display: grid;
+    grid-template-columns: minmax(120px, 1fr) minmax(120px, 1fr) auto;
+    gap: 10px;
+    align-items: end;
+  }
+
+  .grade-row .btn {
+    min-height: 48px;
+  }
+
+  .grade-stats {
+    margin-top: 18px;
+  }
+
+  @media (max-width: 760px) {
+    .grade-row {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  document.querySelectorAll('[data-grade-average-tool]').forEach((root) => {
+    const labels = JSON.parse(root.getAttribute('data-labels') || '{}');
+    const rows = root.querySelector('[data-rows]');
+    const outputs = {
+      items: root.querySelector('[data-items]'),
+      sum: root.querySelector('[data-sum]'),
+      average: root.querySelector('[data-average]'),
+      weighted: root.querySelector('[data-weighted]'),
+    };
+    const note = root.querySelector('[data-note]');
+    const toast = root.querySelector('.toast');
+    let latest = '';
+
+    function csvCell(value) {
+      const text = String(value ?? '');
+      return /[",\r\n]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
+    }
+
+    function downloadCsv(filename, rows) {
+      const csv = rows.map((row) => row.map(csvCell).join(',')).join('\r\n');
+      const blob = new Blob([String.fromCharCode(0xfeff) + csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const anchor = document.createElement('a');
+      anchor.href = url;
+      anchor.download = filename;
+      anchor.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function numberOrNull(value) {
+      if (value.trim() === '') return null;
+      const number = Number(value);
+      return Number.isFinite(number) ? number : null;
+    }
+
+    function format(number) {
+      return number.toFixed(2);
+    }
+
+    function createRow(score = '', weight = '') {
+      const row = document.createElement('div');
+      row.className = 'grade-row';
+      row.innerHTML = `
+        <label>
+          <span>${labels.score}</span>
+          <input data-score type="number" inputmode="decimal" step="0.01" value="${score}" />
+        </label>
+        <label>
+          <span>${labels.weight}</span>
+          <input data-weight type="number" inputmode="decimal" step="0.01" min="0" value="${weight}" />
+        </label>
+        <button class="btn ghost" type="button" data-remove>${labels.remove}</button>
+      `;
+      row.querySelectorAll('input').forEach((input) => input.addEventListener('input', calculate));
+      row.querySelector('[data-remove]').addEventListener('click', () => {
+        row.remove();
+        if (!rows.children.length) createRow();
+        calculate();
+      });
+      rows.append(row);
+    }
+
+    function validRows() {
+      return Array.from(rows.querySelectorAll('.grade-row')).map((row) => {
+        const score = numberOrNull(row.querySelector('[data-score]').value);
+        const weight = numberOrNull(row.querySelector('[data-weight]').value);
+        return { score, weight };
+      }).filter((row) => row.score !== null);
+    }
+
+    function calculate() {
+      const valid = validRows();
+      const count = valid.length;
+      const sum = valid.reduce((total, row) => total + row.score, 0);
+      const weightedRows = valid.filter((row) => row.weight !== null && row.weight > 0);
+      const weightTotal = weightedRows.reduce((total, row) => total + row.weight, 0);
+      const average = count ? sum / count : null;
+      const weighted = weightTotal ? weightedRows.reduce((total, row) => total + row.score * row.weight, 0) / weightTotal : null;
+
+      outputs.items.textContent = String(count);
+      outputs.sum.textContent = format(sum);
+      outputs.average.textContent = average === null ? '--' : format(average);
+      outputs.weighted.textContent = weighted === null ? '--' : format(weighted);
+      note.textContent = count ? (weighted === null ? labels.noWeights : `${labels.weightedAverage}: ${format(weighted)}`) : labels.noValidRows;
+      latest = count
+        ? `${labels.totalItems}: ${count}\n${labels.sum}: ${format(sum)}\n${labels.average}: ${format(average)}\n${labels.weightedAverage}: ${weighted === null ? labels.noWeights : format(weighted)}`
+        : '';
+    }
+
+    root.querySelector('[data-add]')?.addEventListener('click', () => {
+      createRow();
+      calculate();
+    });
+    root.querySelector('[data-copy]')?.addEventListener('click', async () => {
+      if (!latest) return;
+      try {
+        await navigator.clipboard.writeText(latest);
+        toast.hidden = false;
+        window.setTimeout(() => {
+          toast.hidden = true;
+        }, 1500);
+      } catch {
+        window.prompt(labels.copy, latest);
+      }
+    });
+    root.querySelector('[data-export]')?.addEventListener('click', () => {
+      const valid = validRows();
+      if (!valid.length) return;
+      const rows = [[labels.score, labels.weight]];
+      valid.forEach((row) => rows.push([format(row.score), row.weight === null ? '' : format(row.weight)]));
+      rows.push([]);
+      rows.push([labels.average, outputs.average.textContent]);
+      rows.push([labels.weightedAverage, outputs.weighted.textContent]);
+      downloadCsv('grade-average.csv', rows);
+    });
+
+    createRow('90', '1');
+    createRow('85', '1');
+    createRow('', '');
+    calculate();
+  });
+</script>

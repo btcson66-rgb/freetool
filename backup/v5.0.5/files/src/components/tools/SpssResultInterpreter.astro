@@ -1,0 +1,212 @@
+---
+interface Props {
+  labels: Record<string, string>;
+  slug?: string;
+}
+
+const { labels, slug } = Astro.props;
+---
+
+<section class="tool-widget card tool-interaction spss-tool" data-spss-helper data-slug={slug} data-labels={JSON.stringify(labels)}>
+  <label class="section-select">
+    <span>{labels.section}</span>
+    <select data-field="section">
+      <option value="ttest">{labels.independentT}</option>
+      <option value="anova">{labels.oneWayAnova}</option>
+      <option value="twoway">{labels.twoWayAnova}</option>
+    </select>
+  </label>
+
+  <div class="form-grid" data-panel="ttest">
+    <label><span>{labels.leveneF}</span><input data-field="leveneF" type="number" step="any" value="1.26" /></label>
+    <label><span>{labels.leveneP}</span><input data-field="leveneP" type="number" step="any" value="0.270" /></label>
+    <label><span>{labels.t}</span><input data-field="t" type="number" step="any" value="2.45" /></label>
+    <label><span>{labels.df}</span><input data-field="df" type="number" step="any" value="28" /></label>
+    <label><span>{labels.sig2}</span><input data-field="sig2" type="number" step="any" value="0.021" /></label>
+    <label><span>{labels.meanDiff}</span><input data-field="meanDiff" type="number" step="any" value="5.30" /></label>
+    <label><span>{labels.groupA}</span><input data-field="groupA" type="number" step="any" value="78.4" /></label>
+    <label><span>{labels.groupB}</span><input data-field="groupB" type="number" step="any" value="73.1" /></label>
+  </div>
+
+  <div class="form-grid" data-panel="anova" hidden>
+    <label><span>{labels.f}</span><input data-field="anovaF" type="number" step="any" value="4.62" /></label>
+    <label><span>{labels.dfBetween}</span><input data-field="dfBetween" type="number" step="1" value="2" /></label>
+    <label><span>{labels.dfWithin}</span><input data-field="dfWithin" type="number" step="1" value="57" /></label>
+    <label><span>{labels.p}</span><input data-field="anovaP" type="number" step="any" value="0.014" /></label>
+    <label><span>{labels.eta}</span><input data-field="eta" type="number" step="any" value="0.14" /></label>
+    <label class="textarea-label"><span>{labels.postHoc}</span><textarea data-field="postHoc" rows="3"></textarea></label>
+  </div>
+
+  <div class="two-way-fields" data-panel="twoway" hidden>
+    <div class="form-grid">
+      <label><span>{labels.factorA}</span><input data-field="factorA" type="text" value="teaching method" /></label>
+      <label><span>{labels.factorB}</span><input data-field="factorB" type="text" value="grade level" /></label>
+    </div>
+    {['interaction', 'mainA', 'mainB'].map((section) => (
+      <fieldset>
+        <legend>{labels[section]}</legend>
+        <div class="form-grid">
+          <label><span>{labels.f}</span><input data-field={`${section}F`} type="number" step="any" value={section === 'interaction' ? '5.12' : '3.80'} /></label>
+          <label><span>{labels.df1}</span><input data-field={`${section}Df1`} type="number" step="1" value="1" /></label>
+          <label><span>{labels.df2}</span><input data-field={`${section}Df2`} type="number" step="1" value="56" /></label>
+          <label><span>{labels.p}</span><input data-field={`${section}P`} type="number" step="any" value={section === 'interaction' ? '0.027' : '0.056'} /></label>
+        </div>
+      </fieldset>
+    ))}
+  </div>
+
+  <div class="actions">
+    <button class="btn go" type="button" data-interpret>{labels.interpret}</button>
+    <button class="btn ghost" type="button" data-reset>{labels.reset}</button>
+    <button class="btn ghost" type="button" data-copy>{labels.copy}</button>
+  </div>
+
+  <p class="form-error" data-error role="alert" hidden></p>
+  <div class="resultbox spss-output" data-output aria-live="polite" hidden></div>
+  <span class="toast" role="status" aria-live="polite" hidden>{labels.copied}</span>
+</section>
+
+<style>
+  .section-select { display: grid; gap: 6px; margin-bottom: 16px; }
+  .two-way-fields { display: grid; gap: 14px; }
+  .two-way-fields fieldset { margin: 0; padding: 14px; border: 1px solid var(--line); border-radius: 10px; }
+  .two-way-fields legend { padding: 0 6px; font-weight: 900; }
+  .spss-output { display: grid; gap: 12px; }
+  .spss-output h3 { margin: 0; font-size: 1rem; }
+  .spss-output p { margin: 0; }
+</style>
+
+<script>
+  document.querySelectorAll('[data-spss-helper]').forEach((root) => {
+    if (!(root instanceof HTMLElement)) return;
+    const labels = JSON.parse(root.dataset.labels || '{}');
+    const lang = document.documentElement.lang === 'en' ? 'en' : 'zh';
+    const error = root.querySelector('[data-error]');
+    const output = root.querySelector('[data-output]');
+    const toast = root.querySelector('.toast');
+    let latest = '';
+
+    const field = (key) => root.querySelector(`[data-field="${key}"]`);
+    const text = (key) => {
+      const element = field(key);
+      return element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement || element instanceof HTMLSelectElement ? element.value.trim() : '';
+    };
+    const num = (key) => Number(text(key));
+    const validP = (p) => Number.isFinite(p) && p >= 0 && p <= 1;
+    const esc = (value) => String(value).replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
+    const fmt = (value, digits = 2) => Number(value).toFixed(digits);
+    const fmtBounded = (value) => fmt(value).replace(/^0\./, '.').replace(/^-0\./, '-.');
+    const fmtP = (p) => p < 0.001 ? 'p < .001' : `p = ${Number(p).toFixed(3).replace(/^0\./, '.')}`;
+    const sig = (p) => p < 0.05;
+
+    function section() {
+      return text('section') || 'ttest';
+    }
+
+    function updateVisible() {
+      const active = section();
+      root.querySelectorAll('[data-panel]').forEach((panel) => {
+        if (panel instanceof HTMLElement) panel.hidden = panel.dataset.panel !== active;
+      });
+    }
+
+    function showError() {
+      if (error instanceof HTMLElement) {
+        error.textContent = labels.invalid;
+        error.hidden = false;
+      }
+      if (output instanceof HTMLElement) output.hidden = true;
+    }
+
+    function render(parts) {
+      latest = parts.map((part) => `${part.title}\n${part.body}`).join('\n\n');
+      if (error instanceof HTMLElement) error.hidden = true;
+      if (!(output instanceof HTMLElement)) return;
+      output.innerHTML = parts.map((part) => `<div><h3>${esc(part.title)}</h3><p>${esc(part.body)}</p></div>`).join('');
+      output.hidden = false;
+    }
+
+    function interpretTTest() {
+      const leveneP = num('leveneP'), t = num('t'), df = num('df'), p = num('sig2');
+      if (!validP(leveneP) || !validP(p) || !Number.isFinite(t) || !Number.isFinite(df)) return showError();
+      const row = leveneP >= 0.05 ? 'Equal variances assumed' : 'Equal variances not assumed';
+      const decision = sig(p) ? labels.significant : labels.notSignificant;
+      const meanDiffText = Number.isFinite(num('meanDiff')) ? (lang === 'en' ? ` The mean difference was ${fmt(num('meanDiff'))}.` : `平均差為 ${fmt(num('meanDiff'))}。`) : '';
+      const means = Number.isFinite(num('groupA')) && Number.isFinite(num('groupB'))
+        ? (lang === 'en' ? ` Group means were ${fmt(num('groupA'))} and ${fmt(num('groupB'))}.` : `兩組平均數分別為 ${fmt(num('groupA'))} 與 ${fmt(num('groupB'))}。`)
+        : '';
+      render([
+        { title: labels.rowGuide, body: lang === 'en' ? `Because Levene's ${fmtP(leveneP)}, read the "${row}" row.` : `因 Levene ${fmtP(leveneP)}，請讀取 SPSS 的「${row}」列。` },
+        { title: labels.apaSentence, body: lang === 'en' ? `An independent-samples t test was ${decision}, t(${fmt(df, 0)}) = ${fmt(t)}, ${fmtP(p)}.${meanDiffText}` : `獨立樣本 t 檢定結果${decision}，t(${fmt(df, 0)}) = ${fmt(t)}，${fmtP(p)}。${meanDiffText}` },
+        { title: labels.explanation, body: lang === 'en' ? `The result is ${decision}. Use this row for the t, df, and Sig.(2-tailed) values.${means}` : `此結果${decision}。報告 t、df 與 Sig.(2-tailed) 時請使用該列數值。${means}` },
+      ]);
+    }
+
+    function interpretAnova() {
+      const f = num('anovaF'), df1 = num('dfBetween'), df2 = num('dfWithin'), p = num('anovaP');
+      if (!Number.isFinite(f) || !Number.isFinite(df1) || !Number.isFinite(df2) || !validP(p)) return showError();
+      const decision = sig(p) ? labels.significant : labels.notSignificant;
+      const etaText = Number.isFinite(num('eta')) ? `, η² = ${fmtBounded(num('eta'))}` : '';
+      const postHoc = text('postHoc');
+      const followUp = sig(p)
+        ? (lang === 'en' ? 'Because the omnibus test is significant, check post hoc tests or planned contrasts to identify where groups differ.' : '整體檢定達顯著，請接著查看事後比較或預先規劃對比，確認哪些組別不同。')
+        : (lang === 'en' ? 'Because the omnibus test is not significant, post hoc comparisons are usually not interpreted as primary evidence.' : '整體檢定未達顯著時，通常不把事後比較作為主要證據解讀。');
+      render([
+        { title: labels.apaSentence, body: lang === 'en' ? `A one-way ANOVA was ${decision}, F(${fmt(df1, 0)}, ${fmt(df2, 0)}) = ${fmt(f)}, ${fmtP(p)}${etaText}.` : `單因子 ANOVA 結果${decision}，F(${fmt(df1, 0)}, ${fmt(df2, 0)}) = ${fmt(f)}，${fmtP(p)}${etaText}。` },
+        { title: labels.explanation, body: `${followUp}${postHoc ? (lang === 'en' ? ` Post hoc note: ${postHoc}` : `事後比較摘要：${postHoc}`) : ''}` },
+      ]);
+    }
+
+    function effectLine(prefix, key) {
+      const f = num(`${key}F`), df1 = num(`${key}Df1`), df2 = num(`${key}Df2`), p = num(`${key}P`);
+      if (!Number.isFinite(f) || !Number.isFinite(df1) || !Number.isFinite(df2) || !validP(p)) return null;
+      const decision = sig(p) ? labels.significant : labels.notSignificant;
+      return { decision, p, text: `${prefix}: F(${fmt(df1, 0)}, ${fmt(df2, 0)}) = ${fmt(f)}, ${fmtP(p)} (${decision})` };
+    }
+
+    function interpretTwoWay() {
+      const interaction = effectLine(labels.interaction, 'interaction');
+      const mainA = effectLine(labels.mainA, 'mainA');
+      const mainB = effectLine(labels.mainB, 'mainB');
+      if (!interaction || !mainA || !mainB) return showError();
+      const guide = sig(interaction.p)
+        ? (lang === 'en' ? `The interaction is significant, so interpret simple main effects before making broad claims about ${text('factorA') || 'Factor A'} or ${text('factorB') || 'Factor B'}.` : `交互作用達顯著，應優先解讀單純主要效果，再謹慎討論「${text('factorA') || '因素 A'}」或「${text('factorB') || '因素 B'}」的整體主要效果。`)
+        : (lang === 'en' ? `The interaction is not significant, so the main effects can usually be interpreted more directly if they match the research design.` : `交互作用未達顯著時，通常可依研究設計較直接解讀主要效果。`);
+      render([
+        { title: labels.apaSentence, body: [interaction.text, mainA.text, mainB.text].join('; ') + '.' },
+        { title: labels.explanation, body: guide },
+      ]);
+    }
+
+    function interpret() {
+      if (section() === 'ttest') return interpretTTest();
+      if (section() === 'anova') return interpretAnova();
+      return interpretTwoWay();
+    }
+
+    function reset() {
+      root.querySelectorAll('input, textarea').forEach((element) => { element.value = ''; });
+      if (output instanceof HTMLElement) output.hidden = true;
+      if (error instanceof HTMLElement) error.hidden = true;
+      latest = '';
+    }
+
+    field('section')?.addEventListener('change', () => { updateVisible(); interpret(); });
+    root.querySelector('[data-interpret]')?.addEventListener('click', interpret);
+    root.querySelector('[data-reset]')?.addEventListener('click', reset);
+    root.querySelector('[data-copy]')?.addEventListener('click', async () => {
+      if (!latest) return;
+      try {
+        await navigator.clipboard.writeText(latest);
+        if (toast instanceof HTMLElement) {
+          toast.hidden = false;
+          window.setTimeout(() => { toast.hidden = true; }, 1500);
+        }
+      } catch {
+        window.prompt(labels.copy, latest);
+      }
+    });
+    updateVisible();
+    interpret();
+  });
+</script>

@@ -1,0 +1,102 @@
+---
+import '../styles/global.css';
+import { SITE, type Locale } from '../config/site';
+import { t } from '../i18n/ui';
+
+interface Props {
+  lang: Locale;
+  title: string;
+  description: string;
+  fullToolUrl: string;
+}
+
+const { lang, title, description, fullToolUrl } = Astro.props;
+const ui = t(lang);
+const ga4Enabled = !!SITE.ga4MeasurementId;
+const contentSecurityPolicy = [
+  "default-src 'self'",
+  `script-src 'self' 'unsafe-inline'${ga4Enabled ? ' https://www.googletagmanager.com' : ''}`,
+  "style-src 'self' 'unsafe-inline'",
+  `img-src 'self' data: blob:${ga4Enabled ? ' https://www.googletagmanager.com' : ''}`,
+  `connect-src 'self'${ga4Enabled ? ' https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://analytics.google.com' : ''}`,
+  "object-src 'none'",
+  "base-uri 'self'",
+  "form-action 'self'",
+].join('; ');
+---
+
+<!doctype html>
+<html lang={SITE.htmlLang[lang]}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Content-Security-Policy" content={contentSecurityPolicy} />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta name="robots" content="noindex,follow" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {
+      ga4Enabled && (
+        <>
+          <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
+          <script async src={`https://www.googletagmanager.com/gtag/js?id=${SITE.ga4MeasurementId}`} />
+          <script is:inline define:vars={{ measurementId: SITE.ga4MeasurementId }}>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', measurementId);
+          </script>
+        </>
+      )
+    }
+  </head>
+  <body class="embed-body">
+    <main class="embed-shell" aria-label={title}>
+      <h1>{title}</h1>
+      <slot />
+      <p class="embed-powered">
+        <a href={fullToolUrl} target="_blank" rel="noopener noreferrer">{ui.embed.poweredBy}</a>
+      </p>
+    </main>
+  </body>
+</html>
+
+<style is:global>
+  html,
+  body.embed-body {
+    min-width: 280px;
+    margin: 0;
+    background: transparent;
+  }
+</style>
+
+<style>
+  .embed-shell {
+    width: 100%;
+    min-height: 100vh;
+    padding: 14px;
+    background: #fff;
+  }
+
+  h1 {
+    margin-bottom: 14px;
+    font-size: 1.15rem;
+    line-height: 1.25;
+  }
+
+  .embed-powered {
+    margin: 14px 0 0;
+    color: var(--muted);
+    font-size: 0.86rem;
+    text-align: center;
+  }
+
+  .embed-powered a {
+    color: var(--brand);
+    font-weight: 800;
+  }
+
+  :global(.embed-shell .tool-widget) {
+    box-shadow: none;
+  }
+</style>

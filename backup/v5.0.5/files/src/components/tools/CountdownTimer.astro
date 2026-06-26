@@ -1,0 +1,311 @@
+---
+interface Props {
+  labels: Record<string, string>;
+}
+
+const { labels } = Astro.props;
+---
+
+<section class="tool-widget card" data-countdown-tool data-labels={JSON.stringify(labels)}>
+  <div class="mode-tabs" role="tablist" aria-label="Countdown mode">
+    <button class="btn go" type="button" data-mode-tab="duration" aria-pressed="true">{labels.durationMode}</button>
+    <button class="btn ghost" type="button" data-mode-tab="target" aria-pressed="false">{labels.targetMode}</button>
+  </div>
+
+  <div data-panel="duration">
+    <div class="form-grid">
+      <label>
+        <span>{labels.hours}</span>
+        <input data-hours type="number" inputmode="numeric" value="0" min="0" max="99" step="1" />
+      </label>
+      <label>
+        <span>{labels.minutes}</span>
+        <input data-minutes type="number" inputmode="numeric" value="5" min="0" max="59" step="1" />
+      </label>
+      <label>
+        <span>{labels.seconds}</span>
+        <input data-seconds type="number" inputmode="numeric" value="0" min="0" max="59" step="1" />
+      </label>
+    </div>
+  </div>
+
+  <div data-panel="target" hidden>
+    <div class="form-grid target-grid">
+      <label>
+        <span>{labels.targetDate}</span>
+        <input data-target type="datetime-local" />
+      </label>
+    </div>
+  </div>
+
+  <div class="timer-panel countdown-panel" data-panel-display>
+    <p class="phase-label" data-status>{labels.ready}</p>
+    <output class="timer-display" data-display>05:00</output>
+    <p class="session-count" data-units>{labels.minsAbbr}:{labels.secsAbbr}</p>
+  </div>
+
+  <div class="actions">
+    <button class="btn go" type="button" data-start>{labels.start}</button>
+    <button class="btn" type="button" data-pause disabled>{labels.pause}</button>
+    <button class="btn ghost" type="button" data-reset>{labels.reset}</button>
+  </div>
+  <p class="form-error" data-error role="alert" hidden></p>
+</section>
+
+<style>
+  .mode-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .target-grid {
+    grid-template-columns: minmax(240px, 1fr);
+  }
+
+  .countdown-panel.flash {
+    animation: countdown-flash 0.7s ease-in-out 3;
+  }
+
+  @keyframes countdown-flash {
+    0%,
+    100% {
+      background: #f2fbfa;
+    }
+    50% {
+      background: #fff1e8;
+      border-color: #f26b4f;
+    }
+  }
+</style>
+
+<script>
+  document.querySelectorAll('[data-countdown-tool]').forEach((root) => {
+    const labels = JSON.parse(root.getAttribute('data-labels') || '{}');
+    const tabs = Array.from(root.querySelectorAll('[data-mode-tab]'));
+    const durationPanel = root.querySelector('[data-panel="duration"]');
+    const targetPanel = root.querySelector('[data-panel="target"]');
+    const hoursInput = root.querySelector('[data-hours]');
+    const minutesInput = root.querySelector('[data-minutes]');
+    const secondsInput = root.querySelector('[data-seconds]');
+    const targetInput = root.querySelector('[data-target]');
+    const display = root.querySelector('[data-display]');
+    const status = root.querySelector('[data-status]');
+    const units = root.querySelector('[data-units]');
+    const panelDisplay = root.querySelector('[data-panel-display]');
+    const startButton = root.querySelector('[data-start]');
+    const pauseButton = root.querySelector('[data-pause]');
+    const error = root.querySelector('[data-error]');
+    let mode = 'duration';
+    let running = false;
+    let remainingSeconds = 5 * 60;
+    let endAt = 0;
+    let timerId = null;
+
+    function numberFrom(input) {
+      const number = Number(input.value);
+      return Number.isInteger(number) ? number : null;
+    }
+
+    function setError(message) {
+      error.textContent = message;
+      error.hidden = !message;
+    }
+
+    function durationSeconds() {
+      const hours = numberFrom(hoursInput);
+      const minutes = numberFrom(minutesInput);
+      const seconds = numberFrom(secondsInput);
+      if (
+        hours === null ||
+        minutes === null ||
+        seconds === null ||
+        hours < 0 ||
+        minutes < 0 ||
+        minutes > 59 ||
+        seconds < 0 ||
+        seconds > 59
+      ) {
+        return 0;
+      }
+      return hours * 3600 + minutes * 60 + seconds;
+    }
+
+    function targetSeconds() {
+      const timestamp = new Date(targetInput.value).getTime();
+      if (!Number.isFinite(timestamp)) return 0;
+      return Math.max(0, Math.ceil((timestamp - Date.now()) / 1000));
+    }
+
+    function format(seconds) {
+      const total = Math.max(0, Math.floor(seconds));
+      const days = Math.floor(total / 86400);
+      const hours = Math.floor((total % 86400) / 3600);
+      const minutes = Math.floor((total % 3600) / 60);
+      const secs = total % 60;
+      const mm = String(minutes).padStart(2, '0');
+      const ss = String(secs).padStart(2, '0');
+      if (days > 0) return `${days}:${String(hours).padStart(2, '0')}:${mm}:${ss}`;
+      if (hours > 0) return `${hours}:${mm}:${ss}`;
+      return `${mm}:${ss}`;
+    }
+
+    function unitText(seconds) {
+      const total = Math.max(0, Math.floor(seconds));
+      const days = Math.floor(total / 86400);
+      const hours = Math.floor((total % 86400) / 3600);
+      if (days > 0) return `${labels.daysAbbr}:${labels.hoursAbbr}:${labels.minsAbbr}:${labels.secsAbbr}`;
+      if (hours > 0) return `${labels.hoursAbbr}:${labels.minsAbbr}:${labels.secsAbbr}`;
+      return `${labels.minsAbbr}:${labels.secsAbbr}`;
+    }
+
+    function render(seconds = remainingSeconds) {
+      display.textContent = format(seconds);
+      units.textContent = unitText(seconds);
+      startButton.disabled = running;
+      pauseButton.disabled = !running;
+    }
+
+    function beep() {
+      try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        const context = new AudioContext();
+        const oscillator = context.createOscillator();
+        const gain = context.createGain();
+        oscillator.type = 'sine';
+        oscillator.frequency.value = 880;
+        gain.gain.setValueAtTime(0.001, context.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.25, context.currentTime + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.001, context.currentTime + 0.35);
+        oscillator.connect(gain);
+        gain.connect(context.destination);
+        oscillator.start();
+        oscillator.stop(context.currentTime + 0.38);
+      } catch {
+        // Audio is optional.
+      }
+    }
+
+    function clearTimer() {
+      if (timerId !== null) {
+        window.clearInterval(timerId);
+        timerId = null;
+      }
+    }
+
+    function finish() {
+      running = false;
+      remainingSeconds = 0;
+      clearTimer();
+      status.textContent = labels.timeUp;
+      panelDisplay.classList.remove('flash');
+      void panelDisplay.offsetWidth;
+      panelDisplay.classList.add('flash');
+      beep();
+      render(0);
+    }
+
+    function tick() {
+      const nextRemaining = mode === 'target' ? targetSeconds() : Math.max(0, Math.ceil((endAt - Date.now()) / 1000));
+      remainingSeconds = nextRemaining;
+      if (nextRemaining <= 0) {
+        finish();
+        return;
+      }
+      render(nextRemaining);
+    }
+
+    function validateAndPrepare() {
+      if (mode === 'target') {
+        const seconds = targetSeconds();
+        if (seconds <= 0) {
+          setError(labels.targetError);
+          return false;
+        }
+        remainingSeconds = seconds;
+        return true;
+      }
+      if (!running) {
+        const seconds = remainingSeconds > 0 ? remainingSeconds : durationSeconds();
+        if (seconds <= 0) {
+          setError(labels.durationError);
+          return false;
+        }
+        remainingSeconds = seconds;
+      }
+      return true;
+    }
+
+    function start() {
+      if (running || !validateAndPrepare()) return;
+      setError('');
+      status.textContent = mode === 'target' ? labels.targetMode : labels.durationMode;
+      panelDisplay.classList.remove('flash');
+      running = true;
+      endAt = Date.now() + remainingSeconds * 1000;
+      clearTimer();
+      timerId = window.setInterval(tick, 250);
+      render();
+    }
+
+    function pause() {
+      if (!running) return;
+      remainingSeconds = mode === 'target' ? targetSeconds() : Math.max(1, Math.ceil((endAt - Date.now()) / 1000));
+      running = false;
+      clearTimer();
+      render();
+    }
+
+    function reset() {
+      running = false;
+      clearTimer();
+      panelDisplay.classList.remove('flash');
+      status.textContent = labels.ready;
+      remainingSeconds = mode === 'target' ? targetSeconds() : durationSeconds();
+      setError('');
+      render(remainingSeconds);
+    }
+
+    function switchMode(nextMode) {
+      mode = nextMode;
+      running = false;
+      clearTimer();
+      durationPanel.hidden = mode !== 'duration';
+      targetPanel.hidden = mode !== 'target';
+      tabs.forEach((tab) => {
+        const active = tab.getAttribute('data-mode-tab') === mode;
+        tab.classList.toggle('go', active);
+        tab.classList.toggle('ghost', !active);
+        tab.setAttribute('aria-pressed', String(active));
+      });
+      reset();
+    }
+
+    function setDefaultTarget() {
+      const date = new Date(Date.now() + 24 * 60 * 60 * 1000);
+      date.setSeconds(0, 0);
+      const offset = date.getTimezoneOffset() * 60000;
+      targetInput.value = new Date(date.getTime() - offset).toISOString().slice(0, 16);
+    }
+
+    [hoursInput, minutesInput, secondsInput].forEach((input) => {
+      input.addEventListener('input', () => {
+        if (!running && mode === 'duration') reset();
+      });
+    });
+    targetInput.addEventListener('input', () => {
+      if (!running && mode === 'target') reset();
+    });
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => switchMode(tab.getAttribute('data-mode-tab')));
+    });
+    startButton.addEventListener('click', start);
+    pauseButton.addEventListener('click', pause);
+    root.querySelector('[data-reset]')?.addEventListener('click', reset);
+
+    setDefaultTarget();
+    reset();
+  });
+</script>
+

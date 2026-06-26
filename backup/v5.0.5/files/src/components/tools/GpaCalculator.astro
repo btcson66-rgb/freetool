@@ -1,0 +1,163 @@
+---
+interface Props {
+  labels: Record<string, string>;
+}
+
+const { labels } = Astro.props;
+---
+
+<section class="tool-widget card" data-gpa-tool data-labels={JSON.stringify(labels)}>
+  <div class="gpa-rows" data-rows></div>
+  <div class="actions">
+    <button class="btn" type="button" data-add>{labels.addRow}</button>
+    <button class="btn ghost" type="button" data-copy>{labels.copy}</button>
+  </div>
+  <div class="stats-grid gpa-stats" aria-live="polite">
+    <div><span>{labels.totalCredits}</span><strong data-credits>0.00</strong></div>
+    <div><span>{labels.gpa}</span><strong data-gpa>--</strong></div>
+  </div>
+  <p class="note" data-note>{labels.scaleNote}</p>
+  <span class="toast" role="status" aria-live="polite" hidden>{labels.copied}</span>
+</section>
+
+<style>
+  .gpa-rows {
+    display: grid;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .gpa-row {
+    display: grid;
+    grid-template-columns: minmax(150px, 1.4fr) minmax(100px, 0.7fr) minmax(120px, 0.8fr) auto;
+    gap: 10px;
+    align-items: end;
+  }
+
+  .gpa-row .btn {
+    min-height: 48px;
+  }
+
+  .gpa-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-top: 18px;
+  }
+
+  select {
+    width: 100%;
+    min-height: 48px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: #fff;
+    color: var(--ink);
+    padding: 10px 12px;
+    font: inherit;
+  }
+
+  @media (max-width: 760px) {
+    .gpa-row,
+    .gpa-stats {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  document.querySelectorAll('[data-gpa-tool]').forEach((root) => {
+    const labels = JSON.parse(root.getAttribute('data-labels') || '{}');
+    const rows = root.querySelector('[data-rows]');
+    const creditsOutput = root.querySelector('[data-credits]');
+    const gpaOutput = root.querySelector('[data-gpa]');
+    const note = root.querySelector('[data-note]');
+    const toast = root.querySelector('.toast');
+    const gradePoints = {
+      'A+': 4.3,
+      A: 4.0,
+      'A-': 3.7,
+      'B+': 3.3,
+      B: 3.0,
+      'B-': 2.7,
+      'C+': 2.3,
+      C: 2.0,
+      'C-': 1.7,
+      D: 1.0,
+      F: 0,
+    };
+    let latest = '';
+
+    function gradeOptions(selected = 'A') {
+      return Object.keys(gradePoints)
+        .map((grade) => `<option value="${grade}"${grade === selected ? ' selected' : ''}>${grade}</option>`)
+        .join('');
+    }
+
+    function createRow(course = '', credits = '', grade = 'A') {
+      const row = document.createElement('div');
+      row.className = 'gpa-row';
+      row.innerHTML = `
+        <label>
+          <span>${labels.course}</span>
+          <input data-course type="text" value="${course}" placeholder="${labels.coursePlaceholder}" />
+        </label>
+        <label>
+          <span>${labels.credits}</span>
+          <input data-credits-input type="number" inputmode="decimal" step="0.5" min="0" value="${credits}" />
+        </label>
+        <label>
+          <span>${labels.grade}</span>
+          <select data-grade>${gradeOptions(grade)}</select>
+        </label>
+        <button class="btn ghost" type="button" data-remove>${labels.remove}</button>
+      `;
+      row.querySelectorAll('input, select').forEach((input) => input.addEventListener('input', calculate));
+      row.querySelectorAll('input, select').forEach((input) => input.addEventListener('change', calculate));
+      row.querySelector('[data-remove]').addEventListener('click', () => {
+        row.remove();
+        if (!rows.children.length) createRow();
+        calculate();
+      });
+      rows.append(row);
+    }
+
+    function calculate() {
+      let totalCredits = 0;
+      let totalPoints = 0;
+      Array.from(rows.querySelectorAll('.gpa-row')).forEach((row) => {
+        const credits = Number(row.querySelector('[data-credits-input]').value);
+        const grade = row.querySelector('[data-grade]').value;
+        if (!Number.isFinite(credits) || credits <= 0 || !(grade in gradePoints)) return;
+        totalCredits += credits;
+        totalPoints += credits * gradePoints[grade];
+      });
+      const gpa = totalCredits > 0 ? totalPoints / totalCredits : null;
+      creditsOutput.textContent = totalCredits.toFixed(2);
+      gpaOutput.textContent = gpa === null ? '--' : gpa.toFixed(2);
+      note.textContent = totalCredits > 0 ? labels.scaleNote : labels.noValidRows;
+      latest = totalCredits > 0
+        ? `${labels.totalCredits}: ${totalCredits.toFixed(2)}\n${labels.gpa}: ${gpa.toFixed(2)}\n${labels.scaleNote}`
+        : '';
+    }
+
+    root.querySelector('[data-add]')?.addEventListener('click', () => {
+      createRow();
+      calculate();
+    });
+    root.querySelector('[data-copy]')?.addEventListener('click', async () => {
+      if (!latest) return;
+      try {
+        await navigator.clipboard.writeText(latest);
+        toast.hidden = false;
+        window.setTimeout(() => {
+          toast.hidden = true;
+        }, 1500);
+      } catch {
+        window.prompt(labels.copy, latest);
+      }
+    });
+
+    createRow('', '3', 'A');
+    createRow('', '3', 'B+');
+    createRow('', '', 'A');
+    calculate();
+  });
+</script>

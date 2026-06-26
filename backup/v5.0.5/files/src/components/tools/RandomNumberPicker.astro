@@ -1,0 +1,148 @@
+---
+interface Props {
+  labels: Record<string, string>;
+}
+
+const { labels } = Astro.props;
+---
+
+<section class="tool-widget card" data-random-number-tool data-labels={JSON.stringify(labels)}>
+  <div class="form-grid">
+    <label>
+      <span>{labels.min}</span>
+      <input data-min type="number" inputmode="numeric" value="1" step="1" />
+    </label>
+    <label>
+      <span>{labels.max}</span>
+      <input data-max type="number" inputmode="numeric" value="100" step="1" />
+    </label>
+    <label>
+      <span>{labels.count}</span>
+      <input data-count type="number" inputmode="numeric" value="1" min="1" step="1" />
+    </label>
+  </div>
+  <div class="option-row">
+    <label class="check">
+      <input data-duplicates type="checkbox" checked />
+      <span>{labels.allowDuplicates}</span>
+    </label>
+    <label class="check">
+      <input data-sort type="checkbox" />
+      <span>{labels.sortResults}</span>
+    </label>
+  </div>
+  <div class="actions">
+    <button class="btn go" type="button" data-generate>{labels.generate}</button>
+    <button class="btn" type="button" data-reset>{labels.reset}</button>
+    <button class="btn ghost" type="button" data-copy>{labels.copy}</button>
+  </div>
+  <p class="form-error" data-error role="alert" hidden></p>
+  <div class="bigresult" aria-live="polite">
+    <span class="result-label">{labels.result}</span>
+    <output data-output>{labels.placeholder}</output>
+  </div>
+  <span class="toast" role="status" aria-live="polite" hidden>{labels.copied}</span>
+</section>
+
+<script>
+  document.querySelectorAll('[data-random-number-tool]').forEach((root) => {
+    const labels = JSON.parse(root.getAttribute('data-labels') || '{}');
+    const minInput = root.querySelector('[data-min]');
+    const maxInput = root.querySelector('[data-max]');
+    const countInput = root.querySelector('[data-count]');
+    const duplicatesInput = root.querySelector('[data-duplicates]');
+    const sortInput = root.querySelector('[data-sort]');
+    const output = root.querySelector('[data-output]');
+    const error = root.querySelector('[data-error]');
+    const toast = root.querySelector('.toast');
+    let latestResult = '';
+
+    function setError(message) {
+      if (!error) return;
+      error.textContent = message;
+      error.hidden = !message;
+    }
+
+    function integerValue(input) {
+      const value = Number(input.value);
+      return Number.isInteger(value) ? value : null;
+    }
+
+    function generate() {
+      const min = integerValue(minInput);
+      const max = integerValue(maxInput);
+      const count = integerValue(countInput);
+      const allowDuplicates = duplicatesInput.checked;
+
+      if (min === null || max === null || count === null || count < 1) {
+        setError(labels.integerError);
+        return;
+      }
+
+      if (count > 100000) {
+        setError(labels.countLimit);
+        return;
+      }
+
+      if (min > max) {
+        setError(labels.rangeError);
+        return;
+      }
+
+      const rangeSize = max - min + 1;
+      if (!allowDuplicates && count > rangeSize) {
+        setError(labels.duplicateError);
+        return;
+      }
+
+      const results = [];
+      if (allowDuplicates) {
+        for (let index = 0; index < count; index += 1) {
+          results.push(Math.floor(Math.random() * rangeSize) + min);
+        }
+      } else {
+        // Sample distinct values via a Set so a huge range never materializes
+        // a giant array (count <= rangeSize is already guaranteed above).
+        const chosen = new Set();
+        while (chosen.size < count) {
+          chosen.add(Math.floor(Math.random() * rangeSize) + min);
+        }
+        for (const value of chosen) {
+          results.push(value);
+        }
+      }
+
+      if (sortInput.checked) {
+        results.sort((a, b) => a - b);
+      }
+
+      latestResult = results.join(', ');
+      output.textContent = latestResult;
+      setError('');
+    }
+
+    root.querySelector('[data-generate]')?.addEventListener('click', generate);
+    root.querySelector('[data-reset]')?.addEventListener('click', () => {
+      minInput.value = '1';
+      maxInput.value = '100';
+      countInput.value = '1';
+      duplicatesInput.checked = true;
+      sortInput.checked = false;
+      latestResult = '';
+      output.textContent = labels.placeholder;
+      setError('');
+    });
+    root.querySelector('[data-copy]')?.addEventListener('click', async () => {
+      if (!latestResult) return;
+      try {
+        await navigator.clipboard.writeText(latestResult);
+        toast.hidden = false;
+        window.setTimeout(() => {
+          toast.hidden = true;
+        }, 1500);
+      } catch {
+        window.prompt(labels.copy, latestResult);
+      }
+    });
+  });
+</script>
