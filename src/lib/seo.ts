@@ -157,45 +157,46 @@ export function webApplicationJsonLd(
   content: ToolContentForSeo,
   category: Category,
 ) {
-  const applicationCategory = ['study', 'statistics'].includes(category.id)
-    ? 'EducationalApplication'
-    : category.id === 'money'
-      ? 'FinanceApplication'
-      : 'UtilitiesApplication';
+  const applicationCategoryByCategory: Record<string, string> = {
+    draw: 'DesignApplication',
+    image: 'MultimediaApplication',
+    money: 'FinanceApplication',
+    pdf: 'ProductivityApplication',
+    personality: 'EntertainmentApplication',
+    random: 'UtilitiesApplication',
+    statistics: 'EducationalApplication',
+    study: 'EducationalApplication',
+    text: 'ProductivityApplication',
+    time: 'ProductivityApplication',
+  };
+  const applicationCategory = applicationCategoryByCategory[category.id] ?? 'UtilitiesApplication';
+  const publisher = {
+    '@type': 'Organization',
+    name: SITE.name[lang],
+    url: absoluteUrl(localePath(lang)),
+  };
 
   return {
     '@context': 'https://schema.org',
-    '@type': ['SoftwareApplication', 'WebApplication'],
+    '@type': 'WebApplication',
     name: content.name,
     url: absoluteUrl(toolUrl(lang, tool.slug)),
     description: toolSeoDescription(lang, content, tool.privacyLevel === 'local-only'),
     applicationCategory,
-    operatingSystem: 'Web',
+    operatingSystem: 'Any',
     browserRequirements: 'Requires a modern web browser with JavaScript enabled.',
     inLanguage: SITE.hreflang[lang],
     keywords: content.keywords.join(', '),
     softwareVersion: pkg.version,
     offers: {
       '@type': 'Offer',
-      price: 0,
-      priceCurrency: 'TWD',
+      price: '0',
+      priceCurrency: 'USD',
       availability: 'https://schema.org/InStock',
     },
-    provider: {
-      '@type': 'Organization',
-      name: SITE.name[lang],
-      url: absoluteUrl(localePath(lang)),
-    },
-    publisher: {
-      '@type': 'Organization',
-      name: SITE.name[lang],
-      url: absoluteUrl(localePath(lang)),
-    },
-    author: {
-      '@type': 'Organization',
-      name: SITE.name[lang],
-      url: absoluteUrl(localePath(lang)),
-    },
+    provider: publisher,
+    publisher,
+    author: publisher,
   };
 }
 

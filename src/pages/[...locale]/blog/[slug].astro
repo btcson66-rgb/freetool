@@ -110,7 +110,7 @@ const breadcrumbLd = breadcrumbJsonLd([
       )}
       <div class="tool-links">
         {post.toolLinks.map((tool) => (
-          <a href={toolUrl(lang, tool.slug)}>
+          <a href={toolUrl(lang, tool.slug)} data-article-cta="tool" data-article-id={post.slug}>
             <strong>{tool.label}</strong>
             <span>{tool.note}</span>
           </a>
@@ -164,10 +164,31 @@ const breadcrumbLd = breadcrumbJsonLd([
     )}
 
     <nav class="article-bottom" aria-label={ui.blog.bottomNavLabel}>
-      <a class="btn" href={blogPath}>{ui.blog.backToBlog}</a>
-      <a class="btn go" href={toolUrl(lang, post.toolLinks[0].slug)}>{ui.blog.openToolPrefix}{post.toolLinks[0].label}</a>
+      <a class="btn" href={blogPath} data-hub-link="blog">{ui.blog.backToBlog}</a>
+      <a class="btn go" href={toolUrl(lang, post.toolLinks[0].slug)} data-article-cta="primary_tool" data-article-id={post.slug}>{ui.blog.openToolPrefix}{post.toolLinks[0].label}</a>
     </nav>
   </article>
+
+  <script>
+    document.querySelectorAll('[data-article-cta]').forEach((link) => {
+      link.addEventListener('click', () => {
+        if (!(link instanceof HTMLElement)) return;
+        window.__ft_track?.('article_cta_click', {
+          article_id: link.dataset.articleId || '',
+          target_type: link.dataset.articleCta || 'link',
+        });
+      });
+    });
+
+    document.querySelectorAll('[data-hub-link]').forEach((link) => {
+      link.addEventListener('click', () => {
+        if (!(link instanceof HTMLElement)) return;
+        window.__ft_track?.('hub_click', {
+          hub_id: link.dataset.hubLink || 'hub',
+        });
+      });
+    });
+  </script>
 </BaseLayout>
 
 <style>

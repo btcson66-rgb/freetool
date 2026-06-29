@@ -188,15 +188,20 @@ export function classifyUrl(url) {
   const normalized = pathname.replace(/^\/en\//, '/');
   if (pathname.startsWith('/en/')) return 'en';
   if (/^\/tools\/[^/]+\/$/.test(normalized)) return 'tools';
-  if (normalized === '/blog/' || /^\/blog\/[^/]+\/$/.test(normalized)) return 'blog';
-  return 'pages';
+  if (normalized === '/guides/' || /^\/guides\/[^/]+\/$/.test(normalized)) return 'guides';
+  if (normalized === '/workflows/' || /^\/workflows\/[^/]+\/$/.test(normalized)) return 'workflows';
+  if (/^\/blog\/[^/]+\/$/.test(normalized)) return 'faq';
+  return 'guides';
 }
 
 export function sitemapFileForType(type) {
   return {
-    pages: 'sitemap-pages.xml',
     tools: 'sitemap-tools.xml',
-    blog: 'sitemap-blog.xml',
+    guides: 'sitemap-guides.xml',
+    examples: 'sitemap-examples.xml',
+    templates: 'sitemap-templates.xml',
+    workflows: 'sitemap-workflows.xml',
+    faq: 'sitemap-faq.xml',
     en: 'sitemap-en.xml',
   }[type];
 }
@@ -226,7 +231,7 @@ export function readSitemapEntries(baseDir = publicDir) {
   const children = sitemapIndexChildren(indexPath);
   const files = children.length
     ? children.map((loc) => join(baseDir, new URL(loc).pathname.replace(/^\/+/, '')))
-    : ['sitemap-pages.xml', 'sitemap-tools.xml', 'sitemap-blog.xml', 'sitemap-en.xml'].map((name) => join(baseDir, name));
+    : ['sitemap-tools.xml', 'sitemap-guides.xml', 'sitemap-examples.xml', 'sitemap-templates.xml', 'sitemap-workflows.xml', 'sitemap-faq.xml', 'sitemap-en.xml'].map((name) => join(baseDir, name));
   return files.flatMap((file) => parseSitemapFile(file).map((entry) => ({
     ...entry,
     sitemap: relative(baseDir, file).replaceAll('\\', '/'),

@@ -130,6 +130,14 @@ function text(zh: string, en?: string): LocalizedText {
   return { zh, en: en ?? zh };
 }
 
+function ensureMetaDescription(description: string, lang: Locale): string {
+  if (description.trim().length >= 70) return description;
+  const suffix = lang === 'en'
+    ? ' Includes related tools, checkpoints, privacy notes, and FAQs for practical use.'
+    : '，並整理相關工具、檢查重點、隱私提醒與常見問題，協助你更安全地完成實際任務。';
+  return `${description.replace(/[，,。.\s]+$/, '')}${suffix}`;
+}
+
 function localizeRawPost(post: RawBlogPost): BlogPost {
   const en = englishPillarContent[post.slug];
   const locales: Locale[] = bilingualPillarSlugs.has(post.slug) && en ? ['zh', 'en'] : ['zh'];
@@ -173,7 +181,7 @@ export function viewBlogPost(post: BlogPost, lang: Locale): BlogPostView {
   return {
     ...post,
     title: post.title[lang],
-    description: post.description[lang],
+    description: ensureMetaDescription(post.description[lang], lang),
     summary: post.summary[lang],
     categoryLabel: post.categoryLabel?.[lang],
     contentHtml: post.contentHtml?.[lang],

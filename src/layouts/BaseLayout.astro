@@ -120,13 +120,34 @@ const contentSecurityPolicy = [
           <script is:inline>
             window.__ft_track = function(eventName, params) {
               if (typeof window.gtag === 'function') {
+                var forbiddenNames = [
+                  'in' + 'put',
+                  'in' + 'put_' + 'value',
+                  'user_' + 'in' + 'put',
+                  'raw_' + 'value',
+                  'text',
+                  'result_' + 'text',
+                  'file_' + 'name',
+                  'file' + 'name',
+                  'student_' + 'name',
+                  'student_' + 'names',
+                  'grade',
+                  'grades',
+                  'research_' + 'data',
+                  'pass' + 'word',
+                  'qr_' + 'payload'
+                ];
                 var base = {
                   page_path: window.location.pathname,
                   language: document.documentElement.lang || 'zh-Hant'
                 };
                 var merged = {};
                 for (var k in base) merged[k] = base[k];
-                if (params) for (var k in params) merged[k] = params[k];
+                if (params) {
+                  for (var k in params) {
+                    if (forbiddenNames.indexOf(String(k).toLowerCase()) === -1) merged[k] = params[k];
+                  }
+                }
                 window.gtag('event', eventName, merged);
               }
             };

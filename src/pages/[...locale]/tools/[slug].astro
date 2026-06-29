@@ -123,6 +123,7 @@ const ga4Enabled = !!SITE.ga4MeasurementId;
             if (started) return;
             started = true;
             sendAnalyticsEvent('tool_started', { control_type: controlType });
+            sendCustomToolEvent('tool_use_started', { control_type: controlType });
             sendCustomToolEvent('tool_use_start', { control_type: controlType });
           };
 
@@ -167,6 +168,7 @@ const ga4Enabled = !!SITE.ga4MeasurementId;
               if (started && result && isVisible(result) && result.textContent?.trim() && now - lastCompletionAt > 750) {
                 lastCompletionAt = now;
                 sendAnalyticsEvent('tool_completed');
+                sendCustomToolEvent('tool_use_completed');
                 sendCustomToolEvent('tool_use_success');
               }
             }

@@ -3,9 +3,12 @@ import { absoluteUrl } from '../lib/url';
 import { escapeXml, sitemapLastmod } from '../lib/sitemap';
 
 const childSitemaps = [
-  { path: '/sitemap-pages.xml' },
   { path: '/sitemap-tools.xml' },
-  { path: '/sitemap-blog.xml' },
+  { path: '/sitemap-guides.xml' },
+  { path: '/sitemap-examples.xml' },
+  { path: '/sitemap-templates.xml' },
+  { path: '/sitemap-workflows.xml' },
+  { path: '/sitemap-faq.xml' },
   { path: '/sitemap-en.xml' },
 ];
 

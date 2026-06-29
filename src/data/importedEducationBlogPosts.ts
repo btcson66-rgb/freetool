@@ -7666,7 +7666,64 @@ const educationBlogPostData = [
   }
 ] satisfies BlogPost[];
 
-export const importedEducationBlogPosts: BlogPost[] = educationBlogPostData;
+function titleFromSlug(slug: string): string {
+  return slug
+    .split('-')
+    .filter(Boolean)
+    .map((part) => part.length <= 3 ? part.toUpperCase() : `${part[0].toUpperCase()}${part.slice(1)}`)
+    .join(' ');
+}
+
+function cleanImportedText(value: string): string {
+  return value
+    .replace(/\?{3,}/g, '')
+    .replace(/\s{2,}/g, ' ')
+    .trim();
+}
+
+function cleanLocalized(value: BlogPost['summary']): BlogPost['summary'] {
+  return {
+    zh: cleanImportedText(value.zh),
+    en: cleanImportedText(value.en),
+  };
+}
+
+function cleanDescription(value: BlogPost['description']): BlogPost['description'] {
+  const cleaned = cleanLocalized(value);
+  const zh = [...cleaned.zh].length >= 70
+    ? cleaned.zh
+    : `${cleaned.zh} 本文搭配站內工具、範例與常見錯誤，協助正式使用前先釐清計算脈絡。`;
+  const en = [...cleaned.en].length >= 70
+    ? cleaned.en
+    : `${cleaned.en} Includes tool links, examples, and common checks before using the result in context.`;
+  return { zh, en };
+}
+
+export const importedEducationBlogPosts: BlogPost[] = educationBlogPostData.map((post) => ({
+  ...post,
+  description: cleanDescription(post.description),
+  summary: cleanLocalized(post.summary),
+  categoryLabel: post.categoryLabel ? cleanLocalized(post.categoryLabel) : undefined,
+  toolLinks: post.toolLinks.map((tool) => {
+    const fallback = titleFromSlug(tool.slug);
+    const zhLabel = cleanImportedText(tool.label.zh);
+    const enLabel = cleanImportedText(tool.label.en);
+    const zhNote = cleanImportedText(tool.note.zh);
+    const enNote = cleanImportedText(tool.note.en);
+
+    return {
+      ...tool,
+      label: {
+        zh: zhLabel || fallback,
+        en: enLabel || fallback,
+      },
+      note: {
+        zh: zhNote || '開啟相關 FreeTools 工具。',
+        en: enNote || 'Open the related FreeTools tool.',
+      },
+    };
+  }),
+}));
 
 export function getEducationArticlesForTool(toolSlug: string): BlogPost[] {
   return importedEducationBlogPosts.filter((post) => post.toolLinks.some((tool) => tool.slug === toolSlug));

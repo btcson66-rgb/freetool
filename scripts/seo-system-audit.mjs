@@ -33,6 +33,10 @@ function stripTags(value) {
     .trim();
 }
 
+function hasMojibake(value) {
+  return /\?{3,}|�|銝|嚗|摰|餈|鈭|蝣|瘙|撱|�/.test(value);
+}
+
 function attr(tag, name) {
   const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   const match = tag.match(new RegExp(`${escaped}\\s*=\\s*["']([^"']*)["']`, 'i'));
@@ -159,6 +163,9 @@ function auditPages(pages) {
     if (!page.description) critical.push(`${page.route}: missing meta description.`);
     if (page.h1s.length !== 1) critical.push(`${page.route}: expected exactly one H1, found ${page.h1s.length}.`);
     if (!page.canonical) critical.push(`${page.route}: missing canonical.`);
+    if (hasMojibake(`${page.title} ${page.description} ${page.h1s.join(' ')} ${stripTags(readFileSync(page.file, 'utf8'))}`)) {
+      critical.push(`${page.route}: rendered text appears to contain mojibake or placeholder corruption.`);
+    }
     if (!page.jsonLd.length) warning.push(`${page.route}: no JSON-LD schema detected.`);
     if (page.hasFaqSchema && !page.hasVisibleFaq) critical.push(`${page.route}: FAQPage schema exists but visible FAQ was not detected.`);
     if (page.missingAlt > 0) warning.push(`${page.route}: ${page.missingAlt} image(s) missing alt text.`);

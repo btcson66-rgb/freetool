@@ -203,7 +203,7 @@ const pageLd = webPageJsonLd(lang, guide.metaTitle, guide.metaDescription, guide
         <h2 id="related-guides-title">{copy.relatedGuides}</h2>
         <div class="related-list">
           {relatedGuides.map((related) => (
-            <a href={localePath(lang, 'guides', related.slug)}>
+            <a href={localePath(lang, 'guides', related.slug)} data-hub-link="guides">
               <strong>{related.title}</strong>
               <span>{related.summary}</span>
             </a>
@@ -218,9 +218,9 @@ const pageLd = webPageJsonLd(lang, guide.metaTitle, guide.metaDescription, guide
       <h2 id="cta-title">{copy.cta}</h2>
       <p>{guide.cta}</p>
       <nav class="guide-bottom">
-        <a class="btn" href={guidesPath}>{copy.back}</a>
-        <a class="btn" href={localePath(lang, 'education-statistics')}>{copy.hub}</a>
-        {relatedTools[0] && <a class="btn go" href={toolUrl(lang, relatedTools[0].slug)}>{copy.openTool}: {relatedTools[0].name[lang]}</a>}
+        <a class="btn" href={guidesPath} data-hub-link="guides">{copy.back}</a>
+        <a class="btn" href={localePath(lang, 'education-statistics')} data-hub-link="education-statistics">{copy.hub}</a>
+        {relatedTools[0] && <a class="btn go" href={toolUrl(lang, relatedTools[0].slug)} data-article-cta="guide_primary_tool">{copy.openTool}: {relatedTools[0].name[lang]}</a>}
       </nav>
     </section>
 
@@ -256,6 +256,25 @@ const pageLd = webPageJsonLd(lang, guide.metaTitle, guide.metaDescription, guide
       button.addEventListener('click', () => {
         setState(toggleFavoriteTool(slug));
         document.dispatchEvent(new CustomEvent('freetools:favorites-changed'));
+      });
+    });
+
+    document.querySelectorAll('[data-article-cta]').forEach((link) => {
+      link.addEventListener('click', () => {
+        if (!(link instanceof HTMLElement)) return;
+        window.__ft_track?.('article_cta_click', {
+          article_id: window.location.pathname,
+          target_type: link.dataset.articleCta || 'link',
+        });
+      });
+    });
+
+    document.querySelectorAll('[data-hub-link]').forEach((link) => {
+      link.addEventListener('click', () => {
+        if (!(link instanceof HTMLElement)) return;
+        window.__ft_track?.('hub_click', {
+          hub_id: link.dataset.hubLink || 'hub',
+        });
       });
     });
   </script>

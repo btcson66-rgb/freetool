@@ -126,6 +126,16 @@ function blogPages(): SitemapPage[] {
   ];
 }
 
+function guideArticlePages(): SitemapPage[] {
+  const specialPostSlugs = new Set(
+    allBlogPosts
+      .filter((post) => ['example', 'template', 'faq'].includes(post.categorySlug) || post.categoryLabel?.zh.includes('FAQ'))
+      .map((post) => post.slug),
+  );
+
+  return blogPages().filter((page) => page.segments.length === 1 || !specialPostSlugs.has(page.segments[1]));
+}
+
 export function guidePages(): SitemapPage[] {
   return [
     { segments: ['guides'], lastmod: seoGuides[0]?.updatedAt, changefreq: 'weekly', priority: '0.7', alternates: true },
@@ -187,7 +197,62 @@ export function defaultBlogEntries(): SitemapEntry[] {
 }
 
 export function defaultGuideEntries(): SitemapEntry[] {
-  return [...guidePages(), ...workflowPages(), ...audiencePages()].map((page) => ({ lang: 'zh', page }));
+  return [
+    ...basePages(),
+    ...categoryPages(),
+    ...audiencePages(),
+    ...guideArticlePages(),
+    ...guidePages(),
+  ].map((page) => ({ lang: 'zh', page }));
+}
+
+export function defaultWorkflowEntries(): SitemapEntry[] {
+  return workflowPages().map((page) => ({ lang: 'zh', page }));
+}
+
+export function defaultExampleEntries(): SitemapEntry[] {
+  return allBlogPosts
+    .filter((post) => post.categorySlug === 'example')
+    .map((post) => ({
+      lang: 'zh' as const,
+      page: {
+        segments: ['blog', post.slug],
+        lastmod: post.updated,
+        changefreq: 'monthly' as const,
+        priority: '0.5',
+        alternates: isPostAvailableInLocale(post, 'en'),
+      },
+    }));
+}
+
+export function defaultTemplateEntries(): SitemapEntry[] {
+  return allBlogPosts
+    .filter((post) => post.categorySlug === 'template')
+    .map((post) => ({
+      lang: 'zh' as const,
+      page: {
+        segments: ['blog', post.slug],
+        lastmod: post.updated,
+        changefreq: 'monthly' as const,
+        priority: '0.5',
+        alternates: isPostAvailableInLocale(post, 'en'),
+      },
+    }));
+}
+
+export function defaultFaqEntries(): SitemapEntry[] {
+  return allBlogPosts
+    .filter((post) => post.categoryLabel?.zh.includes('FAQ') || post.categorySlug === 'faq')
+    .map((post) => ({
+      lang: 'zh' as const,
+      page: {
+        segments: ['blog', post.slug],
+        lastmod: post.updated,
+        changefreq: 'monthly' as const,
+        priority: '0.5',
+        alternates: isPostAvailableInLocale(post, 'en'),
+      },
+    }));
 }
 
 export function englishEntries(): SitemapEntry[] {
@@ -207,6 +272,11 @@ export function allSitemapEntries(): SitemapEntry[] {
     ...defaultPageEntries(),
     ...defaultToolEntries(),
     ...defaultBlogEntries(),
+    ...defaultGuideEntries(),
+    ...defaultWorkflowEntries(),
+    ...defaultExampleEntries(),
+    ...defaultTemplateEntries(),
+    ...defaultFaqEntries(),
     ...englishEntries(),
   ];
 }

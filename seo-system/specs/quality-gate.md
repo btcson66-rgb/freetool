@@ -11,8 +11,11 @@ Before any new tool page, category page, or article is published, all checks bel
 - Internal links include at least one primary tool or category link, plus relevant supporting links.
 - Canonical URL exists and points to the intended public route.
 - Sitemap includes the public route.
+- Sitemap URLs do not include query strings, filters, sort states, UTM parameters, draft/test/staging paths, or duplicate canonical variants.
 - Visible FAQ exists before `FAQPage` schema is added.
 - JSON-LD matches visible page content.
+- Rendered text has no mojibake or placeholder corruption such as `????`, `�`, or common broken Traditional Chinese encoding fragments.
+- All internal links resolve to built routes or intentional static assets.
 - `human_reviewed` is true in the draft or release checklist.
 
 ## Blockers
@@ -22,3 +25,4 @@ Before any new tool page, category page, or article is published, all checks bel
 - Article is created only because a keyword exists.
 - Page targets a tool that has no live route and is not explicitly marked as planned.
 - User input, file names, generated passwords, or private contents are sent to analytics.
+- Search, sort, filter, UTM, low-quality, draft, duplicate, embed, and redirect-only pages are indexable or present in the sitemap.
