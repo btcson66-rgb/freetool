@@ -119,7 +119,7 @@ export default {
     short: 'Draft 2D drawings online — lines, rectangles, circles, and polylines with PNG/SVG export.',
     long: '2D CAD Drawing Board gives you a lightweight grid drafting canvas in the browser. Draw lines, rectangles, circles, and polylines; move selected shapes; snap to grid; pan and zoom; undo and redo; then export PNG or SVG.',
     seoTitle: 'Free 2D Drawing Online | CAD Grid Drafting Tool',
-    seoDescription: 'Draw 2D CAD diagrams online for free: lines, rectangles, circles, polylines, snap to grid, pan, zoom, and PNG/SVG export.',
+    seoDescription: 'Free online 2D drawing tool with grid snap.',
     keywords: ['2D CAD drawing board', 'online drafting tool', 'grid drawing', 'SVG export', 'canvas CAD'],
     instructions: [
       'Choose Line, Rectangle, Circle, or Polyline, then click on the canvas to place geometry.',
