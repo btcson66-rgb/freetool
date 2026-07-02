@@ -216,51 +216,6 @@ export function defaultWorkflowEntries(): SitemapEntry[] {
   return workflowPages().map((page) => ({ lang: 'zh', page }));
 }
 
-export function defaultExampleEntries(): SitemapEntry[] {
-  return allBlogPosts
-    .filter((post) => post.categorySlug === 'example')
-    .map((post) => ({
-      lang: 'zh' as const,
-      page: {
-        segments: ['blog', post.slug],
-        lastmod: post.updated,
-        changefreq: 'monthly' as const,
-        priority: '0.5',
-        alternates: isPostAvailableInLocale(post, 'en'),
-      },
-    }));
-}
-
-export function defaultTemplateEntries(): SitemapEntry[] {
-  return allBlogPosts
-    .filter((post) => post.categorySlug === 'template')
-    .map((post) => ({
-      lang: 'zh' as const,
-      page: {
-        segments: ['blog', post.slug],
-        lastmod: post.updated,
-        changefreq: 'monthly' as const,
-        priority: '0.5',
-        alternates: isPostAvailableInLocale(post, 'en'),
-      },
-    }));
-}
-
-export function defaultFaqEntries(): SitemapEntry[] {
-  return allBlogPosts
-    .filter((post) => post.categoryLabel?.zh.includes('FAQ') || post.categorySlug === 'faq')
-    .map((post) => ({
-      lang: 'zh' as const,
-      page: {
-        segments: ['blog', post.slug],
-        lastmod: post.updated,
-        changefreq: 'monthly' as const,
-        priority: '0.5',
-        alternates: isPostAvailableInLocale(post, 'en'),
-      },
-    }));
-}
-
 export function englishEntries(): SitemapEntry[] {
   return [
     ...basePages(),
@@ -271,19 +226,5 @@ export function englishEntries(): SitemapEntry[] {
     ...workflowPages().filter((page) => page.segments.length === 1 || workflows.find((workflow) => workflow.slug === page.segments[1])?.locales.includes('en')),
     ...audiencePages().filter((page) => page.segments.length === 1 || audiences.find((audience) => audience.slug === page.segments[1])?.locales.includes('en')),
   ].map((page) => ({ lang: 'en' as const, page }));
-}
-
-export function allSitemapEntries(): SitemapEntry[] {
-  return [
-    ...defaultPageEntries(),
-    ...defaultToolEntries(),
-    ...defaultBlogEntries(),
-    ...defaultGuideEntries(),
-    ...defaultWorkflowEntries(),
-    ...defaultExampleEntries(),
-    ...defaultTemplateEntries(),
-    ...defaultFaqEntries(),
-    ...englishEntries(),
-  ];
 }
 

@@ -11,10 +11,7 @@ const expectedRobots = readFileSync(join(root, 'public', 'robots.txt'), 'utf8');
 const expectedChildSitemaps = [
   'https://funnytools.win/sitemap-tools.xml',
   'https://funnytools.win/sitemap-guides.xml',
-  'https://funnytools.win/sitemap-examples.xml',
-  'https://funnytools.win/sitemap-templates.xml',
   'https://funnytools.win/sitemap-workflows.xml',
-  'https://funnytools.win/sitemap-faq.xml',
   'https://funnytools.win/sitemap-en.xml',
 ];
 const disallowedUrlPatterns = [
