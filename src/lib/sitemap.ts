@@ -125,15 +125,10 @@ function toolPages(): SitemapPage[] {
 }
 
 function blogPages(): SitemapPage[] {
+  // Individual articles are noindexed pending a content-quality rewrite
+  // (see src/data/usefulBlogPosts.ts), so only the /blog hub is listed here.
   return [
     { segments: ['blog'], lastmod: allBlogPosts[0]?.updated, changefreq: 'weekly', priority: '0.7', alternates: true },
-    ...allBlogPosts.map((post) => ({
-      segments: ['blog', post.slug],
-      lastmod: post.updated,
-      changefreq: 'monthly' as const,
-      priority: '0.6',
-      alternates: isPostAvailableInLocale(post, 'en'),
-    })),
   ];
 }
 

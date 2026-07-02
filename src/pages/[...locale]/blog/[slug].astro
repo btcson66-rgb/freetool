@@ -110,6 +110,7 @@ const breadcrumbLd = breadcrumbJsonLd([
     alternateSegments={['blog', post.slug]}
     hasAlternates={hasAlternates}
     jsonLd={[articleLd, faqLd, breadcrumbLd]}
+    noindex={true}
   >
     <article class="wrap blog-article">
       <Breadcrumb items={[
