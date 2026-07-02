@@ -1,8 +1,8 @@
 # Content Quality Audit
 
-- Useful posts: 100
-- Sitemap blog URLs: 101
-- Redirect stubs: 64
+- Useful posts: 95
+- Sitemap blog URLs: 96
+- Redirect stubs: 69
 - Duplicate titles: 0
 - Duplicate descriptions: 0
 - Farm-pattern hits: 0

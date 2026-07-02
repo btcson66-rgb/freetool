@@ -237,6 +237,26 @@ export const blogRedirects: BlogRedirect[] = [
     "redirectTo": "/blog/z-score-standardization-guide/"
   },
   {
+    "slug": "sitemap-checklist-guide",
+    "redirectTo": "/blog/"
+  },
+  {
+    "slug": "slug-generator-seo-guide",
+    "redirectTo": "/blog/"
+  },
+  {
+    "slug": "tool-page-content-guide",
+    "redirectTo": "/blog/"
+  },
+  {
+    "slug": "url-encode-decode-guide",
+    "redirectTo": "/blog/"
+  },
+  {
+    "slug": "utm-link-guide",
+    "redirectTo": "/blog/"
+  },
+  {
     "slug": "z-score-0-1-minus-1-meaning",
     "redirectTo": "/blog/z-score-standardization-guide/"
   },
