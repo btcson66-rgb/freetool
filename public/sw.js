@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'freetools-static-v5.0.8';
+const CACHE_VERSION = 'freetools-static-v5.1.0';
 const MAX_CACHE_ENTRIES = 120;
 const APP_SHELL = [
   '/',
