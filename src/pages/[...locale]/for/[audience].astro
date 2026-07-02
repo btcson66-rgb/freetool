@@ -8,7 +8,7 @@ import { audiences, isAudienceAvailableInLocale, viewAudience, type Audience } f
 import { categories, getCategoryById } from '../../../data/categories';
 import { getToolBySlug, type ToolMeta } from '../../../data/tools';
 import { getWorkflow, isWorkflowAvailableInLocale, viewWorkflow } from '../../../data/workflows';
-import { absoluteUrl, categoryUrl, localePath, toolUrl } from '../../../lib/url';
+import { absoluteUrl, categoryUrl, localePath, localeUrlPair, toolUrl } from '../../../lib/url';
 import { breadcrumbJsonLd, webPageJsonLd } from '../../../lib/seo';
 import { t } from '../../../i18n/ui';
 
@@ -114,6 +114,7 @@ const collectionLd = {
   title={audience.metaTitle}
   description={audience.metaDescription}
   alternateSegments={['for', audience.slug]}
+  altLang={hasAlternates ? localeUrlPair('for', audience.slug) : undefined}
   hasAlternates={hasAlternates}
   jsonLd={[pageLd, collectionLd, faqLd, breadcrumbLd]}
 >

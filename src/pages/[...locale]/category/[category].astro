@@ -10,7 +10,7 @@ import { getToolsByCategory } from '../../../data/tools';
 import { seoGuides, isSeoGuideAvailableInLocale, viewSeoGuide } from '../../../data/seoGuides';
 import { workflows, isWorkflowAvailableInLocale, viewWorkflow } from '../../../data/workflows';
 import { t } from '../../../i18n/ui';
-import { categoryUrl, localePath, toolUrl } from '../../../lib/url';
+import { categoryUrl, localePath, localeUrlPair, toolUrl } from '../../../lib/url';
 import { breadcrumbJsonLd, collectionPageJsonLd } from '../../../lib/seo';
 
 export function getStaticPaths() {
@@ -138,6 +138,7 @@ if (faqItems.length > 0) {
   title={pageTitle}
   description={pageDescription}
   alternateSegments={['category', categoryData.id]}
+  altLang={localeUrlPair('category', categoryData.id)}
   jsonLd={jsonLd}
 >
   <section class="wrap page-head category-page-head" data-category={categoryData.id}>

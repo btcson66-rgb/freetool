@@ -110,7 +110,7 @@ export function organizationJsonLd(lang: Locale) {
     alternateName: 'FreeTools Online Toolbox',
     url: absoluteUrl('/'),
     description: 'FreeTools is the free online toolbox published at funnytools.win.',
-    logo: absoluteUrl(assetPath('favicon.svg')),
+    logo: absoluteUrl(assetPath('apple-touch-icon.png')),
     image: defaultOgImage(),
     email: SITE.email,
   };
@@ -202,5 +202,5 @@ export function webApplicationJsonLd(
 }
 
 export function defaultOgImage(): string {
-  return absoluteUrl(assetPath('assets', 'og-default.jpg'));
+  return absoluteUrl(assetPath('og-default.png'));
 }

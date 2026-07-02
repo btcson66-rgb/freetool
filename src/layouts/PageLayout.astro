@@ -3,7 +3,7 @@ import Breadcrumb from '../components/Breadcrumb.astro';
 import BaseLayout from './BaseLayout.astro';
 import { type Locale } from '../config/site';
 import { t } from '../i18n/ui';
-import { localePath } from '../lib/url';
+import { localePath, localeUrlPair } from '../lib/url';
 import { breadcrumbJsonLd, webPageJsonLd } from '../lib/seo';
 
 interface Props {
@@ -27,7 +27,7 @@ const jsonLd = [
 ];
 ---
 
-<BaseLayout lang={lang} title={seoTitle} description={description} alternateSegments={[pageKey]} jsonLd={jsonLd}>
+<BaseLayout lang={lang} title={seoTitle} description={description} alternateSegments={[pageKey]} altLang={localeUrlPair(pageKey)} jsonLd={jsonLd}>
   <section class="wrap page-head">
     <Breadcrumb
       items={[

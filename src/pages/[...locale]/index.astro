@@ -9,7 +9,7 @@ import { getNewTools, getToolBySlug, getToolsByCategory, liveTools, type ToolMet
 import { isWorkflowAvailableInLocale, viewWorkflow, workflows } from '../../data/workflows';
 import { home, homeFaq, homePrivacy, homeSeoIntro, homeUseCases } from '../../i18n/pages';
 import { t } from '../../i18n/ui';
-import { absoluteUrl, categoryUrl, localePath, toolUrl } from '../../lib/url';
+import { absoluteUrl, categoryUrl, localePath, localeUrlPair, toolUrl } from '../../lib/url';
 import { organizationJsonLd, websiteJsonLd } from '../../lib/seo';
 import { getToolContent } from '../../lib/toolContent';
 
@@ -327,6 +327,7 @@ const popularItemListJsonLd = {
   title={homeCopy.seoTitle}
   description={homeCopy.seoDescription}
   alternateSegments={[]}
+  altLang={localeUrlPair()}
   jsonLd={[webSiteLd, organizationJsonLd(lang), popularItemListJsonLd, faqJsonLd]}
 >
   <div class="home-page">

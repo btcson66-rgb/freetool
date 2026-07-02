@@ -1,23 +1,36 @@
 ---
-import { SITE } from '../config/site';
+interface Props {
+  id?: string;
+  adSlot?: string;
+}
 
-// Manual ad units stay off until real ad-slot IDs replace the placeholder below.
-const enabled = SITE.features.adsense;
+const { id, adSlot } = Astro.props;
+const client = import.meta.env.PUBLIC_ADSENSE_CLIENT ?? import.meta.env.PUBLIC_ADSENSE_ID;
+const enabled = Boolean(client && adSlot);
 ---
 
 {
   enabled && (
-    <div class="ad-slot" aria-label="Advertisement">
+    <div class="ad-slot" aria-label="Advertisement" id={id}>
       <ins
         class="adsbygoogle"
-        data-ad-client={SITE.adsenseClient}
-        data-ad-slot="0000000000"
+        data-ad-client={client}
+        data-ad-slot={adSlot}
         data-ad-format="auto"
         data-full-width-responsive="true"
       />
     </div>
   )
 }
+
+<script>
+  // AdSense fills an <ins> only after one adsbygoogle.push({}) per unit.
+  // Astro hoists and dedupes this script, so it runs once per page.
+  const w = window as unknown as { adsbygoogle?: unknown[] };
+  document.querySelectorAll('ins.adsbygoogle:not([data-ad-status])').forEach(() => {
+    (w.adsbygoogle = w.adsbygoogle || []).push({});
+  });
+</script>
 
 <style>
   /* Reserve vertical space so responsive ads don't push content down (CLS). */

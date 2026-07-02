@@ -3,7 +3,7 @@ import Breadcrumb from '../../../components/Breadcrumb.astro';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import { SITE, type Locale } from '../../../config/site';
 import { audiences, isAudienceAvailableInLocale, viewAudience } from '../../../data/audiences';
-import { absoluteUrl, localePath } from '../../../lib/url';
+import { absoluteUrl, localePath, localeUrlPair } from '../../../lib/url';
 import { breadcrumbJsonLd } from '../../../lib/seo';
 import { t } from '../../../i18n/ui';
 
@@ -68,6 +68,7 @@ const collectionLd = {
   title={copy.title}
   description={copy.description}
   alternateSegments={['for']}
+  altLang={localeUrlPair('for')}
   hasAlternates={true}
   jsonLd={[collectionLd, breadcrumbLd]}
 >

@@ -1,7 +1,7 @@
 ---
 import Breadcrumb from '../components/Breadcrumb.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { absoluteUrl, assetPath, localePath } from '../lib/url';
+import { absoluteUrl, assetPath, localePath, localeUrlPair } from '../lib/url';
 import { breadcrumbJsonLd, webPageJsonLd } from '../lib/seo';
 
 const title = '支持 FreeTools 持續提供免費工具';
@@ -49,6 +49,7 @@ const jsonLd = [
   title={seoTitle}
   description={description}
   alternateSegments={['support']}
+  altLang={localeUrlPair('support')}
   robots="index, follow"
   jsonLd={jsonLd}
 >

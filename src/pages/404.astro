@@ -1,34 +1,54 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import ToolCard from '../components/ToolCard.astro';
-import { getFeaturedTools } from '../data/tools';
 import { localePath } from '../lib/url';
 
 const lang = 'zh';
-const popularTools = getFeaturedTools().slice(0, 6);
 ---
 
 <BaseLayout
   lang={lang}
-  title="找不到這個頁面 - FreeTools"
-  description="找不到你要查看的頁面，請返回首頁或從所有工具與熱門工具中繼續瀏覽。"
+  title="找不到這個頁面"
+  description="這個頁面可能已移動或不存在。你可以回到 FreeTools 首頁、開啟平面配置工具，或查看文章索引。"
   alternateSegments={[]}
   noindex={true}
+  robots="noindex"
 >
-  <section class="wrap page-head">
+  <section class="wrap not-found">
     <p class="eyebrow">404</p>
     <h1>找不到這個頁面</h1>
-    <p class="lead">你輸入的網址可能有誤，或頁面已經移動。你可以返回首頁，或從工具總覽重新選擇需要的功能。</p>
-    <div class="hero-actions">
-      <a class="btn go" href={localePath('zh')}>返回首頁</a>
-      <a class="btn ghost" href={localePath('zh', 'tools')}>查看所有工具</a>
-    </div>
-  </section>
-
-  <section class="wrap content-section" aria-labelledby="popular-tools-heading">
-    <h2 id="popular-tools-heading">熱門工具推薦</h2>
-    <div class="grid">
-      {popularTools.map((tool) => <ToolCard lang={lang} tool={tool} />)}
-    </div>
+    <p class="lead">
+      這個連結可能已移動、拼錯，或暫時不存在。你可以從首頁重新搜尋工具，
+      開啟平面配置工具，或查看文章索引找到相關內容。
+    </p>
+    <nav class="not-found-actions" aria-label="404 recovery links">
+      <a class="btn go" href={localePath('zh')}>回到首頁</a>
+      <a class="btn ghost" href={localePath('zh', 'tools', 'cad-2d')}>開啟平面配置工具</a>
+      <a class="btn ghost" href={localePath('zh', 'blog')}>查看文章索引</a>
+    </nav>
   </section>
 </BaseLayout>
+
+<style>
+  .not-found {
+    min-height: 58vh;
+    display: grid;
+    align-content: center;
+    gap: 18px;
+    padding-block: 70px;
+  }
+
+  .not-found h1 {
+    max-width: 720px;
+  }
+
+  .not-found .lead {
+    max-width: 760px;
+  }
+
+  .not-found-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 8px;
+  }
+</style>

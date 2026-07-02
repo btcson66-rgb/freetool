@@ -7,7 +7,7 @@ import { SITE, type Locale } from '../../../config/site';
 import { getToolBySlug, type ToolMeta } from '../../../data/tools';
 import { seoGuides, isSeoGuideAvailableInLocale, viewSeoGuide, type SeoGuide, type SeoGuideView } from '../../../data/seoGuides';
 import { workflows, isWorkflowAvailableInLocale, viewWorkflow } from '../../../data/workflows';
-import { absoluteUrl, localePath, toolUrl } from '../../../lib/url';
+import { absoluteUrl, localePath, localeUrlPair, toolUrl } from '../../../lib/url';
 import { breadcrumbJsonLd, webPageJsonLd } from '../../../lib/seo';
 import { t } from '../../../i18n/ui';
 
@@ -129,6 +129,7 @@ const pageLd = webPageJsonLd(lang, guide.metaTitle, guide.metaDescription, guide
   keywords={guide.targetKeywords}
   type="article"
   alternateSegments={['guides', guide.slug]}
+  altLang={hasAlternates ? localeUrlPair('guides', guide.slug) : undefined}
   hasAlternates={hasAlternates}
   jsonLd={[pageLd, articleLd, faqLd, breadcrumbLd]}
 >

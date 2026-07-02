@@ -8,7 +8,7 @@ import { getToolBySlug, type ToolMeta } from '../../../data/tools';
 import { seoGuides, viewSeoGuide, isSeoGuideAvailableInLocale } from '../../../data/seoGuides';
 import { workflows, viewWorkflow, isWorkflowAvailableInLocale } from '../../../data/workflows';
 import { t } from '../../../i18n/ui';
-import { localePath } from '../../../lib/url';
+import { localePath, localeUrlPair } from '../../../lib/url';
 import { breadcrumbJsonLd, collectionPageJsonLd } from '../../../lib/seo';
 
 export function getStaticPaths() {
@@ -251,6 +251,7 @@ const jsonLd = [
   title={pageSeoTitle}
   description={pageDescription}
   alternateSegments={['education-statistics']}
+  altLang={localeUrlPair('education-statistics')}
   jsonLd={jsonLd}
 >
   <section class="wrap page-head category-page-head">

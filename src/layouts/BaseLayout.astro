@@ -4,8 +4,10 @@ import Footer from '../components/Footer.astro';
 import Nav from '../components/Nav.astro';
 import { SITE, type Locale } from '../config/site';
 import { absoluteUrl, assetPath, localePath } from '../lib/url';
-import { buildHreflang, defaultOgImage } from '../lib/seo';
+import { defaultOgImage } from '../lib/seo';
 import { t } from '../i18n/ui';
+
+type AltLang = Record<Locale, string>;
 
 interface Props {
   lang: Locale;
@@ -16,6 +18,7 @@ interface Props {
   ogImage?: string;
   ogImageAlt?: string;
   alternateSegments?: string[];
+  altLang?: AltLang;
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
   noindex?: boolean;
   hasAlternates?: boolean;
@@ -31,14 +34,21 @@ const {
   ogImage: customOgImage,
   ogImageAlt,
   alternateSegments = [],
+  altLang,
   jsonLd = [],
   noindex = false,
-  hasAlternates = true,
+  hasAlternates: explicitHasAlternates,
   robots,
 } = Astro.props;
 
 const canonical = absoluteUrl(localePath(lang, ...alternateSegments));
-const hreflangs = buildHreflang(alternateSegments);
+const hreflangs = altLang
+  ? [
+      { hreflang: SITE.hreflang.zh, href: absoluteUrl(altLang.zh) },
+      { hreflang: SITE.hreflang.en, href: absoluteUrl(altLang.en) },
+      { hreflang: 'x-default', href: absoluteUrl(altLang.zh) },
+    ]
+  : [];
 const jsonLdItems = Array.isArray(jsonLd) ? jsonLd : [jsonLd];
 const ogLocale = lang === 'zh' ? 'zh_TW' : 'en_US';
 const ogImage = customOgImage ?? defaultOgImage();
@@ -46,7 +56,10 @@ const ogAlt = ogImageAlt ?? SITE.name[lang];
 const brandedTitle = title.includes('FreeTools') ? title : `${title} - FreeTools`;
 const brandedDescription = description;
 const ui = t(lang);
-const adsenseEnabled = SITE.adsenseEnabled || SITE.features.adsense;
+const envAdsenseClient = import.meta.env.PUBLIC_ADSENSE_CLIENT ?? import.meta.env.PUBLIC_ADSENSE_ID;
+const adsenseClient = envAdsenseClient ?? SITE.adsenseClient;
+const adsenseEnabled = Boolean(adsenseClient) && (SITE.adsenseEnabled || SITE.features.adsense);
+const hasAlternates = explicitHasAlternates ?? Boolean(altLang);
 const ga4Enabled = !!SITE.ga4MeasurementId;
 const contentSecurityPolicy = [
   "default-src 'self'",
@@ -86,9 +99,9 @@ const contentSecurityPolicy = [
     </script>
     <title>{brandedTitle}</title>
     <meta name="description" content={brandedDescription} />
-    {noindex ? <meta name="robots" content="noindex, follow" /> : <link rel="canonical" href={canonical} />}
+    {noindex ? <meta name="robots" content={robots ?? 'noindex, follow'} /> : <link rel="canonical" href={canonical} />}
     {!noindex && robots && <meta name="robots" content={robots} />}
-    {!noindex && hasAlternates && hreflangs.map((link) => <link rel="alternate" hreflang={link.hreflang} href={link.href} />)}
+    {!noindex && altLang && hreflangs.map((link) => <link rel="alternate" hreflang={link.hreflang} href={link.href} />)}
     <meta property="og:type" content={type} />
     <meta property="og:title" content={brandedTitle} />
     <meta property="og:description" content={brandedDescription} />
@@ -182,7 +195,7 @@ const contentSecurityPolicy = [
       adsenseEnabled && (
         <script
           async
-          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${SITE.adsenseClient}`}
+          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseClient}`}
           crossorigin="anonymous"
         />
       )

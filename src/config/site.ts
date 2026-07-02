@@ -12,6 +12,7 @@ export const SITE = {
     en: 'Free online toolbox with browser-based tools for PDF, images, text, QR codes, random picks, time, money, teachers and more.',
   },
   ga4MeasurementId: 'G-SV027MPXK4',
+  // Legacy fallback for local/preflight builds. Prefer PUBLIC_ADSENSE_CLIENT.
   adsenseClient: 'ca-pub-7052036786750044',
   // Keep enabled while the site is under AdSense review. Visible ad slots remain separately gated below.
   adsenseEnabled: true,

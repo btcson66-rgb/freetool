@@ -20,7 +20,7 @@ import { getGuidesForTool } from '../data/seoGuides';
 import { getWorkflowsForTool } from '../data/workflows';
 import { t } from '../i18n/ui';
 import { toolSeoDescription, toolSeoTitle } from '../lib/seo';
-import { absoluteUrl, categoryUrl, localePath, toolUrl } from '../lib/url';
+import { absoluteUrl, categoryUrl, localePath, localeUrlPair, toolUrl } from '../lib/url';
 
 interface Props {
   lang: Locale;
@@ -54,6 +54,7 @@ const relatedWorkflowsHeading = lang === 'zh' ? '相關工具包' : 'Related too
   keywords={content.keywords}
   type="article"
   alternateSegments={['tools', tool.slug]}
+  altLang={localeUrlPair('tools', tool.slug)}
   jsonLd={jsonLd}
 >
   <article class="wrap tool-page" data-category={category.id} data-tool-slug={tool.slug}>

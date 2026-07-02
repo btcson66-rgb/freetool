@@ -2,7 +2,7 @@
 import Breadcrumb from '../../components/Breadcrumb.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { SITE } from '../../config/site';
-import { absoluteUrl, assetPath, localePath } from '../../lib/url';
+import { absoluteUrl, assetPath, localePath, localeUrlPair } from '../../lib/url';
 import { breadcrumbJsonLd, webPageJsonLd } from '../../lib/seo';
 
 export function getStaticPaths() {
@@ -50,6 +50,7 @@ const jsonLd = [
   title={seoTitle}
   description={description}
   alternateSegments={['support']}
+  altLang={localeUrlPair('support')}
   robots="index, follow"
   jsonLd={jsonLd}
 >

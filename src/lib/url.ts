@@ -26,6 +26,13 @@ export function localePath(lang: Locale, ...segments: string[]): string {
   return pathWithBase(lang, ...segments);
 }
 
+export function localeUrlPair(...segments: string[]): Record<Locale, string> {
+  return {
+    zh: localePath('zh', ...segments),
+    en: localePath('en', ...segments),
+  };
+}
+
 export function toolUrl(lang: Locale, slug: string): string {
   return localePath(lang, 'tools', slug);
 }

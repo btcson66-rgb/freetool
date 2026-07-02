@@ -35,7 +35,7 @@ FreeTools (https://funnytools.win) is a bilingual Astro static site for small br
 - Astro static output with `base: '/'` and `trailingSlash: 'always'`, deployed on Cloudflare Pages (production). `.github/workflows/deploy.yml` also builds to GitHub Pages as a secondary/legacy backup target, not the live site.
 - Vanilla JavaScript inside `.astro` tool widgets.
 - `qrcode` for QR code generation.
-- No database or server API. Google AdSense is enabled (`adsenseEnabled: true`, client `ca-pub-7052036786750044`) while the site is under AdSense review.
+- No database or server API. Google AdSense is enabled (`adsenseEnabled: true`) while the site is under review. Set the public build variable `PUBLIC_ADSENSE_CLIENT` to the AdSense client id; `PUBLIC_ADSENSE_ID` is accepted only as a legacy fallback.
 
 ## Architecture
 
@@ -76,7 +76,7 @@ Embed routes are intentionally not listed in `src/pages/sitemap.xml.ts`.
 
 ## Monetization Flags
 
-AdSense is controlled by the top-level `adsenseEnabled` flag in `src/config/site.ts` (currently `true`, loading the AdSense script under review). The granular `features` flags below remain off and gate individual slots/integrations:
+AdSense is controlled by the top-level `adsenseEnabled` flag in `src/config/site.ts` (currently `true`, loading the AdSense script under review) and the public build variable `PUBLIC_ADSENSE_CLIENT`. The granular `features` flags below remain off and gate individual slots/integrations:
 
 ```ts
 features: {
@@ -88,7 +88,7 @@ features: {
 }
 ```
 
-Activating affiliate, sponsor, related-resources, or newsletter is a flag flip plus real content configuration.
+Manual ad units require both `PUBLIC_ADSENSE_CLIENT` and a non-empty `adSlot` prop on `AdSlot.astro`; empty clients or empty slot ids render no ad markup. Activating affiliate, sponsor, related-resources, or newsletter is a flag flip plus real content configuration.
 
 ## Asset Types
 
